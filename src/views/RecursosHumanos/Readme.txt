@@ -1,0 +1,1 @@
+Views para el módulo de Recursos Humanos
