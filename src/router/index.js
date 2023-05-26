@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
+import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/empleado_agregar',
       name: 'empleado_agregar',
       component: EmpleadoAgregar
+    },
+    {
+      path: "/gestion_cargos",
+      name : "gestion_cargos",
+      component : GestionCargo
     },
     {
       path: '/about',
