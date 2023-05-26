@@ -15,7 +15,13 @@ import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComp
                <article>
 
                </article>
-<section class="container mx-auto p-6">
+<section class="container mx-auto p-6 z-900">
+     <Teleport to = "body"><div class="z-999 fixed top-36 left-0 right-0  p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"
+     v-if="exitoTransaccion">
+     {{ mensajeTransaccion }}
+     </div></Teleport>
+
+
   <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
     <div class="w-full overflow-x-auto">
       <table class="w-full">
@@ -62,6 +68,8 @@ export default {
                listaCargos:[],
                controlModal: ref(false),
                cargoParametro: null,
+               exitoTransaccion: false,
+               mensajeTransaccion:"",
           }
      },
      mounted(){
@@ -75,7 +83,13 @@ export default {
                }
            );
           },
-          cerrarModal(){
+          cerrarModal(esModificacion){
+               if(esModificacion){
+                    this.getCargos();
+                    this.exitoTransaccion = true;
+                    this.mensajeTransaccion = "Se modifico el cargo exitosamente";
+                    setTimeout(this.cambiarValorEstadoTransaccion,5000);
+               }
                this.controlModal = false;
           },
           modificarCargo(idCargo){
@@ -86,6 +100,9 @@ export default {
                     }
                });
                this.controlModal = true;
+          },
+          cambiarValorEstadoTransaccion(){
+               this.exitoTransaccion = false;
           }
      }
 }
