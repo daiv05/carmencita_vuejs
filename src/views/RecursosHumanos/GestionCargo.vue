@@ -1,6 +1,9 @@
 <script setup>
 import NavBar from "../../components/NavBar.vue";
 import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComponent.vue";
+import ModalAgregarCargoComponent from "../../components/RecursosHumanos/ModalAgregarCargoComponent.vue";
+import ModalEliminarCargoComponenteVue from "../../components/RecursosHumanos/ModalEliminarCargoComponente.vue";
+import ModalConsultarCargoComponent from "../../components/RecursosHumanos/ModalConsultarCargoComponent.vue";
 </script>
 
 <template>
@@ -12,9 +15,11 @@ import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComp
 
 <section class="bg-gray-100">
                <!-- component -->
-               <article>
-
-               </article>
+<div class="text-end">
+     <button class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 " @click="abrirModalAgregar">
+               Agregar Cargo
+     </button>
+</div>
 <section class="container mx-auto p-6 z-900">
      <Teleport to = "body"><div class="z-999 fixed top-36 left-0 right-0  p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"
      v-if="exitoTransaccion">
@@ -33,8 +38,8 @@ import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComp
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr class="text-gray-700" v-for="cargo in listaCargos" v-bind:key="cargo.id_cargo">
-            <td class="px-4 py-3 text-center">
+          <tr class=" text-gray-700" v-for="cargo in listaCargos" v-bind:key="cargo.id_cargo">
+            <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100" @click="mostrarCargo(cargo.id_cargo)">
               <div class="">
                   <p class="font-semibold text-black">{{ cargo.nombre_cargo }}</p>
               </div>
@@ -42,7 +47,7 @@ import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComp
             <td class="px-4 py-3 text-ms font-semibold text-center">${{ cargo.salario_cargo }}</td>
             <td class="px-4 py-3 text-xs text-center">
                <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarCargo(cargo.id_cargo)">Editar</button>
-               <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10">Eliminar</button>
+               <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10" @click="eliminarCargo(cargo.id_cargo)">Eliminar</button>
             </td>
           </tr>
         </tbody>
@@ -54,6 +59,17 @@ import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComp
      
 <Teleport to="body">
           <ModalCargoComponent v-if="controlModal" @cerrarModal = "cerrarModal" :cargo = "this.cargoParametro"></ModalCargoComponent>
+</Teleport>
+
+<Teleport to="body">
+     <ModalAgregarCargoComponent v-if="controlModalAgregar" @cerrarModalAgregar = "cerrarModalAgregar"></ModalAgregarCargoComponent>
+</Teleport>
+
+<Teleport to="body">
+     <ModalEliminarCargoComponenteVue v-if="controlModalEliminar" @cerrarModalEliminar = "cerrarModalEliminar" :cargo="this.cargoParametro"></ModalEliminarCargoComponenteVue>
+</Teleport>
+<Teleport to="body">
+     <ModalConsultarCargoComponent v-if="controlModalConsultar" @cerrarModalConsultar = "cerrarModalConsultar"  :cargo="this.cargoParametro"></ModalConsultarCargoComponent>
 </Teleport>
 
      </main>
@@ -70,6 +86,9 @@ export default {
                cargoParametro: null,
                exitoTransaccion: false,
                mensajeTransaccion:"",
+               controlModalAgregar: ref(false),
+               controlModalConsultar: ref(false),
+               controlModalEliminar: ref(false),
           }
      },
      mounted(){
@@ -92,18 +111,66 @@ export default {
                }
                this.controlModal = false;
           },
-          modificarCargo(idCargo){
-               console.log("El cargo es : ", idCargo);
+          setearCargoParmetro(idCargo){
                this.listaCargos.forEach((tempCargo)=>{
                     if(tempCargo.id_cargo == idCargo){
                          this.cargoParametro = tempCargo;
                     }
                });
+          },
+          modificarCargo(idCargo){
+               console.log("El cargo es : ", idCargo);
+               this.setearCargoParmetro(idCargo);
                this.controlModal = true;
+          },
+          eliminarCargo(idCargo){
+               this.setearCargoParmetro(idCargo);
+               this.controlModalEliminar = true;
           },
           cambiarValorEstadoTransaccion(){
                this.exitoTransaccion = false;
-          }
+          },
+          cerrarModalAgregar(guardadoConExito,nuevoCargo){
+               if(guardadoConExito && nuevoCargo){
+                    console.log("Entra por aqui");
+                    this.listaCargos.push(nuevoCargo);
+                    this.exitoTransaccion = true;
+                    this.mensajeTransaccion = "Se agrego el cargo con exito";
+                    setTimeout(()=>{
+                         this.exitoTransaccion = false;
+                    },4000);
+               }
+              this.controlModalAgregar = false;
+          },
+          abrirModalAgregar(){
+               this.controlModalAgregar = true;
+          },
+          cerrarModalEliminar(seElimino,cargo){
+               if(seElimino){
+                    this.eliminarCargoLista(cargo);
+                    this.mensajeTransaccion = "Se Elimino el cargo exitosamente";
+                    this.exitoTransaccion = true;
+                    setTimeout(()=>{
+                         this.exitoTransaccion = false;
+                    },4000);
+               }
+               this.controlModalEliminar = false;
+          },
+          eliminarCargoLista(cargo){
+             let posicion;
+             console.log("La informacion del cargo es: ", cargo);
+             posicion = this.listaCargos.findIndex(tempCargo=> tempCargo.id_cargo === cargo);
+             console.log("La posicion del cargo es: ",posicion);
+             this.listaCargos.splice(posicion,1);
+             console.log(this.listaCargos);
+          },
+         mostrarCargo(id_cargo){
+          this.setearCargoParmetro(id_cargo);
+          this.controlModalConsultar = true;
+         },
+         cerrarModalConsultar(){
+          this.controlModalConsultar = false;
+         }
      }
 }
 </script>
