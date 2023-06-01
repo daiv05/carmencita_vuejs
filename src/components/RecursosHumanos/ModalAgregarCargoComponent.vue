@@ -4,8 +4,7 @@
 
 <template>
     
-    <Form class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarCargo()">
-
+<Form class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarCargo()">
 <div class=" bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="errorAlGuardar">
   <strong class="font-bold">Error guardar cargo</strong>
   <span class="block sm:inline">{{ this.mensajeConsulta }}</span>
@@ -50,7 +49,7 @@
 </template>
 <script>
 import axios from 'axios';
-import { Field, ErrorMessage,Form } from 'vee-validate';
+import { Field, ErrorMessage, Form } from 'vee-validate';
 export default {
     components:{
         Field,
