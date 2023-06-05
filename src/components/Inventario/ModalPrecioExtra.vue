@@ -1,13 +1,16 @@
 <script setup>
-
+import {Field,ErrorMessage} from 'vee-validate';
 </script>
 
 <template>
+
 <Form class="max-w-[100%]  mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="agregarPrecioExtra()">
+
   <div class="grid grid-cols-1 md:grid-cols-4 gap-[2%]">
       <div class="col-span-3">
         <div>
           <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione una unidad de medida</label>
+
       <Field as = "select" 
       class="max-w-[100%] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-[5%]"
       v-model="precioExtra.idUnidadMedida">
@@ -17,6 +20,7 @@
         <option value="3">France</option>
         <option value="4">Germany</option>
       </Field>
+
         </div>
         <div class = "grid grid-cols-2 gap-4">
             <div>
@@ -25,7 +29,7 @@
             </div>
             <div>
               <label for="canitdad">Cantidad</label>
-              <Field v-model ="precioExtra.cantidad" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" type="number"/>
+              <Field v-model = "precioExtra.cantidad" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" type="number"/>
             </div>
         </div>
       </div>
@@ -43,17 +47,14 @@
         </button>
     </div>
   </div>
-</Form>
-</template>
 
+</Form>
+
+</template>
 <script>
-import { Field, ErrorMessage, Form } from 'vee-validate';
+
 export default {
-  components:{
-    Field,
-    ErrorMessage,
-    Form
-  },
+ 
   data(){
     return{
       precioExtra:{
@@ -75,4 +76,5 @@ export default {
     }
   }
 }
+
 </script>
