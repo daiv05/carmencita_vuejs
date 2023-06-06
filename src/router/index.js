@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
+import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue'
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
 
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/empleado_agregar',
       name: 'empleado_agregar',
       component: EmpleadoAgregar
+    },
+    {
+      path: '/empleado_modificar/:id',
+      name: 'empleado_modificar',
+      component: EmpleadoModificar
     },
     {
       path: "/gestion_cargos",

@@ -1,11 +1,11 @@
 <script setup>
 import NavBar from '../../components/NavBar.vue'
+//import empleadoForm from '../../components/RecursosHumanos/EmpleadoForm.vue'
 </script>
 
 <template>
-  <NavBar></NavBar>
-
-    <Form ref="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
+    <NavBar></NavBar>
+<Form ref="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
 <div id="submitMessage" class="m-0 w-full h-fit p-0">
     <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg" v-if="showMessageError">
         <div class="modal bg-gray-800 text-white rounded-lg p-2  w-full max-w-2xl max-h-full m-auto" >
@@ -184,7 +184,6 @@ import NavBar from '../../components/NavBar.vue'
             </button>
             </div>
     </form>
-
 </template>
 
 <script>
@@ -342,6 +341,5 @@ import NavBar from '../../components/NavBar.vue'
             }
         }
     }
-
 </script>
 
