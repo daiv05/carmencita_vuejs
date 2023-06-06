@@ -11,33 +11,34 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
           </div>
        <div class = "w-[80%] mx-auto">
         <div class = "container" >DETALLES DEL PRODUCTO</div>
+        <Form>
             <div class="grid grid-cols-5">
 
                 <div class = "col-span-3 mt-[2%]">
                     
                   <div class="mb-[4%]">
                     <label for="nombre_producto" class="block mb-[0.5%]">Nombre</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi"/>
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi" v-model="producto.nombreProducto"/>
                   </div>  
-
+        
                   <div class="mb-[4%]">
                     <label for="codigo_barra" class="block mb-[0.5%]">Código de barra</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Codigo barra" />
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "codigo_barra_producto" placeholder = "Codigo barra" v-model="producto.codigoBarraProducto" />
                   </div>  
 
                   <div class="mb-[4%] flex flex-wrap">
                     <div class="">
                         <label for="cantidad_disponible" class="block mb-[0.5%]">Cantidad Disponible</label>
-                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_disponible" placeholder = "Cantidad"/>
+                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_disponible" placeholder = "Cantidad" v-model = "producto.cantidadProductoDisponible"/>
                     </div>
                     <div class="">
                         <label for="precio_unitario" class="block mb-[0.5%]">Precio Unitario</label>
-                        <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" placeholder = "Precio"/>
+                        <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" placeholder = "Precio" v-model = "producto.precioUnitarioProducto"/>
                     </div>
                     <div class="grow">
-                        <label for="nombre_producto" class="block mb-[0.5%]">Activo</label>
+                        <label for="activo" class="block mb-[0.5%]">Activo</label>
                         <div class="my-[5%]">
-                        <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo"/>
+                        <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo" v-model="producto.estaActivoProducto"/>
                         <label for = "activo"  class=" inline-block text-slate-500 ml-[1%] ">Disponible para la venta</label>
                         </div>
                     </div>
@@ -52,13 +53,14 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
                     </div>
                 
                     <div class="flex justify-center ">
-                        <svg class="h-28 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <svg class="h-28 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" v-if="this.urlFotoProducto == ' '">
                         <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
                         </svg>
+                        <img  class="h-28 w-28 text-gray-300 rounded-full mb-[1%]" v-bind:src="this.urlFotoProducto" alt="Foto del producto" v-if="this.urlFotoProducto!= ' ' ">
                     </div>    
 
                      <div>
-                        <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-2 py-2">
+                        <div class="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-2 py-2 hover:border-indigo-800" @drop="cargarImagenDrop($event)" @dragover="detenerCargaPorEventoArrastre($event)">
                         <div class="text-center">
                         <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
@@ -66,17 +68,17 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
                         <div class="mt-4 flex text-sm leading-6 text-gray-600">
                             <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
                             <span>Upload a file</span>
-                            <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                            <Field id="file-upload"  v-value="producto.fotoProducto" name="file-upload" type="file" accept = "image/*" class="sr-only"  @change="cargarImagen($event)"/>
                             </label>
                             <p class="pl-1">or drag and drop</p>
                             </div>
                             <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                             </div>
                         </div>
+                      </div>
                     </div>
-                    </div>
-    </div>
-
+            </div>
+    </Form>
     <!--Tabla de precios extra-->
 
     <div class="grid grid-cols-6">
@@ -120,15 +122,15 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
             <button type="button" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-customColor">Agregar Precio extra</button>
         </div>
     </div>
-    <button type="button" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-customColor">Guardar Producto</button>
+    <button type="button" class="mt-[2%] bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-customColor">Guardar Producto</button>
  </div>
+ {{ producto.estaActivoProducto}}
                   
         <Teleport to = "body">
             <ModalPrecioExtra v-if="controlModalPrecioExtra" @controlEventoModal="controlEventoModal"></ModalPrecioExtra>
         </Teleport>
     </main>
 </template>
-
 <script>
 
 export default {
@@ -138,6 +140,17 @@ export default {
     data(){
         return{
             controlModalPrecioExtra:false,
+            producto : {
+                nombreProducto : null,
+                codigoBarraProducto : null,
+                cantidadProductoDisponible : null,
+                precioUnitarioProducto : null,
+                estaActivoProducto : true,
+                fotoProducto : null
+            },
+            urlFotoProducto:" ",
+            listaPrecios : []
+
         }
     },
     methods:{
@@ -147,6 +160,25 @@ export default {
                 console.log(precioExtra);
             }
             this.controlModalPrecioExtra = false;
+        },
+        cargarImagen(e){
+            /*Retorna un tipo de dato blob el e.target.files[0]*/
+            e.preventDefault();
+            this.producto.fotoProducto = e.target.files[0];
+            let url = URL.createObjectURL(this.producto.fotoProducto);
+            this.urlFotoProducto = url;
+            console.log(url);
+        },
+        detenerCargaPorEventoArrastre(event){
+            event.preventDefault();
+        },
+        cargarImagenDrop(event){
+            event.preventDefault();
+            this.producto.fotoProducto = event.dataTransfer.files[0];
+            let url = URL.createObjectURL(this.producto.fotoProducto);
+            this.urlFotoProducto = url;
+            console.log(url);
+            console.log("se dropeo algo XD");
         }
     }
 }
