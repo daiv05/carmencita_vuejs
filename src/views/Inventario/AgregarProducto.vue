@@ -5,41 +5,59 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
 </script>
 <template>
     <main>
+        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 fixed top-20 left-0 right-0" 
+        role="alert"
+        v-if="activarAlerta==true">
+        <span class="font-medium">{{ this.mensajeExito }}</span>
+        </div>
+        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 fixed top-20 left-0 right-0" role="alert"
+        v-if="activarAlertaError==true">
+        <span class="font-medium">{{ this.mensajeExito }}</span>
+        </div>
         <NavBar></NavBar>
         <div class = "container mx-auto p-6 ">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de productos</h1>
           </div>
        <div class = "w-[80%] mx-auto">
         <div class = "container" >DETALLES DEL PRODUCTO</div>
-        <Form>
+
+        <Form @submit="guradarProducto($event)">
             <div class="grid grid-cols-5">
 
                 <div class = "col-span-3 mt-[2%]">
                     
                   <div class="mb-[4%]">
                     <label for="nombre_producto" class="block mb-[0.5%]">Nombre</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi" v-model="producto.nombreProducto"/>
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi" v-model="producto.nombreProducto"
+                    :rules="validarCampoTexto"/>
+                    <ErrorMessage name = "nombre_producto" class = "mensajeDeError"/>
                   </div>  
         
                   <div class="mb-[4%]">
                     <label for="codigo_barra" class="block mb-[0.5%]">Código de barra</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "codigo_barra_producto" placeholder = "Codigo barra" v-model="producto.codigoBarraProducto" />
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "codigo_barra_producto" placeholder = "Codigo barra" v-model="producto.codigoBarraProducto" 
+                    :rules="validarCodigoBarra"/>
+                    <ErrorMessage name = "codigo_barra_producto" class = "mensajeDeError"/>
                   </div>  
 
                   <div class="mb-[4%] flex flex-wrap">
                     <div class="">
                         <label for="cantidad_disponible" class="block mb-[0.5%]">Cantidad Disponible</label>
-                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_disponible" placeholder = "Cantidad" v-model = "producto.cantidadProductoDisponible"/>
+                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_disponible" placeholder = "Cantidad" v-model = "producto.cantidadProductoDisponible"
+                        :rules="validarCantidadDisponible"/>
+                        <ErrorMessage name = "cantidad_disponible" class = "mensajeDeError corregirLongitud" />
                     </div>
                     <div class="">
                         <label for="precio_unitario" class="block mb-[0.5%]">Precio Unitario</label>
-                        <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" placeholder = "Precio" v-model = "producto.precioUnitarioProducto"/>
+                        <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" 
+                        placeholder = "Precio" v-model = "producto.precioUnitarioProducto" :rules = "validarPrecioUnitario"/>
+                        <ErrorMessage name = "precio_unitario" class = "mensajeDeError corregirLongitud" />
                     </div>
                     <div class="grow">
                         <label for="activo" class="block mb-[0.5%]">Activo</label>
                         <div class="my-[5%]">
-                        <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo" v-model="producto.estaActivoProducto"/>
-                        <label for = "activo"  class=" inline-block text-slate-500 ml-[1%] ">Disponible para la venta</label>
+                        <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo" value = "activo" v-model="producto.estaActivoProducto"/>
+                        <label for = "activo"  class=" inline-block text-slate-500 ml-[1%]">Disponible para la venta</label>
                         </div>
                     </div>
                   </div>  
@@ -78,10 +96,7 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
                       </div>
                     </div>
             </div>
-    </Form>
-    <!--Tabla de precios extra-->
-
-    <div class="grid grid-cols-6">
+            <div class="grid grid-cols-6">
         <div class="col-span-4 mr-[2%]">
                 <table class="w-[100%]">
                     <thead>
@@ -104,34 +119,37 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
                     </thead>
                     <tbody>
                     
-                        <tr class="border-b-2">
-                            <td class="p-3">Bolsa</td>
-                            <td>10</td>
-                            <td>10.20</td>
+                        <tr class="border-b-2" v-for="precioExtra in listaPrecios" :key="precioExtra.id">
+                            <td class="p-3">{{ precioExtra.nombreUnidadDeMedida }}</td>
+                            <td> {{precioExtra.cantidad }} </td>
+                            <td>{{ precioExtra.precio }}</td>
                             <td class="flex justify-center items-center p-3">
                                 <p> 
-                                    <button type="button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" >X</button>
+                                    <button type="button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
                                 </p>
                             </td>
                         </tr>
-
                     </tbody>
                 </table>
-        </div>
+            </div>
         <div class = "col-span-2">
-            <button type="button" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-customColor">Agregar Precio extra</button>
+            <button type="button" class="bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" @click="controlModalPrecioExtra=true">Agregar Precio extra</button>
         </div>
+        </div>
+        <div>
+        <button type="submit" class="mt-[2%] bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">Guardar Producto</button>
+        </div>
+    </Form>
     </div>
-    <button type="button" class="mt-[2%] bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded bg-customColor">Guardar Producto</button>
- </div>
- {{ producto.estaActivoProducto}}
-                  
         <Teleport to = "body">
             <ModalPrecioExtra v-if="controlModalPrecioExtra" @controlEventoModal="controlEventoModal"></ModalPrecioExtra>
         </Teleport>
+        {{ this.producto.fotoProducto }}
     </main>
 </template>
 <script>
+import { version } from 'vue';
+import axios from 'axios';
 
 export default {
     components:{
@@ -145,18 +163,26 @@ export default {
                 codigoBarraProducto : null,
                 cantidadProductoDisponible : null,
                 precioUnitarioProducto : null,
-                estaActivoProducto : true,
+                estaActivoProducto : "activo",
                 fotoProducto : null
             },
             urlFotoProducto:" ",
-            listaPrecios : []
-
+            listaPrecios : [],
+            nombreEsValido:false,
+            codigoBarraProductoEsValido:false,
+            cantidadDisponibleEsValido:false,
+            precioUnitarioEsValido:false,
+            mensajeExito:"",
+            activarAlerta : false,
+            activarAlertaError:false,
+            existenPrecios:false
         }
     },
     methods:{
         controlEventoModal(precioExtra){
             if(precioExtra){
                 console.log(" Se tiene que agregar un precio extra a las listas de precios extra ");
+                this.listaPrecios.push(precioExtra);
                 console.log(precioExtra);
             }
             this.controlModalPrecioExtra = false;
@@ -177,15 +203,183 @@ export default {
             this.producto.fotoProducto = event.dataTransfer.files[0];
             let url = URL.createObjectURL(this.producto.fotoProducto);
             this.urlFotoProducto = url;
-            console.log(url);
-            console.log("se dropeo algo XD");
-        }
+        },
+        validarCampoTexto(value){
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else{   
+                this.nombreEsValido = true;
+            }
+            this.nombreEsValido = true;
+            return true;
+        },
+        validarCodigoBarra(value){
+            console.log(value);
+            const expresionRegular = /^[0-9]{10}$/;
+            const regExpresion = new RegExp(expresionRegular);
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "El código de barra debe tener 10 digitos numericos.";
+            }
+            this.codigoBarraProductoEsValido = true;
+            return true;
+        },
+        validarCantidadDisponible(value){
+            let regExpresion = /^[0-9]{1,5}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "La cantidad disponible deben ser numeros";
+            }
+            this.cantidadDisponibleEsValido = true;
+            return true;
+        },
+        validarPrecioUnitario(value){
+            let regExpresion = /^[0-9]{1,5}\.?[0-9]{1,2}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio"
+            }
+            else if(!regExpresion.test(value)){
+                return "El campo debe tener le formato ##.##"
+            }
+            this.precioUnitarioEsValido = true;
+            return true;
+        },
+        guradarProducto(event){
+            //event.preventDefault();
+            let bodyFormData = this.crearFormDataPostProducto();
+            axios.post(
+                "http://127.0.0.1:8000/api/productos",bodyFormData)
+            .then(response=>{
+                if(this.listaPrecios.length > 0){
+                    this.guaradarListaPrecios();
+                }
+                else{
+                    console.log(response.data.mensaje);
+                    this.mensajeExito = response.data.mensaje;
+                    this.contorlAlerta();
+                    setTimeout(this.clearForm(),9000)
+                }
+            })
+            .catch(
+                (response)=>{
+                    console.log(response.response.data.mensaje);
+                    this.mensajeExito = response.response.data.mensaje[0];
+                    this.controlAlertaError();
+                }
+            );
+        },
+        eliminarPrecioExtra(idUnidadMedida){
+            this.listaPrecios = this.listaPrecios.filter(precioExtra => precioExtra.idUnidadMedida!=idUnidadMedida);
+        },
+        crearFormDataPostProducto(){
+
+            let bodyFormData = new FormData();
+            bodyFormData.append("codigo_barra_producto",this.producto.codigoBarraProducto);
+            bodyFormData.append("nombre_producto",this.producto.nombreProducto);
+            bodyFormData.append("cantidad_producto_disponible",this.producto.cantidadProductoDisponible);
+            bodyFormData.append("precio_unitario",this.producto.precioUnitarioProducto);
+            if(this.producto.estaActivoProducto){
+                bodyFormData.append("esta_disponible",1);
+            }
+            else{
+                bodyFormData.append("esta_disponible",0);
+            }
+            if(this.producto.fotoProducto!= null){
+                bodyFormData.append("foto",this.producto.fotoProducto);
+            }
+
+            return bodyFormData;
+        },
+        guaradarListaPrecios(){
+           let dataBody = {
+                "codigo_barra_producto":this.producto.codigoBarraProducto,
+                "lista_precios_unidades": this.listaPrecios
+            };
+            console.log(dataBody);
+            axios.post("http://127.0.0.1:8000/api/precios_lista_unidades_de_medida",dataBody)
+            .then(
+                response=>{
+                    this.mensajeExito = response.data.mensaje;
+                    this.contorlAlerta();
+                    setTimeout(this.clearForm(),9000)
+                }
+            )
+            .catch(
+                response=>{
+                    console.log(response);
+                    console.log("hola desde el error");
+                    this.mensajeExito = response.response.data.mensaje[0];
+                    this.controlAlertaError();
+                }
+            );
+        },
+        contorlAlerta(){
+            this.activarAlerta = true;
+            setTimeout(()=>{
+                this.activarAlerta = false;
+            },3000);
+        },
+        controlAlertaError(){
+            this.activarAlertaError = true;
+            setTimeout(()=>{
+                this.activarAlertaError = false;
+            },5000);
+        },
+        clearForm(){
+            document.location.reload();
+            /**
+             * 
+             *  controlModalPrecioExtra:false,
+            producto : {
+                nombreProducto : null,
+                codigoBarraProducto : null,
+                cantidadProductoDisponible : null,
+                precioUnitarioProducto : null,
+                estaActivoProducto : "activo",
+                fotoProducto : null
+            },
+            urlFotoProducto:" ",
+            listaPrecios : [],
+            nombreEsValido:false,
+            codigoBarraProductoEsValido:false,
+            cantidadDisponibleEsValido:false,
+            precioUnitarioEsValido:false,
+            mensajeExito:"",
+            activarAlerta : false,
+            activarAlertaError:false,
+            existenPrecios:false
+             */
+                /*this.producto.nombreProducto = null;
+                this.producto.codigoBarraProducto   = null;
+                this.producto.cantidadProductoDisponible = null;
+                this.precioUnitarioProducto = 0;
+                this.estaActivoProducto = "activo";
+                this.fotoProducto = null;
+                this.urlFotoProducto = " ";
+                this.listaPrecios = [];*/
+            }
     }
+
 }
 </script>
 <style scoped>
 .bg-customColor{
     background-color:#4F46E5;
+}
+
+.mensajeDeError{
+    color:#dc2626;
+}
+.corregirLongitud{
+    display: block;
+    width: 60%;
+    margin: 0px;
+    padding: 0px;
 }
 
 </style>
