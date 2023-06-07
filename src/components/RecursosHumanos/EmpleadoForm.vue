@@ -3,7 +3,7 @@
 </script>
 
 <template>
-   <Form ref="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
+   <Form  ref="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
     <!--Mensajes de validacion-->
     <div id="submitMessage" class="m-0 w-full h-fit p-0">
         <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg" v-if="showMessageError">
@@ -22,7 +22,7 @@
                     </ul>
                 </div>
                 <div class="w-full flex justify-center items-center my-2">
-                    <button type="button" @click="showMessageSuccess = false" class="w-3/4 focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Aceptar</button>
+                    <button type="button" @click="showMessageError = false" class="w-3/4 focus:outline-none text-white bg-red-400 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Aceptar</button>
                 </div>
             </div>
         </div>
@@ -78,17 +78,18 @@
                 <div class="sm:col-span-3">
                 <label for="segundo_apellido" class="block text-sm font-medium leading-6 text-gray-900">Segundo apellido</label>
                 <div class="mt-2">
-                    <Field name="segundo_apellido" rules="required" id="segundo_apellido" type="text" placeholder="Ingresa tu segundo apellido" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <Field v-model="empleado.segundo_apellido" name="segundo_apellido" id="segundo_apellido" type="text" placeholder="Ingresa tu segundo apellido" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                 </div>
                 </div>
 
                 <div class="sm:col-span-3">
                 <label for="sexo" class="block text-sm font-medium leading-6 text-gray-900">Sexo</label>
                 <div class="mt-2">
-                    <Field as="select" name="sexo"  rules="required" id="sexo" v-model="empleado.id_sexo" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <Field as="select" required name="sexo" id="sexo" v-model="empleado.id_sexo" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                         <option value="" selected>Seleccionar...</option>
-                        <option v-for="sexo in sexos" :key="sexo.id_sexo" :value=sexo.id_sexo >{{ sexo.nombre_sexo }}</option>
-                    </Field> 
+                        <option v-for="sexo in sexos" :key="sexo.id_sexo" :value="sexo.id_sexo">{{ sexo.nombre_sexo }}</option>
+                    </Field>
+                    <ErrorMessage name="sexo" class="text-red-500"/>
                 </div>
                 </div>
 
@@ -103,7 +104,7 @@
                 <div class="sm:col-span-3">
                 <label for="estado_familiar" class="block text-sm font-medium leading-6 text-gray-900">Estado familiar</label>
                 <div class="mt-2">
-                    <Field v-model="empleado.id_estado_familiar" as="select" name="estado_familiar"  rules="required" id="estado_familiar" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <Field  v-model="empleado.id_estado_familiar" as="select" name="estado_familiar" id="estado_familiar" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                         <option value="" selected>Seleccione...</option>
                         <option v-for="est in estado_familiar" :key="est.id_estado_familiar" :value=est.id_estado_familiar >{{ est.nombre_estado_familiar }}</option>
                     </Field>
@@ -137,7 +138,7 @@
                 <div class="sm:col-span-3">
                 <label for="nacionalidad" class="block text-sm font-medium leading-6 text-gray-900">Nacionalidad</label>
                 <div class="mt-2">
-                    <Field v-model="empleado.id_nacionalidad" as="select" name="nacionalidad"  rules="required" id="nacionalidad" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <Field v-model="empleado.id_nacionalidad" as="select" name="nacionalidad" id="nacionalidad" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                         <option value="" selected>Choose a country</option>
                         <option v-for="nac in nacionalidades" :key="nac.id_nacionalidad" :value=nac.id_nacionalidad>{{nac.nombre_nacionalidad}}</option>
                     </Field>
@@ -147,15 +148,15 @@
                 <div class="sm:col-span-3">
                 <label for="dui_empleado" class="block text-sm font-medium leading-6 text-gray-900">Documento de identidad</label>
                 <div class="mt-2">
-                    <Field name="dui" rules="required|dui" v-model="empleado.dui" id="dui_empleado" type="text" placeholder="Ingresa tu numero de documento " class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    <ErrorMessage name="dui" class="text-red-500"/>
+                    <Field name="dui_empleado" rules="required|dui" v-model="empleado.dui_empleado" id="dui_empleado" type="text" placeholder="Ingresa tu numero de documento " class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <ErrorMessage name="dui_empleado" class="text-red-500"/>
                 </div>
                 </div>
 
                 <div class="sm:col-span-3">
                 <label for="cargo" class="block text-sm font-medium leading-6 text-gray-900">Cargo</label>
                 <div class="mt-2">
-                    <Field as="select" name="cargo" rules="" id="cargo" v-model="empleado.id_cargo" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <Field as="select" name="cargo" id="cargo" v-model="empleado.id_cargo" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                         <option value="" selected>Seleccione...</option>
                         <option v-for="cargo in cargos" :key="cargo.id_cargo" :value= cargo.id_cargo > {{ cargo.nombre_cargo }}</option>
                     </Field>
@@ -174,7 +175,7 @@
     </div>
   
   <!--Usuario-->
-  <!--<div class="container bg-white shadow m-auto w-4/5 my-4">
+  <div class="container bg-white shadow m-auto w-4/5 my-4" v-if="createForm">
 
     <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-8 lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -205,25 +206,25 @@
                     <label for="password_confirm" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
                     </div>
                     <div class="mt-2">
-                    <Field name="confirm_password" type="password" rules="required|confirmed:@password" id="password_confirm" placeholder="Confirma tu contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                    <Field name="confirm_password" type="password" rules="required|confirmed:@password" id="confirm_password" placeholder="Confirma tu contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                     <ErrorMessage name="confirm_password" class="text-red-500 text-xs"/>
                 </div>
                 </div>
             </div>
         </div>
   </div>
--->
+  
   <!--submit button-->
   <div class="flex items-center justify-center">
-        <button class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        <a href="#" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Cancelar
-        </button>
-        <button class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+        </a>
+        <button type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Enviar
         </button>
     </div>
   
-</Form>
+</form>
 </template>
 
 <script>
@@ -237,7 +238,7 @@
     var submitMessage = document.getElementById('submitMessage');
 
     defineRule('required', value => {
-        if (!value || !value.length) {
+        if (!value || !value.length ) {
             return '*Campo requerido';
         }
         return true;
@@ -268,6 +269,9 @@
     }
 
     export default {
+        props:{
+            createForm:null,
+        },
         components: {
             Form, 
             Field,
@@ -296,7 +300,10 @@
                     id_nacionalidad:"",
                     dui_empleado:"",
                     id_cargo:"",
-                    telefono:""
+                    telefono:"",
+                    email:"",
+                    password:"",
+                    esta_activo:""
                 },
                 error:[]
             }
@@ -309,7 +316,9 @@
             //this.saveEmpleado();
             const route = useRoute();
             this.id = route.params.id;
-            this.getEmpleado();
+            if(this.createForm == null){
+                this.getEmpleado();
+            }
         },
         methods:{
             getCargos(){
@@ -342,7 +351,7 @@
                 );
             },
             getEmpleado(){
-                axios.get('http://127.0.0.1:8000/api/empleado/'+this.id).then(
+                    axios.get('http://127.0.0.1:8000/api/empleado/'+this.id).then(
                     response => (
                         this.empleado.segundo_nombre = response.data['segundo_nombre'],
                         this.empleado.primer_apellido = response.data['primer_apellido'],
@@ -355,14 +364,64 @@
                         this.empleado.domicilio = response.data['domicilio'],
                         this.empleado.residencia = response.data['residencia'],
                         this.empleado.id_nacionalidad = response.data['id_nacionalidad'],
-                        this.empleado.dui = response.data['dui_empleado'],
+                        this.empleado.dui_empleado = response.data['dui_empleado'],
                         this.empleado.id_cargo = response.data['id_cargo'],
-                        this.empleado.telefono = response.data['telefono']
+                        this.empleado.telefono = response.data['telefono'],
+                        this.empleado.esta_activo = response.data['esta_activo']
                     )
-                );
+                ).catch(error => {
+                    if (error.response.status === 404) {
+                    // La solicitud no fue encontrada (404)
+                    console.log('La solicitud no ha sido encontrada.');
+                    this.error[0] = "Empleado no encontrado";
+                    showStatusModal(this.error);
+                    this.showMessageError = true;
+                    // O puedes mostrar un mensaje en tu interfaz de usuario
+                    } else {
+                    // Ocurrió otro tipo de error
+                    console.log('Ocurrió un error:', error.message);
+                    }
+                });
             },
             saveEmpleado(values){
-                const params = {
+                //event.preventDefault(); 
+                if(this.createForm!=null){
+                    alert("Funcion de agregar");
+                    
+                    const params = {
+                    segundo_nombre:this.empleado.segundo_nombre,
+                    primer_apellido:this.empleado.primer_apellido,
+                    segundo_apellido:this.empleado.segundo_apellido,
+                    id_sexo:this.empleado.id_sexo,
+                    primer_nombre:this.empleado.primer_nombre,
+                    fecha_nacimiento:this.empleado.fecha_nacimiento,
+                    id_estado_familiar:this.empleado.id_estado_familiar,
+                    profesion_oficio:this.empleado.profesion_oficio,
+                    domicilio:this.empleado.domicilio,
+                    residencia:this.empleado.residencia,
+                    id_nacionalidad:this.empleado.id_nacionalidad,
+                    dui_empleado:this.empleado.dui_empleado,
+                    id_cargo:this.empleado.id_cargo,
+                    telefono:this.empleado.telefono,
+                    email:this.empleado.email,
+                    password:this.empleado.password
+                }
+                
+                //console.log(values,null,2);
+                axios.post('http://127.0.0.1:8000/api/empleado',params).then(
+                    response=> (
+                       // console.log(response.data),
+                        //alert(response.data['message']),
+                        this.error = showStatusModal(response.data['message']),
+                        this.showMessageError = !response.data['status'],
+                        this.showMessageSuccess = response.data['status'],
+                        this.scroll()
+                    )
+                )
+                }else{ 
+                    alert("Funcion de actualizar");
+                    
+                    const params = {
                     segundo_nombre:this.empleado.segundo_nombre,
                     primer_apellido:this.empleado.primer_apellido,
                     segundo_apellido:this.empleado.segundo_apellido,
@@ -390,6 +449,7 @@
                         this.scroll()
                     )
                 )
+                }
             },
             scroll(){
                 submitMessage = document.getElementById('submitMessage');
@@ -397,9 +457,10 @@
             },
             clearForm(){
                 this.showMessageSuccess = false;
+                this.showMessageError = false;
+                alert("hola")
                 document.location.reload();
             }
         }
     }
-
 </script>
