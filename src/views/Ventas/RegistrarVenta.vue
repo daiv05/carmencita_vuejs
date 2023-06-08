@@ -678,7 +678,6 @@ export default {
                 console.log("codigo barras: " + codigoBarras);
                 this.codigo_barra_lector = codigoBarras;
                 this.getProductoSegunCodigo();
-
             }
         },
 
@@ -755,6 +754,7 @@ export default {
                 })
                 .then(() => {
                     console.log("Agregado a la tabla");
+                    this.producto_codigo = '';
                 })
                 .catch((err) => {
                     console.log(err);
