@@ -42,7 +42,7 @@ import NavBar from '@/components/NavBar.vue'
 
 
                     <!-- Contenido del formulario para Consumidor Final -->
-                    <div v-if="activeTab === 0" class="p-4 bg-white" @paste="handlePaste(event)">
+                    <div v-if="activeTab === 0" class="p-4 bg-white">
                         <div class="flex max-h-[400px] overflow-y-auto pb-36">
 
 
@@ -56,6 +56,9 @@ import NavBar from '@/components/NavBar.vue'
                                     <label class="text-base font-bold">
                                         Producto
                                     </label>
+                                    <input @input="buscarCodigo()" ref="codigo_bp"
+                                        class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                        placeholder="Codigo del Producto" v-model="producto_codigo" />
                                     <div class="sugerencias-container">
                                         <!-- Campo de entrada -->
                                         <input @input="buscarProductos()" @focus="mostrarSugerencias = true"
@@ -625,6 +628,7 @@ export default {
 
             //Codigo de Lector de Barras (para buscar producto)
             codigo_barra_lector: '',
+            producto_codigo: '', //Para la busqueda de productos por filtro de codigo
 
             //Para la busqueda de productos por filtro de nombre
             productos: [], // Lista de nombres de productos completa
@@ -636,16 +640,10 @@ export default {
         this.actualizaFecha();
         this.getListaNombresProductos();
     },
+    mounted() {
+        document.addEventListener('keydown', this.redirigirEntrada);
+    },
     watch: {
-        //Buscar Producto por Nombre
-        // producto_nombre(value) {
-        //     if (value.length > 0) {
-        //         this.getProductoSegunNombre();
-        //     } else {
-        //         this.productos_lista = [];
-        //     }
-        // },
-
         //Calculos en cada cambio de detalle de venta
         detalle_ventas_lista: {
             handler() {
@@ -668,6 +666,21 @@ export default {
         },
     },
     methods: {
+        redirigirEntrada() {
+            if (!(document.activeElement.tagName == "INPUT")) {
+                // No hay ningún campo activo, enfocar al input de busqueda por codigo
+                this.$refs.codigo_bp.focus(); // Enfoca el campo deseado
+            }
+        },
+        buscarCodigo() {
+            const codigoBarras = this.producto_codigo;
+            if (codigoBarras.length > 11 && codigoBarras.length <= 13) {
+                console.log("codigo barras: " + codigoBarras);
+                this.codigo_barra_lector = codigoBarras;
+                this.getProductoSegunCodigo();
+            }
+        },
+
         //Eliminar detalle de venta de la tabla
         eliminarDetalleVenta(index) {
             console.log("index: " + index);
@@ -684,183 +697,184 @@ export default {
                 }
             }
         },
-            //Obtener lista de todos los nombres de productos en la bdd
-            getListaNombresProductos() {
-                return axios
-                    .get(api_url + '/productos/nombres/lista')
-                    .then((response) => {
-                        this.productos = response.data.nombres_productos;
-                        console.log("nombreees: " + response.data.nombres_productos);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            },
-            //Buscar el nombre del producto mas cercano al texto ingresado
-            buscarProductos() {
-                if (this.producto_nombre && this.mostrarSugerencias) {
-                    this.sugerencias = this.productos.filter((producto) => {
-                        return producto.toLowerCase().includes(this.producto_nombre.toLowerCase());
-                    });
-                } else {
-                    this.sugerencias = [];
-                }
-            },
-            //Seleccionar sugerencia de producto en buscador
-            seleccionarSugerencia(sugerencia) {
-                this.producto_nombre = sugerencia;
-                this.insertarDetalleTabla();
+        //Obtener lista de todos los nombres de productos en la bdd
+        getListaNombresProductos() {
+            return axios
+                .get(api_url + '/productos/nombres/lista')
+                .then((response) => {
+                    this.productos = response.data.nombres_productos;
+                    console.log("nombreees: " + response.data.nombres_productos);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        //Buscar el nombre del producto mas cercano al texto ingresado
+        buscarProductos() {
+            if (this.producto_nombre && this.mostrarSugerencias) {
+                this.sugerencias = this.productos.filter((producto) => {
+                    return producto.toLowerCase().includes(this.producto_nombre.toLowerCase());
+                });
+            } else {
                 this.sugerencias = [];
-            },
-            //Manejar el evento pegar del lector de codigo de barras
-            handlePaste(event) {
-                // Obtener el texto pegado
-                navigator.clipboard.readText()
-                    .then((pastedText) => {
-                        // Establecer el valor en la propiedad codigoBarras
-                        this.codigo_barra_lector = pastedText;
+            }
+        },
+        //Seleccionar sugerencia de producto en buscador
+        seleccionarSugerencia(sugerencia) {
+            this.producto_nombre = sugerencia;
+            this.insertarDetalleTabla();
+            this.sugerencias = [];
+        },
+        //Manejar el evento pegar del lector de codigo de barras
+        handlePaste(event) {
+            // Obtener el texto pegado
+            navigator.clipboard.readText()
+                .then((pastedText) => {
+                    // Establecer el valor en la propiedad codigoBarras
+                    this.codigo_barra_lector = pastedText;
 
-                        // Ejecutar el método agregarProducto()
-                        this.getProductoSegunCodigo();
-                    })
-                    .catch((error) => {
-                        console.log('Error al leer el portapapeles:', error);
-                    });
-            },
-            //Buscar Producto por codigo
-            getProductoSegunCodigo() {
-                return axios
-                    .get(api_url + '/productos/' + this.codigo_barra_lector)
+                    // Ejecutar el método agregarProducto()
+                    this.getProductoSegunCodigo();
+                })
+                .catch((error) => {
+                    console.log('Error al leer el portapapeles:', error);
+                });
+        },
+        //Buscar Producto por codigo
+        getProductoSegunCodigo() {
+            return axios
+                .get(api_url + '/productos/' + this.codigo_barra_lector)
+                .then((res) => {
+                    console.log(res.data.producto);
+                    this.producto_info.codigo_barra_producto = res.data.producto.codigo_barra_producto;
+                    this.producto_info.nombre_producto = res.data.producto.nombre_producto;
+                    this.producto_info.precio_producto = res.data.producto.precio_unitario;
+                    console.log(this.producto_info + "producto pegado");
+                    return this.addDetalleVenta();
+                })
+                .then(() => {
+                    console.log("Agregado a la tabla");
+                    this.producto_codigo = '';
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        //Actualizar Fecha automaticamente
+        actualizaFecha() {
+            this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
+        },
+        //Registrar Nueva Venta
+        registrarNuevaVenta() {
+            axios.post(api_url + '/ventas/',
+                this.venta_info = {
+                    nombre_cliente_venta: '',
+                    fecha_venta: this.venta_info.fecha_venta,
+                    total_venta: this.subtotal_venta,
+                    total_iva: this.venta_info.total_iva,
+                }
+            ).then((res) => {
+                this.venta_info = res.datos;
+            });
+        },
+        //Anadir registro en tabla DETALLE
+        insertarDetalleTabla() {
+            this.getProductoSegunNombre()
+                .then(() => {
+                    return this.addDetalleVenta();
+                })
+                .then(() => {
+                    console.log("Todo bien todo correcto")
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        //Buscar Producto por Nombre
+        getProductoSegunNombre() {
+            return new Promise((resolve, reject) => {
+                // Verificar que el campo no esté vacío
+                if (!this.producto_nombre) {
+                    console.log('Campo vacío');
+                    reject('Campo vacío');
+                    return;
+                }
+                axios.get(api_url + '/productos/buscar/' + this.producto_nombre)
                     .then((res) => {
-                        console.log(res.data.producto);
-                        this.producto_info.codigo_barra_producto = res.data.producto.codigo_barra_producto;
-                        this.producto_info.nombre_producto = res.data.producto.nombre_producto;
-                        this.producto_info.precio_producto = res.data.producto.precio_unitario;
-                        console.log(this.producto_info + "producto pegado");
-                        return this.addDetalleVenta();
-                    })
-                    .then(() => {
-                        console.log("Agregado a la tabla");
+                        this.producto_info.codigo_barra_producto = res.data.producto[0].codigo_barra_producto;
+                        this.producto_info.nombre_producto = res.data.producto[0].nombre_producto;
+                        this.producto_info.precio_producto = res.data.producto[0].precio_unitario;
+                        console.log(res.data.producto[0].codigo_barra_producto);
+                        this.producto_nombre = ''; // Limpiar el campo de búsqueda
+                        resolve(); // Resolver la promesa
                     })
                     .catch((err) => {
-                        console.log(err);
+                        console.log(err.response.data.mensaje);
+                        reject(err.response.data.mensaje); // Rechazar la promesa con el mensaje de error
                     });
-            },
-            //Actualizar Fecha automaticamente
-            actualizaFecha() {
-                this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
-            },
-            //Registrar Nueva Venta
-            registrarNuevaVenta() {
-                axios.post(api_url + '/ventas/',
-                    this.venta_info = {
-                        nombre_cliente_venta: '',
-                        fecha_venta: this.venta_info.fecha_venta,
-                        total_venta: this.subtotal_venta,
-                        total_iva: this.venta_info.total_iva,
-                    }
-                ).then((res) => {
-                    this.venta_info = res.datos;
-                });
-            },
-            //Anadir registro en tabla DETALLE
-            insertarDetalleTabla() {
-                this.getProductoSegunNombre()
-                    .then(() => {
-                        return this.addDetalleVenta();
-                    })
-                    .then(() => {
-                        console.log("Todo bien todo correcto")
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            },
-            //Buscar Producto por Nombre
-            getProductoSegunNombre() {
-                return new Promise((resolve, reject) => {
-                    // Verificar que el campo no esté vacío
-                    if (!this.producto_nombre) {
-                        console.log('Campo vacío');
-                        reject('Campo vacío');
-                        return;
-                    }
-                    axios.get(api_url + '/productos/buscar/' + this.producto_nombre)
-                        .then((res) => {
-                            this.producto_info.codigo_barra_producto = res.data.producto[0].codigo_barra_producto;
-                            this.producto_info.nombre_producto = res.data.producto[0].nombre_producto;
-                            this.producto_info.precio_producto = res.data.producto[0].precio_unitario;
-                            console.log(res.data.producto[0].codigo_barra_producto);
-                            this.producto_nombre = ''; // Limpiar el campo de búsqueda
-                            resolve(); // Resolver la promesa
-                        })
-                        .catch((err) => {
-                            console.log(err.response.data.mensaje);
-                            reject(err.response.data.mensaje); // Rechazar la promesa con el mensaje de error
-                        });
-                });
-            },
-
-            //Metodos de Detalles
-            addDetalleVenta() {
-                return new Promise((resolve, reject) => {
-                    //Habian problemas con el objeto, toca hacer una copia
-                    const productoCopia = JSON.parse(JSON.stringify(this.producto_info));
-                    const detalle = {
-                        id_venta: this.contadorAutoincremental, //Este valor es solo para usarlo en la tabla
-                        producto_detalle: productoCopia,
-                        cantidad_prod_venta: 1,
-                        subtotal_detalle_venta: this.producto_info.precio_producto,
-                    };
-                    this.detalle_ventas_lista.push(detalle);
-                    this.producto_nombre = ''; // Limpiar el campo de búsqueda
-                    this.contadorAutoincremental++; // Incrementar el valor del contador
-                    resolve(); // Resolver la promesa
-                });
-            },
-            //Subtotal de la venta RESUMEN
-            calcular_subtotalventa() {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.00
-                );
-                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
-            },
-            //Registrar Venta y obtener el id de la venta registrada
-            registrarNuevaVenta() {
-                var venta = {};
-                //Primero se registra la venta, luego se obtiene el id de la venta registrada
-                axios.post(api_url + '/ventas/',
-                    venta = {
-                        nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
-                        fecha_venta: this.venta_info.fecha_venta,
-                        total_venta: Number(this.venta_info.total_venta),
-                        total_iva: Number(this.venta_info.total_iva),
-                    }
-                ).then((res) => {
-                    console.log("el id de la venta es: " + res.data.datos);
-                    this.registrarDetalleVenta(res.data.datos);
-                });
-            },
-            //Registrar Detalle de la Venta
-            registrarDetalleVenta(id_venta_registrada) {
-                this.detalle_ventas_lista.forEach((detalle) => {
-                    axios.post(api_url + '/detalle_ventas/',
-                        detalle = {
-                            id_venta: id_venta_registrada,
-                            codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
-                            cantidad_producto: detalle.cantidad_prod_venta,
-                            subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
-                        }
-                    ).then((res) => {
-                        console.log("Detalle registrado");
-                        this.detalle_ventas_lista = [];
-                        this.contadorAutoincremental = 1;
-                    });
-                });
-            },
+            });
         },
-    };
+
+        //Metodos de Detalles
+        addDetalleVenta() {
+            return new Promise((resolve, reject) => {
+                //Habian problemas con el objeto, toca hacer una copia
+                const productoCopia = JSON.parse(JSON.stringify(this.producto_info));
+                const detalle = {
+                    id_venta: this.contadorAutoincremental, //Este valor es solo para usarlo en la tabla
+                    producto_detalle: productoCopia,
+                    cantidad_prod_venta: 1,
+                    subtotal_detalle_venta: this.producto_info.precio_producto,
+                };
+                this.detalle_ventas_lista.push(detalle);
+                this.producto_nombre = ''; // Limpiar el campo de búsqueda
+                this.contadorAutoincremental++; // Incrementar el valor del contador
+                resolve(); // Resolver la promesa
+            });
+        },
+        //Subtotal de la venta RESUMEN
+        calcular_subtotalventa() {
+            this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                0.00
+            );
+            this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+        },
+        //Registrar Venta y obtener el id de la venta registrada
+        registrarNuevaVenta() {
+            var venta = {};
+            //Primero se registra la venta, luego se obtiene el id de la venta registrada
+            axios.post(api_url + '/ventas/',
+                venta = {
+                    nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
+                    fecha_venta: this.venta_info.fecha_venta,
+                    total_venta: Number(this.venta_info.total_venta),
+                    total_iva: Number(this.venta_info.total_iva),
+                }
+            ).then((res) => {
+                console.log("el id de la venta es: " + res.data.datos);
+                this.registrarDetalleVenta(res.data.datos);
+            });
+        },
+        //Registrar Detalle de la Venta
+        registrarDetalleVenta(id_venta_registrada) {
+            this.detalle_ventas_lista.forEach((detalle) => {
+                axios.post(api_url + '/detalle_ventas/',
+                    detalle = {
+                        id_venta: id_venta_registrada,
+                        codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
+                        cantidad_producto: detalle.cantidad_prod_venta,
+                        subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
+                    }
+                ).then((res) => {
+                    console.log("Detalle registrado");
+                    this.detalle_ventas_lista = [];
+                    this.contadorAutoincremental = 1;
+                });
+            });
+        },
+    },
+};
 </script>
 
 <style scoped>
