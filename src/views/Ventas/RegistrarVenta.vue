@@ -56,9 +56,9 @@ import NavBar from '@/components/NavBar.vue'
                                     <label class="text-base font-bold">
                                         Producto
                                     </label>
-                                    <input @input="buscarCodigo()"
-                                            class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            placeholder="Codigo del Producto" v-model="producto_codigo" />
+                                    <input @input="buscarCodigo()" ref="codigo_bp"
+                                        class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                        placeholder="Codigo del Producto" v-model="producto_codigo" />
                                     <div class="sugerencias-container">
                                         <!-- Campo de entrada -->
                                         <input @input="buscarProductos()" @focus="mostrarSugerencias = true"
@@ -640,16 +640,10 @@ export default {
         this.actualizaFecha();
         this.getListaNombresProductos();
     },
+    mounted() {
+        document.addEventListener('keydown', this.redirigirEntrada);
+    },
     watch: {
-        //Buscar Producto por Nombre
-        // producto_nombre(value) {
-        //     if (value.length > 0) {
-        //         this.getProductoSegunNombre();
-        //     } else {
-        //         this.productos_lista = [];
-        //     }
-        // },
-
         //Calculos en cada cambio de detalle de venta
         detalle_ventas_lista: {
             handler() {
@@ -672,6 +666,12 @@ export default {
         },
     },
     methods: {
+        redirigirEntrada() {
+            if (!(document.activeElement.tagName == "INPUT")) {
+                // No hay ningún campo activo, enfocar al input de busqueda por codigo
+                this.$refs.codigo_bp.focus(); // Enfoca el campo deseado
+            }
+        },
         buscarCodigo() {
             const codigoBarras = this.producto_codigo;
             if (codigoBarras.length > 11 && codigoBarras.length <= 13) {
