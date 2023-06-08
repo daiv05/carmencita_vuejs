@@ -56,14 +56,38 @@ import NavBar from '@/components/NavBar.vue'
                                     <label class="text-base font-bold">
                                         Producto
                                     </label>
-                                    <input @keydown.enter.prevent="insertarDetalleTabla()"
+                                    <div class="sugerencias-container">
+                                        <!-- Campo de entrada -->
+                                        <input @input="buscarProductos()" @focus="mostrarSugerencias = true"
+                                            @blur.self="mostrarSugerencias = false"
+                                            class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            placeholder="Nombre del Producto" v-model="producto_nombre" />
+
+                                        <!-- Lista de sugerencias -->
+                                        <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
+                                            v-if="mostrarSugerencias && sugerencias.length > 0">
+                                            <li class="w-64 m-2" v-for="sugerencia in sugerencias" :key="sugerencia.id"
+                                                @mousedown.prevent="seleccionarSugerencia(sugerencia)">
+                                                {{ sugerencia }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- <input @keydown.enter.prevent="insertarDetalleTabla()"
                                         class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                        placeholder="Nombre del Producto" v-model="producto_nombre">
+                                        placeholder="Nombre del Producto" v-model="producto_nombre"
+                                        @input="buscarProductos"> -->
                                     <button @click="insertarDetalleTabla()"
                                         class="font-medium text-center text-white rounded ml-4 bg-indigo-600 h-[32px] w-[100px]">
                                         Agregar
                                     </button>
                                 </div>
+                                <!-- Lista de sugerencias de productos
+                                <ul v-if="sugerencias.length > 0" class="border border-gray-300 rounded mt-2 p-2">
+                                    <li v-for="sugerencia in sugerencias" :key="sugerencia.id"
+                                        @click="seleccionarSugerencia(sugerencia)">
+                                        {{ sugerencia }}
+                                    </li>
+                                </ul> -->
 
                                 <!-- Tabla de DetalleVenta -->
                                 <table class="table-fixed w-full shadow-lg">
@@ -89,9 +113,10 @@ import NavBar from '@/components/NavBar.vue'
                                             </td>
                                             <td class="text-center">{{ fila.producto_detalle.precio_producto }}</td>
                                             <td class="text-center">{{ fila.subtotal_detalle_venta =
-                                            fila.producto_detalle.precio_producto * fila.cantidad_prod_venta }}</td>
+                                            Number(fila.producto_detalle.precio_producto *
+                                                fila.cantidad_prod_venta).toFixed(2) }}</td>
                                             <td class="flex justify-end pr-4 py-2">
-                                                <button
+                                                <button @click="eliminarDetalleVenta(fila.id_venta)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
                                                     X
                                                 </button>
@@ -129,7 +154,7 @@ import NavBar from '@/components/NavBar.vue'
                                         </label>
                                         <input id="nombre_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            placeholder="Joaquin Perez" />
+                                            placeholder="Joaquin Perez" v-model="venta_info.nombre_cliente_venta" />
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +204,7 @@ import NavBar from '@/components/NavBar.vue'
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled v-model="descuentos_venta">
                                             </div>
                                         </td>
                                     </tr>
@@ -197,7 +222,7 @@ import NavBar from '@/components/NavBar.vue'
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled v-model="venta_info.total_iva">
                                             </div>
                                         </td>
                                     </tr>
@@ -211,7 +236,7 @@ import NavBar from '@/components/NavBar.vue'
                                             <div class="flex items-center">
                                                 <input
                                                     class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled v-model="venta_info.total_venta">
                                             </div>
                                         </td>
                                     </tr>
@@ -219,7 +244,7 @@ import NavBar from '@/components/NavBar.vue'
                             </table>
 
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button
+                                <button @click="registrarNuevaVenta()"
                                     class="bg-indigo-700 h-[40px] hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
                                 </button>
@@ -567,6 +592,7 @@ export default {
     },
     data() {
         return {
+            //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             activeTab: 0,
             // Objeto Producto
             producto_info: {
@@ -574,7 +600,7 @@ export default {
                 nombre_producto: '',
                 precio_producto: 0,
             },
-            // Listado de Detalles y objeto Detalle
+            // Listado de Detalles (para tabla) y objeto Detalle
             detalle_ventas_lista: [],
             detalle_venta: {
                 id_venta: 0,
@@ -584,7 +610,8 @@ export default {
             },
             //Objeto Venta
             venta_info: {
-                nombre_cliente_venta: '',
+                id_venta: 0,
+                nombre_cliente_venta: "",
                 fecha_venta: null,
                 total_venta: 0,
                 total_iva: 0,
@@ -596,12 +623,18 @@ export default {
             //Subtotal de la venta
             subtotal_venta: 0.00,
 
-            //Codigo de Lector
+            //Codigo de Lector de Barras (para buscar producto)
             codigo_barra_lector: '',
+
+            //Para la busqueda de productos por filtro de nombre
+            productos: [], // Lista de nombres de productos completa
+            sugerencias: [], // Sugerencias de productos a partir del input de busqueda
+            mostrarSugerencias: false, // Mostrar o no las sugerencias
         };
     },
     created() {
         this.actualizaFecha();
+        this.getListaNombresProductos();
     },
     watch: {
         //Buscar Producto por Nombre
@@ -613,153 +646,225 @@ export default {
         //     }
         // },
 
-        //Calcular Subtotal de la Venta con cada cambio en la tabla Detalle
+        //Calculos en cada cambio de detalle de venta
         detalle_ventas_lista: {
             handler() {
-                this.subtotal_venta = 0.00;
+                //Calcular subtotal
+                this.subtotal_venta = 0;
                 this.detalle_ventas_lista.forEach((detalle) => {
-                    this.subtotal_venta += detalle.subtotal_detalle_venta;
+                    this.subtotal_venta += Number(detalle.subtotal_detalle_venta);
                 });
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+
+                //Calcular total impuestos
+                this.venta_info.total_iva = 0;
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+
+                //Calcular total venta
+                this.venta_info.total_venta = 0;
+                this.venta_info.total_venta = Number(this.subtotal_venta * 1.13).toFixed(2);
             },
             deep: true,
         },
     },
     methods: {
-        handlePaste(event) {
-            // Obtener el texto pegado
-            navigator.clipboard.readText()
-                .then((pastedText) => {
-                    // Establecer el valor en la propiedad codigoBarras
-                    this.codigo_barra_lector = pastedText;
+        //Eliminar detalle de venta de la tabla
+        eliminarDetalleVenta(index) {
+            console.log("index: " + index);
+            if (this.detalle_ventas_lista.length === 1) {
+                // Si solo queda un detalle, restablecer los valores en lugar de eliminarlo
+                this.detalle_ventas_lista = []
+                this.contadorAutoincremental = 1;
+            } else {
+                this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
+                this.contadorAutoincremental = 1;
+                // Actualizar el contador de los detalles restantes
+                for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
+                    this.detalle_ventas_lista[i].id_venta = this.contadorAutoincremental++;
+                }
+            }
+        },
+            //Obtener lista de todos los nombres de productos en la bdd
+            getListaNombresProductos() {
+                return axios
+                    .get(api_url + '/productos/nombres/lista')
+                    .then((response) => {
+                        this.productos = response.data.nombres_productos;
+                        console.log("nombreees: " + response.data.nombres_productos);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            //Buscar el nombre del producto mas cercano al texto ingresado
+            buscarProductos() {
+                if (this.producto_nombre && this.mostrarSugerencias) {
+                    this.sugerencias = this.productos.filter((producto) => {
+                        return producto.toLowerCase().includes(this.producto_nombre.toLowerCase());
+                    });
+                } else {
+                    this.sugerencias = [];
+                }
+            },
+            //Seleccionar sugerencia de producto en buscador
+            seleccionarSugerencia(sugerencia) {
+                this.producto_nombre = sugerencia;
+                this.insertarDetalleTabla();
+                this.sugerencias = [];
+            },
+            //Manejar el evento pegar del lector de codigo de barras
+            handlePaste(event) {
+                // Obtener el texto pegado
+                navigator.clipboard.readText()
+                    .then((pastedText) => {
+                        // Establecer el valor en la propiedad codigoBarras
+                        this.codigo_barra_lector = pastedText;
 
-                    // Ejecutar el método agregarProducto()
-                    this.getProductoSegunCodigo();
-                })
-                .catch((error) => {
-                    console.log('Error al leer el portapapeles:', error);
-                });
-        },
-        //Buscar Producto por codigo
-        getProductoSegunCodigo() {
-            return axios
-                .get(api_url + '/productos/' + this.codigo_barra_lector)
-                .then((res) => {
-                    console.log(res.data.producto);
-                    this.producto_info.codigo_barra_producto = res.data.producto.codigo_barra_producto;
-                    this.producto_info.nombre_producto = res.data.producto.nombre_producto;
-                    this.producto_info.precio_producto = res.data.producto.precio_unitario;
-                    console.log(this.producto_info + "producto pegado");
-                    return this.addDetalleVenta();
-                })
-                .then (() => {
-                    console.log("Agregado a la tabla");
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        //Actualizar Fecha automaticamente
-        actualizaFecha() {
-            this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
-        },
-        //Registrar Nueva Venta
-        registrarNuevaVenta() {
-            axios.post(api_url + '/ventas/',
-                this.venta_info = {
-                    nombre_cliente_venta: '',
-                    fecha_venta: this.venta_info.fecha_venta,
-                    total_venta: this.subtotal_venta,
-                    total_iva: this.venta_info.total_iva,
-                }
-            ).then((res) => {
-                this.venta_info = res.datos;
-            });
-        },
-        //Anadir registro en tabla DETALLE
-        insertarDetalleTabla() {
-            this.getProductoSegunNombre()
-                .then(() => {
-                    return this.addDetalleVenta();
-                })
-                .then(() => {
-                    console.log("Todo bien todo correcto")
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
-        //Buscar Producto por Nombre
-        getProductoSegunNombre() {
-            return new Promise((resolve, reject) => {
-                // Verificar que el campo no esté vacío
-                if (!this.producto_nombre) {
-                    console.log('Campo vacío');
-                    reject('Campo vacío');
-                    return;
-                }
-                axios.get(api_url + '/productos/buscar/' + this.producto_nombre)
+                        // Ejecutar el método agregarProducto()
+                        this.getProductoSegunCodigo();
+                    })
+                    .catch((error) => {
+                        console.log('Error al leer el portapapeles:', error);
+                    });
+            },
+            //Buscar Producto por codigo
+            getProductoSegunCodigo() {
+                return axios
+                    .get(api_url + '/productos/' + this.codigo_barra_lector)
                     .then((res) => {
-                        this.producto_info.codigo_barra_producto = res.data.producto[0].codigo_barra_producto;
-                        this.producto_info.nombre_producto = res.data.producto[0].nombre_producto;
-                        this.producto_info.precio_producto = res.data.producto[0].precio_unitario;
-                        console.log(res.data.producto[0].codigo_barra_producto);
-                        this.producto_nombre = ''; // Limpiar el campo de búsqueda
-                        resolve(); // Resolver la promesa
+                        console.log(res.data.producto);
+                        this.producto_info.codigo_barra_producto = res.data.producto.codigo_barra_producto;
+                        this.producto_info.nombre_producto = res.data.producto.nombre_producto;
+                        this.producto_info.precio_producto = res.data.producto.precio_unitario;
+                        console.log(this.producto_info + "producto pegado");
+                        return this.addDetalleVenta();
+                    })
+                    .then(() => {
+                        console.log("Agregado a la tabla");
                     })
                     .catch((err) => {
-                        console.log(err.response.data.mensaje);
-                        reject(err.response.data.mensaje); // Rechazar la promesa con el mensaje de error
+                        console.log(err);
                     });
-            });
-        },
+            },
+            //Actualizar Fecha automaticamente
+            actualizaFecha() {
+                this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
+            },
+            //Registrar Nueva Venta
+            registrarNuevaVenta() {
+                axios.post(api_url + '/ventas/',
+                    this.venta_info = {
+                        nombre_cliente_venta: '',
+                        fecha_venta: this.venta_info.fecha_venta,
+                        total_venta: this.subtotal_venta,
+                        total_iva: this.venta_info.total_iva,
+                    }
+                ).then((res) => {
+                    this.venta_info = res.datos;
+                });
+            },
+            //Anadir registro en tabla DETALLE
+            insertarDetalleTabla() {
+                this.getProductoSegunNombre()
+                    .then(() => {
+                        return this.addDetalleVenta();
+                    })
+                    .then(() => {
+                        console.log("Todo bien todo correcto")
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            //Buscar Producto por Nombre
+            getProductoSegunNombre() {
+                return new Promise((resolve, reject) => {
+                    // Verificar que el campo no esté vacío
+                    if (!this.producto_nombre) {
+                        console.log('Campo vacío');
+                        reject('Campo vacío');
+                        return;
+                    }
+                    axios.get(api_url + '/productos/buscar/' + this.producto_nombre)
+                        .then((res) => {
+                            this.producto_info.codigo_barra_producto = res.data.producto[0].codigo_barra_producto;
+                            this.producto_info.nombre_producto = res.data.producto[0].nombre_producto;
+                            this.producto_info.precio_producto = res.data.producto[0].precio_unitario;
+                            console.log(res.data.producto[0].codigo_barra_producto);
+                            this.producto_nombre = ''; // Limpiar el campo de búsqueda
+                            resolve(); // Resolver la promesa
+                        })
+                        .catch((err) => {
+                            console.log(err.response.data.mensaje);
+                            reject(err.response.data.mensaje); // Rechazar la promesa con el mensaje de error
+                        });
+                });
+            },
 
-        //Metodos de Detalles
-        addDetalleVenta() {
-            return new Promise((resolve, reject) => {
-                const productoCopia = JSON.parse(JSON.stringify(this.producto_info));
-                const detalle = {
-                    id_venta: this.contadorAutoincremental, //Este valor es solo para usarlo en la tabla
-                    producto_detalle: productoCopia,
-                    cantidad_prod_venta: 1,
-                    subtotal_detalle_venta: this.producto_info.precio_producto,
-                };
-                this.detalle_ventas_lista.push(detalle);
-                this.contadorAutoincremental++; // Incrementar el valor del contador
-                resolve(); // Resolver la promesa
-            });
+            //Metodos de Detalles
+            addDetalleVenta() {
+                return new Promise((resolve, reject) => {
+                    //Habian problemas con el objeto, toca hacer una copia
+                    const productoCopia = JSON.parse(JSON.stringify(this.producto_info));
+                    const detalle = {
+                        id_venta: this.contadorAutoincremental, //Este valor es solo para usarlo en la tabla
+                        producto_detalle: productoCopia,
+                        cantidad_prod_venta: 1,
+                        subtotal_detalle_venta: this.producto_info.precio_producto,
+                    };
+                    this.detalle_ventas_lista.push(detalle);
+                    this.producto_nombre = ''; // Limpiar el campo de búsqueda
+                    this.contadorAutoincremental++; // Incrementar el valor del contador
+                    resolve(); // Resolver la promesa
+                });
+            },
+            //Subtotal de la venta RESUMEN
+            calcular_subtotalventa() {
+                this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                    0.00
+                );
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+            },
+            //Registrar Venta y obtener el id de la venta registrada
+            registrarNuevaVenta() {
+                var venta = {};
+                //Primero se registra la venta, luego se obtiene el id de la venta registrada
+                axios.post(api_url + '/ventas/',
+                    venta = {
+                        nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
+                        fecha_venta: this.venta_info.fecha_venta,
+                        total_venta: Number(this.venta_info.total_venta),
+                        total_iva: Number(this.venta_info.total_iva),
+                    }
+                ).then((res) => {
+                    console.log("el id de la venta es: " + res.data.datos);
+                    this.registrarDetalleVenta(res.data.datos);
+                });
+            },
+            //Registrar Detalle de la Venta
+            registrarDetalleVenta(id_venta_registrada) {
+                this.detalle_ventas_lista.forEach((detalle) => {
+                    axios.post(api_url + '/detalle_ventas/',
+                        detalle = {
+                            id_venta: id_venta_registrada,
+                            codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
+                            cantidad_producto: detalle.cantidad_prod_venta,
+                            subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
+                        }
+                    ).then((res) => {
+                        console.log("Detalle registrado");
+                        this.detalle_ventas_lista = [];
+                        this.contadorAutoincremental = 1;
+                    });
+                });
+            },
         },
-        calcular_subtotalventa() {
-            this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                (acc, obj) => acc + obj.subtotal_detalle_venta,
-                0.00
-            );
-        },
-
-        //Metodos de Ventas
-        addVenta() {
-            this.venta_info.total_venta = this.detalle_ventas_lista.reduce(
-                (acc, obj) => acc + obj.subtotal_detalle_venta,
-                0
-            );
-            this.venta_info.total_iva = this.detalle_ventas_lista.reduce(
-                (acc, obj) => acc + obj.subtotal_detalle_venta * 0.13,
-                0
-            );
-            axios.post('/api/ventas', this.venta_info).then((res) => {
-                this.venta_info = {
-                    nombre_cliente_venta: '',
-                    fecha_venta: '',
-                    total_venta: 0,
-                    total_iva: 0,
-                };
-                this.detalle_ventas_lista = [];
-            });
-        },
-    },
-};
+    };
 </script>
 
 <style scoped>
+/* Estilos para los TAB */
 .tab {
     position: relative;
     padding: 0.5rem 1rem;
@@ -795,5 +900,19 @@ export default {
 form {
     width: 100%;
     height: 100%;
+}
+
+
+/* Estilos para Sugerencias en el input de ingresar producto */
+.sugerencias-container {
+    position: relative;
+}
+
+.sugerencias-lista {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    background-color: #fff;
 }
 </style>
