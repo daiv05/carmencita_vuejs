@@ -69,6 +69,7 @@
   </template>
   <script>
   import axios from 'axios';
+  import api_url from '../../config.js';
 
   export default{
     props:{
@@ -83,14 +84,14 @@
     },
     methods:{
         desactivarEmpleado(){
-            alert('http://127.0.0.1:8000/api/empleado_activo/'+this.id);
-            axios.put('http://127.0.0.1:8000/api/empleado_activo/'+this.id).then(
+            //alert('http://127.0.0.1:8000/api/empleado_activo/'+this.id);
+            axios.put(api_url+'/empleado_activo/'+this.id).then(
                     response => (
                         this.error = response.data
                     )
                 );
            this.isOpen = false;
-           //document.location.reload();
+           document.location.reload();
         }
     }
   };

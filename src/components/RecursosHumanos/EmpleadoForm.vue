@@ -1,5 +1,6 @@
 <script setup>
 //import NavBar from '../../components/NavBar.vue'
+import api_url from '../../config.js' ;
 </script>
 
 <template>
@@ -175,44 +176,47 @@
     </div>
   
   <!--Usuario-->
-  <div class="container bg-white shadow m-auto w-4/5 my-4" v-if="createForm">
-
-    <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-8 lg:px-8">
-            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="container bg-white shadow m-auto w-4/5 my-4" >
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                 <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Datos del usuario</h2>
             </div>
-
-            <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <div>
-                    <label for="usuario" class="block text-sm font-medium leading-6 text-gray-900">Usuario</label>
-                    <div class="mt-2">
-                    <Field name="usuario" rules="required" v-model="empleado.email" id="usuario" type="text" placeholder="Ingresa nombre de usuario" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                    <ErrorMessage name="usuario" class="text-red-500 text-xs"/>
-                </div>
-                </div>
-
-                <div>
-                    <div class="flex items-center justify-between">
-                    <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+        <div class="w-full text-center flex justify-center" v-if="!createForm">
+            <a href="#" class=" m-2 bg-purple-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Editar usuario</a>
+        </div>
+        <div class="w-full" v-if="createForm">
+            <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-8 lg:px-8">
+                <div class="mt-auto sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div>
+                        <label for="usuario" class="block text-sm font-medium leading-6 text-gray-900">Usuario</label>
+                        <div class="mt-2">
+                        <Field name="usuario" rules="required" v-model="empleado.email" id="usuario" type="text" placeholder="Ingresa nombre de usuario" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                        <ErrorMessage name="usuario" class="text-red-500 text-xs"/>
                     </div>
-                    <div class="mt-2">
-                        <Field name="password" type="password" rules="required" v-model="empleado.password" id="password" placeholder="Ingresa una contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                        <ErrorMessage name="password" class="text-red-500 text-xs"/>
                     </div>
-                </div>
 
-                <div>
-                    <div class="flex items-center justify-between">
-                    <label for="password_confirm" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
+                    <div>
+                        <div class="flex items-center justify-between">
+                        <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
+                        </div>
+                        <div class="mt-2">
+                            <Field name="password" type="password" rules="required" v-model="empleado.password" id="password" placeholder="Ingresa una contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                            <ErrorMessage name="password" class="text-red-500 text-xs"/>
+                        </div>
                     </div>
-                    <div class="mt-2">
-                    <Field name="confirm_password" type="password" rules="required|confirmed:@password" id="confirm_password" placeholder="Confirma tu contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                    <ErrorMessage name="confirm_password" class="text-red-500 text-xs"/>
-                </div>
+
+                    <div>
+                        <div class="flex items-center justify-between">
+                        <label for="password_confirm" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
+                        </div>
+                        <div class="mt-2">
+                        <Field name="confirm_password" type="password" rules="required|confirmed:@password" id="confirm_password" placeholder="Confirma tu contraseña" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                        <ErrorMessage name="confirm_password" class="text-red-500 text-xs"/>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
-  </div>
+    </div>
   
   <!--submit button-->
   <div class="flex items-center justify-center">
@@ -322,7 +326,7 @@
         },
         methods:{
             getCargos(){
-                axios.get('http://127.0.0.1:8000/api/cargos').then(
+                axios.get(api_url+'/cargos').then(
                     response => (
                         this.cargos = response.data
                     )
@@ -330,28 +334,28 @@
             },
 
             getNacionalidades(){
-                axios.get('http://127.0.0.1:8000/api/nacionalidades').then(
+                axios.get(api_url+'/nacionalidades').then(
                     response => (
                         this.nacionalidades = response.data
                     )
                 );
             },
             getSexos(){
-                axios.get('http://127.0.0.1:8000/api/sexos').then(
+                axios.get(api_url+'/sexos').then(
                     response => (
                         this.sexos = response.data
                     )
                 );
             },
             getEstadoFamiliar(){
-                axios.get('http://127.0.0.1:8000/api/estado_familiar').then(
+                axios.get(api_url+'/estado_familiar').then(
                     response => (
                         this.estado_familiar = response.data
                     )
                 );
             },
             getEmpleado(){
-                    axios.get('http://127.0.0.1:8000/api/empleado/'+this.id).then(
+                    axios.get(api_url+'/empleado/'+this.id).then(
                     response => (
                         this.empleado.segundo_nombre = response.data['segundo_nombre'],
                         this.empleado.primer_apellido = response.data['primer_apellido'],
@@ -386,7 +390,7 @@
             saveEmpleado(values){
                 //event.preventDefault(); 
                 if(this.createForm!=null){
-                    alert("Funcion de agregar");
+                    //alert("Funcion de agregar");
                     
                     const params = {
                     segundo_nombre:this.empleado.segundo_nombre,
@@ -408,7 +412,7 @@
                 }
                 
                 //console.log(values,null,2);
-                axios.post('http://127.0.0.1:8000/api/empleado',params).then(
+                axios.post(api_url+'/empleado',params).then(
                     response=> (
                        // console.log(response.data),
                         //alert(response.data['message']),
@@ -419,7 +423,7 @@
                     )
                 )
                 }else{ 
-                    alert("Funcion de actualizar");
+                    //alert("Funcion de actualizar");
                     
                     const params = {
                     segundo_nombre:this.empleado.segundo_nombre,
@@ -439,7 +443,7 @@
                 }
                 
                 //console.log(values,null,2);
-                axios.put('http://127.0.0.1:8000/api/empleado_update/'+this.id,params).then(
+                axios.put(api_url+'/empleado_update/'+this.id,params).then(
                     response=> (
                        // console.log(response.data),
                         //alert(response.data['message']),
@@ -458,7 +462,7 @@
             clearForm(){
                 this.showMessageSuccess = false;
                 this.showMessageError = false;
-                alert("hola")
+                //alert("hola")
                 document.location.reload();
             }
         }
