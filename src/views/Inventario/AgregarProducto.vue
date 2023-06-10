@@ -262,7 +262,7 @@ export default {
                     console.log(response.data.mensaje);
                     this.mensajeExito = response.data.mensaje;
                     this.contorlAlerta();
-                    setTimeout(this.clearForm(),9000)
+                    this.clearForm();
                 }
             })
             .catch(
@@ -306,7 +306,7 @@ export default {
                 response=>{
                     this.mensajeExito = response.data.mensaje;
                     this.contorlAlerta();
-                    setTimeout(this.clearForm(),9000)
+                    this.clearForm();
                 }
             )
             .catch(
@@ -331,7 +331,9 @@ export default {
             },5000);
         },
         clearForm(){
-            document.location.reload();
+            setTimeout(()=>{
+                location.href = location.href;
+            },3000);
             /**
              * 
              *  controlModalPrecioExtra:false,
