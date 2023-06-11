@@ -1,6 +1,5 @@
 <template>
     <div class="">
-
       <div class="flex justify-center">
         <button @click="isOpen = true" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800" type="button" v-if="estado==0">
           Activar
@@ -52,15 +51,15 @@
                     <button @click="isOpen = false" class="px-6 py-2 text-red-800 border border-red-500 rounded">
                         Cancel
                     </button>
-                    <button class="px-6 py-2 ml-2 text-white bg-red-500 rounded" @click="desactivarEmpleado(id)">
+                    <button class="px-6 py-2 ml-2 text-white bg-red-500 rounded" @click="desactivarEmpleado()" type="button">
                         Desactivar
                     </button>
                 </div>
                 <div v-if="!estado">
                     <button @click="isOpen = false" class="px-6 py-2 text-blue-800 border border-blue-500 rounded">
                         Cancel
-                    </button>
-                    <button class="px-6 py-2 ml-2 text-white bg-blue-500 rounded" @click="desactivarEmpleado(id)">
+                    </button> 
+                    <button class="px-6 py-2 ml-2 text-white bg-blue-500 rounded" type="button" @click="desactivarEmpleado()">
                         Activar
                     </button>
                 </div>
@@ -83,18 +82,22 @@
       return {
         error:[],
         isOpen: false,
+        estatus: false,
       };
     },
     methods:{
         desactivarEmpleado(){
             //alert('http://127.0.0.1:8000/api/empleado_activo/'+this.id);
             axios.put(api_url+'/empleado_activo/'+this.id).then(
-                    response => (
-                        this.error = response.data
-                    )
+                    response => {
+                        this.error = response.data;
+                        this.estatus = response.data['status'];
+                        if(this.estatus){
+                          document.location.reload();
+                        }
+                    }
                 );
            this.isOpen = false;
-           document.location.reload();
         }
     }
   };

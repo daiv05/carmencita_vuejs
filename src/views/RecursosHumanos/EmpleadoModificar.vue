@@ -15,7 +15,6 @@ import modalDesactivar from '../../components/RecursosHumanos/EmpleadoDesactivar
             <h2 class="font-bold text-lg">Editar empleado</h2>
         </div>
         <empleadoForm ref="empleado"></empleadoForm>
-        <modalDesactivar :id="id" :estado="esta_activo"></modalDesactivar>
     </div>
 </template>
 
