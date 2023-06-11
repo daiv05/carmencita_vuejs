@@ -1,10 +1,13 @@
 <template>
-    <div class="container mx-auto">
+    <div class="">
+
       <div class="flex justify-center">
-        <button @click="isOpen = true" class="px-6 py-2 text-white bg-blue-600 rounded shadow" type="button">
-          Open Model
+        <button @click="isOpen = true" class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800" type="button" v-if="estado==0">
+          Activar
         </button>
-  
+        <button @click="isOpen = true" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-800" type="button" v-if="estado==1">
+          Desactivar
+        </button>
         <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
           <div class="max-w-2xl p-6 bg-white rounded-md shadow-xl">
             <div class="flex justify-end">
