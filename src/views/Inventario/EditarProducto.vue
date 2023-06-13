@@ -1,4 +1,6 @@
 <script setup>
+import ModalPrecioExtra from '../../components/Inventario/ModalPrecioExtra.vue'
+import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPrecioExtra.vue'
 
 </script>
 <template>
@@ -120,19 +122,21 @@
                     </thead>
                     <tbody>
                     
-                        <tr class="border-b-2" v-for="precioExtra in listaPrecios" :key="precioExtra.id">
+                        <tr class="border-b-2" v-for="precioExtra in listaPrecios" :key="precioExtra.id_precio_unidad_de_medida">
                             <td class="p-3">{{ precioExtra.nombreUnidadDeMedida }}</td>
                             <td> {{precioExtra.cantidad }} </td>
                             <td>{{ precioExtra.precio }}</td>
-                            <td class="flex justify-center items-center p-3">
-                                <button class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer">Editar</button>
+                            <td class="text-center p-3">
+                                <button type = "button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                                @click="editarPrecioExtra(precioExtra)">Editar</button>
                             </td>
-                            <td class="flex justify-center items-center p-3">
-                                <p> 
-                                    <button type="button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
-                                </p>
+                            <td class="text-center p-3">
+                                <div class="mt-[6%]">
+                                    <button type = "button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
+                                </div>
                             </td>
                         </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -148,6 +152,11 @@
     </div>
         <Teleport to = "body">
             <ModalPrecioExtra v-if="controlModalPrecioExtra" @controlEventoModal="controlEventoModal"></ModalPrecioExtra>
+        </Teleport>
+        <Teleport to="body">
+            <ModalEditarPrecioExtra v-if="controlModalEditarPrecioExtra" @controlEventoModalEditarPrecioExtra="controlEventoModalEditarPrecioExtra" :precioExtraParametro="this.precioExtraParametro">
+
+            </ModalEditarPrecioExtra>
         </Teleport>
     </main>
 </template>
@@ -168,6 +177,9 @@ export default {
             activarAlertaError:false,
             activarAlerta:false,
             listaPrecios: [],
+            controlModalPrecioExtra:false,
+            controlModalEditarPrecioExtra:false,
+            precioExtraParametro:{},
             producto : {
                 nombreProducto : null,
                 codigoBarraProducto : null,
@@ -218,19 +230,18 @@ export default {
             }
         },
         cargarProducto(){
-            let url = "http://127.0.0.1:8000/api/productos/"+this.idProducto;
+            let url = "http://127.0.0.1:8000/api/productos/precios/"+this.idProducto;
             axios.get(url).
             then(
                 (response)=>{
-                    let tempProducto = response.data.producto;
+                    let tempProducto = response.data.producto[0];
                     this.producto.cantidadProductoDisponible = tempProducto.cantidad_producto_disponible;
                     this.producto.codigoBarraProducto = tempProducto.codigo_barra_producto;
                     this.producto.nombreProducto = tempProducto.nombre_producto;
                     this.producto.precioUnitarioProducto = tempProducto.precio_unitario;
-                    
                     this.asignarEstadoProducto(tempProducto.esta_disponible);
                     this.cargarFoto(tempProducto.foto);
-                    console.log(response.data.producto);
+                    this.cargarPreciosExtra(this.idProducto);
                 }
             )
             .catch(
@@ -243,6 +254,45 @@ export default {
                 }
             );
         },
+        cargarPreciosExtra(codigoBarraProducto){
+            axios.get("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.producto.codigoBarraProducto)
+            .then(
+                response=>{
+                    let tempListaPreciosExtra = response.data.lista_precios_extra;
+                    console.log(tempListaPreciosExtra);
+                    for(let i = 0; i < tempListaPreciosExtra.length; i++){
+                        let tempPrecioExtra = {
+                            id_precio_unidad_de_medida:"",
+                            nombreUnidadDeMedida:"",
+                            cantidad:"",
+                            precio:"",
+                            idUnidadMedida:"",
+                        };
+                        tempPrecioExtra.id_precio_unidad_de_medida = tempListaPreciosExtra[i].id_precio_unidad_de_medida;
+                        tempPrecioExtra.nombreUnidadDeMedida = tempListaPreciosExtra[i].unidad_de_medida.nombre_unidad_de_medida;
+                        tempPrecioExtra.cantidad = tempListaPreciosExtra[i].cantidad_producto;
+                        tempPrecioExtra.precio = tempListaPreciosExtra[i].precio_unidad_medida_producto;
+                        tempPrecioExtra.idUnidadMedida = tempListaPreciosExtra[i].id_unidad_de_medida;
+                        this.listaPrecios.push(tempPrecioExtra);
+                    }
+                }
+            )
+            .catch(
+                response=>{
+
+                }
+            );
+        },
+        controlEventoModalEditarPrecioExtra(){
+            this.controlModalEditarPrecioExtra = false;
+        },
+        editarPrecioExtra(precioExtra){
+            this.precioExtraParametro = precioExtra;
+            this.controlModalEditarPrecioExtra = true;
+        },
+        controlEventoModal(){
+            this.controlModalPrecioExtra = false;
+        },  
         guardarCambiosProductos(event){
             event.preventDefault;
             console.log("Se va a guardar los cambios del producto");
