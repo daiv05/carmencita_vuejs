@@ -17,79 +17,95 @@ import NavBar from "../../components/NavBar.vue";
 
             <div class="text-xl mb-6 text-left">Listado de Productos</div>
 
-            <!-- Apartado para Filtro  -->
-            <div class="">
-                <div class="flex">
-                    <div class="w-1/4 pr-4">
-                        <div class="mb-4">
-                            <h2 class="text-xl font-bold mb-2">Filtros</h2>
-                            <label class="flex items-center">
-                                <input type="radio" v-model="filtro" value="activos" class="mr-2">
-                                <span class="text-gray-700">Activos</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" v-model="filtro" value="inactivos" class="mr-2">
-                                <span class="text-gray-700">Inactivos</span>
-                            </label>
-                        </div>
-                        <button @click="aplicarFiltro" class="bg-blue-500 text-white px-4 py-2 rounded-md">Aplicar Filtro</button>
-                    </div>
-                </div>
-            </div>
-
             <!-- component -->
             <div class="text-end">
                 <button @click="agregarProducto" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 ">
                     Agregar Producto
                 </button>
             </div>
-        </section>
 
-        <section class="bg-gray-100">
-            
+            <div class="grid grid-cols-1 sm:grid-cols-6">
 
-            <section class="container mx-auto p-6 z-900">
-                
-                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-                    <div class="w-full overflow-x-auto">
-                        
-                        <table class="w-full">
-                            
-                            <thead>
-                                <tr
-                                    class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase text-center">
-                                    <th class="px-4 py-3">Producto</th>
-                                    <th class="px-4 py-3">Código de Barras</th>
-                                    <th class="px-4 py-3">Precio Unitario</th>
-                                    <th class="px-4 py-3">Cantidad Disponible</th>
-                                    <th class="px-4 py-3">Stock</th>
-                                    <th class="px-4 py-3">Acciones</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="bg-white">
-                                <tr class=" text-gray-700" v-for="producto in listaProductos" v-bind:key="producto.codigo_barra_producto">
-                                    <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100" @click="mostrarProducto(producto.id_producto)">
-                                        <div class="">
-                                            <p class="font-semibold text-black">{{ producto.nombre_producto }}</p>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.codigo_barra_producto }}</td>
-                                    <td class="px-4 py-3 text-ms font-semibold text-center">${{ producto.precio_unitario }}</td>
-                                    <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.cantidad_producto_disponible }}</td>
-                                    <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.esta_disponible }}</td>
-                                    <td class="px-4 py-3 text-xs text-center">
-                                        <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarProducto(producto.id_producto)">Editar</button>
-                                        <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10" @click="eliminarProducto(producto.id_producto)">Eliminar</button>
-                                    </td>
-                                </tr>                                
-                            </tbody>
-                        </table>
-
+                <!-- Apartado para Filtro  -->
+                <div class="sm:col-span-1">
+                    <div class="flex">
+                        <div class="w-1/4 pr-4">
+                            <div class="mb-4">
+                                <h2 class="text-xl font-bold mb-2">Filtros</h2>
+                                <label class="flex items-center">
+                                    <input type="radio" v-model="filtro" value="activos" class="mr-2">
+                                    <span class="text-gray-700">Activos</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" v-model="filtro" value="inactivos" class="mr-2">
+                                    <span class="text-gray-700">Inactivos</span>
+                                </label>
+                            </div>
+                            <button @click="aplicarFiltro" class="bg-blue-500 text-white px-4 py-2 rounded-md">Aplicar Filtro</button>
+                        </div>
                     </div>
                 </div>
+
+                
+
+                <section class="grid-cols-1 sm:col-span-5">           
+                <section class="container mx-auto p-6 z-900">
+                    
+                    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+                        <div class="w-full overflow-x-auto">
+                            
+                            <table class="w-full">
+                                
+                                <thead>
+                                    <tr
+                                        class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase text-center">
+                                        <th class="px-4 py-3">Producto</th>
+                                        <th class="px-4 py-3">Código de Barras</th>
+                                        <th class="px-4 py-3">Precio Unitario</th>
+                                        <th class="px-4 py-3">Cantidad Disponible</th>
+                                        <th class="px-4 py-3">Stock</th>
+                                        <th class="px-4 py-3">Acciones</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="bg-white">
+                                    <tr class=" text-gray-700" v-for="producto in listaProductos" v-bind:key="producto.codigo_barra_producto">
+                                        <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100" @click="mostrarProducto(producto.codigo_barra_producto)">
+                                            <div class="">
+                                                <p class="font-semibold text-black">{{ producto.nombre_producto }}</p>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.codigo_barra_producto }}</td>
+                                        <td class="px-4 py-3 text-ms font-semibold text-center">${{ producto.precio_unitario }}</td>
+                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.cantidad_producto_disponible }}</td>
+                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.esta_disponible }}</td>
+                                        <td class="px-4 py-3 text-xs text-center">
+                                            <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarProducto(producto.codigo_barra_producto)">Editar</button>
+                                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10" @click="eliminarProducto(producto.codigo_barra_producto)">Eliminar</button>
+                                        </td>
+                                    </tr>                                
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </section>
+
             </section>
+
+            </div>
+
+            
+
+            
+
+
+            
+
+
         </section>
+
+        
 
     </main>
 </template>
