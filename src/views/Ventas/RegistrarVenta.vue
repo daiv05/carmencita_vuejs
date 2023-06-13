@@ -223,7 +223,7 @@ import NavBar from '@/components/NavBar.vue'
                             </table>
 
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button @click="registrarNuevaVenta()"
+                                <button @click="register_new_venta()"
                                     class="bg-indigo-700 h-[40px] hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
                                 </button>
@@ -593,7 +593,7 @@ import NavBar from '@/components/NavBar.vue'
                             </table>
 
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button @click="registrarNuevaVenta()"
+                                <button @click="register_new_venta()"
                                     class="bg-emerald-600 h-[40px] hover:bg-emerald-800 text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
                                 </button>
@@ -921,7 +921,7 @@ export default {
             this.credito_fiscal_info.fecha_credito_fiscal = moment().format('yyyy-MM-DD');
         },
         //Registrar Nueva Venta
-        registrarNuevaVenta() {
+        register_new_venta() {
             if (this.activeTab == 0) {
                 axios.post(api_url + '/ventas/',
                     this.venta_info = {
@@ -1069,7 +1069,7 @@ export default {
             });
         },
         //Registrar Venta y obtener el id de la venta registrada
-        registrarNuevaVenta() {
+        register_new_venta() {
             var venta = {};
             var credito = {};
             if (this.detalle_ventas_lista.length == 0) {
@@ -1086,9 +1086,24 @@ export default {
                     }
                 ).then((res) => {
                     console.log("el id de la venta es: " + res.data.datos);
-                    this.registrarDetalleVenta(res.data.datos);
-                }).catch((err) => {
+                    return this.registrarDetalleVenta(res.data.datos);
+                }).then((resp) => {
+                    this.watch_toast('success', 'Venta registrada correctamente');
+                    this.detalle_ventas_lista = [];
+                    this.cliente_info = {
+                        id_cliente: 0,
+                        nombre_cliente: "",
+                        nit_cliente: "",
+                        nrc_cliente: "",
+                        dui_cliente: "",
+                        direccion_cliente: "",
+                        municipio_cliente: 0,
+                        identificador_cliente: ""
+                    },
+                        this.contadorAutoincremental = 1;
+                }).catch((error) => {
                     this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
+                    throw error;
                 });
             } else if (this.activeTab == 1) {
                 if (this.cliente_info.id_cliente == 0) {
@@ -1104,79 +1119,80 @@ export default {
                     }
                 ).then((res) => {
                     console.log("el id del credito es: " + res.data.datos);
-                    this.registrarDetalleVenta(res.data.datos);
-                }).catch((err) => {
+                    return this.registrarDetalleVenta(res.data.datos);
+                }).then(() => {
+                    this.watch_toast('success', 'Credito registrado correctamente');
+                    this.detalle_ventas_lista = [];
+                    this.cliente_info = {
+                        id_cliente: 0,
+                        nombre_cliente: "",
+                        nit_cliente: "",
+                        nrc_cliente: "",
+                        dui_cliente: "",
+                        direccion_cliente: "",
+                        municipio_cliente: 0,
+                        identificador_cliente: ""
+                    },
+                        this.contadorAutoincremental = 1;
+                }).catch((error) => {
                     this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
+                    throw error;
                 })
             }
         },
         //Registrar Detalle de la Venta
         registrarDetalleVenta(id_venta_registrada) {
-            if (id_venta_registrada == undefined) {
-                this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
-                return;
-            }
-            this.detalle_ventas_lista.forEach((detalle) => {
+            return new Promise((resolve, reject) => {
+                if (id_venta_registrada == undefined) {
+                    this.watch_toast('error', 'Venta no registrada');
+                    reject();
+                }
+
                 if (this.activeTab == 0) {
-                    axios.post(api_url + '/detalle_ventas/',
-                        detalle = {
+                    const promises = this.detalle_ventas_lista.map((detalle) => {
+                        return axios.post(api_url + '/detalle_ventas/', {
                             id_venta: id_venta_registrada,
                             codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                             cantidad_producto: detalle.cantidad_prod_venta,
                             subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
-                        }
-                    ).then((res) => {
-                        console.log("Detalle Venta registrado");
-                        this.detalle_ventas_lista = [];
-                        this.cliente_info = {
-                            id_cliente: 0,
-                            nombre_cliente: "",
-                            nit_cliente: "",
-                            nrc_cliente: "",
-                            dui_cliente: "",
-                            direccion_cliente: "",
-                            municipio_cliente: 0,
-                            identificador_cliente: ""
-                        },
-                        this.contadorAutoincremental = 1;
-                        this.watch_toast('success', 'Venta registrada correctamente');
-                    }).catch((err) => {
-                        console.log(err.response.data);
-                        this.delete_venta_or_credito(id_venta_registrada);
-                        this.watch_toast('error', err.response.data.mensaje);
-                    })
+                        });
+                    });
+
+                    Promise.all(promises)
+                        .then(() => {
+                            console.log("Detalles de venta registrados");
+                            resolve();
+                        })
+                        .catch((err) => {
+                            console.log("aaaaaaaaaaaaaa");
+                            this.delete_venta_or_credito(id_venta_registrada);
+                            this.watch_toast('error', err.response.data.mensaje);
+                            reject(err);
+                        });
                 } else if (this.activeTab == 1) {
-                    axios.post(api_url + '/detalle_creditos/',
-                        detalle = {
+                    const promises = this.detalle_ventas_lista.map((detalle) => {
+                        return axios.post(api_url + '/detalle_creditos/', {
                             id_creditofiscal: id_venta_registrada,
                             codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                             cantidad_producto_credito: detalle.cantidad_prod_venta,
                             subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
-                        }
-                    ).then((res) => {
-                        console.log("Detalle Credito registrado");
-                        this.detalle_ventas_lista = [];
-                        this.cliente_info = {
-                            id_cliente: 0,
-                            nombre_cliente: "",
-                            nit_cliente: "",
-                            nrc_cliente: "",
-                            dui_cliente: "",
-                            direccion_cliente: "",
-                            municipio_cliente: 0,
-                            identificador_cliente: ""
-                        },
-                        this.contadorAutoincremental = 1;
-                        this.watch_toast('success', 'Crédito registrado correctamente');
-                    }).catch((err) => {
-                        this.delete_venta_or_credito(id_venta_registrada);
-                        this.watch_toast('error', 'Ocurrió un error al registrar el Crédito');
-                    })
+                        });
+                    });
 
+                    Promise.all(promises)
+                        .then(() => {
+                            console.log("Detalles de crédito registrados");
+                            resolve();
+                        })
+                        .catch((err) => {
+                            this.delete_venta_or_credito(id_venta_registrada);
+                            this.watch_toast('error', err.response.data.mensaje);
+                            reject(err);
+                        });
                 }
-
             });
         },
+
         //Eliminar Venta o Credito en caso de problema al registrar el detalle
         delete_venta_or_credito(id_venta) {
             if (this.activeTab == 0) {
