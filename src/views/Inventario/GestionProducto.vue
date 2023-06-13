@@ -1,5 +1,9 @@
 <script setup>
 import NavBar from "../../components/NavBar.vue";
+import DesactivarProducto from "../../components/Inventario/ProductoDesactivar.vue";
+
+const agregar_producto = "/agregar_producto";
+
 </script>
 
 <template>
@@ -15,13 +19,13 @@ import NavBar from "../../components/NavBar.vue";
 
         <section class="container mx-auto p-6 z-900">
 
-            <div class="text-xl mb-6 text-left">Listado de Productos</div>
+            <div class="text-xl mb-6 text-left ml-4">Listado de Productos</div>
 
             <!-- component -->
             <div class="text-end">
-                <button @click="agregarProducto" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 ">
+                <a :href="agregar_producto" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 ">
                     Agregar Producto
-                </button>
+                </a>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-6">
@@ -63,7 +67,6 @@ import NavBar from "../../components/NavBar.vue";
                                         <th class="px-4 py-3">Código de Barras</th>
                                         <th class="px-4 py-3">Precio Unitario</th>
                                         <th class="px-4 py-3">Cantidad Disponible</th>
-                                        <th class="px-4 py-3">Stock</th>
                                         <th class="px-4 py-3">Acciones</th>
                                     </tr>
                                 </thead>
@@ -77,11 +80,10 @@ import NavBar from "../../components/NavBar.vue";
                                         </td>
                                         <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.codigo_barra_producto }}</td>
                                         <td class="px-4 py-3 text-ms font-semibold text-center">${{ producto.precio_unitario }}</td>
-                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.cantidad_producto_disponible }}</td>
-                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.esta_disponible }}</td>
+                                        <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.cantidad_producto_disponible }}</td>                                        
                                         <td class="px-4 py-3 text-xs text-center">
                                             <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarProducto(producto.codigo_barra_producto)">Editar</button>
-                                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10" @click="eliminarProducto(producto.codigo_barra_producto)">Eliminar</button>
+                                            <DesactivarProducto :estado="producto.esta_disponible" :id="producto.codigo_barra_producto" />
                                         </td>
                                     </tr>                                
                                 </tbody>
@@ -91,16 +93,9 @@ import NavBar from "../../components/NavBar.vue";
                     </div>
                 </section>
 
-            </section>
+                </section>
 
             </div>
-
-            
-
-            
-
-
-            
 
 
         </section>
@@ -148,9 +143,9 @@ export default {
                 this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 0);
             }
         },
+
         agregarProducto() {
-            // Redireccionar al componente de agregar producto
-            this.$router.push({ name: "agregarProducto" });
+            this.$router.push({ name: "AgregarProducto" });
         },
         modificarProducto(id_producto) {
             this.$router.push({ name: "modificarProducto", params: { id_producto: id_producto } });
