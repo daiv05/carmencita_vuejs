@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
+import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue'
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
 import GestionProducto from '../views/Inventario/GestionProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
+import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,6 +24,16 @@ const router = createRouter({
       path: '/empleado_agregar',
       name: 'empleado_agregar',
       component: EmpleadoAgregar
+    },
+    {
+      path: '/empleado_modificar/:id',
+      name: 'empleado_modificar',
+      component: EmpleadoModificar
+    },
+    {
+      path: '/listar_empleados',
+      name: 'listar_empleados',
+      component: ListarEmpleados
     },
     {
       path: "/gestion_cargos",
