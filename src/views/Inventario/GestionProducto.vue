@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar.vue";
 </script>
 
 <template>
+    
     <main>
         <!--  NavBar component  -->
         <NavBar />
@@ -12,13 +13,9 @@ import NavBar from "../../components/NavBar.vue";
             <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Productos</h1>
         </div>
 
-        <section class="bg-gray-100">
-            <!-- component -->
-            <div class="text-end">
-                <button @click="agregarProducto" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 ">
-                    Agregar Producto
-                </button>
-            </div>
+        <section class="container mx-auto p-6 z-900">
+
+            <div class="text-xl mb-6 text-left">Listado de Productos</div>
 
             <!-- Apartado para Filtro  -->
             <div class="">
@@ -39,6 +36,17 @@ import NavBar from "../../components/NavBar.vue";
                     </div>
                 </div>
             </div>
+
+            <!-- component -->
+            <div class="text-end">
+                <button @click="agregarProducto" class="bg-indigo-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-20 mt-2 ">
+                    Agregar Producto
+                </button>
+            </div>
+        </section>
+
+        <section class="bg-gray-100">
+            
 
             <section class="container mx-auto p-6 z-900">
                 
@@ -83,60 +91,59 @@ import NavBar from "../../components/NavBar.vue";
             </section>
         </section>
 
-        
-
     </main>
 </template>
 
 <script>
 
 import axios from 'axios';
-import {ref} from 'vue';
+//import {ref} from 'vue';
 
-export default{
-
-    data(){
-        return{
+export default {
+    data() {
+        return {
             listaProductos: [],
-            filtro: 'activos',
+            filtro: "activos",
             listaProductosFiltrados: [],
             productoSeleccionado: {},
             exitoTransaccion: false,
-            mensajeTransaccion: '',
-        }
+            mensajeTransaccion: "",
+        };
     },
-    mounted(){
+    mounted() {
         this.obtenerProductos();
     },
-    methods:{
-        obtenerProductos(){
-            axios.get('http://127.0.0.1:8000/api/productos')
-            .then(response => {
+    methods: {
+        obtenerProductos() {
+            axios.get("http://127.0.0.1:8000/api/productos")
+                .then(response => {
                 this.listaProductos = response.data;
                 this.listaProductosFiltrados = response.data;
             })
-            .catch(error => {
+                .catch(error => {
                 console.log(error);
-            })
+            });
         },
-        aplicarFiltro(){
-            if(this.filtro == 'activos'){
+        aplicarFiltro() {
+            if (this.filtro == "activos") {
                 this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 1);
-            }else if(this.filtro == 'inactivos'){
+            }
+            else if (this.filtro == "inactivos") {
                 this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 0);
             }
         },
-        agregarProducto(){
-            this.$router.push({name: 'agregarProducto'});
+        agregarProducto() {
+            // Redireccionar al componente de agregar producto
+            this.$router.push({ name: "agregarProducto" });
         },
-        modificarProducto(id_producto){
-            this.$router.push({name: 'modificarProducto', params: {id_producto: id_producto}});
+        modificarProducto(id_producto) {
+            this.$router.push({ name: "modificarProducto", params: { id_producto: id_producto } });
         },
-        eliminarProducto(id_producto){
-            this.$router.push({name: 'eliminarProducto', params: {id_producto: id_producto}});
+        eliminarProducto(id_producto) {
+            this.$router.push({ name: "eliminarProducto", params: { id_producto: id_producto } });
         },
-        mostrarProducto(id_producto){
-            this.$router.push({name: 'mostrarProducto', params: {id_producto: id_producto}});
+        mostrarProducto(id_producto) {
+            this.$router.push({ name: "mostrarProducto", params: { id_producto: id_producto } });
         },
     }
 
