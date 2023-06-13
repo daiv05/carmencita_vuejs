@@ -688,6 +688,7 @@ export default {
             //Codigo de Lector de Barras (para buscar producto)
             codigo_barra_lector: '',
             producto_codigo: '', //Para la busqueda de productos por filtro de codigo
+            timer: null, //Para el timer del lector de barras
 
             //Para la busqueda de productos por filtro de nombre
             productos: [], // Lista de nombres de productos completa
@@ -748,12 +749,19 @@ export default {
             }
         },
         buscarCodigo() {
-            const codigoBarras = this.producto_codigo;
-            if (codigoBarras.length > 11 && codigoBarras.length <= 13) {
-                console.log("codigo barras: " + codigoBarras);
+            var codigoBarras = this.producto_codigo;
+            console.log("codigo barras: " + codigoBarras);
+
+            // Reiniciar el temporizador si existe uno en ejecución
+            if (this.timer) {
+                clearTimeout(this.timer);
+            }
+
+            // Establecer un nuevo temporizador para ejecutar la búsqueda después de un cierto tiempo (por ejemplo, 500 ms)
+            this.timer = setTimeout(() => {
                 this.codigo_barra_lector = codigoBarras;
                 this.getProductoSegunCodigo();
-            }
+            }, 500);
         },
         //Eliminar detalle de venta de la tabla
         eliminarDetalleVenta(index) {
