@@ -4,6 +4,8 @@ import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
+import SalesList from '../views/Ventas/SalesList.vue'
+import DetailSales from '../views/Ventas/DetailSales.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,6 +33,16 @@ const router = createRouter({
     path : "/agregar_producto",
     name: "agregar_producto",
     component : AgregarProducto
+   },
+   {
+    path : "/sales_list",
+    name: "Lista de ventas",
+    component : SalesList
+   },
+   {
+    path : "/detail_sales",
+    name: "Detalle de venta",
+    component : DetailSales
    },
     {
       path: '/about',
