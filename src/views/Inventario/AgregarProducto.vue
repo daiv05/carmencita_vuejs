@@ -311,7 +311,6 @@ export default {
             .catch(
                 response=>{
                     console.log(response);
-                    console.log("hola desde el error");
                     this.mensajeExito = response.response.data.mensaje[0];
                     this.controlAlertaError();
                 }

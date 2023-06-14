@@ -71,8 +71,12 @@ export default {
     }
   },
   mounted(){
-    this.precioExtra = this.precioExtraParametro;
     this.obtenerUnidadesDeMedida();
+    this.precioExtra.nombreUnidadDeMedida = this.precioExtraParametro.nombreUnidadDeMedida;
+    this.precioExtra.idUnidadMedida = this.precioExtraParametro.idUnidadMedida;
+    this.precioExtra.precio = this.precioExtraParametro.precio;
+    this.precioExtra.cantidad = this.precioExtraParametro.cantidad;
+    this.precioExtra.id_precio_unidad_de_medida = this.precioExtraParametro.id_precio_unidad_de_medida;
   },
   methods:{
     cerrarModal(){
@@ -81,7 +85,7 @@ export default {
     guardarPrecioExtra(){
       if(this.validarUnidadDeMedida()){
         this.ponerNombreAUnidadDeMedida();
-        this.$emit("controlEventoModal",this.precioExtra);
+        this.$emit("controlEventoModalEditarPrecioExtra",this.precioExtra);
       }
     },
     ponerNombreAUnidadDeMedida(){

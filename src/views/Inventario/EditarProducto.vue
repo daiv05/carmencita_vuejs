@@ -132,7 +132,9 @@ import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPreci
                             </td>
                             <td class="text-center p-3">
                                 <div class="mt-[6%]">
-                                    <button type = "button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
+                                    <button type = "button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold"
+                                     @click="eliminarPrecioExtra(precioExtra)">X
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -199,6 +201,16 @@ export default {
         this.cargarProducto();
     },
     methods:{
+        eliminarPrecioExtra(precioExtra){
+            let n = 0;
+            for(let precioExtraItem of this.listaPrecios){
+                if(precioExtra === precioExtraItem){
+                        this.listaPrecios.splice(n,1);
+                        break;
+                    }
+                    n++
+            }
+        },
         asignarEstadoProducto(estadoProductoServidor){
             console.log("");
             if(estadoProductoServidor === 1){
@@ -279,18 +291,31 @@ export default {
             )
             .catch(
                 response=>{
-
+                    console.log(response);
                 }
             );
         },
-        controlEventoModalEditarPrecioExtra(){
+        controlEventoModalEditarPrecioExtra(precioExtra){
+            if(precioExtra != null){
+                let n = 0;
+               for(let itemPrecioExtra of this.listaPrecios){
+                   if(itemPrecioExtra.id_precio_unidad_de_medida == precioExtra.id_precio_unidad_de_medida){
+                        this.listaPrecios[n] = precioExtra;
+                        break;     
+                    }
+                    n++;
+                }
+            }
             this.controlModalEditarPrecioExtra = false;
         },
         editarPrecioExtra(precioExtra){
             this.precioExtraParametro = precioExtra;
             this.controlModalEditarPrecioExtra = true;
         },
-        controlEventoModal(){
+        controlEventoModal(precioExtra){
+            if(precioExtra){
+                this.listaPrecios.push(precioExtra);
+            }
             this.controlModalPrecioExtra = false;
         },  
         guardarCambiosProductos(event){
@@ -308,6 +333,66 @@ export default {
         },
         validarPrecioUnitario(){
             return true;
+        },
+        guradarCambiosProducto(){
+            let configuracionPut = "?_method=PUT";
+            let bodyData = this.crearFormDataPutProducto();
+            console.log(bodyData);
+            axios.post("http://127.0.0.1:8000/api/productos/"+this.idProducto+configuracionPut,bodyData)
+            .then(
+                response=>{
+                    this.mensajeExito = response.data.mensaje;
+                    this.guardarCambiosListaPrecios();
+                }
+            )
+            .catch(
+                response=>{
+                    console.log(
+                        response.response.data
+                    );
+                }
+            );
+        },
+        guardarCambiosListaPrecios(){
+            let configuracionUrlPut = "?_method=PUT";
+            let dataBody = {
+                "lista_precios_unidades": this.listaPrecios,
+                "codigo_barra_actualizado":this.producto.codigoBarraProducto.toString(),
+            };
+            console.log(dataBody);
+            axios.post("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.idProducto+configuracionUrlPut,dataBody)
+            .then(
+                response=>{
+                    this.mensajeExito = response.data.mensaje;
+                    this.contorlAlerta();
+                    this.clearForm();
+                }
+            )
+            .catch(
+                response=>{
+                    console.log(response);
+                    this.mensajeExito = response.response.data.mensaje[0];
+                    this.controlAlertaError();
+                }
+            );
+        },
+        crearFormDataPutProducto(){
+            let bodyFormData = new FormData();
+            bodyFormData.append("codigo_barra_producto",this.producto.codigoBarraProducto);
+            bodyFormData.append("nombre_producto",this.producto.nombreProducto);
+            bodyFormData.append("cantidad_producto_disponible",this.producto.cantidadProductoDisponible);
+            bodyFormData.append("precio_unitario",this.producto.precioUnitarioProducto);
+            if(this.producto.estaActivoProducto){
+                bodyFormData.append("esta_disponible",1);
+            }
+            else{
+                bodyFormData.append("esta_disponible",0);
+            }
+            if(this.producto.fotoProducto!= null){
+                bodyFormData.append("foto",this.producto.fotoProducto);
+            }
+
+            return bodyFormData;
         },
         cargarImagen(e){
             /*Retorna un tipo de dato blob el e.target.files[0]*/
@@ -338,6 +423,12 @@ export default {
                 this.activarAlertaError = false;
             },5000);
         },
+        clearForm(){
+            setTimeout(()=>{
+                location.href = "http://127.0.0.1:5173/editar_producto/"+this.producto.codigoBarraProducto.toString();
+            },3000);
+            URL.revokeObjectURL(this.urlFotoProducto);
+            }
     }
 }
 </script>
