@@ -7,6 +7,8 @@ import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
 import GestionProducto from '../views/Inventario/GestionProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
 import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue'
+import EditarProducto from '../views/Inventario/EditarProducto.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -40,6 +42,11 @@ const router = createRouter({
       name : "gestion_cargos",
       component : GestionCargo
     },
+    {
+      path: "/editar_producto/:id_producto",
+      name: "editar_producto",
+      component: EditarProducto
+     },
    {
     path : "/agregar_producto",
     name: "agregar_producto",

@@ -5,8 +5,9 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
 <template>
 <main>
      <NavBar></NavBar>
-     <div class = "container mx-auto p-6 ">
+     <div class = "container mx-auto p-6 flex justify-between">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Empleados</h1>
+               <a :href="'/empleado_agregar'" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</a>
           </div>
           <div class="flex justify-center w-[100%] mt-[2%]">
                <table class="w-[100%] lg:w-[60%] table-auto">
@@ -29,7 +30,6 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
                                              Editar</a>
                               <EmpleadoDesactivar class="inline-block ml-2" :id="empleado.id_empleado" :estado="empleado.estado_empleado"></EmpleadoDesactivar>     
                               </td>
-                              {{ empleado.estado_empleado }}
                          </tr>
                     </tbody>
                </table>
@@ -84,3 +84,8 @@ export default {
      }
 }
 </script>
+<style scoped>
+.buttonColor{
+     background-color: #4F46E5;
+}
+</style>
