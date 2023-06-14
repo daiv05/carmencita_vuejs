@@ -509,10 +509,10 @@ export default {
             if (this.detalle_ventas_lista.length === 1) {
                 // Si solo queda un detalle, restablecer los valores en lugar de eliminarlo
                 this.detalle_ventas_lista = []
-                this.contadorAutoincremental = 1;
+                this.contador_tabla = 1;
             } else {
                 this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
-                this.contadorAutoincremental = 1;
+                this.contador_tabla = 1;
                 // Actualizar el contador de los detalles restantes
                 for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
                     this.detalle_ventas_lista[i].id_venta = this.contador_tabla++;
@@ -564,11 +564,11 @@ export default {
         //Buscar el nombre del Cliente mas cercano al texto ingresado
         listener_cliente_identificador() {
             if (this.campo_identificador_cliente) {
-                this.sugerenciasCliente = this.clientes.filter((cliente) => {
+                this.sugerencias_cliente = this.clientes.filter((cliente) => {
                     return cliente.distintivo_cliente.toLowerCase().includes(this.campo_identificador_cliente.toLowerCase());
                 });
             } else {
-                this.sugerenciasCliente = [];
+                this.sugerencias_cliente = [];
             }
         },
         //Seleccionar sugerencia de Clientes en buscador
@@ -576,7 +576,7 @@ export default {
             this.campo_identificador_cliente = sugerencia_cliente.distintivo_cliente;
             const id_cliente = sugerencia_cliente.id_cliente;
             this.llenar_detalle_cliente_credito(id_cliente);
-            this.sugerenciasCliente = [];
+            this.sugerencias_cliente = [];
         },
         llenar_detalle_cliente_credito(cliente_id) {
             return axios
@@ -745,6 +745,7 @@ export default {
                 this.watch_toast('error', 'No se ha agregado ningun producto');
                 return;
             }
+            var datos_ventas = {};
             var detalles_listado_limpio = [];
             var detalle_obj = {};
             if (this.active_tab == 0) {
@@ -776,10 +777,10 @@ export default {
                             nrc_cliente: "",
                             dui_cliente: "",
                             direccion_cliente: "",
-                            municipio_cliente: 0,
+                            municipio_cliente: {},
                             identificador_cliente: ""
                         },
-                            this.contadorAutoincremental = 1;
+                            this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
@@ -818,10 +819,10 @@ export default {
                             nrc_cliente: "",
                             dui_cliente: "",
                             direccion_cliente: "",
-                            municipio_cliente: 0,
+                            municipio_cliente: {},
                             identificador_cliente: ""
                         },
-                            this.contadorAutoincremental = 1;
+                            this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
