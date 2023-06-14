@@ -34,7 +34,7 @@ import NavBar from '@/components/NavBar.vue'
 
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div v-if="activeTab === 0" class="p-4 bg-white">
-                        <div class="flex max-h-[400px] overflow-y-auto pb-36">
+                        <div class="flex max-h-[300px] overflow-y-auto pb-36">
 
 
                             <div class="w-3/4 pr-4 h-full pt-4">
@@ -46,7 +46,6 @@ import NavBar from '@/components/NavBar.vue'
                                 <table class="table-fixed w-full shadow-lg">
                                     <thead>
                                         <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
-                                            <th class="font-bold">Item</th>
                                             <th class="font-bold">Nombre del Producto</th>
                                             <th class="font-bold">Cantidad</th>
                                             <th class="font-bold">Precio Unitario ($)</th>
@@ -55,10 +54,13 @@ import NavBar from '@/components/NavBar.vue'
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                            <td class="text-center"></td>
-                                            <td class="text-center"></td>
-                                            <td class="text-center"></td>
+                                        <tr v-for="item in ventaCF.ventaCF.detalle_venta" :key="item.id_venta" class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                        
+                                                <td class="text-center">{{item.producto.nombre_producto}}</td>
+                                                <td class="text-center">{{item.cantidad_producto}}</td>
+                                                <td class="text-center">{{item.producto.precio_unitario}}</td>
+                                                <td class="text-center">{{item.subtotal_detalle_venta}}</td>
+                                            
                                         </tr>
                                     </tbody>
                                 </table>
@@ -77,8 +79,9 @@ import NavBar from '@/components/NavBar.vue'
                                             class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                             Fecha de Venta
                                         </label>
-                                        <input id="fecha_venta" type="date" name="fecha_venta"
-                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
+                                        <input id="fecha_venta" type="text" name="fecha_venta"
+                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" 
+                                            disabled v-for="detalle in ventaCF" v-model="detalle.fecha_venta"/>
                                     </div>
                                 </div>
 
@@ -91,7 +94,7 @@ import NavBar from '@/components/NavBar.vue'
                                         </label>
                                         <input id="nombre_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            placeholder="Marta Sonriano"/>
+                                            v-for="detalle in ventaCF" v-model="detalle.nombre_cliente_venta" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -123,28 +126,12 @@ import NavBar from '@/components/NavBar.vue'
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled
+                                                    v-model="subTotal" type="text" readonly>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr class="h-[40px] bg-black-300">
-                                        <td class="text-right">
-                                            <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
-                                                Descuentos (-):
-                                            </label>
-                                        </td>
-                                        <td class="text-center">
-                                            <div class="flex items-center">
-                                                <span
-                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
-                                                    $
-                                                </span>
-                                                <input
-                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    
                                     <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
@@ -159,7 +146,8 @@ import NavBar from '@/components/NavBar.vue'
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled
+                                                    v-for="detalle in ventaCF" v-model="detalle.total_iva">
                                             </div>
                                         </td>
                                     </tr>
@@ -173,16 +161,13 @@ import NavBar from '@/components/NavBar.vue'
                                             <div class="flex items-center">
                                                 <input
                                                     class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
-                                                    placeholder="0.00" disabled>
+                                                    placeholder="0.00" disabled
+                                                    v-for="detalle in ventaCF" v-model="detalle.total_venta">
                                             </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <roter-link :to="'/sales_list'">Regresar</roter-link>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -197,7 +182,6 @@ import NavBar from '@/components/NavBar.vue'
 //Importar axios
 import axios from 'axios';
 import api_url from '../../config.js';
-import moment from 'moment';
 
 export default {
     components: {
@@ -207,28 +191,38 @@ export default {
         return {
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             activeTab: 0,
-            // Objeto Producto
-                producto_info: {
-            },
-            // Listado de Detalles (para tabla) y objeto Detalle
-            detalle_venta: {
-            },
-            //Objeto Venta
-            venta_info: {
-            },
-            detalle_venta: []
+            //Datos de la venta
+            ventaCF: null,
+            subTotal: '',
         };
     },
+
     created() {
-        
+        const ventaCFId = this.$route.params.id_venta;
+        this.getDetalleVenta(ventaCFId);
     },
+
     mounted() {
         
     },
-    watch: {
 
-    },
     methods: {
+        getDetalleVenta(id_venta){
+            axios.get(api_url +'/ventasCF_detalle/'+ id_venta +'/')
+            .then(response=>{
+                this.ventaCF= response.data;
+                this.calcularSubTotal();
+                console.log(this.ventaCF);
+            }).catch(error=>{
+                console.log(error);
+            });
+        },
+
+        calcularSubTotal(){
+            const totalVenta = Number(this.ventaCF.ventaCF.total_venta);
+            const totalIva = Number(this.ventaCF.ventaCF.total_iva);
+            this.subTotal= Number(totalVenta - totalIva).toFixed(2);
+        }
     },
 };
 </script>

@@ -246,6 +246,12 @@ export default {
             console.log(res);
             this.ventasCF.data.splice(id_venta, 1)
             this.actualizarTabla();
+            for(var i = 0; i < this.ventasCF.length; i++){
+              if(this.ventasCF[i].id_venta == id_venta){
+                this.ventasCF.splice(i, 1);
+                break;
+              }
+            }
           })
           .catch(err => {
             console.log(err);
