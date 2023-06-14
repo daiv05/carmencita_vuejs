@@ -928,33 +928,33 @@ export default {
             this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
             this.credito_fiscal_info.fecha_credito_fiscal = moment().format('yyyy-MM-DD');
         },
-        //Registrar Nueva Venta
-        register_new_venta() {
-            if (this.activeTab == 0) {
-                axios.post(api_url + '/ventas/',
-                    this.venta_info = {
-                        nombre_cliente_venta: '',
-                        fecha_venta: this.venta_info.fecha_venta,
-                        total_venta: this.subtotal_venta,
-                        total_iva: this.venta_info.total_iva,
-                    }
-                ).then((res) => {
-                    this.venta_info = res.datos;
-                });
-            } else if (this.activeTab == 1) {
-                axios.post(api_url + '/credito_fiscals/',
-                    this.credito_fiscal_info = {
-                        id_cliente: this.credito_fiscal_info.id_cliente,
-                        fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
-                        total_credito: this.venta_info.total_venta,
-                        total_iva_credito: this.venta_info.total_iva,
-                    }
-                ).then((res) => {
-                    this.credito_fiscal_info = res.datos;
-                });
-            }
+        // //Registrar Nueva Venta
+        // register_new_venta() {
+        //     if (this.activeTab == 0) {
+        //         axios.post(api_url + '/ventas/',
+        //             this.venta_info = {
+        //                 nombre_cliente_venta: '',
+        //                 fecha_venta: this.venta_info.fecha_venta,
+        //                 total_venta: this.subtotal_venta,
+        //                 total_iva: this.venta_info.total_iva,
+        //             }
+        //         ).then((res) => {
+        //             this.venta_info = res.datos;
+        //         });
+        //     } else if (this.activeTab == 1) {
+        //         axios.post(api_url + '/credito_fiscals/',
+        //             this.credito_fiscal_info = {
+        //                 id_cliente: this.credito_fiscal_info.id_cliente,
+        //                 fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
+        //                 total_credito: this.venta_info.total_venta,
+        //                 total_iva_credito: this.venta_info.total_iva,
+        //             }
+        //         ).then((res) => {
+        //             this.credito_fiscal_info = res.datos;
+        //         });
+        //     }
 
-        },
+        // },
         //Anadir registro en tabla DETALLE
         insertarDetalleTabla() {
             this.getProductoSegunNombre()
