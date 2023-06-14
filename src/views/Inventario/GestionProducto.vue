@@ -44,6 +44,10 @@ const agregar_producto = "/agregar_producto";
                                     <input type="radio" v-model="filtro" value="inactivos" class="mr-2">
                                     <span class="text-gray-700">Inactivos</span>
                                 </label>
+                                <label class="flex items-center">
+                                    <input type="radio" v-model="filtro" value="all" class="mr-2">
+                                    <span class="text-gray-700">Todos</span>
+                                </label>
                             </div>
                             <button @click="aplicarFiltro" class="bg-blue-500 text-white px-4 py-2 rounded-md">Aplicar Filtro</button>
                         </div>
@@ -72,7 +76,7 @@ const agregar_producto = "/agregar_producto";
                                 </thead>
 
                                 <tbody class="bg-white">
-                                    <tr class=" text-gray-700" v-for="producto in listaProductos" v-bind:key="producto.codigo_barra_producto">
+                                    <tr class=" text-gray-700" v-for="producto in even(listaProductos, this.estado)" v-bind:key="producto.codigo_barra_producto">
                                         <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100" @click="mostrarProducto(producto.codigo_barra_producto)">
                                             <div class="">
                                                 <p class="font-semibold text-black">{{ producto.nombre_producto }}</p>
@@ -114,6 +118,7 @@ export default {
     data() {
         return {
             listaProductos: [],
+            estado: null,
             filtro: "activos",
             listaProductosFiltrados: [],
             productoSeleccionado: {},
@@ -137,11 +142,25 @@ export default {
         },
         aplicarFiltro() {
             if (this.filtro == "activos") {
-                this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 1);
+                this.estado = 1;//this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 1);
             }
             else if (this.filtro == "inactivos") {
-                this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 0);
+                this.estado = 0;//this.listaProductosFiltrados = this.listaProductos.filter(producto => producto.estado_producto == 0);
             }
+            else if(this.filtro == "all"){
+                this.estado = null;
+            }
+        },
+        even: function(listaProductos,estado){
+            if(estado == null){
+                return listaProductos.filter(function(producto){
+                return producto
+            })
+            }
+            return listaProductos.filter(function(producto){
+                return producto.esta_disponible == estado
+            })
+            
         },
 
         agregarProducto() {
