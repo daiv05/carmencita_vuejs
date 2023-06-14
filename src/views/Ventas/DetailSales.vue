@@ -46,6 +46,7 @@ import NavBar from '@/components/NavBar.vue'
                                 <table class="table-fixed w-full shadow-lg">
                                     <thead>
                                         <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
+                                            <th class="font-bold">Item</th>
                                             <th class="font-bold">Nombre del Producto</th>
                                             <th class="font-bold">Cantidad</th>
                                             <th class="font-bold">Precio Unitario ($)</th>
@@ -54,8 +55,8 @@ import NavBar from '@/components/NavBar.vue'
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="item in ventaCF.ventaCF.detalle_venta" :key="item.id_venta" class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                        
+                                        <tr v-for="item, i in ventaCF.ventaCF.detalle_venta" :key="item.id_venta" class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                                <td v-text="(i+1)" class="text-center"></td>
                                                 <td class="text-center">{{item.producto.nombre_producto}}</td>
                                                 <td class="text-center">{{item.cantidad_producto}}</td>
                                                 <td class="text-center">{{item.producto.precio_unitario}}</td>
