@@ -342,9 +342,9 @@ export default {
 
 <style scoped>
 
-.pageActivate{
-font-weight:900;
-color : #000;
-}
+    .pageActivate{
+    font-weight:900;
+    color : #000;
+    }
 
 </style>
