@@ -761,7 +761,7 @@ export default {
                 axios.post(api_url + '/ventas/registrar/',
                     datos_ventas = {
                         venta: {
-                            nombre_cliente_venta: this.cliente_info.nombre_cliente,
+                            nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
                             fecha_venta: this.venta_info.fecha_venta,
                             total_venta: Number(this.subtotal_venta),
                             total_iva: Number(this.venta_info.total_iva),
@@ -779,8 +779,15 @@ export default {
                             direccion_cliente: "",
                             municipio_cliente: {},
                             identificador_cliente: ""
-                        },
-                            this.contador_tabla = 1;
+                        };
+                        this.venta_info = {
+                            id_venta: 0,
+                            nombre_cliente_venta: "",
+                            fecha_venta: null,
+                            total_venta: 0,
+                            total_iva: 0,
+                        };
+                        this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
@@ -821,8 +828,22 @@ export default {
                             direccion_cliente: "",
                             municipio_cliente: {},
                             identificador_cliente: ""
-                        },
-                            this.contador_tabla = 1;
+                        };
+                        this.venta_info = {
+                            id_venta: 0,
+                            nombre_cliente_venta: "",
+                            fecha_venta: null,
+                            total_venta: 0,
+                            total_iva: 0,
+                        };
+                        this.credito_fiscal_info = {
+                            id_credito_fiscal: 0,
+                            id_cliente: 0,
+                            fecha_credito_fiscal: null,
+                            total_credito_fiscal: 0,
+                            total_iva_credito_fiscal: 0,
+                        };
+                        this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
