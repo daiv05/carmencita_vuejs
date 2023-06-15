@@ -787,6 +787,7 @@ export default {
                             total_venta: 0,
                             total_iva: 0,
                         };
+                        this.campo_identificador_cliente = "";
                         this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
@@ -843,6 +844,7 @@ export default {
                             total_credito_fiscal: 0,
                             total_iva_credito_fiscal: 0,
                         };
+                        this.campo_identificador_cliente = "";
                         this.contador_tabla = 1;
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
