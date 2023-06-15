@@ -85,7 +85,7 @@ import NavBar from '@/components/NavBar.vue'
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-group-divider" id="contenido">
-                                                    <tr v-if="this.cargando">
+                                                    <tr v-if="cargando">
                                                         <td colspan="6"><h3>Cargando</h3></td>
                                                     </tr>
                                                     <tr v-else v-for="venta, i in ventasCF" :key="venta.id_venta" class="border-b-2 border-black-400 h-[40px] bg-black-300">
@@ -118,59 +118,81 @@ import NavBar from '@/components/NavBar.vue'
                     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <!-- Contenido de las ventas de credito fiscal -->
                     <div v-if="activeTab === 1" class="p-4 bg-white">
-                        <div class="flex max-h-[800px] overflow-y-auto pb-36">
+                      <div class="flex max-h-[400px] overflow-y-auto pb-36">
 
 
-                            <div class="w-4/4 pr-4 h-full pt-4">
-
-                                 <!-- Input para buscar venta -->
+<div class="w-4/4 pr-4 h-full pt-4">
 
 
-                                <!-- Tabla de DetalleVenta -->
+    <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
 
-                            </div>
+    <p class="mt-2 flex-grow-0 flex-shrink-0 w-[700px] text-[20px] font-semibold text-right text-[#3056d3]">
+      Buscar credito fiscal
+    </p>
+    <!-- Input para buscar venta -->
+    <div id="appWrapper">
+        <div class="container">
+            <div class="search-box">
+                <input 
+                class="search-input" 
+                type="text" name="q" 
+                placeholder="Escriba el NRC del cliente o la fecha de la venta"
+                v-model="query"
+                @input="buscarCF">       
+                <ul class="result-list" :class="resultsVisibility">
+                    <li v-for="venta in CFSales" class="result-item">
+                        <a href="#" class="result-link">
+                        <div class="result-title">{{venta.id_creditofiscal}}</div>
+                        <div class="result-content">{{venta.total_credito}}</div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Tabla de Ventas -->
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <div class="table-responsive">
+                <table class="table-fixed w-full shadow-lg">
+                    <thead>
+                        <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
+                            <th class="font-bold">N°</th>
+                            <th class="font-bold">NRC</th>
+                            <th class="font-bold">Fecha Venta</th>
+                            <th class="font-bold">Tipo</th>
+                            <th class="font-bold">Total Venta</th>
+                            <th class="font-bold">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider" id="contenido">
+                        <tr v-if="cargando">
+                            <td colspan="6"><h3>Cargando</h3></td>
+                        </tr>
+                        <tr v-else v-for="venta, i in CFSales" :key="venta.id_creditofiscal" class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                            <td v-text="(i+1)" class="text-center"></td>
+                            <td v-text="(venta.cliente.nrc_cliente)" class="text-center"></td>
+                            <td v-text="(venta.fecha_credito)" class="text-center"></td>
+                            <td class="text-center">Credito Fiscal</td>
+                            <td v-text="(venta.total_credito)" class="text-center"></td>
+                            <td class="text-center">
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 
 
-                            <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-
-                            
-                        </div>
-
-
-                        <!-- Resumen de la Venta -->
-                        
+<!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
+</div>
                     </div>
 
 
@@ -201,11 +223,13 @@ export default {
             ventasCF: null,
             cargando: false,
             query:'',
-            ventasCF: []
+            ventasCF: [],
+            CFSales: []
         };
     },
     mounted() {
         this.getVentasCF();
+        this.getCF();
     },
     computed:{
       resultsVisibility(){
@@ -232,13 +256,29 @@ export default {
         .then(res => {
           this.ventasCF = res.data.ventasCF;
           this.cargando = false;
-          console.log(res.data.ventasCF);
+          console.log(res.data);
         })
         .catch(err => {
           console.log(err);
           this.cargando = false;
         })
       },
+
+      getCF(){
+        this.cargando = true;
+        this.CFSales = null;
+        axios.get(api_url+'/creditos/')
+        .then(res => {
+          this.CFSales = res.data.CFSales;
+          this.cargando = false;
+          console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+          this.cargando = false;
+        })
+      },
+
       eleminarVentaCF : function(venta, id_venta){
         if (confirm("¿Está seguro que desea eliminar la venta?")) {
           axios.delete(api_url+'/ventasCF/'+venta.id_venta)
