@@ -2,6 +2,7 @@
 import ModalPrecioExtra from "../../components/Inventario/ModalPrecioExtra.vue";
 import NavBar from "../../components/NavBar.vue";
 import {Form,Field,ErrorMessage} from 'vee-validate';
+import api_url from "../../config";
 </script>
 <template>
     <main>
@@ -252,7 +253,7 @@ export default {
             //event.preventDefault();
             let bodyFormData = this.crearFormDataPostProducto();
             axios.post(
-                "http://127.0.0.1:8000/api/productos",bodyFormData)
+                api_url + "/productos",bodyFormData)
             .then(response=>{
                 if(this.listaPrecios.length > 0){
                     this.guaradarListaPrecios();
@@ -300,7 +301,7 @@ export default {
                 "lista_precios_unidades": this.listaPrecios
             };
             console.log(dataBody);
-            axios.post("http://127.0.0.1:8000/api/precios_lista_unidades_de_medida",dataBody)
+            axios.post(api_url + "/precios_lista_unidades_de_medida",dataBody)
             .then(
                 response=>{
                     this.mensajeExito = response.data.mensaje;
@@ -330,7 +331,8 @@ export default {
         },
         clearForm(){
             setTimeout(()=>{
-                location.href = location.href;
+                //location.href = location.href;
+                this.$router.push({ name: "gestion_productos" } );
             },3000);
             /**
              * 
