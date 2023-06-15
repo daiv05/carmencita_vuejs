@@ -6,6 +6,7 @@ import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
 import SalesList from '../views/Ventas/SalesList.vue'
 import DetailSales from '../views/Ventas/DetailSales.vue'
+import DetailCF from '../views/Ventas/DetailCF.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -43,6 +44,10 @@ const router = createRouter({
     path : "/detail_sales/:id_venta",
     name: "Detalle de venta",
     component : DetailSales
+   },   {
+    path : "/detail_cf/:id_creditofiscal",
+    name: "Detalle Credito Fiscal",
+    component : DetailCF
    },
     {
       path: '/about',

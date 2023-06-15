@@ -95,8 +95,10 @@ import NavBar from '@/components/NavBar.vue'
                                                         <td class="text-center">Consumidor Final</td>
                                                         <td v-text="(venta.total_venta)" class="text-center"></td>
                                                         <td class="text-center">
-                                                            <button type="button" class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[100px]" style="background-color: #3056d3;">Detalles</button>
-                                                            <button type="button" class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[100px]" style="background-color: #555;"
+                                                          
+                                                          <button class="text-blue-400 inline-block p-2 bg-blue-800 rounded">
+                                                          <router-link :to="'/detail_sales/' + venta.id_venta" class="text-blue-500">Detalle</router-link>
+                                                          </button>                                                            <button type="button" class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[100px]" style="background-color: #555;"
                                                             @click="eleminarVentaCF(venta, id_venta)">Eliminar</button>
                                                         </td>
                                                     </tr>
@@ -137,12 +139,12 @@ import NavBar from '@/components/NavBar.vue'
             <div class="search-box">
                 <input 
                 class="search-input" 
-                type="text" name="q" 
+                type="text" name="qu" 
                 placeholder="Escriba el NRC del cliente o la fecha de la venta"
                 v-model="query"
                 @input="buscarCF">       
                 <ul class="result-list" :class="resultsVisibility">
-                    <li v-for="venta in CFSales" class="result-item">
+                    <li v-for="venta in CF" class="result-item">
                         <a href="#" class="result-link">
                         <div class="result-title">{{venta.id_creditofiscal}}</div>
                         <div class="result-content">{{venta.total_credito}}</div>
@@ -243,6 +245,18 @@ export default {
           q: this.query
         }).then(res =>{
           this.ventasCF = res.data.ventasCF;
+        }).catch(err =>{
+          console.log(err.response);
+        })
+        //console.log(this.query);
+      },
+
+      buscarCF(){
+        this.CFSales = null;
+        axios.post(api_url + '/creditos/buscar/', {
+          q: this.query
+        }).then(res =>{
+          this.CFSales = res.data.CFSales;
         }).catch(err =>{
           console.log(err.response);
         })
