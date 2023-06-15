@@ -33,3 +33,8 @@ npm run build
 ```sh
 npm run lint
 ```
+
+NOTA: Commit anterior al cambio en interfaz:
+- funcion reg duplicada n (back)
+- cambios en ondelete oncascade (front)
+
