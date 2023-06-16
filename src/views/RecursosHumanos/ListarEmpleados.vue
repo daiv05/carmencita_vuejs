@@ -8,7 +8,7 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
      <NavBar></NavBar>
      <div class = "container mx-auto p-6 flex justify-between">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Empleados</h1>
-               <a :href="'/empleado_agregar'" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</a>
+               <a :href="'empleado_agregar'" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</a>
           </div>
           <div class="flex justify-center w-[100%] mt-[2%]">
                <table class="w-[100%] lg:w-[60%] table-auto">
@@ -75,7 +75,7 @@ export default {
                });
           },
           generarEnlace(idEmpleado){
-               return "/empleado_modificar/"+idEmpleado;
+               return "empleado_modificar/"+idEmpleado;
           },
      },
      watch:{

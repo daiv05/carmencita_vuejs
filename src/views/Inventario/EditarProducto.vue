@@ -460,7 +460,7 @@ export default {
         },
         clearForm(){
             setTimeout(()=>{
-                location.href = "/editar_producto/"+this.producto.codigoBarraProducto.toString();
+                location.href = "editar_producto/"+this.producto.codigoBarraProducto.toString();
                 //this.$router.push({ name: "editar_producto", params: { id_producto : this.producto.codigoBarraProducto.toString() } });
             },3000);
             URL.revokeObjectURL(this.urlFotoProducto);
