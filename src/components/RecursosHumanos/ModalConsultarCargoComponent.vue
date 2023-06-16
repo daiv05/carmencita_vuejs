@@ -69,7 +69,7 @@ export default {
                 this.$emit("cerrarModalEliminar",false,null);
             },
             obtenerJornadaLaboral(){
-                axios.get("http://127.0.0.1:8000/api/jornadas_laborales/"+this.cargo.id_jornada_laboral_diaria)
+                axios.get(api_url+"/jornadas_laborales/"+this.cargo.id_jornada_laboral_diaria)
                 .then(response=>{
                     this.jornada = response.data.jornada
                 })
@@ -80,7 +80,7 @@ export default {
                 );
             },
             eliminarCargo(){
-                axios.delete("http://127.0.0.1:8000/api/cargos/"+this.cargo.id_cargo).then(
+                axios.delete(api_url+"/cargos/"+this.cargo.id_cargo).then(
                     response=>{
                         if(response.data.respuesta){
                            this.$emit("cerrarModalEliminar",response.data.respuesta,this.cargo.id_cargo);

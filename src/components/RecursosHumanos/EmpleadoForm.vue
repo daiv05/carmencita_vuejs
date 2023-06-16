@@ -123,7 +123,7 @@ import api_url from '../../config.js' ;
                 <div class="sm:col-span-3">
                 <label for="domicilio" class="block text-sm font-medium leading-6 text-gray-900">Domicilio</label>
                 <div class="mt-2">
-                    <Field name="domicilio" rules="required" v-model="empleado.domicilio" id="domicilio" type="text" placeholder="Ingresa tu primer nombre" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <Field name="domicilio" rules="required" v-model="empleado.domicilio" id="domicilio" type="text" placeholder="Domicilio" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     <ErrorMessage name="domicilio" class="text-red-500 text-xs"/>
                 </div>
                 </div>
@@ -470,3 +470,7 @@ import api_url from '../../config.js' ;
         }
     }
 </script>
+
+<style scope>
+
+</style>

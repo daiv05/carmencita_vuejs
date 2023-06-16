@@ -1,3 +1,7 @@
+<script setup>
+import api_url from "../../config";
+</script>
+
 <template>
 
 <!-- component -->
@@ -83,7 +87,7 @@ export default{
                 this.btnCancelar = document.getElementById("btnCancelar");
             },
             obtenerListaHorariosLaboral(){
-                axios.get("http://127.0.0.1:8000/api/jornadas_laborales")
+                axios.get(api_url+"/jornadas_laborales")
                 .then(response=>{
                     this.listaHorarioLaboral = response.data;
                 });
@@ -100,7 +104,7 @@ export default{
             guardarModificacionEmpleado(values){
               console.log("Hola mundo");
               console.log(JSON.stringify(values, null, 2));
-              axios.put("http://127.0.0.1:8000/api/cargos/"+this.cargoModificado.id_cargo,this.cargoModificado)
+              axios.put(api_url+"/cargos/"+this.cargoModificado.id_cargo,this.cargoModificado)
               .then((response)=>{
                   console.log(response.data);
                   this.estadoConsulta = response.data.respuesta;

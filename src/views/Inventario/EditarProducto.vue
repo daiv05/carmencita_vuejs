@@ -28,7 +28,7 @@ import api_url from '../../config';
                     
                   <div class="mb-[4%]">
                     <label for="nombre_producto" class="block mb-[0.5%]">Nombre</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi" v-model="producto.nombreProducto"
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Nombre producto" v-model="producto.nombreProducto"
                     :rules="validarCampoTexto"/>
                     <ErrorMessage name = "nombre_producto" class = "mensajeDeError"/>
                   </div>  
@@ -253,7 +253,7 @@ export default {
                     this.producto.precioUnitarioProducto = tempProducto.precio_unitario;
                     this.asignarEstadoProducto(tempProducto.esta_disponible);
                     this.cargarFoto(tempProducto.foto);
-                    this.cargarPreciosExtra(this.idProducto);
+                    this.cargarPreciosExtra();
                 }
             )
             .catch(
@@ -322,16 +322,48 @@ export default {
             event.preventDefault;
             console.log("Se va a guardar los cambios del producto");
         },
-        validarCampoTexto(){
+        validarCampoTexto(value){
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else{   
+                this.nombreEsValido = true;
+            }
+            this.nombreEsValido = true;
             return true;
         },
-        validarCantidadDisponible(){
+        validarCantidadDisponible(value){
+            let regExpresion = /^[0-9]{1,5}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "La cantidad disponible deben ser numeros";
+            }
+            this.cantidadDisponibleEsValido = true;
             return true;
         },
-        validarCodigoBarra(){
+        validarCodigoBarra(value){
+            const expresionRegular = /^[0-9]{10,13}$/;
+            const regExpresion = new RegExp(expresionRegular);
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "El código de barra debe tener 10 o 13 digitos numericos.";
+            }
+            this.codigoBarraProductoEsValido = true;
             return true;
         },
-        validarPrecioUnitario(){
+        validarPrecioUnitario(value){
+            let regExpresion = /^[0-9]{1,5}\.?[0-9]{1,2}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio"
+            }
+            else if(!regExpresion.test(value)){
+                return "El campo debe tener le formato ##.##"
+            }
+            this.precioUnitarioEsValido = true;
             return true;
         },
         guradarCambiosProducto(){

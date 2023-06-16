@@ -1,5 +1,5 @@
 <script setup>
-
+import api_url from "../../config";
 </script>
 
 <template>
@@ -88,7 +88,7 @@ export default {
             this.cargo.salario_cargo = this.salario_cargo;
             this.cargo.id_jornada_laboral_diaria = this.id_jornada_laboral_diaria;
             console.log(this.cargo);
-            axios.post("http://127.0.0.1:8000/api/cargos",this.cargo).then(
+            axios.post(api_url+"/cargos",this.cargo).then(
                 response=>{
                     console.log(response.data.respuesta)
                     if(response.data.respuesta){
@@ -133,7 +133,7 @@ export default {
             return true;
         },
         obtenerListaHorarios(){
-            axios.get("http://127.0.0.1:8000/api/jornadas_laborales").then(
+            axios.get(api_url+"/jornadas_laborales").then(
                 response=>{
                     this.listaHorarioLaboral = response.data;
                 }

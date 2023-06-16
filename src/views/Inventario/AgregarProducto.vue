@@ -29,7 +29,7 @@ import api_url from "../../config";
                     
                   <div class="mb-[4%]">
                     <label for="nombre_producto" class="block mb-[0.5%]">Nombre</label>
-                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Sopita maggi" v-model="producto.nombreProducto"
+                    <Field type = "text" class = "w-[100%] border-1 rounded border-slate-300" name = "nombre_producto" placeholder = "Nombre producto" v-model="producto.nombreProducto"
                     :rules="validarCampoTexto"/>
                     <ErrorMessage name = "nombre_producto" class = "mensajeDeError"/>
                   </div>  
@@ -216,13 +216,13 @@ export default {
         },
         validarCodigoBarra(value){
             console.log(value);
-            const expresionRegular = /^[0-9]{10}$/;
+            const expresionRegular = /^[0-9]{10,13}$/;
             const regExpresion = new RegExp(expresionRegular);
             if(value == null){
                 return "Este campo no puede quedar vacio";
             }
             else if(!regExpresion.test(value)){
-                return "El código de barra debe tener 10 digitos numericos.";
+                return "El código de barra debe tener 10 o 13 digitos numericos.";
             }
             this.codigoBarraProductoEsValido = true;
             return true;
