@@ -4,6 +4,7 @@ import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
 import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue'
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
+import GestionProducto from '../views/Inventario/GestionProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
 import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue'
 import EditarProducto from '../views/Inventario/EditarProducto.vue'
@@ -51,6 +52,11 @@ const router = createRouter({
     name: "agregar_producto",
     component : AgregarProducto
    },
+    {
+      path: "/gestion_productos",
+      name : "gestion_productos",
+      component : GestionProducto
+    },
     {
       path: '/about',
       name: 'about',
