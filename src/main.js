@@ -7,6 +7,10 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css'
 
+axios.defaults.withCredentials = true;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
 
 const app = createApp(App)
 
