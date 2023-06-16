@@ -4,6 +4,7 @@ import empleadoForm from '../../components/RecursosHumanos/EmpleadoForm.vue'
 </script>
 
 <template>
+<main>
     <NavBar></NavBar>
     <div class="bg-slate-100">
     <div class = "bg-white w-full mx-auto p-5 shadow-md">
@@ -15,6 +16,7 @@ import empleadoForm from '../../components/RecursosHumanos/EmpleadoForm.vue'
         </div>
         <empleadoForm :createForm="true"></empleadoForm>
     </div>
+</main>
 </template>
 
 <script>

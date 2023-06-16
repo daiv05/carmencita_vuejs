@@ -30,7 +30,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </a>
             </list-group-item>
             <list-group-item>
-              <a href="/registrar_nueva_venta">
+              <a href="/sales_list">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de ventas</p>
