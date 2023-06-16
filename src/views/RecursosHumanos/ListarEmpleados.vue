@@ -8,7 +8,7 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
      <NavBar></NavBar>
      <div class = "container mx-auto p-6 flex justify-between">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Empleados</h1>
-               <a :href="'empleado_agregar'" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</a>
+               <router-link :to="'empleado_agregar'" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</router-link>
           </div>
           <div class="flex justify-center w-[100%] mt-[2%]">
                <table class="w-[100%] lg:w-[60%] table-auto">
@@ -26,9 +26,9 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
                               <td class="py-4 px-8" >{{ empleado.primer_nombre }} {{ empleado.segundo_empleado }}</td>
                               <td class="py-4 px-8" >{{empleado.cargo}}</td>
                               <td class="py-4" >
-                              <a class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
-                              v-bind:href="generarEnlace(empleado.id_empleado)">
-                                             Editar</a>
+                              <router-link class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                              v-bind:to="generarEnlace(empleado.id_empleado)">
+                                             Editar</router-link>
                               <EmpleadoDesactivar class="inline-block ml-2" :id="empleado.id_empleado" :estado="empleado.estado_empleado"></EmpleadoDesactivar>     
                               </td>
                          </tr>

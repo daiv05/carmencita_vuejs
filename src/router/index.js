@@ -62,11 +62,11 @@ const router = createRouter({
    },
    {
     path : "/detail_sales/:id_venta",
-    name: "Detalle de venta",
+    name: "sales_list",
     component : DetailSales
    },   {
     path : "/detail_cf/:id_creditofiscal",
-    name: "Detalle Credito Fiscal",
+    name: "detail_cf",
     component : DetailCF
    },
     {

@@ -63,10 +63,10 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                                             @input="buscarVentaCF">       
                                             <ul class="result-list" :class="resultsVisibility">
                                                 <li v-for="venta in ventas" class="result-item">
-                                                    <a href="#" class="result-link">
+                                                    <router-link to="#" class="result-link">
                                                     <div class="result-title">{{venta.id_venta}}</div>
                                                     <div class="result-content">{{venta.total_venta}}</div>
-                                                    </a>
+                                                    </router-link>
                                                 </li>
                                             </ul>
                                         </div>
