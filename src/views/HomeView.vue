@@ -8,9 +8,9 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
 </script>
 
 <template>
-  <NavBar></NavBar>
-  <BarraTitulo :titulo="titulo"></BarraTitulo>
   <main class="mb-5">
+    <NavBar></NavBar>
+    <BarraTitulo :titulo="titulo"></BarraTitulo>
     <div class="container flex justify-center py-5">
       <h1 class="font-bold text-lg">¡Bienvenido!</h1>
     </div>
@@ -47,7 +47,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Inventario">
           <list-group>
             <list-group-item>
-              <a href="/registrar_nueva_venta" class="w-full h-full">
+              <a href="/gestion_productos" class="w-full h-full">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Gestión de productos</p>
@@ -84,6 +84,14 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Lista de empleados</p>
+                </div>
+              </a>
+            </list-group-item>
+            <list-group-item>
+              <a href="/gestion_cargos">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Gestion cargo</p>
                 </div>
               </a>
             </list-group-item>

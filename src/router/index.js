@@ -8,6 +8,9 @@ import GestionProducto from '../views/Inventario/GestionProducto.vue'
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
 import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue'
 import EditarProducto from '../views/Inventario/EditarProducto.vue'
+import SalesList from '../views/Ventas/SalesList.vue'
+import DetailSales from '../views/Ventas/DetailSales.vue'
+import DetailCF from '../views/Ventas/DetailCF.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +54,20 @@ const router = createRouter({
     path : "/agregar_producto",
     name: "agregar_producto",
     component : AgregarProducto
+   },
+   {
+    path : "/sales_list",
+    name: "Lista de ventas",
+    component : SalesList
+   },
+   {
+    path : "/detail_sales/:id_venta",
+    name: "Detalle de venta",
+    component : DetailSales
+   },   {
+    path : "/detail_cf/:id_creditofiscal",
+    name: "Detalle Credito Fiscal",
+    component : DetailCF
    },
     {
       path: "/gestion_productos",

@@ -216,13 +216,13 @@ export default {
         },
         validarCodigoBarra(value){
             console.log(value);
-            const expresionRegular = /^[0-9]{10}$/;
+            const expresionRegular = /^[0-9]{10,13}$/;
             const regExpresion = new RegExp(expresionRegular);
             if(value == null){
                 return "Este campo no puede quedar vacio";
             }
             else if(!regExpresion.test(value)){
-                return "El código de barra debe tener 10 digitos numericos.";
+                return "El código de barra debe tener 10 o 13 digitos numericos.";
             }
             this.codigoBarraProductoEsValido = true;
             return true;
