@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const navigation = [
   { name: 'Inicio', href: '/', current: true },
+  { name: 'Facturacion', href: '/', current: false },
   { name: 'Inventario', href: '/', current: false },
   { name: 'Empleados', href: '/', current: false },
   { name: 'Cargos', href: '/', current: false },
