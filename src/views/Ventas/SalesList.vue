@@ -98,8 +98,8 @@ import NavBar from '@/components/NavBar.vue'
                                                           
                                                           <button class="text-blue-400 inline-block p-2 bg-blue-800 rounded">
                                                           <router-link :to="'/detail_sales/' + venta.id_venta" class="text-blue-500">Detalle</router-link>
-                                                          </button>                                                            <button type="button" class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[100px]" style="background-color: #555;"
-                                                            @click="eleminarVentaCF(venta, id_venta)">Eliminar</button>
+                                                          </button>                                                            
+                                                          
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -180,7 +180,9 @@ import NavBar from '@/components/NavBar.vue'
                             <td class="text-center">Credito Fiscal</td>
                             <td v-text="(venta.total_credito)" class="text-center"></td>
                             <td class="text-center">
-                                
+                              <button class="text-blue-400 inline-block p-2 bg-blue-800 rounded">
+                                  <router-link :to="'/detail_cf/' + venta.id_creditofiscal" class="text-blue-500">Detalle</router-link>
+                              </button>  
                             </td>
                         </tr>
                     </tbody>

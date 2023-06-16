@@ -111,6 +111,42 @@ import NavBar from '@/components/NavBar.vue'
                                             v-model="CFSale.cliente.distintivo_cliente" disabled/>
                                     </div>
                                 </div>
+                                <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
+                                    <!-- Input para ingresar Cliente -->
+                                    <div class="flex flex-col md:mr-16">
+                                        <label for="distintivo_cliente"
+                                            class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
+                                            NIT
+                                        </label>
+                                        <input id="distintivo_cliente" type="text" name="nombre_cliente"
+                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            v-model="CFSale.cliente.nit_cliente" disabled/>
+                                    </div>
+                                </div>
+                                <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
+                                    <!-- Input para ingresar Cliente -->
+                                    <div class="flex flex-col md:mr-16">
+                                        <label for="distintivo_cliente"
+                                            class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
+                                            NRC
+                                        </label>
+                                        <input id="distintivo_cliente" type="text" name="nombre_cliente"
+                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            v-model="CFSale.cliente.nrc_cliente" disabled/>
+                                    </div>
+                                </div>
+                                <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
+                                    <!-- Input para ingresar Cliente -->
+                                    <div class="flex flex-col md:mr-16">
+                                        <label for="distintivo_cliente"
+                                            class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
+                                            DUI
+                                        </label>
+                                        <input id="distintivo_cliente" type="text" name="nombre_cliente"
+                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            v-model="CFSale.cliente.dui_cliente" disabled/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
