@@ -4,7 +4,7 @@ import api_url from '../../config.js' ;
 </script>
 
 <template>
-   <Form  ref="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
+   <Form  ref="empleadoForm"  id="empleadoForm" class="w-auto m-4" @submit="saveEmpleado">
     <!--Mensajes de validacion-->
     <div id="submitMessage" class="m-0 w-full h-fit p-0">
         <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg" v-if="showMessageError">
@@ -28,7 +28,7 @@ import api_url from '../../config.js' ;
             </div>
         </div>
 
-        <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg fixed z-999 top-20 left-[35%]" v-if="showMessageSuccess">
+        <div class="container bg-white shadow w-4/5 my-4 max-w-md rounded-lg fixed" v-if="showMessageSuccess" style="position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);" >
             <div class="modal bg-gray-800 text-white rounded-lg p-2  w-full max-w-2xl max-h-full m-auto" >
                 <div name="modalHeader" class="text-green-400 flex m-2">
                     <span class="text-green-400 my-2">
@@ -124,7 +124,7 @@ import api_url from '../../config.js' ;
                 <label for="domicilio" class="block text-sm font-medium leading-6 text-gray-900">Domicilio</label>
                 <div class="mt-2">
                     <Field name="domicilio" rules="required" v-model="empleado.domicilio" id="domicilio" type="text" placeholder="Domicilio" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    <ErrorMessage name="domicilio" class="text-red-500"/>
+                    <ErrorMessage name="domicilio" class="text-red-500 text-xs"/>
                 </div>
                 </div>
 
@@ -132,7 +132,7 @@ import api_url from '../../config.js' ;
                 <label for="residencia" class="block text-sm font-medium leading-6 text-gray-900">Residencia</label>
                 <div class="mt-2">
                     <Field name="residencia" rules="required" v-model="empleado.residencia" id="residencia" type="text" placeholder="Ingresa tu residencia" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    <ErrorMessage name="residencia" class="text-red-500"/>
+                    <ErrorMessage name="residencia" class="text-red-500 text-xs"/>
                 </div>
                 </div>
 
@@ -149,8 +149,8 @@ import api_url from '../../config.js' ;
                 <div class="sm:col-span-3">
                 <label for="dui_empleado" class="block text-sm font-medium leading-6 text-gray-900">Documento de identidad</label>
                 <div class="mt-2">
-                    <Field name="dui_empleado" rules="required|dui" v-model="empleado.dui_empleado" id="dui_empleado" type="text" placeholder="Ingresa tu numero de documento " class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                    <ErrorMessage name="dui_empleado" class="text-red-500"/>
+                    <Field name="dui_empleado" rules="required|dui" v-model="empleado.dui_empleado" id="dui_empleado" type="text" placeholder="Ingresa tu numero de documento sin - " class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    <ErrorMessage name="dui_empleado" class="text-red-500 text-xs"/>
                 </div>
                 </div>
 
@@ -220,7 +220,7 @@ import api_url from '../../config.js' ;
   
   <!--submit button-->
   <div class="flex items-center justify-center">
-        <a href="#" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        <a href="/listar_empleados" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Cancelar
         </a>
         <button type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -463,7 +463,9 @@ import api_url from '../../config.js' ;
                 this.showMessageSuccess = false;
                 this.showMessageError = false;
                 //alert("hola")
-                document.location.reload();
+                //document.location.reload();
+                //this.$refs.empleadoForm.reset();
+                document.getElementById("empleadoForm").reset();
             }
         }
     }

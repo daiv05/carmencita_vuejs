@@ -1,10 +1,12 @@
 <script setup>
 import ModalPrecioExtra from '../../components/Inventario/ModalPrecioExtra.vue'
 import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPrecioExtra.vue'
+import NavBar from "../../components/NavBar.vue";
 import api_url from '../../config';
 </script>
 <template>
      <main>
+        
         <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 fixed top-20 left-0 right-0" 
         role="alert"
         v-if="activarAlerta==true">
@@ -195,10 +197,11 @@ export default {
         }
     },
     mounted(){
-        let route = useRoute();
+        const route = useRoute();
         this.idProducto = route.params.id_producto;
         console.log(this.idProducto);
         this.cargarProducto();
+        console.log(route.fullPath);
     },
     methods:{
         eliminarPrecioExtra(precioExtra){

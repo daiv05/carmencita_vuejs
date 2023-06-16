@@ -90,8 +90,8 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
             <list-group-item>
               <a href="/gestion_cargos">
                 <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Gestion cargo</p>
+                  <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Gestión de cargos</p>
                 </div>
               </a>
             </list-group-item>
