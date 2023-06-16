@@ -6,6 +6,7 @@ import router from './router'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css'
+import axios from 'axios'
 
 axios.defaults.withCredentials = true;
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';

@@ -15,7 +15,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                     <p class="mt-2 flex-grow-0 flex-shrink-0 w-[500px] text-[31px] font-semibold text-left text-[#3056d3]">
                         Listado de Ventas
                     </p>
-                    <a href="registrar_nueva_venta" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 h-auto my-auto mr-1 w-fit-content">Registrar nueva venta</a>
+                    <router-link to="registrar_nueva_venta" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 h-auto my-auto mr-1 w-fit-content">Registrar nueva venta</router-link>
                 </div>
             </div>
 
@@ -99,9 +99,9 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                                                         <td v-text="(venta.total_venta)" class="text-center"></td>
                                                         <td class="text-center flex">
                                                           
-                                                          <a class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
-                                                          v-bind:href="'detail_sales/'+venta.id_venta">
-                                                          Detalle</a>
+                                                          <router-link class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                                                          v-bind:to="'detail_sales/'+venta.id_venta">
+                                                          Detalle</router-link>
                                                           <span class="mx-1"></span>                                                             
                                                           <VentaDesactivar  :estado="venta.estado_venta" :id="venta.id_venta"/>
                                                         </td>
@@ -149,10 +149,10 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                 @input="buscarCF">       
                 <ul class="result-list" :class="resultsVisibility">
                     <li v-for="venta in CF" class="result-item">
-                        <a href="#" class="result-link">
+                        <router-link to="#" class="result-link">
                         <div class="result-title">{{venta.id_creditofiscal}}</div>
                         <div class="result-content">{{venta.total_credito}}</div>
-                        </a>
+                        </router-link>
                     </li>
                 </ul>
             </div>
@@ -186,9 +186,9 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                             <td class="text-center">Credito Fiscal</td>
                             <td v-text="(venta.total_credito)" class="text-center"></td>
                             <td class="text-center flex">
-                              <a class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
-                                  v-bind:href="'detail_cf/'+venta.id_creditofiscal">
-                                  Detalle</a>
+                              <router-link class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                                  v-bind:to="'detail_cf/'+venta.id_creditofiscal">
+                                  Detalle</router-link>
                                   <span class="mx-1"></span> 
                               <CreditoDesactivar  :estado="venta.estado_credito" :id="venta.id_creditofiscal" />  
                             </td>
