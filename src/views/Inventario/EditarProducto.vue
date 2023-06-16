@@ -1,7 +1,7 @@
 <script setup>
 import ModalPrecioExtra from '../../components/Inventario/ModalPrecioExtra.vue'
 import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPrecioExtra.vue'
-
+import api_url from '../../config';
 </script>
 <template>
      <main>
@@ -147,7 +147,7 @@ import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPreci
         </div>
         </div>
         <div class="mr-[25%]">
-            <button type="button" class = "inline-block ml-[20%] w-[20%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-5 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 font-bold">Cancelar</button>
+            <button type="button" class = "inline-block ml-[20%] w-[20%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-5 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 font-bold" @click="cancelarModificacion">Regresar</button>
             <button type="submit" class=" w-[20%] mt-[2%] bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">Guardar Cambios</button>
         </div>
     </Form>
@@ -221,7 +221,7 @@ export default {
         },
         cargarFoto(nombreFoto){
             if(nombreFoto != ""){
-                axios.get("http://127.0.0.1:8000/api/productos/"+this.idProducto+"/foto",{ responseType: 'arraybuffer' })
+                axios.get(api_url + "/productos/"+this.idProducto+"/foto",{ responseType: 'arraybuffer' })
                 .then(
                     response=>{
                         let blob = new Blob([response.data],{type:"image/*"});
@@ -242,7 +242,7 @@ export default {
             }
         },
         cargarProducto(){
-            let url = "http://127.0.0.1:8000/api/productos/precios/"+this.idProducto;
+            let url = api_url + "/productos/precios/"+this.idProducto;
             axios.get(url).
             then(
                 (response)=>{
@@ -266,8 +266,13 @@ export default {
                 }
             );
         },
+<<<<<<< HEAD
         cargarPreciosExtra(){
             axios.get("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.producto.codigoBarraProducto)
+=======
+        cargarPreciosExtra(codigoBarraProducto){
+            axios.get(api_url + "/precio_lista_unidades/"+this.producto.codigoBarraProducto)
+>>>>>>> a1ad0368f1df1ee6cc4a07893c00b68bede82bfc
             .then(
                 response=>{
                     let tempListaPreciosExtra = response.data.lista_precios_extra;
@@ -338,7 +343,7 @@ export default {
             let configuracionPut = "?_method=PUT";
             let bodyData = this.crearFormDataPutProducto();
             console.log(bodyData);
-            axios.post("http://127.0.0.1:8000/api/productos/"+this.idProducto+configuracionPut,bodyData)
+            axios.post(api_url + "/productos/"+this.idProducto+configuracionPut,bodyData)
             .then(
                 response=>{
                     this.mensajeExito = response.data.mensaje;
@@ -360,7 +365,7 @@ export default {
                 "codigo_barra_actualizado":this.producto.codigoBarraProducto.toString(),
             };
             console.log(dataBody);
-            axios.post("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.idProducto+configuracionUrlPut,dataBody)
+            axios.post(api_url + "/precio_lista_unidades/"+this.idProducto+configuracionUrlPut,dataBody)
             .then(
                 response=>{
                     this.mensajeExito = response.data.mensaje;
@@ -425,10 +430,14 @@ export default {
         },
         clearForm(){
             setTimeout(()=>{
-                location.href = "http://127.0.0.1:5173/editar_producto/"+this.producto.codigoBarraProducto.toString();
+                location.href = "/editar_producto/"+this.producto.codigoBarraProducto.toString();
+                //this.$router.push({ name: "editar_producto", params: { id_producto : this.producto.codigoBarraProducto.toString() } });
             },3000);
             URL.revokeObjectURL(this.urlFotoProducto);
-            }
+        },
+        cancelarModificacion(){
+            this.$router.push({ name: "gestion_productos" } );
+        }
     }
 }
 </script>
