@@ -87,7 +87,7 @@ export default{
                 this.btnCancelar = document.getElementById("btnCancelar");
             },
             obtenerListaHorariosLaboral(){
-                axios.get(api_url+"/jornadas_laborales")
+                axios.get(api_url+"/jornadas_laborales_diarias")
                 .then(response=>{
                     this.listaHorarioLaboral = response.data;
                 });
