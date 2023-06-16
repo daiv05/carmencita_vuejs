@@ -1,5 +1,5 @@
 <script setup>
-
+import api_url from "../../config"
 </script>
 
 <template>
