@@ -351,10 +351,15 @@
                                 </tbody>
                             </table>
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button @click="register_new_venta()"
+                                <button v-if="active_tab === 0" @click="register_new_venta()"
                                     :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
                                     class="h-[40px] text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
+                                </button>
+                                <button v-if="active_tab === 1" @click="register_new_venta()"
+                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
+                                    Guardar Venta Credito Fiscal
                                 </button>
                             </div>
                         </div>
@@ -840,7 +845,7 @@ export default {
                         this.credito_fiscal_info = {
                             id_credito_fiscal: 0,
                             id_cliente: 0,
-                            fecha_credito_fiscal: null,
+                            fecha_credito_fiscal: this.venta_info.fecha_venta,
                             total_credito_fiscal: 0,
                             total_iva_credito_fiscal: 0,
                         };
