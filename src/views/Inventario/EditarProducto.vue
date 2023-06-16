@@ -266,13 +266,8 @@ export default {
                 }
             );
         },
-<<<<<<< HEAD
-        cargarPreciosExtra(){
-            axios.get("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.producto.codigoBarraProducto)
-=======
         cargarPreciosExtra(codigoBarraProducto){
             axios.get(api_url + "/precio_lista_unidades/"+this.producto.codigoBarraProducto)
->>>>>>> a1ad0368f1df1ee6cc4a07893c00b68bede82bfc
             .then(
                 response=>{
                     let tempListaPreciosExtra = response.data.lista_precios_extra;
