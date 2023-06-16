@@ -783,7 +783,7 @@ export default {
                         this.venta_info = {
                             id_venta: 0,
                             nombre_cliente_venta: "",
-                            fecha_venta: null,
+                            fecha_venta: this.venta_info.fecha_venta,
                             total_venta: 0,
                             total_iva: 0,
                         };
@@ -833,7 +833,7 @@ export default {
                         this.venta_info = {
                             id_venta: 0,
                             nombre_cliente_venta: "",
-                            fecha_venta: null,
+                            fecha_venta: this.venta_info.fecha_venta,
                             total_venta: 0,
                             total_iva: 0,
                         };
