@@ -144,7 +144,6 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
         <Teleport to = "body">
             <ModalPrecioExtra v-if="controlModalPrecioExtra" @controlEventoModal="controlEventoModal"></ModalPrecioExtra>
         </Teleport>
-        {{ this.producto.fotoProducto }}
     </main>
 </template>
 <script>
@@ -312,7 +311,6 @@ export default {
             .catch(
                 response=>{
                     console.log(response);
-                    console.log("hola desde el error");
                     this.mensajeExito = response.response.data.mensaje[0];
                     this.controlAlertaError();
                 }
