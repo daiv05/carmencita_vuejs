@@ -1,5 +1,7 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
+import VentaDesactivar from '../../components/Ventas/VentaDesactivar.vue';
+import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
 </script>
 
 <template>
@@ -94,12 +96,13 @@ import NavBar from '@/components/NavBar.vue'
                                                         <td v-text="(venta.fecha_venta)" class="text-center"></td>
                                                         <td class="text-center">Consumidor Final</td>
                                                         <td v-text="(venta.total_venta)" class="text-center"></td>
-                                                        <td class="text-center">
+                                                        <td class="text-center flex">
                                                           
-                                                          <button class="text-blue-400 inline-block p-2 bg-blue-800 rounded">
-                                                          <router-link :to="'/detail_sales/' + venta.id_venta" class="text-blue-500">Detalle</router-link>
-                                                          </button>                                                            
-                                                          
+                                                          <a class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                                                          v-bind:href="'/detail_sales/'+venta.id_venta">
+                                                          Detalle</a>
+                                                          <span class="mx-1"></span>                                                             
+                                                          <VentaDesactivar  :estado="venta.estado_venta" :id="venta.id_venta"/>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -140,7 +143,7 @@ import NavBar from '@/components/NavBar.vue'
                 <input 
                 class="search-input" 
                 type="text" name="qu" 
-                placeholder="Escriba el NRC del cliente o la fecha de la venta"
+                placeholder="Escriba el NRC o Distintivo del cliente o la fecha de la venta"
                 v-model="query"
                 @input="buscarCF">       
                 <ul class="result-list" :class="resultsVisibility">
@@ -163,6 +166,7 @@ import NavBar from '@/components/NavBar.vue'
                         <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
                             <th class="font-bold">N°</th>
                             <th class="font-bold">NRC</th>
+                            <th class="font-bold">Distintivo</th>
                             <th class="font-bold">Fecha Venta</th>
                             <th class="font-bold">Tipo</th>
                             <th class="font-bold">Total Venta</th>
@@ -171,18 +175,21 @@ import NavBar from '@/components/NavBar.vue'
                     </thead>
                     <tbody class="table-group-divider" id="contenido">
                         <tr v-if="cargando">
-                            <td colspan="6"><h3>Cargando</h3></td>
+                            <td colspan="7"><h3>Cargando</h3></td>
                         </tr>
                         <tr v-else v-for="venta, i in CFSales" :key="venta.id_creditofiscal" class="border-b-2 border-black-400 h-[40px] bg-black-300">
                             <td v-text="(i+1)" class="text-center"></td>
                             <td v-text="(venta.cliente.nrc_cliente)" class="text-center"></td>
+                            <td v-text="(venta.cliente.distintivo_cliente)" class="text-center"></td>
                             <td v-text="(venta.fecha_credito)" class="text-center"></td>
                             <td class="text-center">Credito Fiscal</td>
                             <td v-text="(venta.total_credito)" class="text-center"></td>
-                            <td class="text-center">
-                              <button class="text-blue-400 inline-block p-2 bg-blue-800 rounded">
-                                  <router-link :to="'/detail_cf/' + venta.id_creditofiscal" class="text-blue-500">Detalle</router-link>
-                              </button>  
+                            <td class="text-center flex">
+                              <a class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
+                                  v-bind:href="'/detail_cf/'+venta.id_creditofiscal">
+                                  Detalle</a>
+                                  <span class="mx-1"></span> 
+                              <CreditoDesactivar  :estado="venta.estado_credito" :id="venta.id_creditofiscal" />  
                             </td>
                         </tr>
                     </tbody>
