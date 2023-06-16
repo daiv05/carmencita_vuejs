@@ -469,13 +469,14 @@ export default {
         //Calculos en cada cambio de detalle de venta
         detalle_ventas_lista: {
             handler() {
-                //Calcular subtotal
                 this.subtotal_venta = 0;
                 this.venta_info.total_venta = 0;
 
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
+
+                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
 
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
 
@@ -490,14 +491,14 @@ export default {
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
                 // No hay ningún campo activo, enfocar al input de busqueda por codigo
-                this.$refs.codigo_bp.focus(); // Enfoca el campo deseado
+                this.$refs.codigo_bp.focus();
             }
         },
         listener_buscar_codigo_producto() {
             var codigoBarras = this.producto_codigo;
             console.log("codigo barras: " + codigoBarras);
 
-            // Reiniciar el temporizador si existe uno en ejecución
+            // Reiniciar el temporizador
             if (this.timer) {
                 clearTimeout(this.timer);
             }
@@ -609,6 +610,7 @@ export default {
                 })
                 .catch((err) => {
                     console.log(err);
+                    this.watch_toast("error", "Error al agregar cliente");
                 });
         },
         obtener_departamento_cliente() {
@@ -628,6 +630,14 @@ export default {
             return axios
                 .get(api_url + '/productos/' + this.codigo_barra_lector)
                 .then((res) => {
+                    if(res.data.producto == null){
+                        this.watch_toast("error", "Producto no encontrado");
+                        return;
+                    }
+                    if(res.data.producto.esta_disponible == false){
+                        this.watch_toast("error", "Producto no disponible actualmente");
+                        return;
+                    }
                     console.log(res.data.producto);
                     this.producto_info = res.data.producto
                     this.producto_info['precio_unitario_original'] = res.data.producto.precio_unitario;
@@ -639,6 +649,7 @@ export default {
                     this.producto_codigo = '';
                 })
                 .catch((err) => {
+                    this.watch_toast("error", "Producto no encontrado");
                     console.log(err);
                 });
         },
@@ -674,14 +685,14 @@ export default {
                         this.producto_info = res.data.producto[0]
                         this.producto_info['precio_unitario_original'] = res.data.producto[0].precio_unitario;
                         console.log(res.data.producto[0].codigo_barra_producto);
-                        this.producto_nombre = ''; // Limpiar el campo de búsqueda
+                        this.producto_nombre = '';
                         //this.watch_toast("success", "Producto agregado");
                         resolve(); // Resolver la promesa
                     })
                     .catch((err) => {
-                        this.watch_toast("error", "Error al agregar el producto");
+                        this.watch_toast("error", err.response.data.mensaje);
                         console.log(err.response.data);
-                        reject(err.response.data); // Rechazar la promesa con el mensaje de error
+                        reject(err.response.data);
                     });
             });
         },
@@ -706,12 +717,12 @@ export default {
                     subtotal_detalle_venta: this.producto_info.precio_producto,
                 };
                 this.detalle_ventas_lista.push(detalle);
-                this.producto_nombre = ''; // Limpiar el campo de búsqueda
-                this.contador_tabla++; // Incrementar el valor del contador
-                resolve(); // Resolver la promesa
+                this.producto_nombre = '';
+                this.contador_tabla++;
+                resolve();
             });
         },
-        //Observar cambios en cantidad de producto, verificar unidad de medida, y actualizar subtotal
+        //Observar cambios en cantidad de producto y actualizar subtotal
         watch_cantidad_producto(fila) {
             this.verificar_unidad_medida(fila)
                 .then(() => {
@@ -724,7 +735,6 @@ export default {
                     console.log(error);
                 });
         },
-        //Para asignar nuevo precio unitario al producto segun la unidad de medida
         verificar_unidad_medida(fila) {
             return new Promise((resolve, reject) => {
                 resolve();
@@ -754,6 +764,7 @@ export default {
             var detalles_listado_limpio = [];
             var detalle_obj = {};
             if (this.active_tab == 0) {
+                // Para obtener el listado de ventas limpio para la insercion en la base de datos
                 this.detalle_ventas_lista.map((detalle) => {
                     detalle_obj = {
                         id_venta: 0,
@@ -774,26 +785,7 @@ export default {
                         detalles: detalles_listado_limpio,
                     }).then((resp) => {
                         this.watch_toast('success', 'Venta registrada correctamente');
-                        this.detalle_ventas_lista = [];
-                        this.cliente_info = {
-                            id_cliente: 0,
-                            nombre_cliente: "",
-                            nit_cliente: "",
-                            nrc_cliente: "",
-                            dui_cliente: "",
-                            direccion_cliente: "",
-                            municipio_cliente: {},
-                            identificador_cliente: ""
-                        };
-                        this.venta_info = {
-                            id_venta: 0,
-                            nombre_cliente_venta: "",
-                            fecha_venta: this.venta_info.fecha_venta,
-                            total_venta: 0,
-                            total_iva: 0,
-                        };
-                        this.campo_identificador_cliente = "";
-                        this.contador_tabla = 1;
+                        this.limpiar_campos();
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
@@ -824,39 +816,42 @@ export default {
                         detalles: detalles_listado_limpio,
                     }).then(() => {
                         this.watch_toast('success', 'Credito registrado correctamente');
-                        this.detalle_ventas_lista = [];
-                        this.cliente_info = {
-                            id_cliente: 0,
-                            nombre_cliente: "",
-                            nit_cliente: "",
-                            nrc_cliente: "",
-                            dui_cliente: "",
-                            direccion_cliente: "",
-                            municipio_cliente: {},
-                            identificador_cliente: ""
-                        };
-                        this.venta_info = {
-                            id_venta: 0,
-                            nombre_cliente_venta: "",
-                            fecha_venta: this.venta_info.fecha_venta,
-                            total_venta: 0,
-                            total_iva: 0,
-                        };
-                        this.credito_fiscal_info = {
-                            id_credito_fiscal: 0,
-                            id_cliente: 0,
-                            fecha_credito_fiscal: this.venta_info.fecha_venta,
-                            total_credito_fiscal: 0,
-                            total_iva_credito_fiscal: 0,
-                        };
-                        this.campo_identificador_cliente = "";
-                        this.contador_tabla = 1;
+                        this.limpiar_campos();
                     }).catch((error) => {
                         this.watch_toast('error', error.response.data.mensaje);
                         this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
                         throw error;
                     })
             }
+        },
+        limpiar_campos() {
+            this.detalle_ventas_lista = [];
+            this.cliente_info = {
+                id_cliente: 0,
+                nombre_cliente: "",
+                nit_cliente: "",
+                nrc_cliente: "",
+                dui_cliente: "",
+                direccion_cliente: "",
+                municipio_cliente: {},
+                identificador_cliente: ""
+            };
+            this.venta_info = {
+                id_venta: 0,
+                nombre_cliente_venta: "",
+                fecha_venta: this.venta_info.fecha_venta,
+                total_venta: 0,
+                total_iva: 0,
+            };
+            this.credito_fiscal_info = {
+                id_credito_fiscal: 0,
+                id_cliente: 0,
+                fecha_credito_fiscal: this.venta_info.fecha_venta,
+                total_credito_fiscal: 0,
+                total_iva_credito_fiscal: 0,
+            };
+            this.campo_identificador_cliente = "";
+            this.contador_tabla = 1;
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
