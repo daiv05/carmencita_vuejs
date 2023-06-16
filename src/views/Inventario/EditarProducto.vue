@@ -253,7 +253,7 @@ export default {
                     this.producto.precioUnitarioProducto = tempProducto.precio_unitario;
                     this.asignarEstadoProducto(tempProducto.esta_disponible);
                     this.cargarFoto(tempProducto.foto);
-                    this.cargarPreciosExtra(this.idProducto);
+                    this.cargarPreciosExtra();
                 }
             )
             .catch(
@@ -266,7 +266,7 @@ export default {
                 }
             );
         },
-        cargarPreciosExtra(codigoBarraProducto){
+        cargarPreciosExtra(){
             axios.get("http://127.0.0.1:8000/api/precio_lista_unidades/"+this.producto.codigoBarraProducto)
             .then(
                 response=>{
