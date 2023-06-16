@@ -1,14 +1,45 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, BuildingStorefrontIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+console.log('asdfasdfasd'+route.fullPath);
 
 const navigation = [
   { name: 'Inicio', href: '/', current: true },
-  { name: 'Facturacion', href: '/', current: false },
-  { name: 'Inventario', href: '/', current: false },
-  { name: 'Empleados', href: '/', current: false },
-  { name: 'Cargos', href: '/', current: false },
+  { name: 'Facturacion', href: '/registrar_nueva_venta', current: false },
+  { name: 'Inventario', href: '/gestion_productos', current: false },
+  { name: 'Empleados', href: '/listar_empleados', current: false },
+  { name: 'Cargos', href: '/gestion_cargos', current: false },
 ]
+
+if(route.fullPath.includes("venta") ||route.fullPath.includes("sale")){
+  for(let i = 0; i<navigation.length; i++){
+    navigation[i].current = false;
+  }
+  navigation[1].current = true;
+}
+
+if(route.fullPath.includes("producto") || route.fullPath == null){
+  for(let i = 0; i<navigation.length; i++){
+    navigation[i].current = false;
+  }
+  navigation[2].current = true;
+}
+if(route.fullPath.includes("empleado")){
+  for(let i = 0; i<navigation.length; i++){
+    navigation[i].current = false;
+  }
+  navigation[3].current = true;
+}
+if(route.fullPath.includes("cargo")){
+  for(let i = 0; i<navigation.length; i++){
+    navigation[i].current = false;
+  }
+  navigation[4].current = true;
+}
+
 </script>
 
 <template>
@@ -25,8 +56,7 @@ const navigation = [
           </div>
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div class="flex flex-shrink-0 items-center">
-              <img class="block h-8 w-auto lg:hidden" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
-              <img class="hidden h-8 w-auto lg:block" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+              <BuildingStorefrontIcon class="h-8 w-8 text-blue-500 font-bold" />
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
@@ -45,7 +75,7 @@ const navigation = [
               <div>
                 <MenuButton class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                  <UserCircleIcon class="h-10 w-10 text-blue-500" />  
                 </MenuButton>
               </div>
               <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
