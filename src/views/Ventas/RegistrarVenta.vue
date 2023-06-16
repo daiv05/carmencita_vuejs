@@ -630,11 +630,11 @@ export default {
             return axios
                 .get(api_url + '/productos/' + this.codigo_barra_lector)
                 .then((res) => {
-                    if(res.data.producto == null){
+                    if (res.data.producto == null) {
                         this.watch_toast("error", "Producto no encontrado");
                         return;
                     }
-                    if(res.data.producto.esta_disponible == false){
+                    if (res.data.producto.esta_disponible == false) {
                         this.watch_toast("error", "Producto no disponible actualmente");
                         return;
                     }
@@ -682,6 +682,10 @@ export default {
                 }
                 axios.get(api_url + '/productos/buscar/' + this.producto_nombre)
                     .then((res) => {
+                        if (res.data.producto.esta_disponible == false) {
+                            this.watch_toast("error", "Producto no disponible actualmente");
+                            return;
+                        }
                         this.producto_info = res.data.producto[0]
                         this.producto_info['precio_unitario_original'] = res.data.producto[0].precio_unitario;
                         console.log(res.data.producto[0].codigo_barra_producto);
