@@ -70,7 +70,7 @@ export default {
                 this.$emit("cerrarModalEliminar",false,null);
             },
             obtenerJornadaLaboral(){
-                axios.get(api_url+"/jornadas_laborales/"+this.cargo.id_jornada_laboral_diaria)
+                axios.get(api_url+"/jornadas_laborales_diarias/"+this.cargo.id_jornada_laboral_diaria)
                 .then(response=>{
                     this.jornada = response.data.jornada
                 })

@@ -133,7 +133,7 @@ export default {
             return true;
         },
         obtenerListaHorarios(){
-            axios.get(api_url+"/jornadas_laborales").then(
+            axios.get(api_url+"/jornadas_laborales_diarias").then(
                 response=>{
                     this.listaHorarioLaboral = response.data;
                 }
