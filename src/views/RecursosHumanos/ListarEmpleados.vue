@@ -1,4 +1,5 @@
 <script setup>
+import api_url from "../../config";
 import NavBar from "../../components/NavBar.vue";
 import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesactivar.vue";
 </script>
@@ -61,7 +62,7 @@ export default {
      },
      methods:{
           obtenerListaEmpleados(){
-               axios.get("http://127.0.0.1:8000/api/empleados")
+               axios.get(api_url+"/empleados")
                .then(
                     (response) =>{
                         

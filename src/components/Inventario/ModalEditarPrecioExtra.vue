@@ -1,5 +1,6 @@
 <script setup>
 import {Field,ErrorMessage} from 'vee-validate';
+import api_url from "../../config";
 </script>
 
 <template>
@@ -102,7 +103,7 @@ export default {
       console.log("Hola mundo");
     },
     obtenerUnidadesDeMedida(){
-       axios.get("http://127.0.0.1:8000/api/unidades_de_medida")
+       axios.get(api_url+"/unidades_de_medida")
        .then(
         response=>{
           this.listaUnidadDeMedida = response.data;

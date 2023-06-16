@@ -1,9 +1,11 @@
 <script setup>
+import api_url from "../../config"
 import NavBar from "../../components/NavBar.vue";
 import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComponent.vue";
 import ModalAgregarCargoComponent from "../../components/RecursosHumanos/ModalAgregarCargoComponent.vue";
 import ModalEliminarCargoComponenteVue from "../../components/RecursosHumanos/ModalEliminarCargoComponente.vue";
 import ModalConsultarCargoComponent from "../../components/RecursosHumanos/ModalConsultarCargoComponent.vue";
+
 </script>
 
 <template>
@@ -96,7 +98,7 @@ export default {
      },
      methods: {
           getCargos(){
-           axios.get('http://127.0.0.1:8000/api/cargos').then(
+           axios.get(api_url+'/cargos').then(
                response => {
                     this.listaCargos = response.data
                }
