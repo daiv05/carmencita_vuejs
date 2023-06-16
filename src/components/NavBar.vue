@@ -2,13 +2,14 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon, BuildingStorefrontIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useRoute } from 'vue-router';
+import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
 
 const route = useRoute();
 console.log('asdfasdfasd'+route.fullPath);
 
 const navigation = [
   { name: 'Inicio', href: '/', current: true },
-  { name: 'Facturacion', href: '/registrar_nueva_venta', current: false },
+  { name: 'Facturacion', href: '/sales_list', current: false },
   { name: 'Inventario', href: '/gestion_productos', current: false },
   { name: 'Empleados', href: '/listar_empleados', current: false },
   { name: 'Cargos', href: '/gestion_cargos', current: false },
@@ -21,7 +22,7 @@ if(route.fullPath.includes("venta") ||route.fullPath.includes("sale")){
   navigation[1].current = true;
 }
 
-if(route.fullPath.includes("producto") || route.fullPath == null){
+if(route.fullPath.includes("producto")){
   for(let i = 0; i<navigation.length; i++){
     navigation[i].current = false;
   }

@@ -10,11 +10,12 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
             <div class="w-full h-[60px]">
-                <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
+                <div class="flex justify-between align-middle px-16 w-full h-[60px] absolute left-0 bg-white"
                     style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
                     <p class="mt-2 flex-grow-0 flex-shrink-0 w-[500px] text-[31px] font-semibold text-left text-[#3056d3]">
                         Listado de Ventas
                     </p>
+                    <a href="/registrar_nueva_venta" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 h-auto my-auto mr-1 w-fit-content">Registrar nueva venta</a>
                 </div>
             </div>
 
