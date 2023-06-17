@@ -6,7 +6,7 @@ import api_url from "../../config";
 
 <!-- component -->
 
-    <Form class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarModificacionEmpleado()">
+    <Form class="h-[50%] w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarModificacionEmpleado()">
 
       <div class=" bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="errorConsulta">
         <strong class="font-bold">Error a modificar Cargo</strong>
@@ -46,12 +46,13 @@ import api_url from "../../config";
         <button id="btnCancelar" class=" ml-4 py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"> Cancelar</button>
       </div>
     </Form>
+
 </template>
 
 <script>
 import axios from 'axios';
 import {Form,Field, ErrorMessage} from 'vee-validate';
-export default{
+export default {
         components:{
           Form,
           Field,

@@ -5,7 +5,7 @@ import api_url from '../../config';
 
 <template>
 
-<Form class="max-w-[100%]  mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[25%] left-0 right-0" @submit="agregarPrecioExtra()">
+<Form class="h-[25%] max-w-[100%]  mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[25%] left-0 right-0" @submit="agregarPrecioExtra()">
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-[2%]">
       <div class="col-span-3">
