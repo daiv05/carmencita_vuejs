@@ -5,7 +5,7 @@ import api_url from "../../config";
 import ModalConsultarProductoComponent from "../../components/Inventario/ModalConsultarProductoComponent.vue";
 import notImg from '@/assets/producto_no_disponible.png'
 
-const agregar_producto = "/agregar_producto";
+const agregar_producto = "agregar_producto";
 //const editar_producto = "/editar_producto/:id_producto";
 
 </script>
