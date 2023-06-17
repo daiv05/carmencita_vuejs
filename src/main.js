@@ -9,7 +9,7 @@ import './assets/main.css'
 import axios from 'axios'
 
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = 'https://dsi-g05-carmencitaproject-production.up.railway.app';
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
 
