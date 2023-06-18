@@ -21,7 +21,7 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
                          </tr>
                     </thead>
                     <tbody>
-                         <tr class="text-center" v-for="empleado in this.listaEmpleados" v-bind:key="empleado.id_empleado">
+                         <tr class="text-center" v-for="empleado in listaEmpleados" v-bind:key="empleado.id_empleado">
                               <td class="py-4 px-8" >{{ empleado.username }}</td>
                               <td class="py-4 px-8" >{{ empleado.primer_nombre }} {{ empleado.segundo_empleado }}</td>
                               <td class="py-4 px-8" >{{empleado.cargo}}</td>
