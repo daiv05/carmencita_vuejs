@@ -60,7 +60,7 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
 </section>
      
 <Teleport to="body">
-          <ModalCargoComponent v-if="controlModal" @cerrarModal = "cerrarModal" :cargo = "this.cargoParametro"></ModalCargoComponent>
+          <ModalCargoComponent v-if="controlModal" @cerrarModal = "cerrarModal" :cargo = "cargoParametro"></ModalCargoComponent>
 </Teleport>
 
 <Teleport to="body">
@@ -68,10 +68,10 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
 </Teleport>
 
 <Teleport to="body">
-     <ModalEliminarCargoComponenteVue v-if="controlModalEliminar" @cerrarModalEliminar = "cerrarModalEliminar" :cargo="this.cargoParametro"></ModalEliminarCargoComponenteVue>
+     <ModalEliminarCargoComponenteVue v-if="controlModalEliminar" @cerrarModalEliminar = "cerrarModalEliminar" :cargo="cargoParametro"></ModalEliminarCargoComponenteVue>
 </Teleport>
 <Teleport to="body">
-     <ModalConsultarCargoComponent v-if="controlModalConsultar" @cerrarModalConsultar = "cerrarModalConsultar"  :cargo="this.cargoParametro"></ModalConsultarCargoComponent>
+     <ModalConsultarCargoComponent v-if="controlModalConsultar" @cerrarModalConsultar = "cerrarModalConsultar"  :cargo="cargoParametro"></ModalConsultarCargoComponent>
 </Teleport>
 
      </main>

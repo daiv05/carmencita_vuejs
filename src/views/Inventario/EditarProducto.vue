@@ -10,11 +10,11 @@ import api_url from '../../config';
         <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 fixed top-20 left-0 right-0" 
         role="alert"
         v-if="activarAlerta==true">
-        <span class="font-medium">{{ this.mensajeExito }}</span>
+        <span class="font-medium">{{ mensajeExito }}</span>
         </div>
         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400 fixed top-10 left-0 right-0" role="alert"
         v-if="activarAlertaError==true">
-        <span class="font-medium">{{ this.mensajeExito }}</span>
+        <span class="font-medium">{{ mensajeExito }}</span>
         </div>
         <NavBar></NavBar>
         <div class = "container mx-auto p-6 ">
@@ -73,10 +73,10 @@ import api_url from '../../config';
                     </div>
                 
                     <div class="flex justify-center ">
-                        <svg class="h-28 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" v-if="this.urlFotoProducto == ' '">
+                        <svg class="h-28 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" v-if="urlFotoProducto == ' '">
                         <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd" />
                         </svg>
-                        <img  class="h-28 w-28 text-gray-300 rounded-full mb-[1%]" v-bind:src="this.urlFotoProducto" alt="Foto del producto" v-if="this.urlFotoProducto!= ' ' ">
+                        <img  class="h-28 w-28 text-gray-300 rounded-full mb-[1%]" v-bind:src="urlFotoProducto" alt="Foto del producto" v-if="urlFotoProducto!= ' ' ">
                     </div>    
 
                      <div>
@@ -158,7 +158,7 @@ import api_url from '../../config';
             <ModalPrecioExtra v-if="controlModalPrecioExtra" @controlEventoModal="controlEventoModal"></ModalPrecioExtra>
         </Teleport>
         <Teleport to="body">
-            <ModalEditarPrecioExtra v-if="controlModalEditarPrecioExtra" @controlEventoModalEditarPrecioExtra="controlEventoModalEditarPrecioExtra" :precioExtraParametro="this.precioExtraParametro">
+            <ModalEditarPrecioExtra v-if="controlModalEditarPrecioExtra" @controlEventoModalEditarPrecioExtra="controlEventoModalEditarPrecioExtra" :precioExtraParametro="precioExtraParametro">
 
             </ModalEditarPrecioExtra>
         </Teleport>
