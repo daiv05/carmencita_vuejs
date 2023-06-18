@@ -55,10 +55,10 @@ export default {
           }
      },
      mounted(){
-          this.obtenerListaEmpleados();
+          //this.obtenerListaEmpleados();
      },
      created(){
-          //this.obtenerListaEmpleados();
+          this.obtenerListaEmpleados();
      },
      methods:{
           obtenerListaEmpleados(){
