@@ -22,7 +22,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Facturación">
           <list-group>
             <list-group-item>
-              <router-link to="registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/registrar_nueva_venta" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar Ventas</p>
@@ -30,7 +30,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="sales_list">
+              <router-link to="/sales_list">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de ventas</p>
@@ -47,7 +47,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Inventario">
           <list-group>
             <list-group-item>
-              <router-link to="gestion_productos" class="w-full h-full">
+              <router-link to="/gestion_productos" class="w-full h-full">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Gestión de productos</p>
@@ -55,7 +55,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="registrar_nueva_venta">
+              <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <DocumentCheckIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Gestión de existencias</p>
@@ -72,7 +72,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Empleados">
           <list-group>
             <list-group-item>
-              <router-link to="empleado_agregar" class="w-full h-full">
+              <router-link to="/empleado_agregar" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar empleado</p>
@@ -80,7 +80,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="listar_empleados">
+              <router-link to="/listar_empleados">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Lista de empleados</p>
@@ -88,7 +88,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="gestion_cargos">
+              <router-link to="/gestion_cargos">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Gestión de cargos</p>
@@ -105,7 +105,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Asistencia">
           <list-group>
             <list-group-item>
-              <router-link to="registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/registrar_nueva_venta" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar asistencia</p>
@@ -113,7 +113,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="registrar_nueva_venta">
+              <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de asistencia</p>
@@ -130,7 +130,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Usuarios">
           <list-group>
             <list-group-item>
-              <router-link to="registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/registrar_nueva_venta" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar usuario</p>
@@ -138,7 +138,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="registrar_nueva_venta">
+              <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Lista de usuarios</p>
@@ -155,7 +155,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Informes">
           <list-group>
             <list-group-item>
-              <router-link to="registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/registrar_nueva_venta" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Informe de ventas</p>
@@ -163,7 +163,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="registrar_nueva_venta">
+              <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Informe de inventarios</p>

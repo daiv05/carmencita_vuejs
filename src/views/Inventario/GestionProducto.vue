@@ -25,7 +25,7 @@ const agregar_producto = "agregar_producto";
                 </p>
                 <div
                     class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                    <router-link to="agregar_producto" class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
+                    <router-link to="/agregar_producto" class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
                         Agregar Producto
                     </router-link>
                 </div>

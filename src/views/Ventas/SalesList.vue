@@ -100,7 +100,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                                                         <td class="text-center flex">
                                                           
                                                           <router-link class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
-                                                          v-bind:to="'detail_sales/'+venta.id_venta">
+                                                          v-bind:to="'/detail_sales/'+venta.id_venta">
                                                           Detalle</router-link>
                                                           <span class="mx-1"></span>                                                             
                                                           <VentaDesactivar  :estado="venta.estado_venta" :id="venta.id_venta"/>

@@ -23,7 +23,7 @@ import NavBar from '@/components/NavBar.vue'
                     <div class="tab" :class="{ 'active': activeTab === 0 }" @click="activeTab = 0">
                         Consumidor Final
                     </div>
-                    <router-link to="back" class="bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la lista</router-link>
+                    <router-link to="/sales_list" class="bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la lista</router-link>
                 </div>
 
 

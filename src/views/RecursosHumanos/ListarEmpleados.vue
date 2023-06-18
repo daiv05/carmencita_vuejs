@@ -75,7 +75,7 @@ export default {
                });
           },
           generarEnlace(idEmpleado){
-               return "empleado_modificar/"+idEmpleado;
+               return "/empleado_modificar/"+idEmpleado;
           },
      },
      watch:{
