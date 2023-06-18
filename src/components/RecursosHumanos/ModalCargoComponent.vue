@@ -6,7 +6,7 @@ import api_url from "../../config";
 
 <!-- component -->
 
-    <Form class="h-[50%] w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarModificacionEmpleado()">
+    <Form class="h-96 w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md z-999 fixed top-20 left-0 right-0" @submit="guardarModificacionEmpleado()">
 
       <div class=" bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" v-if="errorConsulta">
         <strong class="font-bold">Error a modificar Cargo</strong>
