@@ -8,7 +8,7 @@ const route = useRoute();
 console.log('asdfasdfasd'+route.fullPath);
 
 const navigation = [
-  { name: 'Inicio', href: '/', current: true },
+  { name: 'Inicio', href: '/dashboard', current: true },
   { name: 'Facturacion', href: '/sales_list', current: false },
   { name: 'Inventario', href: '/gestion_productos', current: false },
   { name: 'Empleados', href: '/listar_empleados', current: false },

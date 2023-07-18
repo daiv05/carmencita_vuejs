@@ -750,11 +750,11 @@ export default {
         //Subtotal de la venta RESUMEN
         calcular_subtotalventa() {
             new Promise((resolve, reject) => {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.00
-                );
-                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                //     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                //     0.00
+                // );
+                // this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 resolve();
             });
         },

@@ -12,7 +12,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
     <NavBar></NavBar>
     <BarraTitulo :titulo="titulo"></BarraTitulo>
     <div class="container flex justify-center py-5">
-      <h1 class="font-bold text-lg">¡Bienvenido!</h1>
+      <h1 class="font-bold text-lg">¡Bienvenido! {{ token }}</h1>
     </div>
     <!--Cards-->
     <div class="container max-w-4xl mx-auto px-10 py-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
@@ -181,6 +181,9 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
 
 <script>
 
+import store from '../store/auth.js';
+import Cookies from 'js-cookie';
+
 const navigationVentas = [
   { name: 'Registrar Ventas', href: '#', current: true },
   { name: 'Historial de ventas', href: '#', current: false },
@@ -189,7 +192,13 @@ const navigationVentas = [
     data(){
       return{
         titulo:'Panel de Control',
+        token: Cookies.get('authToken'),
       }
-    }
+    },
+    computed: {
+        authToken() {
+            return store.state.authToken;
+        }
+    },
   }
 </script>

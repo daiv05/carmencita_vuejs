@@ -12,11 +12,24 @@ import SalesList from '../views/Ventas/SalesList.vue'
 import DetailSales from '../views/Ventas/DetailSales.vue'
 import DetailCF from '../views/Ventas/DetailCF.vue'
 
+import login from '../views/login.vue'
+import logout from '../views/logout.vue'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
+      path: '/login',
+      name: 'login',
+      component: login
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: logout
+    },
+    {
+      path: '/dashboard',
       name: 'home',
       component: HomeView
     },
@@ -42,37 +55,37 @@ const router = createRouter({
     },
     {
       path: "/gestion_cargos",
-      name : "gestion_cargos",
-      component : GestionCargo
+      name: "gestion_cargos",
+      component: GestionCargo
     },
     {
       path: "/editar_producto/:id_producto",
       name: "editar_producto",
       component: EditarProducto
-     },
-   {
-    path : "/agregar_producto",
-    name: "agregar_producto",
-    component : AgregarProducto
-   },
-   {
-    path : "/sales_list",
-    name: "Lista de ventas",
-    component : SalesList
-   },
-   {
-    path : "/detail_sales/:id_venta",
-    name: "sales_list",
-    component : DetailSales
-   },   {
-    path : "/detail_cf/:id_creditofiscal",
-    name: "detail_cf",
-    component : DetailCF
-   },
+    },
+    {
+      path: "/agregar_producto",
+      name: "agregar_producto",
+      component: AgregarProducto
+    },
+    {
+      path: "/sales_list",
+      name: "Lista de ventas",
+      component: SalesList
+    },
+    {
+      path: "/detail_sales/:id_venta",
+      name: "sales_list",
+      component: DetailSales
+    }, {
+      path: "/detail_cf/:id_creditofiscal",
+      name: "detail_cf",
+      component: DetailCF
+    },
     {
       path: "/gestion_productos",
-      name : "gestion_productos",
-      component : GestionProducto
+      name: "gestion_productos",
+      component: GestionProducto
     },
     {
       path: '/about',
@@ -84,5 +97,11 @@ const router = createRouter({
     }
   ]
 })
+
+// router.beforeEach( async (to) => {
+//   const publicPages = ['/login'];
+//   const authRequired = !publicPages.includes(to.path);
+
+// })
 
 export default router
