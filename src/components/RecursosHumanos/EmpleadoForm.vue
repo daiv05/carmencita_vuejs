@@ -220,9 +220,9 @@ import api_url from '../../config.js' ;
   
   <!--submit button-->
   <div class="flex items-center justify-center">
-        <a href="/listar_empleados" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        <router-link to="/listar_empleados" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Cancelar
-        </a>
+        </router-link>
         <button type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Enviar
         </button>

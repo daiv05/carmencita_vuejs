@@ -5,7 +5,7 @@ import api_url from "../../config";
 import ModalConsultarProductoComponent from "../../components/Inventario/ModalConsultarProductoComponent.vue";
 import notImg from '@/assets/producto_no_disponible.png'
 
-const agregar_producto = "/agregar_producto";
+const agregar_producto = "agregar_producto";
 //const editar_producto = "/editar_producto/:id_producto";
 
 </script>
@@ -25,9 +25,9 @@ const agregar_producto = "/agregar_producto";
                 </p>
                 <div
                     class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                    <a :href="agregar_producto" class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
+                    <router-link to="/agregar_producto" class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
                         Agregar Producto
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>       
@@ -94,7 +94,7 @@ const agregar_producto = "/agregar_producto";
                                     </thead>
 
                                     <tbody class="bg-white">
-                                        <tr class="border-b-2 border-black-400 h-[40px] bg-black-300" v-for="producto in even(listaProductos, this.estado)" v-bind:key="producto.codigo_barra_producto">
+                                        <tr class="border-b-2 border-black-400 h-[40px] bg-black-300" v-for="producto in even(listaProductos, estado)" v-bind:key="producto.codigo_barra_producto">
                                             <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100" @click="mostrarProducto(producto.codigo_barra_producto)">
                                                 <div class="flex items-center">
                                                     <img class="w-10 h-10 rounded-full mr-4" v-bind:src= "api_url + '/productos/' + producto.codigo_barra_producto + '/foto' " v-if="producto.foto != '' " alt="Avatar of Jonathan Reinink"/>

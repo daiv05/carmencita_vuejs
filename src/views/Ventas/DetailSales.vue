@@ -23,7 +23,7 @@ import NavBar from '@/components/NavBar.vue'
                     <div class="tab" :class="{ 'active': activeTab === 0 }" @click="activeTab = 0">
                         Consumidor Final
                     </div>
-                    <a :href="'/sales_list'" class="buttonColor bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la lista</a>
+                    <router-link to="/sales_list" class="bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la lista</router-link>
                 </div>
 
 
@@ -44,7 +44,7 @@ import NavBar from '@/components/NavBar.vue'
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
 
                                 <!-- Tabla de DetalleVenta -->
-                                <table class="table-fixed w-full shadow-lg">
+                                <table v-if="ventaCF" class="table-fixed w-full shadow-lg">
                                     <thead>
                                         <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
                                             <th class="font-bold">Item</th>
@@ -200,8 +200,7 @@ export default {
     },
 
     created() {
-        const ventaCFId = this.$route.params.id_venta;
-        this.getDetalleVenta(ventaCFId);
+        this.getDetalleVenta(this.$route.params.id_venta);
     },
 
     mounted() {
