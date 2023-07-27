@@ -3,7 +3,7 @@ import TheWelcome from '../components/TheWelcome.vue'
 import NavBar from '@/components/NavBar.vue'
 import BarraTitulo from '../components/BarraTitulo.vue';
 import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
-import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } from '@heroicons/vue/24/outline'
+import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } from '@heroicons/vue/24/outline'
 
 </script>
 
@@ -17,7 +17,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
     <!--Cards-->
     <div class="container max-w-4xl mx-auto px-10 py-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
       <!--Facturacion-->
-      <the-card  variant="image"  img-src="assets/img/facturacion.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/facturacion.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Facturación</h5>
         <dropdown text="Facturación">
           <list-group>
@@ -42,7 +42,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
       </the-card>
 
       <!--Inventario-->
-      <the-card  variant="image"  img-src="assets/img/inventario.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/inventario.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Inventario</h5>
         <dropdown text="Inventario">
           <list-group>
@@ -67,7 +67,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
       </the-card>
 
       <!--Empleados-->
-      <the-card  variant="image"  img-src="assets/img/empleados.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/empleados.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Empleados</h5>
         <dropdown text="Empleados">
           <list-group>
@@ -100,7 +100,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
       </the-card>
 
       <!--Asistencia-->
-      <the-card  variant="image"  img-src="assets/img/asistencia.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/asistencia.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Registro de asistencias</h5>
         <dropdown text="Asistencia">
           <list-group>
@@ -125,7 +125,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
       </the-card>
 
       <!--Usuarios-->
-      <the-card  variant="image"  img-src="assets/img/usuarios.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/usuarios.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Usuarios</h5>
         <dropdown text="Usuarios">
           <list-group>
@@ -150,7 +150,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
       </the-card>
 
       <!--Informes y estadisticas-->
-      <the-card  variant="image"  img-src="assets/img/estadisticas.jpg" img-alt="Desk">
+      <the-card variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes y Estadisticas</h5>
         <dropdown text="Informes">
           <list-group>
@@ -174,22 +174,54 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         </dropdown>
       </the-card>
 
-    </div> 
+    </div>
   </main>
-  
 </template>
 
 <script>
+import axios from 'axios';
+import API_URL from '../config.js';
 
 const navigationVentas = [
   { name: 'Registrar Ventas', href: '#', current: true },
   { name: 'Historial de ventas', href: '#', current: false },
 ]
-  export default {
-    data(){
-      return{
-        titulo:'Panel de Control',
-      }
+export default {
+  data() {
+    return {
+      titulo: 'Panel de Control',
     }
+  },
+  methods: {
+    imprimir() {
+      // Obtener el PDF e imprimirlo con js
+      axios.get('http://localhost:8002/api/impresion_prueba', {
+        responseType: 'blob',
+      }).then((response) => {
+        console.log(response);
+        const fileBlob = new Blob([response.data], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(fileBlob);
+
+        // Crear un iframe oculto para cargar el PDF y luego imprimirlo
+        const pdfIframe = document.createElement('iframe');
+        pdfIframe.style.display = 'none';
+        pdfIframe.src = fileURL;
+        document.body.appendChild(pdfIframe);
+
+        pdfIframe.onload = function () {
+          // Imprimir el PDF después de cargarlo en el iframe
+          pdfIframe.contentWindow.print();
+        };
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+
+
+  },
+  created() {
+    this.imprimir();
   }
+}
 </script>
+

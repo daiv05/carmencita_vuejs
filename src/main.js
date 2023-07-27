@@ -10,7 +10,7 @@ import axios from 'axios'
 
 
 // Set the appropriate CORS headers based on the current origin
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.location.origin;
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
 
