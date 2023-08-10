@@ -11,6 +11,7 @@ import EditarProducto from '../views/Inventario/EditarProducto.vue'
 import SalesList from '../views/Ventas/SalesList.vue'
 import DetailSales from '../views/Ventas/DetailSales.vue'
 import DetailCF from '../views/Ventas/DetailCF.vue'
+import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -73,6 +74,11 @@ const router = createRouter({
       path: "/gestion_productos",
       name : "gestion_productos",
       component : GestionProducto
+    },
+    {
+      path: "/crear_hoja_de_ruta",
+      name : "crear_hoja_de_ruta",
+      component : HojaDeRutaAgregar
     },
     {
       path: '/about',
