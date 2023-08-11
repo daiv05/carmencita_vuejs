@@ -33,7 +33,7 @@
 
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
-                        <div class="flex max-h-[750px] overflow-y-auto pb-36">
+                        <div class="flex max-h-[750px] pb-36">
                             <div class="w-3/4 pr-4 h-full pt-4">
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
                                 <!-- Input para ingresar Producto -->
@@ -134,9 +134,9 @@
                                 </div>
                                 <div v-if="active_tab === 1">
                                     <!-- PARA CREDITO FISCAL-->
-                                    <div class="flex overflow-y-auto">
+                                    <div class="flex">
                                         <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                                        <div class="w-1/4 pb-24 pl-2 flex-shrink-0">
+                                        <div class="pb-24 pl-2 flex-shrink-0">
                                             <div class="flex md:flex-row flex-col items-center py-4 px-4">
                                                 <!-- Input para ingresar Fecha -->
                                                 <div class="flex flex-col md:mr-16">
@@ -478,11 +478,11 @@ export default {
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
 
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
 
-                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(4);
 
-                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(4);
             },
             deep: true,
         },
@@ -711,7 +711,9 @@ export default {
             if (producto_ya_agregado) {
                 // Si el producto ya está en la tabla, aumentar la cantidad a ese detalle
                 producto_ya_agregado.cantidad_prod_venta++;
-                return this.calcular_subtotalventa();
+                return new Promise((resolve, reject) => {
+                    resolve();
+                });
             }
             return new Promise((resolve, reject) => {
                 const detalle = {
@@ -730,10 +732,7 @@ export default {
         watch_cantidad_producto(fila) {
             this.verificar_unidad_medida(fila)
                 .then(() => {
-                    return this.calcular_subtotalventa();
-                })
-                .then(() => {
-                    console.log("Todo bien todo correcto")
+                    console.log("Todo bien todo correcto");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -750,84 +749,92 @@ export default {
         //Subtotal de la venta RESUMEN
         calcular_subtotalventa() {
             new Promise((resolve, reject) => {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.00
-                );
-                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                //     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                //     0.00
+                // );
+                // this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 resolve();
             });
         },
         //Registrar Venta y obtener el id de la venta registrada
         register_new_venta() {
-            if (this.detalle_ventas_lista.length == 0) {
-                this.watch_toast('error', 'No se ha agregado ningun producto');
+            if (this.detalle_ventas_lista.length === 0) {
+                this.watch_toast('error', 'No se ha agregado ningún producto');
                 return;
             }
-            var datos_ventas = {};
-            var detalles_listado_limpio = [];
-            var detalle_obj = {};
-            if (this.active_tab == 0) {
-                // Para obtener el listado de ventas limpio para la insercion en la base de datos
-                this.detalle_ventas_lista.map((detalle) => {
-                    detalle_obj = {
-                        id_venta: 0,
-                        codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
-                        cantidad_producto: detalle.cantidad_prod_venta,
-                        subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
-                    };
-                    detalles_listado_limpio.push(detalle_obj);
-                });
-                axios.post(api_url + '/ventas/registrar/',
-                    datos_ventas = {
-                        venta: {
-                            nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
-                            fecha_venta: this.venta_info.fecha_venta,
-                            total_venta: Number(this.subtotal_venta),
-                            total_iva: Number(this.venta_info.total_iva),
-                        },
-                        detalles: detalles_listado_limpio,
-                    }).then((resp) => {
-                        this.watch_toast('success', 'Venta registrada correctamente');
-                        this.limpiar_campos();
-                    }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
-                        throw error;
-                    });
-            } else if (this.active_tab == 1) {
-                if (this.cliente_info.id_cliente == 0) {
-                    this.watch_toast('error', 'Debe seleccionar un Cliente');
-                    return;
-                }
-                this.detalle_ventas_lista.map((detalle) => {
-                    detalle_obj = {
-                        id_creditofiscal: 0,
-                        codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
-                        cantidad_producto_credito: detalle.cantidad_prod_venta,
-                        subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
-                    };
-                    detalles_listado_limpio.push(detalle_obj);
-                });
-                axios.post(api_url + '/creditos/registrar/',
-                    datos_ventas = {
-                        credito: {
-                            id_cliente: this.cliente_info.id_cliente,
-                            fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
-                            total_credito: Number(this.venta_info.total_venta),
-                            total_iva_credito: Number(this.venta_info.total_iva),
-                        },
-                        detalles: detalles_listado_limpio,
-                    }).then(() => {
-                        this.watch_toast('success', 'Credito registrado correctamente');
-                        this.limpiar_campos();
-                    }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
-                        throw error;
-                    })
+
+            const detalles_listado_limpio = this.prepare_detalles_listado_limpio();
+
+            if (this.active_tab === 0) {
+                this.register_venta(detalles_listado_limpio);
+            } else if (this.active_tab === 1) {
+                this.register_credito(detalles_listado_limpio);
             }
         },
+
+        prepare_detalles_listado_limpio() {
+            return this.detalle_ventas_lista.map(detalle => {
+                return {
+                    codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
+                    cantidad_producto: detalle.cantidad_prod_venta,
+                    subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
+                };
+            });
+        },
+
+        register_venta(detalles_listado_limpio) {
+            const datos_ventas = {
+                venta: {
+                    nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
+                    fecha_venta: this.venta_info.fecha_venta,
+                    total_venta: Number(this.subtotal_venta),
+                    total_iva: Number(this.venta_info.total_iva),
+                },
+                detalles: detalles_listado_limpio,
+            };
+
+            axios.post(api_url + '/ventas/registrar/', datos_ventas)
+                .then(() => {
+                    this.watch_toast('success', 'Venta registrada correctamente');
+                    this.limpiar_campos();
+                })
+                .catch(error => {
+                    this.handle_error(error, 'Venta');
+                });
+        },
+
+        register_credito(detalles_listado_limpio) {
+            if (this.cliente_info.id_cliente === 0) {
+                this.watch_toast('error', 'Debe seleccionar un Cliente');
+                return;
+            }
+
+            const datos_ventas = {
+                credito: {
+                    id_cliente: this.cliente_info.id_cliente,
+                    fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
+                    total_credito: Number(this.venta_info.total_venta),
+                    total_iva_credito: Number(this.venta_info.total_iva),
+                },
+                detalles: detalles_listado_limpio,
+            };
+
+            axios.post(api_url + '/creditos/registrar/', datos_ventas)
+                .then(() => {
+                    this.watch_toast('success', 'Crédito registrado correctamente');
+                    this.limpiar_campos();
+                })
+                .catch(error => {
+                    this.handle_error(error, 'Crédito');
+                });
+        },
+
+        handle_error(error, operation) {
+            this.watch_toast('error', error.response?.data.mensaje || `Ocurrió un error al registrar el ${operation}`);
+            throw error;
+        },
+
         limpiar_campos() {
             this.detalle_ventas_lista = [];
             this.cliente_info = {
