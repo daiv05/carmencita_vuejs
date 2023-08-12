@@ -1,6 +1,5 @@
 <script setup>
 import NavBar from '../../components/NavBar.vue'
-import empleadoForm from '../../components/RecursosHumanos/EmpleadoForm.vue'
 import api_url from '../../config.js'
 </script>
 
@@ -183,9 +182,6 @@ import api_url from '../../config.js'
 <script>
 import axios from 'axios';
 import { Form, Field, ErrorMessage } from 'vee-validate';
-import { defineRule } from 'vee-validate';
-import { useRoute } from 'vue-router';
-import { Modal } from 'flowbite-vue'
 import { ref } from 'vue'
 import moment from 'moment';
 

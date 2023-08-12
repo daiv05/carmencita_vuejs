@@ -12,6 +12,7 @@ import SalesList from '../views/Ventas/SalesList.vue'
 import DetailSales from '../views/Ventas/DetailSales.vue'
 import DetailCF from '../views/Ventas/DetailCF.vue'
 import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
+import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -79,6 +80,11 @@ const router = createRouter({
       path: "/crear_hoja_de_ruta",
       name : "crear_hoja_de_ruta",
       component : HojaDeRutaAgregar
+    },
+    {
+      path: "/listar_pedidos_domicilio",
+      name : "Pedidos_domicilio",
+      component : PedidosDomicilio
     },
     {
       path: '/about',
