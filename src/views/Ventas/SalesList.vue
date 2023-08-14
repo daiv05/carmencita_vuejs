@@ -40,10 +40,10 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
 
                     <!-- Contenido del las ventas para Consumidor Final -->
                     <div v-if="activeTab === 0" class="p-4 bg-white">
-                        <div class="flex max-h-[400px] overflow-y-auto pb-36">
+                        <div class="flex pb-36">
 
 
-                            <div class="w-4/4 pr-4 h-full pt-4">
+                            <div class="pr-4 h-full pt-4">
 
 
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
@@ -129,7 +129,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                       <div class="flex max-h-[400px] overflow-y-auto pb-36">
 
 
-<div class="w-4/4 pr-4 h-full pt-4">
+<div class="pr-4 pt-4">
 
 
     <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->

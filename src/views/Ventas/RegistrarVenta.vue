@@ -11,7 +11,9 @@
                     </p>
                     <div
                         class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
+                        <button id="show-modal"
+                            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white"
+                            @click="showModal = true">
                             Registrar como Pedido a Domicilio
                         </button>
                     </div>
@@ -368,6 +370,12 @@
             </div>
         </div>
     </div>
+
+
+    <Teleport to="body">
+        <ModalVentaDomicilio :show="showModal" :activeTab="active_tab" :fecha="venta_info.fecha_venta"
+            @close="showModal = false" @save="domicilio = true, register_new_venta()"></ModalVentaDomicilio>
+    </Teleport>
 </template>
 
 
@@ -378,15 +386,20 @@ import "../../assets/registrar_venta.css"
 import moment from 'moment';
 import { useToast } from 'vue-toastification'
 import NavBar from '@/components/NavBar.vue'
+import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue'
 
 const toast = useToast();
 
 export default {
     components: {
         NavBar: NavBar,
+        ModalVentaDomicilio
     },
     data() {
         return {
+            showModal: false,
+            domicilio: false,
+
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
 
@@ -476,13 +489,13 @@ export default {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
 
-                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
+                // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
 
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
 
-                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(4);
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
 
-                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(4);
+                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
             },
             deep: true,
         },
@@ -776,6 +789,7 @@ export default {
         prepare_detalles_listado_limpio() {
             return this.detalle_ventas_lista.map(detalle => {
                 return {
+                    id_venta: 1,
                     codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                     cantidad_producto: detalle.cantidad_prod_venta,
                     subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
@@ -794,8 +808,24 @@ export default {
                 detalles: detalles_listado_limpio,
             };
 
-            axios.post(api_url + '/ventas/registrar/', datos_ventas)
-                .then(() => {
+            axios.post(api_url + '/ventas/registrar/', datos_ventas, {
+                responseType: 'blob',
+            })
+                .then((response) => {
+                    console.log(response);
+                    const fileBlob = new Blob([response.data], { type: 'application/pdf' });
+                    const fileURL = URL.createObjectURL(fileBlob);
+
+                    // Crear un iframe oculto para cargar el PDF y luego imprimirlo
+                    const pdfIframe = document.createElement('iframe');
+                    pdfIframe.style.display = 'none';
+                    pdfIframe.src = fileURL;
+                    document.body.appendChild(pdfIframe);
+
+                    pdfIframe.onload = function () {
+                        // Imprimir el PDF después de cargarlo en el iframe
+                        pdfIframe.contentWindow.print();
+                    };
                     this.watch_toast('success', 'Venta registrada correctamente');
                     this.limpiar_campos();
                 })
@@ -897,6 +927,28 @@ export default {
                     rtl: false
                 });
             }
+        },
+
+
+        //
+        //
+        //
+        //
+        // Modal registrar venta domicilio
+        nuevo_venta_domicilio() {
+            this.venta_domicilio_info = {
+                id_venta_domicilio: 0,
+                nombre_cliente_venta_domicilio: "",
+                direccion_venta_domicilio: "",
+                telefono_venta_domicilio: "",
+                total_venta_domicilio: 0,
+                total_iva_venta_domicilio: 0,
+                fecha_venta_domicilio: this.venta_info.fecha_venta,
+            };
+            this.detalle_ventas_domicilio_lista = [];
+            this.campo_identificador_cliente = "";
+            this.contador_tabla = 1;
+            this.$refs.modal_venta_domicilio.show();
         },
     }
 };
