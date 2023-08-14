@@ -6,7 +6,7 @@ import api_url from '../../config.js'
 <template>
 <main>
     <NavBar></NavBar>
-    <div class="bg-slate-100 pb-2">
+    <div class="bg-slate-100 pb-6 min-h-screen">
     <div class = "bg-white w-full mx-auto p-5 shadow-md">
         <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Pedidos a Domicilio</h1>
     </div>
@@ -49,7 +49,7 @@ import api_url from '../../config.js'
                         </div>
                     </div>
                 </div>
-                <div class="p-4 lg:col-span-5 overflow-scroll">
+                <div class="p-4 lg:col-span-5 overflow-scroll ocultarScrollBar">
                     <table class="w-full max-h-screen shadow rounded-md">
                         <thead class="border-b bg-slate-100">
                             <tr class="text-center">
@@ -178,6 +178,12 @@ import api_url from '../../config.js'
 </main>
 
 </template>
+
+<style>
+.ocultarScrollBar::-webkit-scrollbar {
+    display: none;
+}
+</style>
 
 <script>
 import axios from 'axios';
