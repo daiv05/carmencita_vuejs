@@ -773,6 +773,7 @@ export default {
         //Registrar Venta y obtener el id de la venta registrada
         register_new_venta() {
             if (this.detalle_ventas_lista.length === 0) {
+                this.domicilio = false;
                 this.watch_toast('error', 'No se ha agregado ningún producto');
                 return;
             }
@@ -806,6 +807,7 @@ export default {
                     total_iva: Number(this.venta_info.total_iva),
                 },
                 detalles: detalles_listado_limpio,
+                domicilio: this.domicilio,
             };
 
             axios.post(api_url + '/ventas/registrar/', datos_ventas, {
@@ -830,12 +832,14 @@ export default {
                     this.limpiar_campos();
                 })
                 .catch(error => {
+                    this.domicilio = false;
                     this.handle_error(error, 'Venta');
                 });
         },
 
         register_credito(detalles_listado_limpio) {
             if (this.cliente_info.id_cliente === 0) {
+                this.domicilio = false;
                 this.watch_toast('error', 'Debe seleccionar un Cliente');
                 return;
             }
@@ -848,6 +852,7 @@ export default {
                     total_iva_credito: Number(this.venta_info.total_iva),
                 },
                 detalles: detalles_listado_limpio,
+                domicilio: this.domicilio,
             };
 
             axios.post(api_url + '/creditos/registrar/', datos_ventas)
@@ -856,6 +861,7 @@ export default {
                     this.limpiar_campos();
                 })
                 .catch(error => {
+                    this.domicilio = false;
                     this.handle_error(error, 'Crédito');
                 });
         },
@@ -866,6 +872,7 @@ export default {
         },
 
         limpiar_campos() {
+            this.domicilio = false;
             this.detalle_ventas_lista = [];
             this.cliente_info = {
                 id_cliente: 0,

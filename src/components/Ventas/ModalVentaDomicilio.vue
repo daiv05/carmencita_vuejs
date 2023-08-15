@@ -14,10 +14,10 @@
                         </svg>
                         <input v-if="activeTab == 0"
                             class="basis-3/5 px-3 py-2 border-gray-300 text-gray-500 rounded-md focus:outline-none focus:border-indigo-500"
-                            type="date" disabled id="fecha_pedido" name="fecha_pedido" :value="fecha" />
+                            type="date" disabled id="fecha_pedido" name="fecha_pedido" :value="fecha"/>
                         <input v-else
                             class="basis-3/5 px-3 py-2 border-gray-300 text-gray-500 rounded-md focus:outline-none focus:border-emerald-500"
-                            type="date" id="fecha_pedido" name="fecha_pedido" :value="fecha" />
+                            type="date" disabled id="fecha_pedido" name="fecha_pedido" :value="fecha" />
                     </div>
                 </div>
                 <div v-if="activeTab == 0">
