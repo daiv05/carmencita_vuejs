@@ -13,6 +13,7 @@ import DetailSales from '../views/Ventas/DetailSales.vue'
 import DetailCF from '../views/Ventas/DetailCF.vue'
 import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
 import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
+import AsistenciaAgregar from '../views/RecursosHumanos/AsistenciaAgregar.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -85,6 +86,11 @@ const router = createRouter({
       path: "/listar_pedidos_domicilio",
       name : "Pedidos_domicilio",
       component : PedidosDomicilio
+    },
+    {
+      path: "/registrar_asistencia",
+      name : "Registrar_asistencia",
+      component : AsistenciaAgregar
     },
     {
       path: '/about',

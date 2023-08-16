@@ -17,7 +17,7 @@ import api_url from '../../config.js'
         
         <!--datos de la hoja de ruta-->
         <Form>
-            <div class="container grid lg:grid-cols-6 rounded-md m-auto p-6 pt-4 w-4/5 bg-white">
+            <div class="container grid lg:grid-cols-6 rounded-md m-auto p-6 pt-4 w-4/5 bg-white shadow">
                 <div class="lg:col-span-1">
                     <div>
                         <label for="fecha_entrega" class="block text-sm font-medium leading-6 text-gray-900">Fecha de entrega</label>

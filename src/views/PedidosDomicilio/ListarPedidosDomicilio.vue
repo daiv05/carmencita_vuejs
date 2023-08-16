@@ -91,7 +91,7 @@ import api_url from '../../config.js'
             <nav aria-label="Page navigation example" class="flex py-4 w-full">
                 <ul class="inline-flex -space-x-px text-base h-10 mx-auto">
                     <li v-for="page in paginas">
-                    <button type="button" @click="linksPagination(page.url)" v-bind:class="{'bg-slate-200':page.active==true, 'border-blue-500':page.active, 'rounded-l-lg':page == paginas[0], 'rounded-r-lg':page == paginas[paginas.length-1], 'cursor-not-allowed':!page.url }" v-bind:disabled="!page.url" class="flex items-center bg-white justify-center px-4 h-10 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" v-html="page.label"></button>
+                    <button type="button" @click="linksPagination(page.url)" v-bind:class="{'bg-blue-600 text-white':page.active==true, 'rounded-l-lg':page == paginas[0], 'rounded-r-lg':page == paginas[paginas.length-1], 'cursor-not-allowed':!page.url }" v-bind:disabled="!page.url" class="flex items-center bg-white justify-center px-4 h-10 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" v-html="page.label"></button>
                     </li>
                 </ul>
             </nav>
