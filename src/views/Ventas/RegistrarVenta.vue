@@ -805,17 +805,23 @@ export default {
                     fecha_venta: this.venta_info.fecha_venta,
                     total_venta: Number(this.subtotal_venta),
                     total_iva: Number(this.venta_info.total_iva),
+                    domicilio: this.domicilio,
                 },
                 detalles: detalles_listado_limpio,
-                domicilio: this.domicilio,
             };
 
-            axios.post(api_url + '/ventas/registrar/', datos_ventas, {
-                responseType: 'blob',
-            })
+            axios.post(api_url + '/ventas/registrar/', datos_ventas)
                 .then((response) => {
+                    console.log('respuesta peticion venta');
                     console.log(response);
-                    const fileBlob = new Blob([response.data], { type: 'application/pdf' });
+                    // Decode base64 del pdf del response y crear un blob
+                    const pdf_decode = atob(response.data.pdf);
+                    const pdf_lenght = pdf_decode.length;
+                    const archivo = new Uint8Array(new ArrayBuffer(pdf_lenght));
+                    for (var i = 0; i < pdf_lenght; i++) {
+                        archivo[i] = pdf_decode.charCodeAt(i);
+                    }
+                    const fileBlob = new Blob([archivo], { type: 'application/pdf' });
                     const fileURL = URL.createObjectURL(fileBlob);
 
                     // Crear un iframe oculto para cargar el PDF y luego imprimirlo
@@ -828,6 +834,30 @@ export default {
                         // Imprimir el PDF después de cargarlo en el iframe
                         pdfIframe.contentWindow.print();
                     };
+
+                    var emitido = false;
+
+                    window.addEventListener("beforeprint", (event) => {
+                        console.log("Before print");
+                    });
+
+                    window.addEventListener("afterprint", (event) => {
+                        console.log("After print");
+                        emitido = true;
+                        pdfIframe.remove();
+                    });
+
+                    // if(!emitido) {
+                    //     // Eliminar venta
+                    //     axios.delete(api_url + '/ventas/' + response.headers['id_venta'])
+                    //         .then(() => {
+                    //             this.watch_toast('error', 'Venta cancelada');
+                    //             this.limpiar_campos();
+                    //         })
+                    //         .catch(error => {
+                    //             this.handle_error(error, 'Venta');
+                    //         });
+                    // }
                     this.watch_toast('success', 'Venta registrada correctamente');
                     this.limpiar_campos();
                 })
