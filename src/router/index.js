@@ -1,16 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
+import store from '../store/auth';
 import HomeView from '../views/HomeView.vue'
-import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
-import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue'
-import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
-import AgregarProducto from '../views/Inventario/AgregarProducto.vue'
-import GestionProducto from '../views/Inventario/GestionProducto.vue'
-import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue'
-import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue'
-import EditarProducto from '../views/Inventario/EditarProducto.vue'
-import SalesList from '../views/Ventas/SalesList.vue'
-import DetailSales from '../views/Ventas/DetailSales.vue'
-import DetailCF from '../views/Ventas/DetailCF.vue'
+import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue';
+import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue';
+import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue';
+import AgregarProducto from '../views/Inventario/AgregarProducto.vue';
+import GestionProducto from '../views/Inventario/GestionProducto.vue';
+import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue';
+import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue';
+import EditarProducto from '../views/Inventario/EditarProducto.vue';
+import SalesList from '../views/Ventas/SalesList.vue';
+import DetailSales from '../views/Ventas/DetailSales.vue';
+import DetailCF from '../views/Ventas/DetailCF.vue';
+import Login from '../views/Seguridad/Login.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -75,6 +77,11 @@ const router = createRouter({
       component : GestionProducto
     },
     {
+      path:"/login",
+      name:"login",
+      component: Login
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -83,6 +90,16 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
+})
+
+router.beforeEach((to,from)=>{
+const rutasPublicas = ["/login"];
+const urlProtegida = !rutasPublicas.includes(to.path);
+console.log("hola mundo 1");
+  if(urlProtegida && !store.estaAutenticado ){
+    console.log("hola mundo 2");
+      router.push("/login");
+    }
 })
 
 export default router

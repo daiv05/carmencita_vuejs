@@ -1,12 +1,12 @@
 import './assets/main.css'
-
+import store from './store/auth'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import './assets/main.css'
-import axios from 'axios'
+import './assets/main.css';
+import axios from 'axios';
 
 
 // Set the appropriate CORS headers based on the current origin
@@ -16,7 +16,9 @@ axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-Wit
 
 const app = createApp(App)
 
-app.use(router)
+
+app.use(store);
+app.use(router);
 
 const options = {
   transition: "Vue-Toastification__fade",
