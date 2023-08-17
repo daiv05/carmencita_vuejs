@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, routerKey } from 'vue-router';
 import store from '../store/auth';
 import HomeView from '../views/HomeView.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue';
@@ -12,7 +12,8 @@ import EditarProducto from '../views/Inventario/EditarProducto.vue';
 import SalesList from '../views/Ventas/SalesList.vue';
 import DetailSales from '../views/Ventas/DetailSales.vue';
 import DetailCF from '../views/Ventas/DetailCF.vue';
-import Login from '../views/Seguridad/Login.vue';
+import IniciarSesion from '../views/Seguridad/IniciarSesion.vue';
+import axios from 'axios';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -77,9 +78,9 @@ const router = createRouter({
       component : GestionProducto
     },
     {
-      path:"/login",
-      name:"login",
-      component: Login
+      path:"/iniciar_sesion",
+      name:"iniciar_sesion",
+      component: IniciarSesion
     },
     {
       path: '/about',
@@ -92,14 +93,17 @@ const router = createRouter({
   ]
 })
 
+
 router.beforeEach((to,from)=>{
-const rutasPublicas = ["/login"];
+const rutasPublicas = ["/iniciar_sesion"];
 const urlProtegida = !rutasPublicas.includes(to.path);
-console.log("hola mundo 1");
-  if(urlProtegida && !store.estaAutenticado ){
-    console.log("hola mundo 2");
-      router.push("/login");
+console.log(store.state.estaAutenticado);
+  if(urlProtegida && !store.state.estaAutenticado ){
+      router.push("/iniciar_sesion");
     }
+  if(store.state.estaAutenticado){
+    axios.defaults.headers.common = {"Authorization": "Bearer " + store.state.tokenUser };
+  }
 })
 
 export default router

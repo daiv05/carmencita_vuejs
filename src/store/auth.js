@@ -1,6 +1,7 @@
 import {createStore} from "vuex";
 import axios from "axios";
-import router from "../router";
+import router from "../router/index";
+import createPersistedState from 'vuex-persistedstate';
 
 //create a instance to handle user state
 
@@ -21,11 +22,11 @@ const  store = createStore({
         },
         setTokenUser(state,payload){
             state.tokenUser = payload.tokenUser;
-        }
+        },
     },
     actions:{
         async getToken(){
-            axios.get('/sanctum/csrf-cookie').then(
+            await axios.get('/sanctum/csrf-cookie').then(
                 (response)=>{
                     console.log(response);
                 }
@@ -36,14 +37,16 @@ const  store = createStore({
             );
         },
         async login(context,payload){
-            await this.getToken();
+            await context.dispatch("getToken");
             try{
-                await axios.post("login",payload.userForm)
+                await axios.post("/api/login",payload)
                 .then(
                     (response)=>{
-                       context.commit("setEstaAutenticado",{"seAutentico":response.data.state});
+                       console.log(response);
+                       context.commit("setEstaAutenticado",{"seAutentico":response.data.result});
                        context.commit("setUser",{"user":response.data.user});
-                       context.commit("setTokenUser",{"tokenUser":response.data.tokenUser});
+                       context.commit("setTokenUser",{"tokenUser":response.data.token});
+                       axios.defaults.headers.common = {'Authorization': "Bearer " + context.state.tokenUser };
                        router.push("/");
                     }
                 )
@@ -55,8 +58,45 @@ const  store = createStore({
             }catch(error){
                 console.log(error);
             }
+        },
+        imprimirMensaje(context){
+            console.log("Hola mundo desde mi store");
+            console.log(context.user);
+        },
+        logout(context){
+            axios.post("/api/logout").then(
+                (response)=>{
+                    console.log(response);
+                    context.dispatch("cleanStore");
+                    alert("Cerro su cuenta");
+                    setTimeout(()=>{
+                        router.push("/iniciar_sesion");
+                    },2000);
+                }
+            ).catch(
+                (response)=>{
+                    console.log(response);
+                }
+            )
+        },
+        setTokenUserOnAxios(context){
+            axios.defaults.headers.common["Authorization"] = "Bearer "+context.state.tokenUser;
+        },
+        cleanStore(context){
+            context.state.estaAutenticado = false;
+            context.state.tokenUser = "";
+            context.state.user = null;
+            /*you must changed alert for other kind of pop up*/
+            alert("Has cerrado sesión correctamente");
+            localStorage.removeItem("authUser");
         }
-    }
+    },
+    plugins: [createPersistedState(
+        {
+            key:"authUser",
+            paths:["user","estaAutenticado","tokenUser"]
+        }
+    )]
 })
 
 export default store;
