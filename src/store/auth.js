@@ -11,6 +11,7 @@ const  store = createStore({
             user:null,
             estaAutenticado:false,
             tokenUser:"",
+            permisos:[],
         }
     },
     mutations:{
@@ -23,6 +24,12 @@ const  store = createStore({
         setTokenUser(state,payload){
             state.tokenUser = payload.tokenUser;
         },
+        setPermisos(state,payload){
+            state.permisos = [];
+            payload.permisos.forEach(element => {
+                state.permisos.push(element.name);
+            });
+        }
     },
     actions:{
         async getToken(){
@@ -46,7 +53,8 @@ const  store = createStore({
                        context.commit("setEstaAutenticado",{"seAutentico":response.data.result});
                        context.commit("setUser",{"user":response.data.user});
                        context.commit("setTokenUser",{"tokenUser":response.data.token});
-                       axios.defaults.headers.common = {'Authorization': "Bearer " + context.state.tokenUser };
+                       context.commit("setPermisos",{"permisos":response.data.permisos});
+                       axios.defaults.headers.common = {'Authorization': "Bearer " + context.state.tokenUser};
                        router.push("/");
                     }
                 )
@@ -94,7 +102,7 @@ const  store = createStore({
     plugins: [createPersistedState(
         {
             key:"authUser",
-            paths:["user","estaAutenticado","tokenUser"]
+            paths:["user","estaAutenticado","tokenUser","permisos"]
         }
     )]
 })

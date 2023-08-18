@@ -4,7 +4,7 @@
 <template>
 
     <main>
-        <article class="flex flex-wrap mt-[10%] flex-row justify-center md:w-[50%] lg:w-[40%] m-auto">                    
+        <article class=" w-[90%] flex flex-wrap mt-[10%] flex-row justify-center md:w-[50%] lg:w-[40%] m-auto">                    
                 <form action="" method="post" class="" @submit="autenticarUsuario($event)">
                     <div>
                         <div class="flex justify-center mb-[2%]">
