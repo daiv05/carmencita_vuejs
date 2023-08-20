@@ -4,6 +4,8 @@ import NavBar from '../../components/NavBar.vue'
 import api_url from '../../config.js'
 import { CalendarIcon } from '@heroicons/vue/24/outline'
 
+import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vue'
+
 </script>
 
 <template>
@@ -14,14 +16,14 @@ import { CalendarIcon } from '@heroicons/vue/24/outline'
                 <h1 class="font-bold text-blue-700 text-2xl " >Registro de asistencia</h1>
             </div>
             <div class="grid place-items-center h-max w-full">
-                <div class="container grid lg:grid-cols-2 gap-4 max-w-2xl m-auto">
+                <div class="container grid lg:grid-cols-2 gap-4 max-w-5xl m-auto py-4">
                     <div class="col-span-1 w-full m-auto">
                         <div class="">
-                            <h3 class="text-center">Usuario</h3>
+                            <h3 class="text-center text-2xl">Usuario</h3>
                         </div>
                         <div class="bg-white text-center rounded-md shadow p-6">
-                            <div><span class="font-bold text-lg">{{ nombre }} Luis Rivas</span></div>
-                            <div class=""><span>Cajero</span></div>
+                            <div><span class="font-bold text-lg">{{ nombreEmpleado }}</span></div>
+                            <div class=""><span>{{ cargoEmpleado }}</span></div>
                             <div class="flex flex-col px-4 py-6">
                                 <div class=" flex flex-col text-center justify-center align-middle mb-4">
                                     <div class="w-full justify-center">
@@ -33,36 +35,58 @@ import { CalendarIcon } from '@heroicons/vue/24/outline'
                             </div>
                         </div>
                     </div>
-                    <div class="col-span-1 w-full m-auto shadow-sm">
+                    <div class="col-span-1 w-full m-auto">
                         <div class="">
-                            <h3 class="text-center">Historial de asistencias</h3>
+                            <h3 class="text-center text-2xl">Historial de asistencias</h3>
                         </div>
-                        <div class="bg-white text-center">
-                            Hola
+                        <div class="bg-white text-center p-4 rounded-md shadow">
+                            <FullCalendar :options='calendarOptions'>
+                                
+                            </FullCalendar>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <generarPlanilla></generarPlanilla>
 </template>
 
 <script>
 import axios from 'axios';
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import { useToast } from 'vue-toastification'
 
 const fechaActual = new Date();
+const toast = useToast();
 
 export default {
-
+    components:{
+        FullCalendar
+    },
     data(){
         return{
             fecha: new Date(),
-            id_empleado: 2,
-            mensajes:[]
+            id_empleado: 1,
+            empleado:{},
+            nombreEmpleado:"",
+            cargoEmpleado:"",
+            asistencias:[],
+            mensajes:[],
+            calendarOptions: {
+                plugins: [dayGridPlugin],
+                initialView: 'dayGridMonth',
+                weekends: true,
+                events: [
+                { title: 'Meeting', start: new Date() }
+                ]
+            }
         }
     }, 
     mounted(){
-
+        this.getAsistencias();
+        this.getEmpleado();
     },
     methods:{
         getFechaSpanish(fecha){
@@ -76,8 +100,79 @@ export default {
             }
             axios.post(api_url+'/asistencia',params)
             .then(
-                this.mensajes = response.data.mensaje
+                response =>(
+                    this.mensajes = response.data.mensaje,
+                    this.showMessages(response.data.status, response.data.mensaje),
+                    this.getAsistencias() 
+                )
             )
+        },
+        getEmpleado(){
+            axios.get(api_url+'/empleado/'+this.id_empleado)
+            .then(
+                response =>(
+                    this.empleado = response.data,
+                    this.nombreEmpleado= response.data['primer_nombre'],
+                    this.nombreEmpleado += ' '+ response.data['primer_apellido'],
+                    this.cargoEmpleado= response.data['cargo']['nombre_cargo']
+                )
+            )
+        },
+        getAsistencias(){
+            this.asistencias.splice(0,this.asistencias.length);
+            axios.get(api_url+'/asistencia?id_empleado='+this.id_empleado)
+            .then(
+                response =>(
+                    this.asistencias = response.data.asistencias,
+                    this.setAsistenciasInCalendar()
+                )
+            )
+        },
+        setAsistenciasInCalendar(){
+            let calendario = this.calendarOptions;
+            calendario.events.splice(0,calendario.events.length);
+            this.asistencias.forEach(element => {
+                let fecha = {
+                    title: '',
+                    start: element.fecha
+                }
+                calendario.events.push(fecha);
+            });
+        },
+        showMessages(tipo, mensaje){
+
+            if (tipo) {
+                toast.success(mensaje, {
+                    position: "bottom-left",
+                    timeout: 2994,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    draggablePercent: 0.27,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    closeButton: "button",
+                    icon: true,
+                    rtl: false
+                });
+            } else {
+                toast.info(mensaje, {
+                    position: "bottom-left",
+                    timeout: 2994,
+                    closeOnClick: true,
+                    pauseOnFocusLoss: false,
+                    pauseOnHover: false,
+                    draggable: true,
+                    draggablePercent: 0.27,
+                    showCloseButtonOnHover: false,
+                    hideProgressBar: true,
+                    closeButton: "button",
+                    icon: true,
+                    rtl: false
+                });
+            }
+            
         }
     }
 
