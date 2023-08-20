@@ -41,7 +41,6 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                         </div>
                         <div class="bg-white text-center p-4 rounded-md shadow">
                             <FullCalendar :options='calendarOptions'>
-                                
                             </FullCalendar>
                         </div>
                     </div>
@@ -56,6 +55,7 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
 import axios from 'axios';
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import esLocale from "@fullcalendar/core/locales/es";
 import { useToast } from 'vue-toastification'
 
 const fechaActual = new Date();
@@ -78,6 +78,7 @@ export default {
                 plugins: [dayGridPlugin],
                 initialView: 'dayGridMonth',
                 weekends: true,
+                locale:esLocale,
                 events: [
                 { title: 'Meeting', start: new Date() }
                 ]
