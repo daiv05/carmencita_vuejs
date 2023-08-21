@@ -38,8 +38,6 @@
                 </div>
                 <input type="submit" value="Iniciar sesion" name="login" id = "login" class="bg-indigo-600 block w-[100%] p-[1%] text-white text-[1em] rounded-[5px] hover:cursor-pointer">
             </form>
-            {{ email }}
-            {{ password }}
         </article>
     </main>
 
@@ -57,8 +55,8 @@ export default {
 
     data(){
         return{
-            "email":" ",
-            "password":" ",
+            "email":"",
+            "password":"",
         }
     },
     methods:{

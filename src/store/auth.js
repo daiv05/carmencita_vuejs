@@ -68,7 +68,6 @@ const  store = createStore({
             }
         },
         imprimirMensaje(context){
-            console.log("Hola mundo desde mi store");
             console.log(context.user);
         },
         logout(context){
@@ -76,8 +75,10 @@ const  store = createStore({
                 (response)=>{
                     console.log(response);
                     context.dispatch("cleanStore");
-                    alert("Cerro su cuenta");
+
                     setTimeout(()=>{
+                        /*you must changed alert for other kind of pop up*/
+                        alert("Has cerrado sesión correctamente");
                         router.push("/iniciar_sesion");
                     },2000);
                 }
@@ -94,8 +95,6 @@ const  store = createStore({
             context.state.estaAutenticado = false;
             context.state.tokenUser = "";
             context.state.user = null;
-            /*you must changed alert for other kind of pop up*/
-            alert("Has cerrado sesión correctamente");
             localStorage.removeItem("authUser");
         }
     },
