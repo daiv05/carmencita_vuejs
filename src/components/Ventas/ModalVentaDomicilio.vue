@@ -37,7 +37,7 @@
                         <h3 class="text-xl text-emerald-500 font-bold mb-6 text-center">Crédito Fiscal</h3>
                     </div>
                     <div class="text-center">
-                        <button
+                        <button @click="registrar()"
                             class="bg-emerald-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-emerald-600 transition duration-300">Guardar</button>
                         <button id="btnCancelar" @click="$emit('close')"
                             class="ml-4 py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
