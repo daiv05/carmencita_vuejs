@@ -133,7 +133,7 @@ const router = createRouter({
   ]
 })
 
-/*
+
 router.beforeEach((to,from)=>{
 const rutasPublicas = ["/iniciar_sesion"];
 const urlProtegida = !rutasPublicas.includes(to.path);
@@ -145,5 +145,5 @@ console.log(store.state.estaAutenticado);
     axios.defaults.headers.common = {"Authorization": "Bearer " + store.state.tokenUser };
   }
 })
-*/
+
 export default router
