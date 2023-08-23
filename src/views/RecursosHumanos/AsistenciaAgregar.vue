@@ -12,8 +12,8 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
     <main>
         <NavBar></NavBar>
         <div class="bg-slate-100 pb-4 min-h-screen grid">
-            <div class = "bg-white w-full mx-auto p-5 h-fit shadow-md">
-                <h1 class="font-bold text-blue-700 text-2xl " >Registro de asistencia</h1>
+            <div class="bg-white w-full mx-auto p-5 h-fit shadow-md">
+                <h1 class="font-bold text-blue-700 text-2xl ">Registro de asistencia</h1>
             </div>
             <div class="grid place-items-center h-max w-full">
                 <div class="container grid lg:grid-cols-2 gap-4 max-w-5xl m-auto py-4">
@@ -22,8 +22,8 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                             <h3 class="text-center text-2xl">Usuario</h3>
                         </div>
                         <div class="bg-white text-center rounded-md shadow p-6">
-                            <div><span class="font-bold text-lg">{{ nombreEmpleado }}</span></div>
-                            <div class=""><span>{{ cargoEmpleado }}</span></div>
+                            <div><span class="font-bold text-lg">{{ empleado.nombre }} {{ empleado.apellido }}</span></div>
+                            <div class=""><span>{{ empleado.cargo }}</span></div>
                             <div class="flex flex-col px-4 py-6">
                                 <div class=" flex flex-col text-center justify-center align-middle mb-4">
                                     <div class="w-full justify-center">
@@ -31,7 +31,9 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                                     </div>
                                     <span class="font-semibold">{{ getFechaSpanish(fecha) }}</span>
                                 </div>
-                                <button type="button" @click="marcarAsistencia" class="bg-blue-500 hover:bg-blue-700 text-white rounded px-2 py-2 my-2">Marcar asistencia</button>
+                                <button type="button" @click="marcarAsistencia"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white rounded px-2 py-2 my-2">Marcar
+                                    asistencia</button>
                             </div>
                         </div>
                     </div>
@@ -62,76 +64,65 @@ const fechaActual = new Date();
 const toast = useToast();
 
 export default {
-    components:{
+    components: {
         FullCalendar
     },
-    data(){
-        return{
+    data() {
+        return {
             fecha: new Date(),
-            id_empleado: 1,
-            empleado:{},
-            nombreEmpleado:"",
-            cargoEmpleado:"",
-            asistencias:[],
-            mensajes:[],
+            datosAuth: null,
+            id_empleado: null,
+            empleado: {},
+            asistencias: [],
+            mensajes: [],
             calendarOptions: {
                 plugins: [dayGridPlugin],
                 initialView: 'dayGridMonth',
                 weekends: true,
-                locale:esLocale,
+                locale: esLocale,
                 events: [
-                { title: 'Meeting', start: new Date() }
+                    { title: 'Meeting', start: new Date() }
                 ]
             }
         }
-    }, 
-    mounted(){
-        this.getAsistencias();
-        this.getEmpleado();
     },
-    methods:{
-        getFechaSpanish(fecha){
+    mounted() {
+        if (localStorage.authUser) {
+            this.datosAuth = JSON.parse(localStorage.authUser);
+            this.id_empleado = this.datosAuth.user.id_empleado;
+        }
+        this.getAsistencias();
+    },
+    methods: {
+        getFechaSpanish(fecha) {
             const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
             const dias_semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'S ábado'];
-            return dias_semana[fecha.getDay()] +', ' + fecha.getDate() +' de '+meses[fecha.getMonth()] +' de '+fecha.getUTCFullYear(); 
+            return dias_semana[fecha.getDay()] + ', ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' de ' + fecha.getUTCFullYear();
         },
-        marcarAsistencia(){
-            const params = {
-                id_empleado : this.id_empleado,
-            }
-            axios.post(api_url+'/asistencia',params)
-            .then(
-                response =>(
-                    this.mensajes = response.data.mensaje,
-                    this.showMessages(response.data.status, response.data.mensaje),
-                    this.getAsistencias() 
+        marcarAsistencia() {
+            axios.post(api_url + '/asistencia')
+                .then(
+                    response => (
+                        this.mensajes = response.data.mensaje,
+                        this.showMessages(response.data.status, response.data.mensaje),
+                        this.getAsistencias()
+                    )
                 )
-            )
         },
-        getEmpleado(){
-            axios.get(api_url+'/empleado/'+this.id_empleado)
-            .then(
-                response =>(
-                    this.empleado = response.data,
-                    this.nombreEmpleado= response.data['primer_nombre'],
-                    this.nombreEmpleado += ' '+ response.data['primer_apellido'],
-                    this.cargoEmpleado= response.data['cargo']['nombre_cargo']
+        getAsistencias() {
+            this.asistencias.splice(0, this.asistencias.length);
+            axios.get(api_url + '/asistencia')
+                .then(
+                    response => (
+                        this.empleado = response.data.empleado,
+                        this.asistencias = response.data.asistencias,
+                        this.setAsistenciasInCalendar()
+                    )
                 )
-            )
         },
-        getAsistencias(){
-            this.asistencias.splice(0,this.asistencias.length);
-            axios.get(api_url+'/asistencia?id_empleado='+this.id_empleado)
-            .then(
-                response =>(
-                    this.asistencias = response.data.asistencias,
-                    this.setAsistenciasInCalendar()
-                )
-            )
-        },
-        setAsistenciasInCalendar(){
+        setAsistenciasInCalendar() {
             let calendario = this.calendarOptions;
-            calendario.events.splice(0,calendario.events.length);
+            calendario.events.splice(0, calendario.events.length);
             this.asistencias.forEach(element => {
                 let fecha = {
                     title: '',
@@ -140,7 +131,7 @@ export default {
                 calendario.events.push(fecha);
             });
         },
-        showMessages(tipo, mensaje){
+        showMessages(tipo, mensaje) {
 
             if (tipo) {
                 toast.success(mensaje, {
@@ -173,7 +164,7 @@ export default {
                     rtl: false
                 });
             }
-            
+
         }
     }
 
