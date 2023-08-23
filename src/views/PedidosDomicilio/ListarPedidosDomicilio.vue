@@ -2,6 +2,9 @@
 import { RouterLink } from 'vue-router';
 import NavBar from '../../components/NavBar.vue'
 import api_url from '../../config.js'
+import btnConsultar from '../../components/Helpers/BotonConsultar.vue'
+import btnEditar from '../../components/Helpers/BotonEditar.vue'
+import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
 </script>
 
 <template>
@@ -71,14 +74,23 @@ import api_url from '../../config.js'
                                 <td v-if="pedido.hr" class="whitespace-nowrap px-4 py-4">HR-{{ pedido.hr }}</td>
                                 <td v-if="!pedido.hr" class="whitespace-nowrap px-4 py-4">Sin asignar</td>
                                 <td v-if="pedido.tipo == 'Factura'" class="whitespace-nowrap px-4 py-4">
-                                    <RouterLink v-bind:to="'/detail_sales/'+pedido.id" target="_blank" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">ver</RouterLink>
+                                    <!--<RouterLink v-bind:to="'/detail_sales/'+pedido.id" target="_blank" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">ver</RouterLink>
                                     <RouterLink v-bind:to="'/edit_sales/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>
                                     <RouterLink v-bind:to="'/delete_sales/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>
+                                    -->
+                                    <btnConsultar :url="'/detail_sales/' + pedido.id"></btnConsultar>
+                                    <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
+                                    <btnEditar :url="'/edit_sales/' +pedido.id"></btnEditar>
+                                    <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
+                                    <btnEliminar :url="'/delete_pedido/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
                                 </td>
                                 <td v-if="pedido.tipo == 'Credito Fiscal'" class="whitespace-nowrap px-4 py-4">
-                                    <RouterLink v-bind:to="'/detail_cf/'+pedido.id" target="_blank" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">ver</RouterLink>
-                                    <RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>
-                                    <RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>
+                                    <!--<RouterLink v-bind:to="'/detail_cf/'+pedido.id" target="_blank" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">ver</RouterLink>-->
+                                    <btnConsultar :url="'/detail_cf/' + pedido.id"></btnConsultar>
+                                    <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
+                                    <btnEditar :url="'/edit_cf/' +pedido.id"></btnEditar>
+                                    <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
+                                    <btnEliminar :url="'/delete_pedido/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
                                 </td>
                             </tr>
                         </tbody>
@@ -91,7 +103,7 @@ import api_url from '../../config.js'
             <nav aria-label="Page navigation example" class="flex py-4 w-full">
                 <ul class="inline-flex -space-x-px text-base h-10 mx-auto">
                     <li v-for="page in paginas">
-                    <button type="button" @click="linksPagination(page.url)" v-bind:class="{'bg-blue-600 text-white':page.active==true, 'rounded-l-lg':page == paginas[0], 'rounded-r-lg':page == paginas[paginas.length-1], 'cursor-not-allowed':!page.url }" v-bind:disabled="!page.url" class="flex items-center bg-white justify-center px-4 h-10 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" v-html="page.label"></button>
+                    <button type="button" @click="linksPagination(page.url)" v-bind:class="{'bg-blue-600 text-white':page.active==true, 'rounded-l-lg':page == paginas[0], 'rounded-r-lg':page == paginas[paginas.length-1], 'cursor-not-allowed':!page.url }" v-bind:disabled="!page.url" class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" v-html="page.label"></button>
                     </li>
                 </ul>
             </nav>
