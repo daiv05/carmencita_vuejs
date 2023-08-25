@@ -15,6 +15,7 @@ import DetailCF from '../views/Ventas/DetailCF.vue';
 import IniciarSesion from '../views/Seguridad/IniciarSesion.vue';
 import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
+import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -129,11 +130,16 @@ const router = createRouter({
       path:'/gestion_existencias',
       name:'gestion_existencias',
       component:GestionExistencias
+    },
+    {
+      path:'/editar_lote',
+      name:'editar_lote',
+      component:EditarLote,
     }
   ]
 })
 
-/*
+
 router.beforeEach((to,from)=>{
 const rutasPublicas = ["/iniciar_sesion"];
 const urlProtegida = !rutasPublicas.includes(to.path);
@@ -145,5 +151,5 @@ console.log(store.state.estaAutenticado);
     axios.defaults.headers.common = {"Authorization": "Bearer " + store.state.tokenUser };
   }
 })
-*/
+
 export default router
