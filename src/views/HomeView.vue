@@ -105,7 +105,7 @@ import { DocumentPlusIcon,QueueListIcon, SquaresPlusIcon, DocumentCheckIcon  } f
         <dropdown text="Asistencia">
           <list-group>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/registrar_asistencia" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar asistencia</p>

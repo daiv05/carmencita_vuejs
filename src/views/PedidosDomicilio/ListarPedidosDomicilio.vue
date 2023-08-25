@@ -68,7 +68,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                             <tr v-for="pedido in pedidos" class="border-b hover:bg-slate-100 hover:shadow">
                                 <td class="whitespace-nowrap px-2 py-4">{{ pedido.id }}</td>
                                 <td class="whitespace-nowrap px-4 py-4">{{ pedido.cliente }}</td>
-                                <td class="whitespace-nowrap px-4 py-4">{{ pedido.fecha }}</td>
+                                <td class="whitespace-nowrap px-4 py-4">{{ formatFecha(pedido.fecha) }}</td>
                                 <td class="whitespace-nowrap px-4 py-4">{{ pedido.total }}</td>
                                 <td class="whitespace-nowrap px-4 py-4">{{ pedido.tipo }}</td>
                                 <td v-if="pedido.hr" class="whitespace-nowrap px-4 py-4">HR-{{ pedido.hr }}</td>
@@ -80,17 +80,17 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                     -->
                                     <btnConsultar :url="'/detail_sales/' + pedido.id"></btnConsultar>
                                     <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
-                                    <btnEditar :url="'/edit_sales/' +pedido.id"></btnEditar>
+                                    <btnEditar :url="'/modificar_pedido/factura/' +pedido.id"></btnEditar>
                                     <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
-                                    <btnEliminar :url="'/delete_pedido/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
+                                    <btnEliminar :url="'/delete_pedido/factura/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
                                 </td>
                                 <td v-if="pedido.tipo == 'Credito Fiscal'" class="whitespace-nowrap px-4 py-4">
                                     <!--<RouterLink v-bind:to="'/detail_cf/'+pedido.id" target="_blank" class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">ver</RouterLink>-->
                                     <btnConsultar :url="'/detail_cf/' + pedido.id"></btnConsultar>
                                     <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
-                                    <btnEditar :url="'/edit_cf/' +pedido.id"></btnEditar>
+                                    <btnEditar :url="'/modificar_pedido/credito_fiscal/' +pedido.id"></btnEditar>
                                     <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
-                                    <btnEliminar :url="'/delete_pedido/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
+                                    <btnEliminar :url="'/delete_pedido/credito_fiscal/'+ pedido.id" :titulo="'Eliminar Pedido' + pedido.id" :mensaje="'El pedido '+pedido.id +' se eliminara de la base de datos'"></btnEliminar>
                                 </td>
                             </tr>
                         </tbody>
@@ -128,6 +128,10 @@ export default {
         this.getPedidos();
     },
     methods:{
+        formatFecha(fecha){
+            let date = new Date(fecha);
+            return date.getDate()+'/'+Number(date.getMonth()+1)+'/'+date.getFullYear();
+        },
         pedidosVacio(){
             //Controla si la lista de pedidos esta vacia, se ocupa para mostrar el mensaje 'pedidos no encontrados'
             if(this.pedidos.length > 0){

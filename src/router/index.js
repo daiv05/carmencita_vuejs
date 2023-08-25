@@ -10,6 +10,8 @@ import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue';
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue';
 import GestionProducto from '../views/Inventario/GestionProducto.vue';
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue';
+import ModificarPedido from '../views/Ventas/ModificarPedido.vue';
+import ModificarPedidoCredito from '../views/Ventas/ModificarPedidoCredito.vue';
 import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue';
 import EditarProducto from '../views/Inventario/EditarProducto.vue';
 import SalesList from '../views/Ventas/SalesList.vue';
@@ -70,6 +72,16 @@ const router = createRouter({
       path: '/registrar_nueva_venta',
       name: 'registrar_nueva_venta',
       component: RegistrarVenta,
+    },
+    {
+      path: '/modificar_pedido/factura/:id',
+      name: 'modificar_pedido',
+      component: ModificarPedido,
+    },
+    {
+      path: '/modificar_pedido/credito_fiscal/:id',
+      name: 'modificar_pedido_credito',
+      component: ModificarPedidoCredito,
     },
     {
       path: '/empleado_agregar',
