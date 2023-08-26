@@ -1,17 +1,17 @@
 <template>
   <Form
-    class="h-[51%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
+    class="h-[63%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
   >
     <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Editar Lote</h1>
 
     <div class="grid grid-cols-2 gap-4 mb-[1%]">
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Fecha Ingreso</label>
-        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="fechaIngreso" disabled/>
+        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_ingreso" disabled/>
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Fecha Vencimiento</label>
-        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="fechaVencimiento"/>
+        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_vencimiento"/>
       </div>
     </div>
 
@@ -63,11 +63,11 @@
     <div class="grid grid-cols-2 gap-4 mb-[1%]">
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Precio Unitario</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]">
+        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.precio_unitario">
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Costo del lote</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]">
+        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total">
       </div>
     </div>
     <div class="flex justify-center align-center mt-[1%] gap-4">
@@ -90,7 +90,7 @@ export default {
           listaUnidadesMedida:[],
           cantidadUnidadMedida:0,
           idProducto:"",
-          fechaIngreso: this.convertirFecha(this.obtenerFechaFormateada()),
+          fechaIngreso:  null,//this.convertirFecha(lote.fechaIngreso),
           fechaVencimiento: null,
           cantidadIngresar:0,
           unidadesTotalesIngresadas:0,
@@ -103,8 +103,16 @@ export default {
       this.cargarUnidadesMedida();
       this.cargarProductos();
       this.idProducto = this.lote.producto.codigo_barra_producto;
+      this.configurarFechasLote();
+      this.cantidadIngresar = this.lote.cantidad;
+      this.unidadesTotalesIngresadas = this.lote.cantida_total_unidades;
+      this.calcularTipoDeUnidadDeMedida();
     },
     methods:{
+       configurarFechasLote(){
+        this.fechaIngreso = this.convertirFecha(this.lote.fecha_ingreso);
+        this.fechaVencimiento = this.convertirFecha(this.lote.fecha_vencimiento);
+       },
        cerrarModal(){
         this.$emit("cerrarModalEditar");
        },
@@ -148,7 +156,10 @@ export default {
         }
       );
     },
-
+    calcularTipoDeUnidadDeMedida(){
+      this.cantidadUnidadMedida = this.lote.cantidad_total_unidades/this.lote.cantidad;
+      console.log(this.cantidadUnidadMedida);
+    }
     },
     watch:{
      cantidadUnidadMedida(newValue,oldValue){

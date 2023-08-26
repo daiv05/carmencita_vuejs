@@ -6,6 +6,7 @@ import router from './router'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css';
+import VueApexCharts from "vue3-apexcharts";
 import axios from 'axios';
 
 
@@ -35,5 +36,5 @@ const options = {
 };
 
 app.use(Toast, options)
-
+app.use(VueApexCharts);
 app.mount('#app')

@@ -16,6 +16,7 @@ import IniciarSesion from '../views/Seguridad/IniciarSesion.vue';
 import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
+import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -135,6 +136,11 @@ const router = createRouter({
       path:'/editar_lote',
       name:'editar_lote',
       component:EditarLote,
+    },
+    {
+      path:'/informe_ventas_totales',
+      name:'informe_ventas_totales',
+      component:InformeDeVentasTotales
     }
   ]
 })

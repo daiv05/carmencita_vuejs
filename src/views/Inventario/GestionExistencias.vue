@@ -15,7 +15,7 @@
           <td class="p-[1.5%] text-center">{{ lote.id_lote }}</td>
           <td class="text-center">{{ lote.producto.nombre_producto }}</td>
           <td class="text-center">{{ lote.fecha_ingreso }}</td>
-          <td class="text-center">{{ lote.cantidad }} Unidades</td>
+          <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
             <div class="flex justify-between content-center">
               <button class="">Consultar</button>
