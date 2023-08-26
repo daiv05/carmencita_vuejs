@@ -167,7 +167,7 @@ const router = createRouter({
 router.beforeEach((to,from)=>{
 const rutasPublicas = ["/iniciar_sesion"];
 const urlProtegida = !rutasPublicas.includes(to.path);
-console.log(store.state.estaAutenticado);
+//console.log(store.state.estaAutenticado);
   if(urlProtegida && !store.state.estaAutenticado ){
       router.push("/iniciar_sesion");
     }
