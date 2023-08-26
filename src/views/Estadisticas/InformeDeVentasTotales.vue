@@ -83,7 +83,19 @@ export default {
           stackType: "100%",
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          categories: [
+          'ene',
+          'feb',
+          'mar',
+          'abr',
+          'may',
+          'jun',
+          'jul',
+          'ago',
+          'sep',
+          'oct',
+          'nov',
+          'dic',]
         },
         colors: "#13C296",
         plotOptions: {
@@ -127,7 +139,7 @@ export default {
       const filtro_meses = this.construirEstructuraFiltro();
       const parametros = {"filtro_meses":filtro_meses,"anio_filtro":this.fechaFiltro};
       //console.log("Los parametros que se envian a laravel son: ",parametros);
-      axiox.get("/api/")
+      //axiox.get("/api/")
     }
   }
 }
