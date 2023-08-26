@@ -54,7 +54,9 @@ export default {
     props: {
         url: null,
         titulo: null,
-        mensaje: null
+        mensaje: null,
+        index:null,
+        lista:[],
     },
     data() {
         return {
@@ -70,7 +72,8 @@ export default {
                     response => {
                         this.respuesta = response.data.mensaje,
                             this.estatus = response.data.status,
-                            this.showMessages(this.estatus, this.respuesta)
+                            this.showMessages(this.estatus, this.respuesta),
+                            this.lista.splice(this.index,1);
                     }
                 );
             this.isOpen = false;
