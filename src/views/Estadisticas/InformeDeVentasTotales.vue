@@ -1,5 +1,5 @@
 <template>
-  <main class="relative"> 
+  <main class="relative" > 
     <NavBar />
     <div class="w-full h-[60px]">
       <div
@@ -83,31 +83,19 @@ export default {
           stackType: "100%",
         },
         xaxis: {
-          categories: [
-          'ene',
-          'feb',
-          'mar',
-          'abr',
-          'may',
-          'jun',
-          'jul',
-          'ago',
-          'sep',
-          'oct',
-          'nov',
-          'dic',]
+          categories: []
         },
         colors: "#13C296",
         plotOptions: {
           bar: {
-            columnWidth: "20%", // Cambia este valor para ajustar el ancho de las barras
+            columnWidth: "30%", // Cambia este valor para ajustar el ancho de las barras
           }, 
         }
       },
       series: [
         {
-          name: 'series-1',
-          data: [30, 40, 35, 50, 49, 60, 70, 91]
+          name: 'Ventas totales',
+          data: []
         }
       ]
     }
@@ -118,6 +106,7 @@ export default {
       .then(
         (response)=>{
           this.datosAniosFiltros = response.data.lista_fechas_filtro;
+          //this.obtenerDatosFiltrados();
         }
       )
       .catch(
@@ -137,9 +126,31 @@ export default {
     },
     obtenerDatosFiltrados(){
       const filtro_meses = this.construirEstructuraFiltro();
-      const parametros = {"filtro_meses":filtro_meses,"anio_filtro":this.fechaFiltro};
-      //console.log("Los parametros que se envian a laravel son: ",parametros);
-      //axiox.get("/api/")
+      //const parametros = {"filtro_meses":filtro_meses,"anio_filtro":this.fechaFiltro};
+      axios.get("/api/filtro_ventas_totales",{
+        params: {
+          anio_filtro: this.fechaFiltro,
+          filtro_meses:filtro_meses,
+        }
+      })
+      .then(
+        (response)=>{
+          let datos_filtrados = response.data.datos_filtrados;
+          this.chartOptions.xaxis.categories.splice(0,this.chartOptions.xaxis.categories.length);
+          this.series[0].data.splice(0,this.series[0].data.length);
+          datos_filtrados.forEach(
+            (totalMes)=>{
+              this.chartOptions.xaxis.categories.push(totalMes.nombre_mes);
+              this.series[0].data.push(totalMes.total_venta);
+            }
+          ); 
+        }
+      )
+      .catch(
+        (response)=>{
+          console.log(response);
+        }
+      );
     }
   }
 }
