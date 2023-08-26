@@ -21,9 +21,9 @@
             <!-- Tabs para Consumidor Final y Credito Fiscal-->
             <div class="flex flex-col h-full mt-6 ml-2 pl-2 pr-4">
                 <div class="flex justify-start items-center border-b-2 border-b-indigo-500">
-                    <div class="tab" :class="{ 'active': active_tab === 0 }" @click="active_tab = 0">
+                    <!--<div class="tab" :class="{ 'active': active_tab === 0 }" @click="active_tab = 0">
                         Consumidor Final
-                    </div>
+                    </div>-->
                     <div class="tab" :class="{ 'active': active_tab === 1 }" @click="active_tab = 1">
                         Crédito Fiscal
                     </div>
@@ -79,9 +79,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="fila in detalle_ventas_lista" :key="fila.id_creditofiscal"
+                                        <tr v-for="(fila,index) in detalle_ventas_lista" :key="fila.id_creditofiscal"
                                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                            <td class="text-center">{{ fila.id_detalle_credito }}</td>
+                                            <td class="text-center">{{ index+1 }}</td>
                                             <td class="text-center">{{ fila.producto.nombre_producto }}</td>
                                             <td class="text-center">
                                                 <input @change="watch_cantidad_producto(fila)"
@@ -105,10 +105,10 @@
                             <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
                             <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-w-[1/8px] min-h-[200px]">
 
-                                <div v-if="active_tab === 0">
-                                    <!-- PARA CONSUMIDOR FINAL-->
+                                <!--<div v-if="active_tab === 0">
+                                    PARA CONSUMIDOR FINAL
                                     <div class="flex md:flex-row flex-col items-center py-4 px-4">
-                                        <!-- Input para ingresar Fecha -->
+                                        {{ /* Input para ingresar fecha */ }} 
                                         <div class="flex flex-col md:mr-16">
                                             <label for="fecha_venta"
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -120,7 +120,7 @@
                                         </div>
                                     </div>
                                     <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
-                                        <!-- Input para ingresar Cliente -->
+                                        {{ /* Input para ingresar cliente */ }} 
                                         <div class="flex flex-col md:mr-16">
                                             <label for="nombre_cliente"
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -131,7 +131,7 @@
                                                 placeholder="Joaquin Perez" v-model="venta_info.nombre_cliente_venta" />
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div v-if="active_tab === 1">
                                     <!-- PARA CREDITO FISCAL-->
                                     <div class="flex overflow-y-auto">
@@ -145,7 +145,7 @@
                                                         Fecha de Venta
                                                     </label>
                                                     <input id="fecha_credito" type="date" name="fecha_credito"
-                                                        v-model="venta_info.fecha_venta"
+                                                        v-model="credito_fiscal_info.fecha_credito"
                                                         class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                                 </div>
                                             </div>
@@ -330,7 +330,8 @@
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled v-model="credito_fiscal_info.total_iva_credito">
+                                                    placeholder="0.00" disabled
+                                                    v-model="credito_fiscal_info.total_iva_credito">
                                             </div>
                                         </td>
                                     </tr>
@@ -351,11 +352,11 @@
                                 </tbody>
                             </table>
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button v-if="active_tab === 0" @click="register_new_venta()"
+                                <!--<button v-if="active_tab === 0" @click="register_new_venta()"
                                     :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
                                     class="h-[40px] text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
-                                </button>
+                                </button>-->
                                 <button v-if="active_tab === 1" @click="register_new_venta()"
                                     :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
                                     class="h-[40px] text-white font-bold py-2 px-4 rounded">
@@ -403,13 +404,13 @@ export default {
                 subtotal_detalle_venta: 0.00,
             },
             //Objeto Venta
-            venta_info: {
+            /*venta_info: {
                 id_venta: 0,
                 nombre_cliente_venta: "",
                 fecha_venta: null,
                 total_venta: 0,
                 total_iva: 0,
-            },
+            },*/
             //Objeto Cliente
             cliente_info: {
                 id_cliente: 0,
@@ -418,9 +419,9 @@ export default {
                 nrc_cliente: "",
                 dui_cliente: "",
                 direccion_cliente: "",
-                id_municipio:"",
+                id_municipio: "",
                 municipio: {},
-                distintivo_cliente: "" 
+                distintivo_cliente: ""
             },
             departamento_cliente: "La Paz",
             municipio_cliente: "San Luis la Herradura",
@@ -486,7 +487,7 @@ export default {
 
                 this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(2);
 
-                this.credito_fiscal_info.total_iva_credito = Number(this.subtotal_venta* 0.13).toFixed(2);
+                this.credito_fiscal_info.total_iva_credito = Number(this.subtotal_venta * 0.13).toFixed(2);
 
                 this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
             },
@@ -498,9 +499,9 @@ export default {
             axios.get(api_url + '/creditos_detalle/' + this.id).then(
                 response => {
                     this.credito_fiscal_info = response.data,
-                    this.detalle_ventas_lista = response.data.detallecredito,
-                    this.cliente_info = response.data.cliente,
-                    this.calcular_subtotalventa()
+                        this.detalle_ventas_lista = response.data.detallecredito,
+                        this.cliente_info = response.data.cliente,
+                        this.calcular_subtotalventa()
                 });
         },
         redirigir_entrada_input() {
@@ -546,7 +547,7 @@ export default {
                 .get(api_url + '/productos/nombres/lista')
                 .then((response) => {
                     this.productos = response.data.nombres_productos;
-                    console.log("nombreees: " + response.data.nombres_productos);
+                    //console.log("nombreees: " + response.data.nombres_productos);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -576,7 +577,7 @@ export default {
                 .get(api_url + '/clientes/identificador/lista')
                 .then((response) => {
                     this.clientes = response.data.datos;
-                    console.log(response.data.datos);
+                    //console.log(response.data.datos);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -670,7 +671,7 @@ export default {
         },
         //Actualizar Fecha automaticamente
         asignar_fecha_actual() {
-            this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
+            //this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
             this.credito_fiscal_info.fecha_credito_fiscal = moment().format('yyyy-MM-DD');
         },
         //Anadir registro en tabla DETALLE
@@ -769,7 +770,7 @@ export default {
                     (acc, obj) => acc + Number(obj.subtotal_detalle_credito),
                     0.00
                 );
-                this.subtotal_venta = Number(this.subtotal_venta/1.13).toFixed(2);
+                this.subtotal_venta = Number(this.subtotal_venta / 1.13).toFixed(2);
                 resolve();
             });
         },
@@ -782,7 +783,7 @@ export default {
             var datos_ventas = {};
             var detalles_listado_limpio = [];
             var detalle_obj = {};
-            if (this.active_tab == 0) {
+            /*if (this.active_tab == 0) {
                 // Para obtener el listado de ventas limpio para la insercion en la base de datos
                 this.detalle_ventas_lista.map((detalle) => {
                     detalle_obj = {
@@ -810,7 +811,7 @@ export default {
                         this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
                         throw error;
                     });
-            } else if (this.active_tab == 1) {
+            } else*/ if (this.active_tab == 1) {
                 if (this.cliente_info.id_cliente == 0) {
                     this.watch_toast('error', 'Debe seleccionar un Cliente');
                     return;
@@ -824,10 +825,10 @@ export default {
                     };
                     detalles_listado_limpio.push(detalle_obj);
                 });
-                axios.put(api_url + '/modificar_pedido_credito/'+this.id,
+                axios.put(api_url + '/modificar_pedido_credito/' + this.id,
                     datos_ventas = {
                         credito: {
-                            id_credito_fiscal:this.id,
+                            id_credito_fiscal: this.id,
                             id_cliente: this.cliente_info.id_cliente,
                             fecha_credito: this.credito_fiscal_info.fecha_credito,
                             total_credito: Number(this.credito_fiscal_info.total_credito),
@@ -856,13 +857,13 @@ export default {
                 municipio_cliente: {},
                 identificador_cliente: ""
             };
-            this.venta_info = {
+            /*this.venta_info = {
                 id_venta: 0,
                 nombre_cliente_venta: "",
                 fecha_venta: this.venta_info.fecha_venta,
                 total_venta: 0,
                 total_iva: 0,
-            };
+            };*/
             this.credito_fiscal_info = {
                 id_credito_fiscal: 0,
                 id_cliente: 0,
