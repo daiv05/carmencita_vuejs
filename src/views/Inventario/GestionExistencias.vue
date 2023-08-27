@@ -87,7 +87,7 @@
       </nav>
     </div>
     <Teleport to="body">
-          <ModalEditarLote :lote="loteParametroComponente" v-if="controlModalEditarLote" @cerrarModalEditar="cerrarModalEditar"></ModalEditarLote>
+          <ModalEditarLote :tempLote="loteParametroComponente" v-if="controlModalEditarLote" @cerrarModalEditar="cerrarModalEditar" @guardarLoteModificado="guardarLoteModificado"></ModalEditarLote>
     </Teleport>
   </main>
 </template>
@@ -207,6 +207,19 @@ export default {
     abrirModalEditar(lote){
       this.loteParametroComponente = lote;
       this.controlModalEditarLote = true;
+    },
+    guardarLoteModificado(tempLote){
+      /*agregar mensaje de alerta*/
+      let copyListaLotes = [...this.listaLotes];
+      this.listaLotes = [];
+      console.log("la copia del arreglo es: ",copyListaLotes);
+      copyListaLotes.forEach((element,index)=>{
+        if(element.id_lote===tempLote.id_lote){
+          copyListaLotes[index] = tempLote;
+        }
+      });
+      this.listaLotes = [...copyListaLotes];
+      this.controlModalEditarLote = false;
     }
   }
 }

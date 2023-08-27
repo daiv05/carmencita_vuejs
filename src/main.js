@@ -35,6 +35,6 @@ const options = {
   newestOnTop: true
 };
 
-app.use(Toast, options)
+app.use(Toast, options);
 app.use(VueApexCharts);
 app.mount('#app')

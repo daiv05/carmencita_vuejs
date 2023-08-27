@@ -1,6 +1,11 @@
+<script setup>
+import {Form,Field,ErrorMessage} from 'vee-validate';
+</script>
+
 <template>
   <Form
-    class="h-[63%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
+    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
+    @submit="enviarFormulario($event)"
   >
     <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Editar Lote</h1>
 
@@ -11,7 +16,9 @@
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Fecha Vencimiento</label>
-        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_vencimiento"/>
+        <Field type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_vencimiento"
+        :rules="validarFecha" name="fecha_vencimiento"/>
+        <ErrorMessage name = "fecha_vencimiento" class = "mensajeDeError"/>
       </div>
     </div>
 
@@ -53,37 +60,44 @@
     <div class="grid grid-cols-2 gap-4 mb-[1%]">
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Cantidad a ingresar</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="cantidadIngresar">
+        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
+        v-model="cantidadIngresar" name="cantidad_lotes" :rules="validarCantidadLotes"/>
+        <ErrorMessage name = "cantidad_lotes" class = "mensajeDeError"/>
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Unidades totales a ingresar</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" disabled v-model="unidadesTotalesIngresadas">
+        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" disabled v-model="unidadesTotalesIngresadas"/>
       </div>
     </div>
     <div class="grid grid-cols-2 gap-4 mb-[1%]">
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Precio Unitario</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.precio_unitario">
+        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
+        v-model="lote.precio_unitario" :rules="validarPrecioUnitario" name="precio_unitario"/>
+        <ErrorMessage name = "precio_unitario" />
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Costo del lote</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total">
+        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total"
+        :rules="validarCostoDeLote" name="costo_lote"/>
+        <ErrorMessage name="costo_lote"/>
       </div>
     </div>
     <div class="flex justify-center align-center mt-[1%] gap-4">
-        <button type="button" class=" w-[15%] text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-        >Guardar</button>
+        <input type="submit" value="Guardar" class=" w-[15%] text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer"/>
         <button @click="cerrarModal" type="button" class=" w-[15%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
     </div>
+    
   </Form>
 </template>
 
 <script>
 import axios from 'axios';
 
+
 export default {
   props:{
-    lote:Object,
+    tempLote:Object,
   },
     data(){
         return{
@@ -97,6 +111,7 @@ export default {
           nuevoPrecioUnitarioProducto:0,
           costoLote:0,
           listaProductos:[],
+          lote:this.tempLote,
         }
     },
     mounted(){
@@ -159,6 +174,58 @@ export default {
     calcularTipoDeUnidadDeMedida(){
       this.cantidadUnidadMedida = this.lote.cantidad_total_unidades/this.lote.cantidad;
       console.log(this.cantidadUnidadMedida);
+    },
+    enviarFormulario(event,values){
+      event.preventDefault;
+      console.log(this.lote);
+      let configuracionPut = "?_method=PUT";
+      let dataForm = {
+        id_lote:this.lote.id_lote,
+        fecha_vencimiento:this.lote.fecha_vencimiento,
+        codigo_barra_producto:this.idProducto,
+        cantidad_total_unidades:this.unidadesTotalesIngresadas,
+        cantidad:this.cantidadIngresar,
+        precio_unitario:this.lote.precio_unitario,
+        costo_total:this.lote.costo_total,
+        fecha_ingreso:this.lote.fecha_ingreso,
+      };
+      axios.post("/api/gestion_existencias/"+this.lote.id_lote+configuracionPut,dataForm)
+      .then(
+        (response)=>{
+          alert(response.data.mensaje);
+          dataForm.producto = this.lote.producto;
+          this.$emit("guardarLoteModificado",dataForm);
+        }
+      )
+      .catch(
+        (response)=>{
+          alert(response);
+        }
+      );
+    },
+    validarFecha(value){
+      if(!value){
+        return "La fecha no debe quedar vacía.Seleccione una fecha";
+      }
+      return true;
+    },
+    validarCantidadLotes(values){
+        if(values <= 0){
+          return "Cantidad de lotes debe ser mayor a 0";
+        }
+        return true;
+    },
+    validarPrecioUnitario(values){
+      if(values <= 0){
+        return "El precio unitario debe ser mayor a 0";
+      }
+      return true;
+    },
+    validarCostoDeLote(values){
+      if(values<=0){
+        return "El costo dle lote debe ser mayor a 0"
+      }
+      return true;
     }
     },
     watch:{
