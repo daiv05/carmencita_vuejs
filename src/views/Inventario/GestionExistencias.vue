@@ -1,7 +1,24 @@
 <template>
   <main>
     <NavBar></NavBar>
-  
+     <div class="w-full h-[60px]">
+            <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
+                style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
+                <p class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[30px] font-semibold text-left text-[#3056d3]">
+                    Getion Existencias
+                </p>
+                <div
+                    class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-indigo-700">
+                    <button class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white" @click="abrirModalAgregar()">
+                        Agregar Lote
+                    </button>
+                </div>
+            </div>
+        </div>      
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"
+    v-if="isSucces">
+      <span class="font-medium">{{ mensajeResultado }}</span>
+    </div>
     <table class="w-[95%] lg:w-[75%] m-auto mt-[2%]">
       <tr class="text-gray-400 bg-gray-50 border-b">
         <th class="p-[1%] font-semibold">ID DE LOTE</th>
@@ -89,18 +106,23 @@
     <Teleport to="body">
           <ModalEditarLote :tempLote="loteParametroComponente" v-if="controlModalEditarLote" @cerrarModalEditar="cerrarModalEditar" @guardarLoteModificado="guardarLoteModificado"></ModalEditarLote>
     </Teleport>
+    <Teleport to="body">
+          <ModalAgregarLote v-if="controlModalAgregarLote" @cerrarModalAgregar="cerrarModalAgregar" @guardarLoteNuevo="guardarLoteNuevo"></ModalAgregarLote>
+    </Teleport>
   </main>
 </template>
 
 <script>
-import NavBar from '../../components/NavBar.vue'
-import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue'
-import axios from 'axios'
+import NavBar from '../../components/NavBar.vue';
+import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue';
+import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue';
+import axios from 'axios';
 
 export default {
   components: {
     NavBar,
-    ModalEditarLote
+    ModalEditarLote,
+    ModalAgregarLote,
   },
   data() {
     return {
@@ -116,7 +138,10 @@ export default {
       next: '',
       temResponseData: null,
       controlModalEditarLote:false,
+      controlModalAgregarLote:false,
       loteParametroComponente:null,
+      mensajeResultado:"",
+      isSucces:false,
     }
   },
   mounted() {
@@ -208,18 +233,41 @@ export default {
       this.loteParametroComponente = lote;
       this.controlModalEditarLote = true;
     },
+    activarMensajeExito(mensajeExito){
+      this.mensajeResultado = mensajeExito;
+      this.isSucces = true;
+      setTimeout(()=>{
+        this.isSucces = false;
+      },3000);
+    },
     guardarLoteModificado(tempLote){
       /*agregar mensaje de alerta*/
       let copyListaLotes = [...this.listaLotes];
       this.listaLotes = [];
       console.log("la copia del arreglo es: ",copyListaLotes);
       copyListaLotes.forEach((element,index)=>{
-        if(element.id_lote===tempLote.id_lote){
-          copyListaLotes[index] = tempLote;
+        if(element.id_lote===tempLote.dataForm.id_lote){
+          copyListaLotes[index] = tempLote.dataForm;
+          this.activarMensajeExito(tempLote.mensaje);
         }
       });
       this.listaLotes = [...copyListaLotes];
       this.controlModalEditarLote = false;
+    },
+    cerrarModalAgregar(){
+      this.controlModalAgregarLote = false;
+    },
+    abrirModalAgregar(){
+      this.controlModalAgregarLote = true;
+    },
+    guardarLoteNuevo(nuevoLote){
+      this.listaLotes.push(nuevoLote.lote);
+      this.mensajeResultado = nuevoLote.mensaje;
+      this.isSucces = true;
+      this.controlModalAgregarLote = false;
+      setTimeout(()=>{
+        this.isSucces = false;
+      },2000);
     }
   }
 }
@@ -228,5 +276,8 @@ export default {
 .pageActivate{
   font-weight: 900;
   color: black;
+}
+.loteModificado{
+  border:2px solid rgb(156 163 175);
 }
 </style>
