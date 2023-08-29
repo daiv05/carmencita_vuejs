@@ -17,6 +17,9 @@ import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
+import InformeDeProductosMasVendidos from '../views/Estadisticas/InformeDeProductosMasVendidos.vue';
+import InformeDeProductosMenosVendidos from '../views/Estadisticas/InformeDeProductosMenosVendidos.vue';
+import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExistenciasDeProductos.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -141,6 +144,21 @@ const router = createRouter({
       path:'/informe_ventas_totales',
       name:'informe_ventas_totales',
       component:InformeDeVentasTotales
+    },
+    {
+      path:'/informe_productos_mas_vendidos',
+      name:'informe_productos_mas_vendidos',
+      component:InformeDeProductosMasVendidos
+    },
+    {
+      path:'/informe_productos_menos_vendidos',
+      name:'informe_productos_menos_vendidos',
+      component:InformeDeProductosMenosVendidos
+    },
+    {
+      path:'/informe_existencias_de_productos',
+      name:'informe_existencias_de_productos',
+      component:InformeDeExistenciasDeProductos
     }
   ]
 })
