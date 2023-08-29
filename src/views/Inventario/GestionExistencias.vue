@@ -35,7 +35,7 @@
           <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
             <div class="flex justify-between content-center">
-              <button class="">Consultar</button>
+              <button class="" @click="abrirModalConsultar(lote)">Consultar</button>
               <button @click="abrirModalEditar(lote)">Editar</button>
               <button>Eliminar</button>
             </div>
@@ -109,6 +109,9 @@
     <Teleport to="body">
           <ModalAgregarLote v-if="controlModalAgregarLote" @cerrarModalAgregar="cerrarModalAgregar" @guardarLoteNuevo="guardarLoteNuevo"></ModalAgregarLote>
     </Teleport>
+    <Teleport to="body">
+        <ModalConsultarLote v-if="controlModalConsultar" :lote="loteParametroComponente" @cerrarModalConsultar = "cerrarModalConsultar" @abrirModalConsultar="abrirModalConsultar"></ModalConsultarLote>
+    </Teleport>
   </main>
 </template>
 
@@ -116,6 +119,7 @@
 import NavBar from '../../components/NavBar.vue';
 import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue';
 import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue';
+import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue'
 import axios from 'axios';
 
 export default {
@@ -123,6 +127,7 @@ export default {
     NavBar,
     ModalEditarLote,
     ModalAgregarLote,
+    ModalConsultarLote,
   },
   data() {
     return {
@@ -142,6 +147,7 @@ export default {
       loteParametroComponente:null,
       mensajeResultado:"",
       isSucces:false,
+      controlModalConsultar:false,
     }
   },
   mounted() {
@@ -261,13 +267,27 @@ export default {
       this.controlModalAgregarLote = true;
     },
     guardarLoteNuevo(nuevoLote){
-      this.listaLotes.push(nuevoLote.lote);
+      /*this.listaLotes.push(nuevoLote.lote);
       this.mensajeResultado = nuevoLote.mensaje;
       this.isSucces = true;
       this.controlModalAgregarLote = false;
       setTimeout(()=>{
         this.isSucces = false;
-      },2000);
+      },2000);*/
+      this.mensajeResultado = nuevoLote.mensaje;
+      this.isSucces = true;
+      this.controlModalAgregarLote = false;
+      setTimeout(()=>{
+        this.isSucces = false;
+        location.reload();
+      },3000);
+    },
+    cerrarModalConsultar(){
+      this.controlModalConsultar = false;
+    },
+    abrirModalConsultar(lote){
+      this.loteParametroComponente = lote;
+      this.controlModalConsultar = true;
     }
   }
 }
