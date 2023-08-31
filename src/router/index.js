@@ -17,6 +17,7 @@ import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
+import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -141,6 +142,11 @@ const router = createRouter({
       path:'/informe_ventas_totales',
       name:'informe_ventas_totales',
       component:InformeDeVentasTotales
+    },
+    {
+      path:"/informe_inventario_valorado",
+      name:"informe_inventario_valorado",
+      component:InformeDeInventarioValorado,
     }
   ]
 })
