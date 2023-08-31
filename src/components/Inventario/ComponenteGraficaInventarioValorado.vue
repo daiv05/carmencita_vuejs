@@ -3,7 +3,7 @@
     <div class="w-[80%]">
       <apexchart
         width="100%"
-        height="250%"
+        height="350%"
         type="bar"
         :options="chartOptions"
         :series="series"
@@ -50,13 +50,16 @@ export default {
             (response)=>{
                 console.log(response.data.categories);
                 this.chartOptions.xaxis.categories.splice(0,this.chartOptions.xaxis.categories.length);
-                this.chartOptions.xaxis.categories = response.data.categories;
                 this.series[0].data = response.data.data;
+                response.data.categories.forEach((element)=>{
+                    console.log(element);
+                    this.chartOptions.xaxis.categories.push(element);
+                });
             }
         )
         .catch(
-            (err)=>{
-                console.log(err);
+            (response)=>{
+                console.log(response);
             }
         );
     }

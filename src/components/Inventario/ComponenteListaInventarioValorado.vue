@@ -23,7 +23,7 @@
     <div class="flex justify-center align-center mt-[5%]">
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
-          <li>
+          <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
             <a
               href="#"
               class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -63,7 +63,6 @@
               class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
               <span class="sr-only">
-                {{}}
               </span>
               <svg
                 class="w-2.5 h-2.5"

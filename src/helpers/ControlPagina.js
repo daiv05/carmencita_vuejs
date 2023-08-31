@@ -14,8 +14,8 @@ export default class ControladorPagina {
     }
 
     configurarListaEnlacePaginas(){
-        this.paginaSiguiente = this.listaEnlaces[0];
-        this.paginaPrevia = this.listaEnlaces[this.listaEnlaces.length-1];
+        this.paginaPrevia = this.listaEnlaces[0];
+        this.paginaSiguiente = this.listaEnlaces[this.listaEnlaces.length-1];
         this.listaEnlaces = this.listaEnlaces.slice(1,this.listaEnlaces.length-1);
     }
 
