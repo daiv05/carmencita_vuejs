@@ -1,5 +1,26 @@
 <template>
   <main>
+    <Form>
+      <div class="grid grid-cols-3 gap-10 mb-[5%]">
+      <div class="grid grid-row-2 gap-2">
+        <p>Valor minímo</p>
+        <Field type="number" name="valor_minimo" placeholder="0.00" step="0.05" 
+        class = "block w-[90%] rounded" min="0.00" v-model="valorMinimo"
+        :rules="validarValorMinimo"/>
+        <ErrorMessage name="valor_minimo"></ErrorMessage>
+      </div>
+      <div class="grid grid-row-2 gap-2">
+        <p>Valor máximo</p>
+        <Field type="number" name="valor_maximo" placeholder="150.00" step="0.05" 
+        class = "block w-[90%] rounded" min="0.00" v-model="valorMaximo"
+        :rules="validarValorMaximo"/>
+        <ErrorMessage name="valor_maximo"></ErrorMessage>
+      </div>
+      <div class="flex justify-center align-center">
+        <button @click="obtenerDatosFiltrados($event)" class="bg-indigo-700 text-white font-medium rounded-[5px] h-[50%] mt-[19%] p-[5px]">Aplicar filtro</button>
+      </div>
+    </div>
+    </Form>
     <table class="w-[100%] m-auto mt-[2%]">
       <tr class="text-gray-400 bg-gray-50 border-b">
         <th class="p-[1%] font-semibold">ID PRODUCTO</th>
@@ -89,17 +110,61 @@
 <script>
 import axios from 'axios'
 import ControlPaginas from '../../helpers/ControlPagina.js'
+import {Form,Field,ErrorMessage} from 'vee-validate';
 
 export default {
+  components:{
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data() {
     return {
-      controlPagina: new ControlPaginas('/api/informe_inventario_valorado', axios)
+      controlPagina: new ControlPaginas('/api/informe_inventario_valorado', axios),
+      valorMinimo:0.00,
+      valorMaximo:0.00,
+      urlEndpointFiltro:"/api/filtro_datos_producto_valorado",
     }
   },
   mounted() {
     this.controlPagina.cargarPaginas()
   },
-  methods: {}
+  methods: {
+    validarValorMinimo(value){
+
+      return true;
+    },
+    validarValorMaximo(value){
+   
+      return true;
+    },
+    obtenerDatosFiltrados(event){
+      event.preventDefault();
+      this.controlPagina = null;
+      this.controlPagina = new ControlPaginas(this.urlEndpointFiltro+this.obtenerParmetrosFiltro(),axios);
+      this.controlPagina.cargarPaginas();
+    },
+    obtenerParmetrosFiltro(){
+      if(this.valorMinimo!= 0 && this.valorMaximo!= 0){
+          //return `?valorMinimo=${this.valorMinimo}&valorMaximo=${this.valorMaximo}`;
+          //return {"valorMinimo":this.valorMinimo,"valorMaximo":this.valorMaximo};
+          return `/${this.valorMinimo}/${this.valorMaximo}`;
+      }
+      else if(this.valorMinimo!=0){
+        //return `?valorMinimo=${this.valorMinimo}`;
+        //return {"valorMinimo":this.valorMinimo};
+        return `/${this.valorMinimo}`;
+      }
+      else if(this.valorMaximo!=0){
+        //return `?valorMinimo=${this.valorMinimo}&valorMaximo=${this.valorMaximo}`;
+        //return {"valorMaximo":this.valorMaximo};
+        return `/${this.valorMinimo}/${this.valorMaximo}`;
+      }
+      else{
+        return "";
+      }
+    }
+  }
 }
 </script>
 <style>
