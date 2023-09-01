@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1 class="text-2xl mb-1 text-left ml-[5%]">Los 10 productos con mayor valor en inventario</h1>
     <div class="w-[80%]">
       <apexchart
         width="100%"

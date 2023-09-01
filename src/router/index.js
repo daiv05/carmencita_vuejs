@@ -18,6 +18,7 @@ import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
+import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -147,6 +148,11 @@ const router = createRouter({
       path:"/informe_inventario_valorado",
       name:"informe_inventario_valorado",
       component:InformeDeInventarioValorado,
+    },
+    {
+      path:"/informe_ventas_productos",
+      name:"informe_ventas_productos",
+      component:InformeDeTotalVentasPorProducto,
     }
   ]
 })
