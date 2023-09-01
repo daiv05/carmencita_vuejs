@@ -20,6 +20,8 @@ import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales
 import InformeDeProductosMasVendidos from '../views/Estadisticas/InformeDeProductosMasVendidos.vue';
 import InformeDeProductosMenosVendidos from '../views/Estadisticas/InformeDeProductosMenosVendidos.vue';
 import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExistenciasDeProductos.vue';
+import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
+import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -159,7 +161,17 @@ const router = createRouter({
       path:'/informe_existencias_de_productos',
       name:'informe_existencias_de_productos',
       component:InformeDeExistenciasDeProductos
-    }
+    },
+    {
+      path:"/informe_inventario_valorado",
+      name:"informe_inventario_valorado",
+      component:InformeDeInventarioValorado
+    },
+    {
+      path:"/informe_ventas_productos",
+      name:"informe_ventas_productos",
+      component:InformeDeTotalVentasPorProducto,
+    },
   ]
 })
 

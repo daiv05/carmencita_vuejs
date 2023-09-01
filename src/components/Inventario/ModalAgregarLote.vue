@@ -1,3 +1,4 @@
+
 <script setup>
 import {Form,Field,ErrorMessage} from 'vee-validate';
 </script>
@@ -7,18 +8,18 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
     class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
     @submit="enviarFormulario($event)"
   >
-    <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Editar Lote</h1>
+    <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Agregar Lote</h1>
 
     <div class="grid grid-cols-2 gap-4 mb-[1%]">
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Fecha Ingreso</label>
-        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_ingreso" disabled/>
+        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="fechaIngreso" disabled/>
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Fecha Vencimiento</label>
-        <Field type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_vencimiento"
+        <Field type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="fechaVencimiento"
         :rules="validarFecha" name="fecha_vencimiento"/>
-        <ErrorMessage name = "fecha_vencimiento" class = "mensajeDeError"/>
+        <ErrorMessage name = "fecha_vencimiento" class = "error"/>
       </div>
     </div>
 
@@ -31,6 +32,7 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
           id="countries"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           v-model="idProducto"
+          @change="cargarListaCantidadUnidadesProducto()"
         >
           <option v-for="producto in listaProductos" :key="producto.codigo_barra_producto" :value="producto.codigo_barra_producto"> 
             {{ producto.nombre_producto }} 
@@ -62,7 +64,7 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
         <label for="" class="block mb-[1%] font-semibold">Cantidad a ingresar</label>
         <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
         v-model="cantidadIngresar" name="cantidad_lotes" :rules="validarCantidadLotes"/>
-        <ErrorMessage name = "cantidad_lotes" class = "mensajeDeError"/>
+        <ErrorMessage name = "cantidad_lotes" class = "error"/>
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Unidades totales a ingresar</label>
@@ -73,14 +75,14 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Precio Unitario</label>
         <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
-        v-model="lote.precio_unitario" :rules="validarPrecioUnitario" name="precio_unitario"/>
-        <ErrorMessage name = "precio_unitario" />
+        v-model="nuevoPrecioUnitarioProducto" :rules="validarPrecioUnitario" name="precio_unitario"/>
+        <ErrorMessage name = "precio_unitario" class="error"/>
       </div>
       <div class="">
         <label for="" class="block mb-[1%] font-semibold">Costo del lote</label>
-        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total"
+        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="costoLote"
         :rules="validarCostoDeLote" name="costo_lote"/>
-        <ErrorMessage name="costo_lote"/>
+        <ErrorMessage name="costo_lote" class="error"/>
       </div>
     </div>
     <div class="flex justify-center align-center mt-[1%] gap-4">
@@ -94,11 +96,7 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
 <script>
 import axios from 'axios';
 
-
 export default {
-  props:{
-    tempLote:Object,
-  },
     data(){
         return{
           listaUnidadesMedida:[],
@@ -111,34 +109,32 @@ export default {
           nuevoPrecioUnitarioProducto:0,
           costoLote:0,
           listaProductos:[],
-          lote:this.tempLote,
+          lote:null,
         }
     },
     mounted(){
-      this.cargarUnidadesMedida();
-      this.cargarProductos();
-      this.idProducto = this.lote.producto.codigo_barra_producto;
       this.configurarFechasLote();
-      this.cantidadIngresar = this.lote.cantidad;
-      this.unidadesTotalesIngresadas = this.lote.cantida_total_unidades;
-      this.calcularTipoDeUnidadDeMedida();
+      this.cargarProductos();
     },
     methods:{
        configurarFechasLote(){
-        this.fechaIngreso = this.convertirFecha(this.lote.fecha_ingreso);
-        this.fechaVencimiento = this.convertirFecha(this.lote.fecha_vencimiento);
+        this.fechaIngreso = this.convertirFecha(this.obtenerFechaFormateada());
+        //this.fechaVencimiento = this.convertirFecha(this.lote.fecha_vencimiento);
        },
        cerrarModal(){
-        this.$emit("cerrarModalEditar");
+        this.$emit("cerrarModalAgregar");
        },
        cargarUnidadesMedida(){
         //let url = "api/productos/precios/"+this.lote.producto.codigo_barra_producto;
-        let url = "api/precio_lista_unidades/"+this.lote.producto.codigo_barra_producto;
+        let url = "api/precio_lista_unidades/"+this.idProducto;
         axios.get(url)
         .then(
           (response)=>{
             console.log("La lista de unidades de medida son: ",response.data);
             this.listaUnidadesMedida = response.data.lista_precios_extra;
+            if(this.listaUnidadesMedida.length > 0){
+            this.cantidadUnidadMedida = this.listaUnidadesMedida[0].cantidad_producto;
+            }
           }
         )
         .catch(
@@ -162,7 +158,11 @@ export default {
       axios.get("/api/productos")
       .then(
         (response)=>{
-          this.listaProductos = response.data;    
+          this.listaProductos = response.data; 
+          if(this.listaProductos.length > 0){
+            this.idProducto = this.listaProductos[0].codigo_barra_producto;
+            this.cargarListaCantidadUnidadesProducto();
+          }   
         }
       )
       .catch(
@@ -177,24 +177,21 @@ export default {
     },
     enviarFormulario(event,values){
       event.preventDefault;
-      console.log(this.lote);
-      let configuracionPut = "?_method=PUT";
-      let dataForm = {
-        id_lote:this.lote.id_lote,
-        fecha_vencimiento:this.lote.fecha_vencimiento,
+    let dataForm = {
+        fecha_vencimiento:this.fechaVencimiento,
         codigo_barra_producto:this.idProducto,
         cantidad_total_unidades:this.unidadesTotalesIngresadas,
         cantidad:this.cantidadIngresar,
-        precio_unitario:this.lote.precio_unitario,
-        costo_total:this.lote.costo_total,
-        fecha_ingreso:this.lote.fecha_ingreso,
+        precio_unitario:this.nuevoPrecioUnitarioProducto,
+        costo_total:this.costoLote,
+        fecha_ingreso:this.fechaIngreso,
       };
-      axios.post("/api/gestion_existencias/"+this.lote.id_lote+configuracionPut,dataForm)
+      axios.post("/api/gestion_existencias/",dataForm)
       .then(
         (response)=>{
-          alert(response.data.mensaje);
-          dataForm.producto = this.lote.producto;
-          this.$emit("guardarLoteModificado",{dataForm:dataForm,mensaje:`Se edito el lote ${this.lote.id_lote} con éxito`});
+          let lote = response.data.lote; 
+          console.log(lote);
+          this.$emit("guardarLoteNuevo",{lote:response.data.lote,mensaje:`Se agrego el lote ${lote.id_lote} con éxito`});
         }
       )
       .catch(
@@ -205,7 +202,10 @@ export default {
     },
     validarFecha(value){
       if(!value){
-        return "La fecha no debe quedar vacía.Seleccione una fecha";
+        return "La fecha no debe quedar vacía. Seleccione una fecha";
+      }
+      if(Date.parse(this.fechaIngreso) > Date.parse(this.fechaVencimiento)){
+        return "La fecha de vencimiento debe ser mayor a la fecha de ingreso";
       }
       return true;
     },
@@ -226,6 +226,9 @@ export default {
         return "El costo dle lote debe ser mayor a 0"
       }
       return true;
+    },
+    cargarListaCantidadUnidadesProducto(){
+        this.cargarUnidadesMedida();
     }
     },
     watch:{
@@ -238,3 +241,8 @@ export default {
     }
 }
 </script>
+<style>
+.error{
+    color: red;
+}
+</style>
