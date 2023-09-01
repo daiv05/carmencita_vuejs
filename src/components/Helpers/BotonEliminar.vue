@@ -55,8 +55,8 @@ export default {
         url: null,
         titulo: null,
         mensaje: null,
-        index:null,
-        lista:[],
+        index: null,
+        lista: [],
     },
     data() {
         return {
@@ -71,12 +71,17 @@ export default {
                 .then(
                     response => {
                         this.respuesta = response.data.mensaje,
-                            this.estatus = response.data.status,
+                            this.estatus = response.data.respuesta,
                             this.showMessages(this.estatus, this.respuesta),
-                            this.lista.splice(this.index,1);
+                            this.updateLista(response.data.respuesta)
                     }
                 );
             this.isOpen = false;
+        },
+        updateLista(status) {
+            if (status) {
+                this.lista.splice(this.index, 1);
+            }
         },
         showMessages(tipo, mensaje) {
 
