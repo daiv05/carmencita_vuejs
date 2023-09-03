@@ -88,7 +88,7 @@ if(route.fullPath.includes("cargo")){
                     <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
                   </MenuItem>
                   <MenuItem v-slot="{ active }">
-                    <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</a>
+                    <button  @click="logout"  href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Sign out</button>
                   </MenuItem>
                 </MenuItems>
               </transition>
@@ -104,3 +104,17 @@ if(route.fullPath.includes("cargo")){
       </DisclosurePanel>
     </Disclosure>
   </template>
+<script>
+import store from '../store/auth';
+
+export default {
+  components:{
+
+  },
+  methods:{
+    logout(){
+      store.dispatch("logout");
+    }
+  }
+}
+</script>

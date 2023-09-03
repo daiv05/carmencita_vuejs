@@ -72,6 +72,11 @@ export default {
                )
                .catch((response)=>{
                     console.log("Ocurrio un error al obtener los registros del servidor");
+                    console.log(response);
+                    if(response.response.data.tienePermiso === false){
+                         alert(response.response.data.mensaje);
+                         setTimeout(()=>{this.$router.push("/")},2000);
+                    }
                });
           },
           generarEnlace(idEmpleado){
