@@ -807,11 +807,14 @@ export default {
                         },
                         detalles: detalles_listado_limpio,
                     }).then((resp) => {
-                        this.watch_toast('success', 'Venta actualizada correctamente');
+                        this.watch_toast(resp.data.respuesta, "Venta actualizada correctamente");
                         this.limpiar_campos();
+                        this.$router.push('/listar_pedidos_domicilio')
+                        this.$router.go(1);
+                        //router.replace('/listar_pedidos_domicilio')
                     }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
+                        this.watch_toast(error.response.data.respuesta, error.response.data.mensaje);
+                        //this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
                         throw error;
                     });
             } /*else if (this.active_tab == 1) {
@@ -861,7 +864,7 @@ export default {
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
-            if (tipo == "success") {
+            if (tipo) {
                 toast.success(mensaje, {
                     position: "bottom-left",
                     timeout: 2994,
