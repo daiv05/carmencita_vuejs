@@ -33,7 +33,7 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
     <div class="w-full overflow-x-auto">
       <table class="w-full">
         <thead>
-          <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase text-center">
+          <tr class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase text-center">
             <th class="px-4 py-3">Nombre Cargo</th>
             <th class="px-4 py-3">Sueldo Cargo</th>
             <th class="px-4 py-3">Acciones</th>
@@ -48,7 +48,7 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
             </td>
             <td class="px-4 py-3 text-ms font-semibold text-center">${{ cargo.salario_cargo }}</td>
             <td class="px-4 py-3 text-xs text-center">
-               <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarCargo(cargo.id_cargo)">Editar</button>
+               <button type="button" class="focus:outline-none text-white hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-emerald-500 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="modificarCargo(cargo.id_cargo)">Editar</button>
                <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ml-10" @click="eliminarCargo(cargo.id_cargo)">Eliminar</button>
             </td>
           </tr>

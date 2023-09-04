@@ -11,7 +11,9 @@
                     </p>
                     <div
                         class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
+                        <button id="show-modal"
+                            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white"
+                            @click="showModal = true">
                             Registrar como Pedido a Domicilio
                         </button>
                     </div>
@@ -33,7 +35,7 @@
 
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
-                        <div class="flex max-h-[750px] overflow-y-auto pb-36">
+                        <div class="flex max-h-[750px] pb-36">
                             <div class="w-3/4 pr-4 h-full pt-4">
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
                                 <!-- Input para ingresar Producto -->
@@ -44,15 +46,15 @@
                                     <input @input="listener_buscar_codigo_producto()" ref="codigo_bp"
                                         class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                         placeholder="Codigo del Producto" v-model="producto_codigo" />
-                                    <div class="sugerencias-container">
+                                    <div class="sugerencias-container md:col-span-3">
                                         <!-- Campo de entrada -->
                                         <input @input="listener_producto_nombre()" @focus="mostrar_sugerencias = true"
                                             @blur.self="mostrar_sugerencias = false"
-                                            class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            class="md:col-span-3 ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                             placeholder="Nombre del Producto" v-model="producto_nombre" />
 
                                         <!-- Lista de sugerencias -->
-                                        <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
+                                        <ul class="sugerencias-lista md:col-span-3 ml-4 border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
                                             <li class="w-64 m-2" v-for="sugerencia in sugerencias" :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
@@ -79,21 +81,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="fila in detalle_ventas_lista" :key="fila.id_venta"
+                                        <tr v-for="fila, index in detalle_ventas_lista" :key="fila.id_venta"
                                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                            <td class="text-center">{{ fila.id_venta }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ fila.producto_detalle.nombre_producto }}</td>
                                             <td class="text-center">
                                                 <input @change="watch_cantidad_producto(fila)"
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_prod_venta">
                                             </td>
-                                            <td class="text-center">{{ fila.producto_detalle.precio_unitario }}</td>
-                                            <td class="text-center">{{ fila.subtotal_detalle_venta =
+                                            <td class="text-center">$ {{ fila.producto_detalle.precio_unitario }}</td>
+                                            <td class="text-center">$ {{ fila.subtotal_detalle_venta =
                                             Number(fila.producto_detalle.precio_unitario *
-                                                fila.cantidad_prod_venta).toFixed(2) }}</td>
+                                                fila.cantidad_prod_venta).toFixed(4) }}</td>
                                             <td class="flex justify-end pr-4 py-2">
-                                                <button @click="eliminar_detalle_venta(fila.id_venta)"
+                                                <button @click="eliminar_detalle_venta(index + 1)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
                                                     X
                                                 </button>
@@ -103,7 +105,7 @@
                                 </table>
                             </div>
                             <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                            <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-w-[1/8px] min-h-[200px]">
+                            <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-h-[200px]">
 
                                 <div v-if="active_tab === 0">
                                     <!-- PARA CONSUMIDOR FINAL-->
@@ -116,27 +118,27 @@
                                             </label>
                                             <input id="fecha_venta" type="date" name="fecha_venta"
                                                 v-model="venta_info.fecha_venta"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
+                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                         </div>
                                     </div>
-                                    <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
+                                    <div class="flex flex-shrink-0 md:flex-row flex-col items-center py-4 px-4">
                                         <!-- Input para ingresar Cliente -->
-                                        <div class="flex flex-col md:mr-16">
+                                        <div class="flex flex-col">
                                             <label for="nombre_cliente"
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                 Cliente
                                             </label>
                                             <input id="nombre_cliente" type="text" name="nombre_cliente"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                 placeholder="Joaquin Perez" v-model="venta_info.nombre_cliente_venta" />
                                         </div>
                                     </div>
                                 </div>
                                 <div v-if="active_tab === 1">
                                     <!-- PARA CREDITO FISCAL-->
-                                    <div class="flex overflow-y-auto">
+                                    <div class="flex">
                                         <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                                        <div class="w-1/4 pb-24 pl-2 flex-shrink-0">
+                                        <div class="pb-24 pl-2 flex-shrink-0">
                                             <div class="flex md:flex-row flex-col items-center py-4 px-4">
                                                 <!-- Input para ingresar Fecha -->
                                                 <div class="flex flex-col md:mr-16">
@@ -343,7 +345,7 @@
                                         <td class="text-center">
                                             <div class="flex items-center">
                                                 <input
-                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
+                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-md  rounded-tr-md rounded-br-md"
                                                     placeholder="0.00" disabled v-model="venta_info.total_venta">
                                             </div>
                                         </td>
@@ -351,12 +353,12 @@
                                 </tbody>
                             </table>
                             <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button v-if="active_tab === 0" @click="register_new_venta()"
+                                <button v-if="active_tab === 0" @click="register_new_venta(false)"
                                     :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
                                     class="h-[40px] text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Consumidor Final
                                 </button>
-                                <button v-if="active_tab === 1" @click="register_new_venta()"
+                                <button v-if="active_tab === 1" @click="register_new_venta(false)"
                                     :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
                                     class="h-[40px] text-white font-bold py-2 px-4 rounded">
                                     Guardar Venta Credito Fiscal
@@ -368,6 +370,12 @@
             </div>
         </div>
     </div>
+
+
+    <Teleport to="body">
+        <ModalVentaDomicilio :show="showModal" :activeTab="active_tab" :fecha="venta_info.fecha_venta"
+            @close="showModal = false" @save="register_new_venta(true)"></ModalVentaDomicilio>
+    </Teleport>
 </template>
 
 
@@ -378,15 +386,19 @@ import "../../assets/registrar_venta.css"
 import moment from 'moment';
 import { useToast } from 'vue-toastification'
 import NavBar from '@/components/NavBar.vue'
+import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue'
 
 const toast = useToast();
 
 export default {
     components: {
         NavBar: NavBar,
+        ModalVentaDomicilio
     },
     data() {
         return {
+            showModal: false,
+
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
 
@@ -476,11 +488,11 @@ export default {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
 
-                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
+                // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
 
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
 
-                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(4);
 
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
             },
@@ -515,14 +527,8 @@ export default {
             if (this.detalle_ventas_lista.length === 1) {
                 // Si solo queda un detalle, restablecer los valores en lugar de eliminarlo
                 this.detalle_ventas_lista = []
-                this.contador_tabla = 1;
             } else {
                 this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
-                this.contador_tabla = 1;
-                // Actualizar el contador de los detalles restantes
-                for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
-                    this.detalle_ventas_lista[i].id_venta = this.contador_tabla++;
-                }
             }
         },
         //Obtener lista de todos los nombres de productos en la bdd
@@ -711,18 +717,19 @@ export default {
             if (producto_ya_agregado) {
                 // Si el producto ya está en la tabla, aumentar la cantidad a ese detalle
                 producto_ya_agregado.cantidad_prod_venta++;
-                return this.calcular_subtotalventa();
+                return new Promise((resolve, reject) => {
+                    resolve();
+                });
             }
             return new Promise((resolve, reject) => {
                 const detalle = {
-                    id_venta: this.contador_tabla, //Este valor es solo para usarlo en la tabla
+                    id_venta: 1, //Este valor es solo para usarlo en la tabla
                     producto_detalle: producto_copia,
                     cantidad_prod_venta: 1,
                     subtotal_detalle_venta: this.producto_info.precio_producto,
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
-                this.contador_tabla++;
                 resolve();
             });
         },
@@ -730,10 +737,7 @@ export default {
         watch_cantidad_producto(fila) {
             this.verificar_unidad_medida(fila)
                 .then(() => {
-                    return this.calcular_subtotalventa();
-                })
-                .then(() => {
-                    console.log("Todo bien todo correcto")
+                    console.log("Todo bien todo correcto");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -750,84 +754,131 @@ export default {
         //Subtotal de la venta RESUMEN
         calcular_subtotalventa() {
             new Promise((resolve, reject) => {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.00
-                );
-                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                //     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                //     0.00
+                // );
+                // this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 resolve();
             });
         },
         //Registrar Venta y obtener el id de la venta registrada
-        register_new_venta() {
-            if (this.detalle_ventas_lista.length == 0) {
-                this.watch_toast('error', 'No se ha agregado ningun producto');
+        register_new_venta(is_domicilio) {
+            if (this.detalle_ventas_lista.length === 0) {
+                this.watch_toast('error', 'No se ha agregado ningún producto');
                 return;
             }
-            var datos_ventas = {};
-            var detalles_listado_limpio = [];
-            var detalle_obj = {};
-            if (this.active_tab == 0) {
-                // Para obtener el listado de ventas limpio para la insercion en la base de datos
-                this.detalle_ventas_lista.map((detalle) => {
-                    detalle_obj = {
-                        id_venta: 0,
+
+            const detalles_listado_limpio = this.prepare_detalles_listado_limpio();
+
+            if (this.active_tab === 0) {
+                this.register_venta(detalles_listado_limpio, is_domicilio);
+            } else if (this.active_tab === 1){
+                this.register_credito(detalles_listado_limpio, is_domicilio);
+            }
+        },
+
+        prepare_detalles_listado_limpio() {
+            return this.detalle_ventas_lista.map(detalle => {
+                if (this.active_tab === 0) {
+                    return {
+                        id_venta: 1,
                         codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                         cantidad_producto: detalle.cantidad_prod_venta,
                         subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
                     };
-                    detalles_listado_limpio.push(detalle_obj);
-                });
-                axios.post(api_url + '/ventas/registrar/',
-                    datos_ventas = {
-                        venta: {
-                            nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
-                            fecha_venta: this.venta_info.fecha_venta,
-                            total_venta: Number(this.subtotal_venta),
-                            total_iva: Number(this.venta_info.total_iva),
-                        },
-                        detalles: detalles_listado_limpio,
-                    }).then((resp) => {
-                        this.watch_toast('success', 'Venta registrada correctamente');
-                        this.limpiar_campos();
-                    }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
-                        throw error;
-                    });
-            } else if (this.active_tab == 1) {
-                if (this.cliente_info.id_cliente == 0) {
-                    this.watch_toast('error', 'Debe seleccionar un Cliente');
-                    return;
-                }
-                this.detalle_ventas_lista.map((detalle) => {
-                    detalle_obj = {
-                        id_creditofiscal: 0,
+                } else {
+                    return {
+                        id_creditofiscal: 1,
                         codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                         cantidad_producto_credito: detalle.cantidad_prod_venta,
                         subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
                     };
-                    detalles_listado_limpio.push(detalle_obj);
-                });
-                axios.post(api_url + '/creditos/registrar/',
-                    datos_ventas = {
-                        credito: {
-                            id_cliente: this.cliente_info.id_cliente,
-                            fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
-                            total_credito: Number(this.venta_info.total_venta),
-                            total_iva_credito: Number(this.venta_info.total_iva),
-                        },
-                        detalles: detalles_listado_limpio,
-                    }).then(() => {
-                        this.watch_toast('success', 'Credito registrado correctamente');
-                        this.limpiar_campos();
-                    }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
-                        throw error;
-                    })
-            }
+                }
+            });
         },
+
+        register_venta(detalles_listado_limpio, is_domicilio) {
+            const datos_ventas = {
+                venta: {
+                    nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
+                    fecha_venta: this.venta_info.fecha_venta,
+                    total_venta: Number(this.subtotal_venta),
+                    total_iva: Number(this.venta_info.total_iva)
+                },
+                detalles: detalles_listado_limpio,
+                domicilio: is_domicilio
+            };
+
+            axios.post(api_url + '/ventas/registrar/', datos_ventas)
+                .then((response) => {
+                    console.log('respuesta peticion venta');
+                    console.log(response);
+                    // Decode base64 del pdf del response y crear un blob
+                    const pdf_decode = atob(response.data.pdf);
+                    const pdf_lenght = pdf_decode.length;
+                    const archivo = new Uint8Array(new ArrayBuffer(pdf_lenght));
+                    for (var i = 0; i < pdf_lenght; i++) {
+                        archivo[i] = pdf_decode.charCodeAt(i);
+                    }
+                    const fileBlob = new Blob([archivo], { type: 'application/pdf' });
+                    const fileURL = URL.createObjectURL(fileBlob);
+
+                    // Crear un iframe oculto para cargar el PDF y luego imprimirlo
+                    const pdfIframe = document.createElement('iframe');
+                    pdfIframe.style.display = 'none';
+                    pdfIframe.src = fileURL;
+                    document.body.appendChild(pdfIframe);
+
+                    pdfIframe.onload = function () {
+                        // Imprimir el PDF después de cargarlo en el iframe
+                        pdfIframe.contentWindow.print();
+                    };
+                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Venta registrada correctamente');
+                    this.limpiar_campos();
+
+                })
+                .catch(error => {
+                    this.handle_error(error, 'Venta');
+                });
+        },
+
+        register_credito(detalles_listado_limpio, is_domicilio) {
+            if (this.cliente_info.id_cliente === 0) {
+                this.watch_toast('error', 'Debe seleccionar un Cliente');
+                return;
+            }
+
+            const datos_ventas = {
+                credito: {
+                    id_cliente: this.cliente_info.id_cliente,
+                    fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
+                    total_credito: Number(this.venta_info.total_venta),
+                    total_iva_credito: Number(this.venta_info.total_iva),
+                },
+                detalles: detalles_listado_limpio,
+                domicilio: is_domicilio,
+            };
+
+            console.log('credito va?');
+            console.log(is_domicilio);
+
+            axios.post(api_url + '/creditos/registrar/', datos_ventas)
+                .then((response) => {
+                    console.log(response);
+                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Crédito registrado correctamente') ;
+                    this.limpiar_campos();
+                })
+                .catch(error => {
+                    this.handle_error(error, 'Crédito');
+                });
+        },
+
+        handle_error(error, operation) {
+            this.watch_toast('error', error.response?.data.mensaje || `Ocurrió un error al registrar el ${operation}`);
+            throw error;
+        },
+
         limpiar_campos() {
             this.detalle_ventas_lista = [];
             this.cliente_info = {
@@ -890,6 +941,28 @@ export default {
                     rtl: false
                 });
             }
+        },
+
+
+        //
+        //
+        //
+        //
+        // Modal registrar venta domicilio
+        nuevo_venta_domicilio() {
+            this.venta_domicilio_info = {
+                id_venta_domicilio: 0,
+                nombre_cliente_venta_domicilio: "",
+                direccion_venta_domicilio: "",
+                telefono_venta_domicilio: "",
+                total_venta_domicilio: 0,
+                total_iva_venta_domicilio: 0,
+                fecha_venta_domicilio: this.venta_info.fecha_venta,
+            };
+            this.detalle_ventas_domicilio_lista = [];
+            this.campo_identificador_cliente = "";
+            this.contador_tabla = 1;
+            this.$refs.modal_venta_domicilio.show();
         },
     }
 };
