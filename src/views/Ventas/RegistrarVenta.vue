@@ -93,7 +93,7 @@
                                             <td class="text-center">$ {{ fila.producto_detalle.precio_unitario }}</td>
                                             <td class="text-center">$ {{ fila.subtotal_detalle_venta =
                                             Number(fila.producto_detalle.precio_unitario *
-                                                fila.cantidad_prod_venta).toFixed(4) }}</td>
+                                                fila.cantidad_prod_venta).toFixed(2) }}</td>
                                             <td class="flex justify-end pr-4 py-2">
                                                 <button @click="eliminar_detalle_venta(index + 1)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
@@ -490,9 +490,9 @@ export default {
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
 
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
 
-                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(4);
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
 
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
             },
@@ -745,10 +745,42 @@ export default {
         },
         verificar_unidad_medida(fila) {
             return new Promise((resolve, reject) => {
-                resolve();
-                // Aqui se agregará la logica para verificar la unidad de medida en cada cambio de cantidad
-                // 2d sprint
+                console.log("Verificando unidad de medida: ");
+                console.log(fila);
+
+                // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
+                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
+
+                var cantidad_compra = detalle.cantidad_prod_venta;
+
+                // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
+                var preciosOrdenados = detalle.producto_detalle.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+
+                console.log(preciosOrdenados[0]);
+                // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
+                let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
+
+                console.log(fila.cantidad_prod_venta + '<' + precioUnidadCercano.cantidad_producto);
+                if (fila.cantidad_prod_venta < precioUnidadCercano.cantidad_producto) {
+                    console.log("El precio unitario es menor al precio de la unidad de medida");
+                    detalle.producto_detalle.precio_unitario = detalle.producto_detalle.precio_unitario_original;
+                    resolve();
+                } else {
+                    for (let i = 0; i < preciosOrdenados.length; i++) {
+                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
+                        if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
+                            precioUnidadCercano = preciosOrdenados[i];
+                        } else {
+                            break; // Detener el bucle al encontrar el primer valor mayor
+                        }
+                    }
+                    // Calcular el precio_producto basado en el promedio entre cantidad_producto y precio_unidad
+                    detalle.producto_detalle.precio_unitario = (parseFloat(precioUnidadCercano.precio_unidad_medida_producto) / parseFloat(precioUnidadCercano.cantidad_producto)).toFixed(4);
+                    console.log(detalle.producto_detalle.precio_unitario);
+                    resolve();
+                }
             });
+
 
         },
         //Subtotal de la venta RESUMEN
@@ -773,7 +805,7 @@ export default {
 
             if (this.active_tab === 0) {
                 this.register_venta(detalles_listado_limpio, is_domicilio);
-            } else if (this.active_tab === 1){
+            } else if (this.active_tab === 1) {
                 this.register_credito(detalles_listado_limpio, is_domicilio);
             }
         },
@@ -866,7 +898,7 @@ export default {
             axios.post(api_url + '/creditos/registrar/', datos_ventas)
                 .then((response) => {
                     console.log(response);
-                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Crédito registrado correctamente') ;
+                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Crédito registrado correctamente');
                     this.limpiar_campos();
                 })
                 .catch(error => {
