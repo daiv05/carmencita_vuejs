@@ -41,6 +41,7 @@ export default class ControladorPagina {
       this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next';
       this.datosPagina = res.data.data;
     } else {
+      console.log(res);
       this.listaEnlaces = res.data.links;
       this.totalResultados = res.data.total;
       this.resultadosPorPagina = res.data.per_page;

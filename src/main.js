@@ -7,8 +7,6 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css';
 import VueApexCharts from "vue3-apexcharts";
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
 import axios from 'axios';
 
 
@@ -26,8 +24,6 @@ axios.defaults.baseURL="http://127.0.0.1:8000"
 
 const app = createApp(App)
 
-
-app.component('VueDatePicker', VueDatePicker);
 app.use(router);
 app.use(store);
 

@@ -10,13 +10,73 @@
             </div>
         </div>
 
-        <div class="absolute right-[80%] top-[120%]">
-            <input type="date" value="2017-06-01" />
-            <input type="date" value="2017-06-01" />
+        <div class="flex justify-evenly align-center w-[90%] m-auto mt-[1%]">
+
+            <div class="align-middle">
+
+                <label for="" class="block">Desde:</label>
+                <input type="date" v-model="fechaInicio" class="rounded-md block"/>
+
+            </div>
+
+            <div class="align-middle">
+
+                <label for="">Hasta:</label>
+
+                <input type="date" v-model="fechaFin" class="rounded-md block" />
+
+            </div>
+
+            <div class="">
+                
+                <label for="" class="block">Cantidad a mostrar (Máx 50):</label>
+
+                <input type="number" class="rounded-md" name="" id="">
+
+            </div>
+
+            <button type="button" class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Aplicar</button>
+
         </div>
 
-        <div class="absolute left-[81.5%] top-[120%]">
-            <button type="button" class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Aplicar</button>
+        <div>
+            <ComponenteTablaInformesVue :controlPagina="controlPagina" />
+        </div>
+
+        <div class="flex justify-center align-center mt-[5%]">
+            <nav aria-label="Page navigation example">
+                <ul class="flex items-center -space-x-px h-8 text-sm">
+                    <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
+                        <a href="#"
+                            class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <span class="sr-only">{{}}</span>
+                            <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 1 1 5l4 4" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li v-for="pageLink in controlPagina.obtenerListadoEnlaces()" :key="pageLink.label"
+                        @click="controlPagina.obtenerPagina(pageLink)">
+                        <a href="#" :class="{ pageActivate: pageLink.active === true }"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{
+                                pageLink.label }}</a>
+                    </li>
+                    <li @click="controlPagina.obtenerPagina(controlPagina.getPaginaSiguiente())">
+                        <a href="#"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <span class="sr-only">
+                            </span>
+                            <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 9 4-4-4-4" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
     </main>
@@ -24,10 +84,25 @@
 
 <script>
 import NavBar from '../../components/NavBar.vue'
-//import axios from 'axios'
+import ControlPagina from '../../helpers/ControlPagina.js'
+import axios from 'axios'
+import ComponenteTablaInformesVue from '../../components/Inventario/ComponenteTablaInformes.vue';
 export default {
     components: {
-        NavBar
+        NavBar,
+        ComponenteTablaInformesVue,
+    },
+    data() {
+        return {
+            controlPagina: new ControlPagina('/api/productos_mas_vendidos/', axios),
+            fechaInicio: '',
+            fechaFin: '',
+            cantidadLimite: '',
+        }
+    },
+    mounted() {
+        this.controlPagina.cargarPaginas();
     },
 }
+
 </script>i
