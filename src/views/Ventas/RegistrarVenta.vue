@@ -56,9 +56,11 @@
                                         <!-- Lista de sugerencias -->
                                         <ul class="sugerencias-lista md:col-span-3 ml-4 border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
-                                            <li class="w-64 m-2" v-for="sugerencia in sugerencias" :key="sugerencia.id"
+                                            <li class="w-64 m-2" href="#" v-for="sugerencia in sugerencias" :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
-                                                {{ sugerencia }}
+                                                <button class="w-full text-left">
+                                                    {{ sugerencia }}
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
