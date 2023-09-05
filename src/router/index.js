@@ -60,6 +60,11 @@ const router = createRouter({
     },
 
     {
+      path: '/listar_empleados',
+      name: 'listar_empleados',
+      component: ListarEmpleados
+    },
+    {
       path: '/',
       name: 'home',
       component: HomeView
@@ -132,9 +137,10 @@ const router = createRouter({
       component:GestionExistencias
     },
     {
-      path: '/hoja_de_ruta/detalles/:id_ruta',
+      path: '/hoja_de_ruta/detalles/:ruta',
       name: 'hoja_de_ruta',
-      component: ViewPageRoute
+      component: ViewPageRoute,
+      props: true
     }
     // {
     //   path: '/:pathMatch(.*)*',
