@@ -20,6 +20,7 @@ import DetailCF from '../views/Ventas/DetailCF.vue';
 import IniciarSesion from '../views/Seguridad/IniciarSesion.vue';
 import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
+import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -63,6 +64,11 @@ const router = createRouter({
       },
     },
 
+    {
+      path: '/listar_empleados',
+      name: 'listar_empleados',
+      component: ListarEmpleados
+    },
     {
       path: '/',
       name: 'home',
@@ -159,7 +165,18 @@ const router = createRouter({
       path:'/gestion_existencias',
       name:'gestion_existencias',
       component:GestionExistencias
+    },
+    {
+      path: '/hoja_de_ruta/detalles/:ruta',
+      name: 'hoja_de_ruta',
+      component: ViewPageRoute,
+      props: true
     }
+    // {
+    //   path: '/:pathMatch(.*)*',
+    //   name: 'not_found',
+    //   component: ViewPageRoute
+    // }
   ]
 })
 

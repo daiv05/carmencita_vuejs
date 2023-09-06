@@ -192,36 +192,36 @@ export default {
       titulo: 'Panel de Control',
     }
   },
-  methods: {
-    imprimir() {
-      // Obtener el PDF e imprimirlo con js
-      axios.get('http://localhost:8002/api/impresion_prueba', {
-        responseType: 'blob',
-      }).then((response) => {
-        console.log(response);
-        const fileBlob = new Blob([response.data], { type: 'application/pdf' });
-        const fileURL = URL.createObjectURL(fileBlob);
+  // methods: {
+  //   imprimir() {
+  //     // Obtener el PDF e imprimirlo con js
+  //     axios.get('http://localhost:8002/api/impresion_prueba', {
+  //       responseType: 'blob',
+  //     }).then((response) => {
+  //       console.log(response);
+  //       const fileBlob = new Blob([response.data], { type: 'application/pdf' });
+  //       const fileURL = URL.createObjectURL(fileBlob);
 
-        // Crear un iframe oculto para cargar el PDF y luego imprimirlo
-        const pdfIframe = document.createElement('iframe');
-        pdfIframe.style.display = 'none';
-        pdfIframe.src = fileURL;
-        document.body.appendChild(pdfIframe);
+  //       // Crear un iframe oculto para cargar el PDF y luego imprimirlo
+  //       const pdfIframe = document.createElement('iframe');
+  //       pdfIframe.style.display = 'none';
+  //       pdfIframe.src = fileURL;
+  //       document.body.appendChild(pdfIframe);
 
-        pdfIframe.onload = function () {
-          // Imprimir el PDF después de cargarlo en el iframe
-          pdfIframe.contentWindow.print();
-        };
-      }).catch((error) => {
-        console.log(error);
-      });
-    }
+  //       pdfIframe.onload = function () {
+  //         // Imprimir el PDF después de cargarlo en el iframe
+  //         pdfIframe.contentWindow.print();
+  //       };
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  //   }
 
 
-  },
-  created() {
-    this.imprimir();
-  }
+  // },
+  // created() {
+  //   this.imprimir();
+  // }
 }
 </script>
 
