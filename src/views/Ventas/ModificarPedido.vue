@@ -769,7 +769,7 @@ export default {
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
                 this.contador_tabla++;
-                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.contador_tabla]);
+                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length-1]);
                 resolve();
             });
         },
