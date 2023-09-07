@@ -116,10 +116,11 @@ import api_url from '../../config.js'
                 style="position:fixed; top:0; background-color:rgba(0,0,0,0.3);display: flex; align-items: center; justify-content: center;">
                 <div class="w-11/12 md:w-10/12 mx-auto my-2 rounded-lg bg-slate-50" id="card">
                     <div class="p-4 flex items-center text-lg">
-                        <h2>Lista de pedidos {{ fechaFormateada }}</h2>
+                        <h2 class="font-semibold text-center w-full">Pedidos del {{ fechaFormateada }}</h2>
                     </div>
                     <div class="overflow-y-scroll max-h-3/12" id="body" style="max-height: 70vh;">
-                        <table class="min-w-full">
+                        <div class="min-w-full p-4 text-center" v-if="facturas.length == 0"><span class=" w-full text-center text-slate-500">No se encontraron pedidos sin asignar a Hoja de Ruta para el {{ fechaFormateada }}</span></div>
+                        <table v-if="facturas.length != 0" class="min-w-full">
                             <thead class="border-b bg-slate-100">
                                 <tr class="text-center">
                                     <td scope="col" class="px-6 py-4 text-xs text-gray-500 font-semibold">CODIGO</td>
@@ -279,8 +280,11 @@ export default {
     methods: {
         setFechaActual() {
             const date = moment().format('yyyy-MM-DD')
-            this.fechaFormateada = date;
             this.hoja_de_ruta.fecha_entrega = date;
+            this.setFecha(this.hoja_de_ruta.fecha_entrega);
+        },
+        setFecha(fecha){
+            this.fechaFormateada = moment(fecha).format('DD/MM/yyyy');
         },
         getRepartidores() {
             axios.get(api_url + '/empleados')
@@ -313,6 +317,7 @@ export default {
         },
         actualizarPedidos() {
             //Para actualizar la lista de pedidos al cambiar la fecha de la hr
+            this.setFecha(this.hoja_de_ruta.fecha_entrega);
             this.getFacturas();
             this.getCreditosFiscales();
             this.pedidos_factura = [];
