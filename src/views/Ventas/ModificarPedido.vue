@@ -81,19 +81,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(fila,index) in detalle_ventas_lista" :key="fila.id_venta"
+                                        <tr v-for="(fila, index) in detalle_ventas_lista" :key="fila.id_venta"
                                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                            <td class="text-center">{{ index+1 }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ fila.producto.nombre_producto }}</td>
                                             <td class="text-center">
                                                 <input @change="watch_cantidad_producto(fila)"
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_producto">
                                             </td>
-                                            <td class="text-center">{{ fila.producto.precio_unitario }}</td>
-                                            <td class="text-center">{{ fila.subtotal_detalle_venta =
-                                            Number(fila.producto.precio_unitario *
-                                                fila.cantidad_producto).toFixed(2) }}</td>
+                                            <td class="text-center">{{ fila.producto.precio_unitario_mostrar? fila.producto.precio_unitario_mostrar : fila.producto.precio }}</td>
+                                            <td class="text-center">{{ fila.subtotal_detalle_venta }}</td>
                                             <td class="flex justify-end pr-4 py-2">
                                                 <button @click="eliminar_detalle_venta(fila.id_venta)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
@@ -383,6 +381,7 @@ import moment from 'moment';
 import { useToast } from 'vue-toastification'
 import NavBar from '@/components/NavBar.vue'
 import { useRoute } from 'vue-router';
+import { createElementBlock } from 'vue';
 
 const toast = useToast();
 
@@ -500,13 +499,40 @@ export default {
     },
     methods: {
         getVenta() {
-            axios.get(api_url + '/ventasCF_detalle/' + this.id).then(
+            return new Promise((resolve,reject)=>{
+                resolve();
+                axios.get(api_url + '/ventasCF_detalle/' + this.id).then(
                 response => {
                     console.log(response.data),
-                    this.venta_info = response.data.ventaCF,
-                    this.calcular_subtotalventa(),
-                    this.detalle_ventas_lista = response.data.ventaCF.detalle_venta
+                        this.venta_info = response.data.ventaCF,
+                        this.calcular_subtotalventa(),
+                        this.detalle_ventas_lista = response.data.ventaCF.detalle_venta,
+                        this.watch_cantidad_producto_load()
                 });
+            });
+        },
+        calcularSubtotalDetalleVenta(element) {
+            return new Promise((resolve, reject) => {
+                resolve();
+                let precio = Number(element.producto.precio_unitario);
+                let unidadesMedida = element.producto.precio_unidad_de_medida;
+                unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                if (unidadesMedida) {
+                    unidadesMedida.forEach(unidadMedida => {
+                        if (Number(element.cantidad_producto) >= Number(unidadMedida.cantidad_producto)) {
+                            precio = Number(unidadMedida.precio_unidad_medida_producto / unidadMedida.cantidad_producto).toFixed(4);
+                        }
+                    });
+                }
+                element.subtotal_detalle_venta = Number(element.cantidad_producto * precio).toFixed(2);
+                element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
+            });
+        },
+        watch_cantidad_producto_load(){
+            console.log("si entra al cargar")
+            this.detalle_ventas_lista.forEach(element => {
+                this.calcularSubtotalDetalleVenta(element);
+            });
         },
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
@@ -730,6 +756,7 @@ export default {
             if (producto_ya_agregado) {
                 // Si el producto ya está en la tabla, aumentar la cantidad a ese detalle
                 producto_ya_agregado.cantidad_producto++;
+                this.calcularSubtotalDetalleVenta(producto_ya_agregado);
                 return this.calcular_subtotalventa();
             }
             return new Promise((resolve, reject) => {
@@ -742,12 +769,14 @@ export default {
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
                 this.contador_tabla++;
+                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.contador_tabla]);
                 resolve();
             });
         },
         //Observar cambios en cantidad de producto y actualizar subtotal
         watch_cantidad_producto(fila) {
-            this.verificar_unidad_medida(fila)
+            //this.verificar_unidad_medida(fila)
+            this.calcularSubtotalDetalleVenta(fila)
                 .then(() => {
                     return this.calcular_subtotalventa();
                 })
@@ -763,6 +792,41 @@ export default {
                 resolve();
                 // Aqui se agregará la logica para verificar la unidad de medida en cada cambio de cantidad
                 // 2d sprint
+                console.log("Verificando unidad de medida: ");
+                console.log(fila);
+
+
+                // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
+                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
+
+                var cantidad_compra = detalle.cantidad_producto;
+
+                // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
+                var preciosOrdenados = detalle.producto.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                console.log("Aqui estoy")
+                console.log(preciosOrdenados[0]);
+                // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
+                let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
+
+                console.log(fila.cantidad_producto + '<' + precioUnidadCercano.cantidad_producto);
+                if (fila.cantidad_producto < precioUnidadCercano.cantidad_producto) {
+                    console.log("El precio unitario es menor al precio de la unidad de medida");
+                    detalle.producto.precio_unitario = detalle.producto.precio_unitario_original;
+                    resolve();
+                } else {
+                    for (let i = 0; i < preciosOrdenados.length; i++) {
+                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
+                        if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
+                            precioUnidadCercano = preciosOrdenados[i];
+                        } else {
+                            break; // Detener el bucle al encontrar el primer valor mayor
+                        }
+                    }
+                    // Calcular el precio_producto basado en el promedio entre cantidad_producto y precio_unidad
+                    detalle.producto.precio_unitario = (parseFloat(precioUnidadCercano.precio_unidad_medida_producto) / parseFloat(precioUnidadCercano.cantidad_producto)).toFixed(4);
+                    console.log(detalle.producto.precio_unitario);
+                    resolve();
+                }
             });
 
         },
@@ -797,7 +861,7 @@ export default {
                     };
                     detalles_listado_limpio.push(detalle_obj);
                 });
-                axios.put(api_url + '/modificar_pedido_factura/'+this.id,
+                axios.put(api_url + '/modificar_pedido_factura/' + this.id,
                     datos_ventas = {
                         venta: {
                             nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
@@ -852,7 +916,7 @@ export default {
         },
         limpiar_campos() {
             this.detalle_ventas_lista = [];
-            
+
             this.venta_info = {
                 id_venta: 0,
                 nombre_cliente_venta: "",

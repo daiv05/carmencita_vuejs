@@ -79,21 +79,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(fila,index) in detalle_ventas_lista" :key="fila.id_creditofiscal"
+                                        <tr v-for="(fila, index) in detalle_ventas_lista" :key="fila.id_creditofiscal"
                                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                            <td class="text-center">{{ index+1 }}</td>
+                                            <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ fila.producto.nombre_producto }}</td>
                                             <td class="text-center">
                                                 <input @change="watch_cantidad_producto(fila)"
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_producto_credito">
                                             </td>
-                                            <td class="text-center">{{ fila.producto.precio_unitario }}</td>
-                                            <td class="text-center">{{ fila.subtotal_detalle_credito =
-                                            Number(fila.producto.precio_unitario *
-                                                fila.cantidad_producto_credito).toFixed(2) }}</td>
+                                            <td class="text-center">{{ fila.producto.precio_unitario_mostrar }}</td>
+                                            <td class="text-center">{{ fila.subtotal_detalle_credito }}</td>
                                             <td class="flex justify-end pr-4 py-2">
-                                                <button @click="eliminar_detalle_venta(fila.id_creditofiscal)"
+                                                <button @click="eliminar_detalle_venta(index)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
                                                     X
                                                 </button>
@@ -501,8 +499,31 @@ export default {
                     this.credito_fiscal_info = response.data,
                         this.detalle_ventas_lista = response.data.detallecredito,
                         this.cliente_info = response.data.cliente,
-                        this.calcular_subtotalventa()
+                        this.calcular_subtotalventa(),
+                        this.watch_cantidad_producto_on_load()
                 });
+        },
+        calcularSubtotalDetalleVenta(element) {
+            return new Promise((resolve, reject) => {
+                resolve();
+                let precio = Number(element.producto.precio_unitario);
+                let unidadesMedida = element.producto.precio_unidad_de_medida;
+                unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                if (unidadesMedida) {
+                    unidadesMedida.forEach(unidadMedida => {
+                        if (Number(element.cantidad_producto_credito) >= Number(unidadMedida.cantidad_producto)) {
+                            precio = Number(unidadMedida.precio_unidad_medida_producto / unidadMedida.cantidad_producto).toFixed(4);
+                        }
+                    });
+                }
+                element.subtotal_detalle_credito = Number(element.cantidad_producto_credito * precio).toFixed(2);
+                element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
+            });
+        },
+        watch_cantidad_producto_on_load() {
+            this.detalle_ventas_lista.forEach(element => {
+                this.calcularSubtotalDetalleVenta(element);
+            });
         },
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
@@ -533,7 +554,7 @@ export default {
                 this.detalle_ventas_lista = []
                 this.contador_tabla = 1;
             } else {
-                this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
+                this.detalle_ventas_lista.splice(index, 1); //Index-1 porque el index empieza en 1
                 this.contador_tabla = 1;
                 // Actualizar el contador de los detalles restantes
                 for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
@@ -724,9 +745,11 @@ export default {
             const producto_ya_agregado = this.detalle_ventas_lista.find((detalle) => {
                 return detalle.producto.codigo_barra_producto === producto_copia.codigo_barra_producto;
             });
+            let fila = producto_ya_agregado;
             if (producto_ya_agregado) {
                 // Si el producto ya está en la tabla, aumentar la cantidad a ese detalle
                 producto_ya_agregado.cantidad_producto_credito++;
+                this.calcularSubtotalDetalleVenta(fila)
                 return this.calcular_subtotalventa();
             }
             return new Promise((resolve, reject) => {
@@ -739,12 +762,14 @@ export default {
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
                 this.contador_tabla++;
+                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length-1]);
                 resolve();
             });
         },
         //Observar cambios en cantidad de producto y actualizar subtotal
         watch_cantidad_producto(fila) {
-            this.verificar_unidad_medida(fila)
+            //this.verificar_unidad_medida(fila)
+            this.calcularSubtotalDetalleVenta(fila)
                 .then(() => {
                     return this.calcular_subtotalventa();
                 })
@@ -760,6 +785,40 @@ export default {
                 resolve();
                 // Aqui se agregará la logica para verificar la unidad de medida en cada cambio de cantidad
                 // 2d sprint
+                console.log("Verificando unidad de medida: ");
+                console.log(fila);
+
+                // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
+                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
+                console.log(detalle.producto.precio_unitario)
+                var cantidad_compra = detalle.cantidad_producto_credito;
+
+                // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
+                var preciosOrdenados = detalle.producto.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                console.log("Aqui estoy")
+                console.log(preciosOrdenados[0]);
+                // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
+                let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
+
+                console.log(fila.cantidad_producto_credito + '<' + precioUnidadCercano.cantidad_producto);
+                if (fila.cantidad_producto_credito < precioUnidadCercano.cantidad_producto) {
+                    console.log("El precio unitario es menor al precio de la unidad de medida");
+                    detalle.producto.precio_unitario = detalle.producto.precio_unitario_original;
+                    resolve();
+                } else {
+                    for (let i = 0; i < preciosOrdenados.length; i++) {
+                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
+                        if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
+                            precioUnidadCercano = preciosOrdenados[i];
+                        } else {
+                            break; // Detener el bucle al encontrar el primer valor mayor
+                        }
+                    }
+                    // Calcular el precio_producto basado en el promedio entre cantidad_producto y precio_unidad
+                    detalle.producto.precio_unitario = (parseFloat(precioUnidadCercano.precio_unidad_medida_producto) / parseFloat(precioUnidadCercano.cantidad_producto)).toFixed(4);
+                    console.log(detalle.producto.precio_unitario);
+                    resolve();
+                }
             });
 
         },
