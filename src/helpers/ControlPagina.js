@@ -11,6 +11,7 @@ export default class ControladorPagina {
     this.paginaSiguiente = null
     this.paginaPrevia = null
     this.datosPagina = []
+    this.parametrosFiltro = {}
   }
 
   configurarListaEnlacePaginas() {
@@ -20,7 +21,9 @@ export default class ControladorPagina {
   }
 
   async cargarPaginas() {
-    let res = await this.axios.get(this.urlEndpoint).catch((response) => {
+    let res = await this.axios.get(this.urlEndpoint,
+      {"params":this.parametrosFiltro}
+      ).catch((response) => {
       console.log(response.data.data.mensaje)
     })
     if (!res) {
@@ -30,6 +33,10 @@ export default class ControladorPagina {
       this.configurarListaEnlacePaginas()
       return true
     }
+  }
+
+  setParametrosFiltro(parametrosFiltro){
+    this.parametrosFiltro = parametrosFiltro;
   }
 
   configurarParametrosPaginacion(res) {

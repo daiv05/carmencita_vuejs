@@ -1,41 +1,62 @@
+<script setup>
+import { Form, Field, ErrorMessage } from 'vee-validate';
+</script>
 <template>
     <main>
+      <NavBar></NavBar>
         <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600 ml-[5%] mt-[2%]">Informe de historial de ventas por producto</h1>
+        <Form @submit="obtenerDatosFiltrados($event)">
         <section class="grid grid-row-2 gap-5 w-[90%] m-auto">
             <article class=" grid grid-cols-7 gap-1">
-                <div class="grid grid-rows-2 gap-1 col-span-1">
+                <div class="grid grid-rows-3 gap-1 col-span-1">
                     <label for="fechaInicio" class="font-bold">Fecha Inicio</label>
-                    <input type="date" class="rounded padding-[5px]" v-model="fechaInicioVenta">
+                    <Field type="date" class="rounded padding-[5px]" v-model="fechaInicioVenta" name="fecha_inicio"
+                    :rules="validarFecha"/>
+                    <ErrorMessage name="fecha_inicio" class="mensajeDeError"/>
                 </div>
-                <div class="grid grid-rows-2 gap-1 col-span-1">
+                <div class="grid grid-rows-3 gap-1 col-span-1">
                     <label for="fechaFin" class="font-bold">Fecha Fin</label>
-                    <input type="date" class="rounded padding-[5px]" v-model="fechaFinVenta">
+                    <Field type="date" class="rounded padding-[5px]" v-model="fechaFinVenta"
+                    :rules="validarFecha" name="fecha_fin"/>
+                    <ErrorMessage name="fecha_fin" class="mensajeDeError"/>
                 </div>
                 <div class="grid grid-cols-2 gap-2 col-span-2">
-                    <div class="grid grid-rows-2 gap-1">
+                    <div class="grid grid-rows-3 gap-1">
                         <label for="" class="font-bold">Mín.Ingresos</label>
-                        <input type="number" step="0.15" class="rounded padding-[5px] w-[100%]">
+                        <Field type="number" step="0.15" class="rounded padding-[5px] w-[100%]" name="min_total"
+                        min = "0" id = "minTotal"
+                        v-model="minTotal" :rules = "validarMinTotal"/>
+                        <ErrorMessage name="min_total" class="mensajeDeError"/>
                     </div>
-                    <div class="grid grid-rows-2 gap-1 font-bold">
+                    <div class="grid grid-rows-3 gap-1 font-bold">
                         <label for="" class="font-bold">Máx.Ingresos</label>
-                        <input type="number" step="0.15" class="rounded padding-[5px] w-[100%]">
+                        <Field  type="number" step="0.15" class="rounded padding-[5px] w-[100%]"
+                        name = "max_total" v-model="maxTotal" :rules="validarMaxTotal" min="0"/>
+                        <ErrorMessage name = "max_total" class="mensajeDeError"/>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-1 col-span-2">
-                    <div class="grid grid-rows-2 gap-1">
+                    <div class="grid grid-rows-3 gap-1">
                         <label for="" class="font-bold">Mín.Cantidad</label>
-                        <input type="number" step="0.15" class="rounded padding-[5px] w-[100%]">
+                        <Field type="number" step="0.15" class="rounded padding-[5px] w-[100%]"
+                        name = "min_total_producto" v-model="minTotalProducto" :rules="validarMinTotalProducto"
+                        min="0"/>
+                        <ErrorMessage name = "min_total_producto" class="mensajeDeError"/>
                     </div>
-                    <div class="grid grid-rows-2 gap-1 font-bold">
+                    <div class="grid grid-rows-3 gap-1 font-bold">
                         <label for="" class="font-bold">Máx.Cantidad</label>
-                        <input type="number" step="0.15" class="rounded padding-[5px] w-[100%]">
+                        <Field type="number" step="0.15" class="rounded padding-[5px] w-[100%]" 
+                        :rules="validarMaxTotalProducto" name="max_total_producto" v-model="maxTotalProducto"
+                        min="0"/>
+                        <ErrorMessage name="max_total_producto" class="mensajeDeError" />
                     </div>
                 </div>
                 <div class="flex justify-center align-center">
-                    <button class="bg-indigo-700 text-white h-[45%] rounded mt-[25%] p-[5px]" @click="obtenerDatosFiltrados($event)"> Aplicar Filtro </button>
+                    <button class="bg-indigo-700 text-white h-[30%] rounded mt-[28%] p-[5px]"> Aplicar Filtro </button>
                 </div>
             </article>
         </section>
+      </Form>
         <ComponenteTablaInformesVue :controlPagina="controlPagina"></ComponenteTablaInformesVue>
     <div class="flex justify-center align-center mt-[5%]">
       <nav aria-label="Page navigation example">
@@ -108,25 +129,136 @@
 import axios from 'axios';
 import ControlPaginas from '../../helpers/ControlPagina.js';
 import ComponenteTablaInformesVue from '../../components/Inventario/ComponenteTablaInformes.vue';
+import NavBar from "../../components/NavBar.vue";
+import moment from 'moment';
+
 export default {
 
     components:{
       ComponenteTablaInformesVue,
+      NavBar,
     },
     data(){
         return {
             fechaInicioVenta:null,
             fechaFinVenta:null,
             controlPagina: new ControlPaginas("/api/ventas_por_producto",axios),
-            minTotal:0,
-            maxTotal:0,
-            minTotalProducto:0,
-            maxTotalProducto:0,
+            minTotal:null,
+            maxTotal:null,
+            minTotalProducto:null,
+            maxTotalProducto:null,
         }
     },
     mounted(){
         this.controlPagina.cargarPaginas();
+    },
+    methods:{
+      validarFecha(values){
+          if(this.fechaFinVenta != null && this.fechaInicioVenta != null){
+              if(Date.parse(this.fechaInicioVenta) > Date.parse(this.fechaFinVenta)){
+                return "La fecha de inicio debe ser menor a la fecha fin";
+              }
+          }
+        return true;
+      },
+      validarMinTotal(value){
+        if(value < 0){
+          return "El parametro debe ser un numero real positivo";
+        }
+        else if(this.maxTotal!= null && (this.minTotal > this.maxTotal)){
+              return "Mín.Total debe ser menor a Máx.Total";
+        }
+        return true;
+      },
+      validarMaxTotal(value){
+        if(value < 0){
+          return "El parametro debe ser un numero real positivo";
+        }
+        else if((this.minTotal!= null && this.maxTotal!=null) && (this.minTotal > this.maxTotal)){
+              return "Máx.Total debe ser mayor a Mín.Total";
+        }
+        return true;
+      },
+      validarMinTotalProducto(value){
+        if(value < 0){
+          return "El parametro debe ser un numero real positivo";
+        }
+        else if(this.minTotalProducto!= null && (this.minTotalProducto >= this.maxTotalProducto)){
+              return "Mín.Cantidad debe ser menor a Máx.Total";
+        }
+        return true;
+      },
+      validarMaxTotalProducto(value){
+        if(value < 0){
+          return "El parametro debe ser un numero real positivo";
+        }
+        else if((this.minTotalProducto!= null && this.maxTotalProducto!=null) && (this.maxTotalProducto >= this.minTotalProducto)){
+              return "Máx.Cantidad debe ser mayor a Mín.Total";
+        }
+        return true;
+      },
+      validarNumerosRalesPositivos(numero){
+        let regExpresion = /^\d+(\.\d{1,2})?$/;
+        if(!regExpresion.test(numero)){
+          return false;
+        }
+        return true;
+      },
+      validarNumeroEnterosPositivos(numero){
+        let regExpresion = /^\d+$/;
+        if(!regExpresion.test(numero)){
+          return false
+        }
+        return true;
+      },
+      obtenerDatosFiltrados(event){
+        event.preventDefault;
+        let parametrosFiltro = this.construirDataFiltro();
+        console.log(parametrosFiltro);
+        this.controlPagina = new ControlPaginas("/api/ventas_por_producto",axios);
+        this.controlPagina.setParametrosFiltro(
+            parametrosFiltro
+        );
+        //console.log(parametrosFiltro);
+        this.controlPagina.cargarPaginas();
+      },
+      construirDataFiltro(){
+        let parametrosFiltro = {};
+        if(this.fechaInicioVenta){
+          parametrosFiltro.fechaInicioVenta = this.fechaInicioVenta;
+          this.fechaInicioVenta = null;
+        }
+        if(this.fechaFinVenta){
+          parametrosFiltro.fechaFinVenta = this.fechaFinVenta;
+          this.fechaFinVenta = null;
+        }
+        if(this.minTotal){
+          parametrosFiltro.minTotal = this.minTotal;
+          this.minTotal = null;
+        }
+        if(this.maxTotal){
+          parametrosFiltro.maxTotal = this.maxTotal;
+          this.maxTotal = null;
+        }
+        if(this.minTotalProducto){
+          parametrosFiltro.minTotalProducto = this.minTotalProducto;
+          this.minTotalProducto = null;
+        }
+        if(this.maxTotalProducto){
+          parametrosFiltro.maxTotalProducto = this.maxTotalProducto;
+          this.maxTotal = null;
+        }
+        if(Object.entries(parametrosFiltro).length === 0){
+            return {};
+        }
+        return parametrosFiltro;
+      }
     }
 }
 
 </script>
+<style scoped>
+.mensajeDeError{
+    color:#dc2626;
+}
+</style>
