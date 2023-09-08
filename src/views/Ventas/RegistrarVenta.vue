@@ -19,7 +19,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Tabs para Consumidor Final y Credito Fiscal-->
             <div class="flex flex-col h-full mt-6 ml-2 pl-2 pr-4">
                 <div class="flex justify-start items-center border-b-2 border-b-indigo-500">
@@ -32,7 +31,6 @@
                 </div>
                 <!-- Contenido de los tabs -->
                 <div class="tab-content flex-grow">
-
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
                         <div class="flex max-h-[750px] pb-36">
@@ -52,11 +50,11 @@
                                             @blur.self="mostrar_sugerencias = false"
                                             class="md:col-span-3 ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                             placeholder="Nombre del Producto" v-model="producto_nombre" />
-
                                         <!-- Lista de sugerencias -->
                                         <ul class="sugerencias-lista md:col-span-3 ml-4 border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
-                                            <li class="w-64 m-2" href="#" v-for="sugerencia in sugerencias" :key="sugerencia.id"
+                                            <li class="w-64 m-2" href="#" v-for="sugerencia in sugerencias"
+                                                :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
                                                 <button class="w-full text-left">
                                                     {{ sugerencia }}
@@ -88,7 +86,7 @@
                                             <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ fila.producto_detalle.nombre_producto }}</td>
                                             <td class="text-center">
-                                                <input @change="watch_cantidad_producto(fila)"
+                                                <input @change="verificar_unidad_medida(fila)"
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_prod_venta">
                                             </td>
@@ -108,7 +106,6 @@
                             </div>
                             <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
                             <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-h-[200px]">
-
                                 <div v-if="active_tab === 0">
                                     <!-- PARA CONSUMIDOR FINAL-->
                                     <div class="flex md:flex-row flex-col items-center py-4 px-4">
@@ -372,14 +369,11 @@
             </div>
         </div>
     </div>
-
-
     <Teleport to="body">
         <ModalVentaDomicilio :show="showModal" :activeTab="active_tab" :fecha="venta_info.fecha_venta"
             @close="showModal = false" @save="register_new_venta(true)"></ModalVentaDomicilio>
     </Teleport>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -485,17 +479,12 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.venta_info.total_venta = 0;
-
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
-
                 // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
-
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
-
                 this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
-
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
             },
             deep: true,
@@ -511,12 +500,14 @@ export default {
         listener_buscar_codigo_producto() {
             var codigoBarras = this.producto_codigo;
             console.log("codigo barras: " + codigoBarras);
-
             // Reiniciar el temporizador
-            if (this.timer) {
-                clearTimeout(this.timer);
+            this.timer ? clearTimeout(this.timer) : null;
+            // Si llegamos al limite de 20 detalles, return
+            if (this.contador_tabla >= 20) {
+                console.log("Limite de 20 detalles");
+                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
+                return;
             }
-
             // Establecer un nuevo temporizador para ejecutar la búsqueda después de un cierto tiempo (por ejemplo, 500 ms)
             this.timer = setTimeout(() => {
                 this.codigo_barra_lector = codigoBarras;
@@ -531,6 +522,7 @@ export default {
                 this.detalle_ventas_lista = []
             } else {
                 this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
+                this.contador_tabla = this.contador_tabla - 1;
             }
         },
         //Obtener lista de todos los nombres de productos en la bdd
@@ -545,7 +537,6 @@ export default {
                     console.log(error);
                 });
         },
-        // --------------------- PRODUCTOS ---------------------
         //Buscar el nombre del producto mas cercano al texto ingresado
         listener_producto_nombre() {
             if (this.producto_nombre && this.mostrar_sugerencias) {
@@ -562,7 +553,6 @@ export default {
             this.agregar_producto_detalle();
             this.sugerencias = [];
         },
-        // --------------------- CLIENTES ---------------------
         //Obtener lista de todos los nombres de clientes en la bdd
         get_lista_nombres_clientes() {
             return axios
@@ -632,7 +622,6 @@ export default {
                     console.log(err);
                 });
         },
-        // --------------------- CLIENTES ---------------------
         //Buscar Producto por codigo
         get_producto_segun_codigo() {
             return axios
@@ -668,6 +657,11 @@ export default {
         },
         //Anadir registro en tabla DETALLE
         agregar_producto_detalle() {
+            if (this.contador_tabla >= 20) {
+                console.log("Limite de 20 detalles");
+                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
+                return;
+            }
             this.get_producto_segun_nombre()
                 .then(() => {
                     return this.add_detalle_venta();
@@ -710,6 +704,11 @@ export default {
         },
         //Metodos de Detalles
         add_detalle_venta() {
+            if (this.contador_tabla >= 20) {
+                console.log("Limite de 20 detalles");
+                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
+                return;
+            }
             //Habian problemas con el objeto, toca hacer una copia
             const producto_copia = JSON.parse(JSON.stringify(this.producto_info));
             // Verificar que el producto no esté ya en la tabla
@@ -735,41 +734,21 @@ export default {
                 resolve();
             });
         },
-        //Observar cambios en cantidad de producto y actualizar subtotal
-        watch_cantidad_producto(fila) {
-            this.verificar_unidad_medida(fila)
-                .then(() => {
-                    console.log("Todo bien todo correcto");
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },
+
         verificar_unidad_medida(fila) {
             return new Promise((resolve, reject) => {
-                console.log("Verificando unidad de medida: ");
-                console.log(fila);
-
                 // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
                 var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
-
                 var cantidad_compra = detalle.cantidad_prod_venta;
-
                 // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
                 var preciosOrdenados = detalle.producto_detalle.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
-
-                console.log(preciosOrdenados[0]);
                 // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
                 let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
-
-                console.log(fila.cantidad_prod_venta + '<' + precioUnidadCercano.cantidad_producto);
                 if (fila.cantidad_prod_venta < precioUnidadCercano.cantidad_producto) {
-                    console.log("El precio unitario es menor al precio de la unidad de medida");
                     detalle.producto_detalle.precio_unitario = detalle.producto_detalle.precio_unitario_original;
                     resolve();
                 } else {
                     for (let i = 0; i < preciosOrdenados.length; i++) {
-                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
                         if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
                             precioUnidadCercano = preciosOrdenados[i];
                         } else {
@@ -782,19 +761,6 @@ export default {
                     resolve();
                 }
             });
-
-
-        },
-        //Subtotal de la venta RESUMEN
-        calcular_subtotalventa() {
-            new Promise((resolve, reject) => {
-                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                //     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                //     0.00
-                // );
-                // this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
-                resolve();
-            });
         },
         //Registrar Venta y obtener el id de la venta registrada
         register_new_venta(is_domicilio) {
@@ -802,9 +768,7 @@ export default {
                 this.watch_toast('error', 'No se ha agregado ningún producto');
                 return;
             }
-
             const detalles_listado_limpio = this.prepare_detalles_listado_limpio();
-
             if (this.active_tab === 0) {
                 this.register_venta(detalles_listado_limpio, is_domicilio);
             } else if (this.active_tab === 1) {
@@ -848,26 +812,6 @@ export default {
                 .then((response) => {
                     console.log('respuesta peticion venta');
                     console.log(response);
-                    // Decode base64 del pdf del response y crear un blob
-                    const pdf_decode = atob(response.data.pdf);
-                    const pdf_lenght = pdf_decode.length;
-                    const archivo = new Uint8Array(new ArrayBuffer(pdf_lenght));
-                    for (var i = 0; i < pdf_lenght; i++) {
-                        archivo[i] = pdf_decode.charCodeAt(i);
-                    }
-                    const fileBlob = new Blob([archivo], { type: 'application/pdf' });
-                    const fileURL = URL.createObjectURL(fileBlob);
-
-                    // Crear un iframe oculto para cargar el PDF y luego imprimirlo
-                    const pdfIframe = document.createElement('iframe');
-                    pdfIframe.style.display = 'none';
-                    pdfIframe.src = fileURL;
-                    document.body.appendChild(pdfIframe);
-
-                    pdfIframe.onload = function () {
-                        // Imprimir el PDF después de cargarlo en el iframe
-                        pdfIframe.contentWindow.print();
-                    };
                     is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Venta registrada correctamente');
                     this.limpiar_campos();
 
@@ -976,12 +920,6 @@ export default {
                 });
             }
         },
-
-
-        //
-        //
-        //
-        //
         // Modal registrar venta domicilio
         nuevo_venta_domicilio() {
             this.venta_domicilio_info = {
