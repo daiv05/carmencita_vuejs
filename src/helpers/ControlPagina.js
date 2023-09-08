@@ -77,7 +77,9 @@ export default class ControladorPagina {
     if (pageLink.url) {
       console.log(pageLink)
       this.axios
-        .get(pageLink.url)
+        .get(pageLink.url,{
+          "params":this.parametrosFiltro,
+        })
         .then((response) => {
           this.configurarParametrosPaginacion(response)
           this.configurarListaEnlacePaginas()

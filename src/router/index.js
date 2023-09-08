@@ -25,6 +25,7 @@ import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
+import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -195,6 +196,11 @@ const router = createRouter({
       name: 'hoja_de_ruta',
       component: ViewPageRoute,
       props: true
+    },
+    {
+      path:'/listar_hojas_de_ruta',
+      name:'listar_hojas_de_ruta',
+      component:ListarHojasDeRuta
     }
     // {
     //   path: '/:pathMatch(.*)*',
