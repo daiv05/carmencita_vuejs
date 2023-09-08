@@ -142,7 +142,7 @@
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                         Fecha de Venta
                                                     </label>
-                                                    <input id="fecha_credito" type="date" name="fecha_credito"
+                                                    <input id="fecha_credito" type="date" name="fecha_credito" v-bind:disabled="fechaEditable"
                                                         v-model="credito_fiscal_info.fecha_credito"
                                                         class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                                 </div>
@@ -388,6 +388,7 @@ export default {
     data() {
         return {
             id: null,
+            fechaEditable:true,
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 1,
 
@@ -500,7 +501,9 @@ export default {
                         this.detalle_ventas_lista = response.data.detallecredito,
                         this.cliente_info = response.data.cliente,
                         this.calcular_subtotalventa(),
-                        this.watch_cantidad_producto_on_load()
+                        this.watch_cantidad_producto_on_load(),
+                        response.data.credito_fiscal_domicilio == null ? this.fechaEditable = false: this.fechaEditable=true
+
                 });
         },
         calcularSubtotalDetalleVenta(element) {
@@ -895,7 +898,7 @@ export default {
                         },
                         detalles: detalles_listado_limpio,
                     }).then((resp) => {
-                        this.watch_toast(resp.data.respuesta, 'Credito actualizado correctamente');
+                        this.watch_toast(resp.data.respuesta, 'Credito Fiscal actualizado correctamente');
                         this.$router.push('/listar_pedidos_domicilio');
                         this.$router.go(1);
                         this.limpiar_campos();
@@ -939,7 +942,7 @@ export default {
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
-            if (tipo == "success") {
+            if (tipo) {
                 toast.success(mensaje, {
                     position: "bottom-left",
                     timeout: 2994,

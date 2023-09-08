@@ -114,7 +114,7 @@
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                 Fecha de Venta
                                             </label>
-                                            <input id="fecha_venta" type="date" name="fecha_venta"
+                                            <input id="fecha_venta" type="date" name="fecha_venta" v-bind:disabled="fechaEditable"
                                                 v-model="venta_info.fecha_venta"
                                                 class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                         </div>
@@ -392,6 +392,7 @@ export default {
     data() {
         return {
             id: null,
+            fechaEditable:true,
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
 
@@ -507,7 +508,8 @@ export default {
                         this.venta_info = response.data.ventaCF,
                         this.calcular_subtotalventa(),
                         this.detalle_ventas_lista = response.data.ventaCF.detalle_venta,
-                        this.watch_cantidad_producto_load()
+                        this.watch_cantidad_producto_load(),
+                        (response.data.ventaCF.venta_domicilio == null ? this.fechaEditable = false : this.fechaEditable=true)
                 });
             });
         },
