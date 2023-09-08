@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory, routerKey } from 'vue-router';
 import store from '../store/auth';
 import HomeView from '../views/HomeView.vue'
+import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
+import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
+import AsistenciaAgregar from '../views/RecursosHumanos/AsistenciaAgregar.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue';
 import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue';
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue';
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue';
 import GestionProducto from '../views/Inventario/GestionProducto.vue';
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue';
+import ModificarPedido from '../views/Ventas/ModificarPedido.vue';
+import ModificarPedidoCredito from '../views/Ventas/ModificarPedidoCredito.vue';
 import ListarEmpleados from '../views/RecursosHumanos/ListarEmpleados.vue';
 import EditarProducto from '../views/Inventario/EditarProducto.vue';
 import SalesList from '../views/Ventas/SalesList.vue';
@@ -19,6 +24,7 @@ import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
+import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -63,6 +69,11 @@ const router = createRouter({
     },
 
     {
+      path: '/listar_empleados',
+      name: 'listar_empleados',
+      component: ListarEmpleados
+    },
+    {
       path: '/',
       name: 'home',
       component: HomeView
@@ -71,6 +82,16 @@ const router = createRouter({
       path: '/registrar_nueva_venta',
       name: 'registrar_nueva_venta',
       component: RegistrarVenta,
+    },
+    {
+      path: '/modificar_pedido/factura/:id',
+      name: 'modificar_pedido',
+      component: ModificarPedido,
+    },
+    {
+      path: '/modificar_pedido/credito_fiscal/:id',
+      name: 'modificar_pedido_credito',
+      component: ModificarPedidoCredito,
     },
     {
       path: '/empleado_agregar',
@@ -117,6 +138,21 @@ const router = createRouter({
       component : GestionProducto
     },
     {
+      path: "/crear_hoja_de_ruta",
+      name : "crear_hoja_de_ruta",
+      component : HojaDeRutaAgregar
+    },
+    {
+      path: "/listar_pedidos_domicilio",
+      name : "Pedidos_domicilio",
+      component : PedidosDomicilio
+    },
+    {
+      path: "/registrar_asistencia",
+      name : "Registrar_asistencia",
+      component : AsistenciaAgregar
+    },
+    {
       path:"/iniciar_sesion",
       name:"iniciar_sesion",
       component: IniciarSesion
@@ -153,7 +189,18 @@ const router = createRouter({
       path:"/informe_ventas_productos",
       name:"informe_ventas_productos",
       component:InformeDeTotalVentasPorProducto,
+    },
+    {
+      path: '/hoja_de_ruta/detalles/:ruta',
+      name: 'hoja_de_ruta',
+      component: ViewPageRoute,
+      props: true
     }
+    // {
+    //   path: '/:pathMatch(.*)*',
+    //   name: 'not_found',
+    //   component: ViewPageRoute
+    // }
   ]
 })
 
@@ -161,7 +208,7 @@ const router = createRouter({
 router.beforeEach((to,from)=>{
 const rutasPublicas = ["/iniciar_sesion"];
 const urlProtegida = !rutasPublicas.includes(to.path);
-console.log(store.state.estaAutenticado);
+//console.log(store.state.estaAutenticado);
   if(urlProtegida && !store.state.estaAutenticado ){
       router.push("/iniciar_sesion");
     }

@@ -5,13 +5,13 @@ import { useRoute } from 'vue-router';
 import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
 
 const route = useRoute();
-console.log('asdfasdfasd'+route.fullPath);
+//console.log('asdfasdfasd'+route.fullPath);
 
 const navigation = [
   { name: 'Inicio', href: '/', current: true },
   { name: 'Facturacion', href: '/sales_list', current: false },
   { name: 'Inventario', href: '/gestion_productos', current: false },
-  { name: 'Empleados', href: '/listar_empleados', current: false },
+  { name: 'Empleados', href: '/recursos_humanos/listar_empleados', current: false },
   { name: 'Cargos', href: '/gestion_cargos', current: false },
 ]
 
