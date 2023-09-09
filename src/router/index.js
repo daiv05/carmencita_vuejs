@@ -218,6 +218,10 @@ const urlProtegida = !rutasPublicas.includes(to.path);
   if(urlProtegida && !store.state.estaAutenticado ){
       router.push("/iniciar_sesion");
     }
+  else if(store.state.estaAutenticado && to.path === "/iniciar_sesion"){
+      router.push(from.path);
+  }
+    //evalua cuando se recarga la pagina pero tambien se deberia
   if(store.state.estaAutenticado){
     axios.defaults.headers.common = {"Authorization": "Bearer " + store.state.tokenUser };
   }

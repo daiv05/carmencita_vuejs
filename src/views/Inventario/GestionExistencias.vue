@@ -49,9 +49,9 @@
           <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
             <div class="flex justify-between content-center">
-              <button class="" @click="abrirModalConsultar(lote)">Consultar</button>
-              <button @click="abrirModalEditar(lote)">Editar</button>
-              <button @click="abrirModalEliminacion(lote)">Eliminar</button>
+              <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1" @click="abrirModalConsultar(lote)">Consultar</button>
+              <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1" @click="abrirModalEditar(lote)">Editar</button>
+              <button  class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1" @click="abrirModalEliminacion(lote)">Eliminar</button>
             </div>
           </td>
         </tr>

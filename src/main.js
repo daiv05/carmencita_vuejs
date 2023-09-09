@@ -28,8 +28,6 @@ const app = createApp(App)
 
 
 app.component('VueDatePicker', VueDatePicker);
-app.use(router);
-app.use(store);
 
 const options = {
   transition: "Vue-Toastification__fade",
@@ -38,5 +36,7 @@ const options = {
 };
 
 app.use(Toast, options);
+app.use(router);
+app.use(store);
 app.use(VueApexCharts);
 app.mount('#app')
