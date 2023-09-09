@@ -15,27 +15,45 @@
             <div class="align-middle">
 
                 <label for="" class="block">Desde:</label>
-                <input type="date" v-model="fechaInicio" class="rounded-md block"/>
+                <input type="date" v-model="fechaInicio" class="rounded-md block" />
 
             </div>
 
             <div class="align-middle">
 
                 <label for="">Hasta:</label>
-
                 <input type="date" v-model="fechaFin" class="rounded-md block" />
 
             </div>
 
             <div class="">
-                
+
                 <label for="" class="block">Cantidad a mostrar (Máx 50):</label>
 
                 <input type="number" class="rounded-md" name="" id="">
 
             </div>
 
-            <button type="button" class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Aplicar</button>
+            <div class="flex">
+                <div class="self-center">
+                    <label for="" class="">Productos más vendidos: </label>
+                    <input type="radio" class="rounded-md" value="desc" v-model="ordenConsulta" name="" id="desc">
+                </div>
+            </div>
+
+            <div class="flex">
+                <div class="self-center">
+                    <label for="" class="">Productos menos vendidos: </label>
+                <input type="radio" class="rounded-md" value="asc" v-model="ordenConsulta" name="" id="asc">
+                </div>
+            </div>
+
+            {{ ordenConsulta  }}
+
+            <div>
+                <button type="button"
+                    class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-[5%] dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Aplicar</button>
+            </div>
 
         </div>
 
@@ -98,6 +116,7 @@ export default {
             fechaInicio: '',
             fechaFin: '',
             cantidadLimite: '',
+            ordenConsulta: 'asc',
         }
     },
     mounted() {
