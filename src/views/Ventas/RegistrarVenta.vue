@@ -801,7 +801,7 @@ export default {
                 venta: {
                     nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
                     fecha_venta: this.venta_info.fecha_venta,
-                    total_venta: Number(this.subtotal_venta),
+                    total_venta: Number(this.venta_info.total_venta),
                     total_iva: Number(this.venta_info.total_iva)
                 },
                 detalles: detalles_listado_limpio,
@@ -810,7 +810,6 @@ export default {
 
             axios.post(api_url + '/ventas/registrar/', datos_ventas)
                 .then((response) => {
-                    console.log('respuesta peticion venta');
                     console.log(response);
                     is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Venta registrada correctamente');
                     this.limpiar_campos();
