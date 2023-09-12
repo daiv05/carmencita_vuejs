@@ -10,6 +10,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.8",
+    "@fullcalendar/daygrid": "^6.1.8",
+    "@fullcalendar/vue3": "^6.1.8",
     "@headlessui/vue": "^1.7.13",
     "@heroicons/vue": "^2.0.18",
     "axios": "^1.4.0",
