@@ -499,12 +499,17 @@ export default {
                 response => {
                     this.credito_fiscal_info = response.data,
                         this.detalle_ventas_lista = response.data.detallecredito,
-                        this.cliente_info = response.data.cliente,
+                        this.setInfoCliente(response.data.cliente),
                         this.calcular_subtotalventa(),
                         this.watch_cantidad_producto_on_load(),
                         response.data.credito_fiscal_domicilio == null ? this.fechaEditable = false: this.fechaEditable=true
 
                 });
+        },
+        setInfoCliente(cliente){
+            this.cliente_info = cliente;
+            this.municipio_cliente = cliente.municipio.nombre_municipio;
+            this.departamento_cliente = cliente.municipio.departamento.nombre_departamento;
         },
         calcularSubtotalDetalleVenta(element) {
             return new Promise((resolve, reject) => {
