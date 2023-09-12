@@ -20,7 +20,12 @@ import DetailCF from '../views/Ventas/DetailCF.vue';
 import IniciarSesion from '../views/Seguridad/IniciarSesion.vue';
 import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
+import EditarLote from '../components/Inventario/ModalEditarLote.vue';
+import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
+import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
+import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
+import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -167,10 +172,35 @@ const router = createRouter({
       component:GestionExistencias
     },
     {
+      path:'/editar_lote',
+      name:'editar_lote',
+      component:EditarLote,
+    },
+    {
+      path:'/informe_ventas_totales',
+      name:'informe_ventas_totales',
+      component:InformeDeVentasTotales
+    },
+    {
+      path:"/informe_inventario_valorado",
+      name:"informe_inventario_valorado",
+      component:InformeDeInventarioValorado,
+    },
+    {
+      path:"/informe_ventas_productos",
+      name:"informe_ventas_productos",
+      component:InformeDeTotalVentasPorProducto,
+    },
+    {
       path: '/hoja_de_ruta/detalles/:ruta',
       name: 'hoja_de_ruta',
       component: ViewPageRoute,
       props: true
+    },
+    {
+      path:'/listar_hojas_de_ruta',
+      name:'listar_hojas_de_ruta',
+      component:ListarHojasDeRuta
     }
     // {
     //   path: '/:pathMatch(.*)*',
@@ -188,6 +218,10 @@ const urlProtegida = !rutasPublicas.includes(to.path);
   if(urlProtegida && !store.state.estaAutenticado ){
       router.push("/iniciar_sesion");
     }
+  else if(store.state.estaAutenticado && to.path === "/iniciar_sesion"){
+      router.push(from.path);
+  }
+    //evalua cuando se recarga la pagina pero tambien se deberia
   if(store.state.estaAutenticado){
     axios.defaults.headers.common = {"Authorization": "Bearer " + store.state.tokenUser };
   }

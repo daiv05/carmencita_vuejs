@@ -6,6 +6,9 @@ import router from './router'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css';
+import VueApexCharts from "vue3-apexcharts";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 import axios from 'axios';
 
 
@@ -24,9 +27,7 @@ axios.defaults.baseURL="http://localhost:8000"
 const app = createApp(App)
 
 
-
-app.use(router);
-app.use(store);
+app.component('VueDatePicker', VueDatePicker);
 
 const options = {
   transition: "Vue-Toastification__fade",
@@ -34,6 +35,8 @@ const options = {
   newestOnTop: true
 };
 
-app.use(Toast, options)
-
+app.use(Toast, options);
+app.use(router);
+app.use(store);
+app.use(VueApexCharts);
 app.mount('#app')
