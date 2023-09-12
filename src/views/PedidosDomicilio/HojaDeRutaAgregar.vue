@@ -272,7 +272,7 @@ export default {
         }
     },
     mounted() {
-        this.getRepartidores();
+        this.getEmpleados();
         this.setFechaActual();
         this.getCreditosFiscales();
         this.getFacturas();
@@ -286,12 +286,21 @@ export default {
         setFecha(fecha){
             this.fechaFormateada = moment(fecha).format('DD/MM/yyyy');
         },
-        getRepartidores() {
+        getEmpleados() {
             axios.get(api_url + '/empleados')
                 .then(
                     response => (
-                        this.empleados = response.data.data
+                        this.empleados = this.getRepartidores(response.data.data)
                     ));
+        },
+        getRepartidores(empleados){
+            let repartidores = [];
+            empleados.forEach(empleado => {
+                if(empleado.estado_empleado == 1 && empleado.cargo == 'Repartidor'){
+                    repartidores.push(empleado);
+                }
+            });
+            return repartidores;
         },
         getCreditosFiscales() {
             let params = {
