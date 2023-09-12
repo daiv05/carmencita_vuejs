@@ -14,6 +14,11 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
             <div class="bg-white w-full mx-auto p-5 shadow-md">
                 <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>
             </div>
+            <div class="flex justify-start items-center mt-4 ml-4">
+                <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                    <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                </a>
+            </div>
 
             <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
                 <h2 class="font-bold text-lg">Listado de Pedidos</h2>
@@ -71,7 +76,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr v-for="(pedido,index) in pedidos" class="border-b hover:bg-slate-100 hover:shadow">
+                        <tr v-for="(pedido, index) in pedidos" class="border-b hover:bg-slate-100 hover:shadow">
                             <td class="whitespace-nowrap px-2 py-4">{{ pedido.id }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ pedido.cliente }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ formatFecha(pedido.fecha) }}</td>
@@ -88,12 +93,10 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                 <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
                                 <btnEditar :url="'/modificar_pedido/factura/' + pedido.id"></btnEditar>
                                 <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
-                                <btnEliminar :url="'/delete_pedido/factura/' + pedido.id" 
+                                <btnEliminar :url="'/delete_pedido/factura/' + pedido.id"
                                     :titulo="'Eliminar Pedido' + pedido.id"
                                     :mensaje="'El pedido ' + pedido.id + ' se eliminara de la base de datos'"
-                                    :lista="pedidos"
-                                    :index="index"
-                                    >
+                                    :lista="pedidos" :index="index">
                                 </btnEliminar>
                             </td>
                             <td v-if="pedido.tipo == 'Credito Fiscal'" class="whitespace-nowrap px-4 py-4">
@@ -105,9 +108,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                 <btnEliminar :url="'/delete_pedido/credito_fiscal/' + pedido.id"
                                     :titulo="'Eliminar Pedido' + pedido.id"
                                     :mensaje="'El pedido ' + pedido.id + ' se eliminara de la base de datos'"
-                                    :lista="pedidos"
-                                    :index="index"
-                                    >
+                                    :lista="pedidos" :index="index">
                                 </btnEliminar>
                             </td>
                         </tr>
@@ -163,7 +164,7 @@ export default {
             mes = mes < 10 ? '0' + mes : mes;
 
             // Crear la fecha formateada
-            return  dia + '/' + mes + '/' + year;
+            return dia + '/' + mes + '/' + year;
         },
         pedidosVacio() {
             //Controla si la lista de pedidos esta vacia, se ocupa para mostrar el mensaje 'pedidos no encontrados'

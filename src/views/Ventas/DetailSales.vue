@@ -23,11 +23,13 @@ import NavBar from '@/components/NavBar.vue'
                     <div class="tab" :class="{ 'active': activeTab === 0 }" @click="activeTab = 0">
                         Consumidor Final
                     </div>
-                    <router-link to="/sales_list" class="bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la
-                        lista</router-link>
                 </div>
 
-
+                <div class="flex justify-start items-center mt-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+                </div>
                 <!-- Contenido de los tabs -->
 
                 <div class="tab-content flex-grow">
