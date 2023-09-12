@@ -77,10 +77,10 @@
                                                     class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
-                                                <button @click="editar_venta_domicilio(fila)"
+                                                <router-link @click="editar_venta_domicilio(fila)" :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
                                                     class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
-                                                </button>
+                                                </router-link>
                                                 <button @click="registrar_pago_venta(fila)"
                                                     class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
@@ -105,10 +105,10 @@
                                                     class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
-                                                <button @click="editar_credito_domicilio(fila)"
+                                                <router-link @click="editar_credito_domicilio(fila)" :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
                                                     class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
-                                                </button>
+                                                </router-link>
                                                 <button @click="registrar_pago_credito(fila)"
                                                     class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
@@ -244,12 +244,6 @@ export default {
         },
         imprimir_venta_domicilio(fila) {
             window.print();
-        },
-        editar_credito_domicilio(fila) {
-            // REDIRIGIR fila.credito_fiscal.id_credito_fiscal
-        },
-        editar_venta_domicilio(fila) {
-            // REDIRIGIR fila.venta.id_venta
         },
         registrar_pago_credito(fila) {
             this.factura_modal = fila;

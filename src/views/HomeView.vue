@@ -37,6 +37,22 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
+            <list-group-item>
+              <router-link to="/crear_hoja_de_ruta">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Hojas de Ruta</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/listar_pedidos_domicilio">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Listado de Pedidos a Domicilio</p>
+                </div>
+              </router-link>
+            </list-group-item>
           </list-group>
         </dropdown>
       </the-card>
