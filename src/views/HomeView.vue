@@ -38,7 +38,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/crear_hoja_de_ruta">
+              <router-link to="/listar_hojas_de_ruta">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Hojas de Ruta</p>

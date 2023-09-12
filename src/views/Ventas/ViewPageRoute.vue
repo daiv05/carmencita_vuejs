@@ -77,18 +77,24 @@
                                                     class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
-                                                <router-link @click="editar_venta_domicilio(fila)" :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
+                                                <router-link v-if="fila.esta_cancelada == 0"
+                                                    @click="editar_venta_domicilio(fila)"
+                                                    :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
                                                     class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </router-link>
-                                                <button @click="registrar_pago_venta(fila)"
+                                                <button v-else disabled
+                                                    class="bg-indigo-400 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    Editar Pedido
+                                                </button>
+                                                <button v-if="fila.esta_cancelada == 0" @click="registrar_pago_venta(fila)"
                                                     class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
-                                                <!-- <button @click="eliminar_venta_de_hr(index + 1)"
-                                                    class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px] mx-2">
-                                                    X
-                                                </button> -->
+                                                <button v-else disabled
+                                                    class="bg-sky-300 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    Confirm. pago
+                                                </button>
                                             </td>
                                         </tr>
                                         <tr v-for="fila, index in hoja_ruta.credito_fiscal_domicilio" :key="fila.id_hr"
@@ -105,18 +111,23 @@
                                                     class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
-                                                <router-link @click="editar_credito_domicilio(fila)" :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
+                                                <router-link v-if="fila.esta_cancelado == 0" @click="editar_credito_domicilio(fila)"
+                                                    :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
                                                     class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </router-link>
-                                                <button @click="registrar_pago_credito(fila)"
+                                                <button v-else disabled 
+                                                    class="bg-indigo-400 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    Editar Pedido
+                                                </button>
+                                                <button v-if="fila.esta_cancelado == 0" @click="registrar_pago_credito(fila)"
                                                     class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
-                                                <!-- <button @click="eliminar_credito_de_hr(index + 1)"
-                                                    class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px] mx-2">
-                                                    X
-                                                </button> -->
+                                                <button v-else disabled
+                                                    class="bg-sky-300 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    Confirm. pago
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -125,7 +136,7 @@
                         </div>
                         <!-- Resumen de la Venta -->
                         <hr>
-                        <div class="flex pl-8">
+                        <div class="flex pl-8 justify-between">
                             <table class="table-fixed">
                                 <thead>
                                     <tr>
@@ -154,12 +165,16 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="flex justify-center py-4 px-4 pl-36">
+                            <div class="flex justify-center">
                                 <button @click="imprimir_resumen_hr()"
-                                    class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 px-4 rounded">
+                                    class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 my-2 px-4 rounded">
                                     Imprimir Resumen
                                 </button>
                             </div>
+                            <button @click="marcar_hr_entregada()"
+                                class="bg-red-700 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 my-2 px-4 rounded">
+                                Marcar todo como entregado
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -260,6 +275,17 @@ export default {
         pago_realizado() {
             this.showModal = false;
             this.obtener_detalles_ruta();
+        },
+        marcar_hr_entregada(){
+            axios.post(api_url + '/hoja_de_ruta/marcar_entregada/' + this.hoja_ruta.id_hr)
+                .then((res) => {
+                    this.watch_toast("success", "Todos los pedidos han sido marcados como entregados");
+                    this.$router.go(-1);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
+                });
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {

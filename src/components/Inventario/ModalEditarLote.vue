@@ -24,7 +24,7 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
 
     <div class="grid grid-cols-2 gap-4">
       <div class="">
-        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white mb-[1%]"
+        <label for="countries" class="block text-sm font-medium text-gray-900 dark:text-white mb-[1%]"
           >Seleccione el producto</label
         >
         <select
