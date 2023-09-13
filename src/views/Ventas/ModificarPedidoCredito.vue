@@ -88,8 +88,8 @@
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_producto_credito">
                                             </td>
-                                            <td class="text-center">{{ fila.producto.precio_unitario_mostrar }}</td>
-                                            <td class="text-center">{{ fila.subtotal_detalle_credito }}</td>
+                                            <td class="text-center">${{ fila.producto.precio_unitario_mostrar }}</td>
+                                            <td class="text-center">${{ fila.subtotal_detalle_credito }}</td>
                                             <td class="flex justify-end pr-4 py-2">
                                                 <button @click="eliminar_detalle_venta(index)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
@@ -486,7 +486,7 @@ export default {
 
                 this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(2);
 
-                this.credito_fiscal_info.total_iva_credito = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito-this.subtotal_venta).toFixed(2);
 
                 this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
             },
@@ -503,7 +503,6 @@ export default {
                         this.calcular_subtotalventa(),
                         this.watch_cantidad_producto_on_load(),
                         response.data.credito_fiscal_domicilio == null ? this.fechaEditable = false: this.fechaEditable=true
-
                 });
         },
         setInfoCliente(cliente){
