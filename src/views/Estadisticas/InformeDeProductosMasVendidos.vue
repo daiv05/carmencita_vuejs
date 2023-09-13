@@ -5,54 +5,47 @@
             <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white" style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0, 0, 0, 0.1),
                 0px 1.11px 2.219444513320923px 0 rgba(0, 0, 0, 0.06);">
                 <p class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[30px] font-semibold text-left text-[#3056d3]">
-                    Informe de productos más vendidos
+                    Informe de productos más y menos vendidos
                 </p>
             </div>
         </div>
 
-        <div class="flex justify-evenly align-center w-[90%] m-auto mt-[1%]">
+        <div class="flex justify-evenly align-center w-[90%] m-auto mt-[2%]">
 
             <div class="align-middle">
-
-                <label for="" class="block">Desde:</label>
+                <label for="" class="block font-semibold">Desde:</label>
                 <input type="date" v-model="fechaInicio" class="rounded-md block" />
-
+                <p v-if="mensajeError != '' " class="text-red-500 W-[50%]">{{ mensajeError }}</p>
             </div>
 
             <div class="align-middle">
-
-                <label for="">Hasta:</label>
-                <input type="date" v-model="fechaFin" class="rounded-md block" />
-
+                <label for="" class="font-semibold">Hasta:</label>
+                <input type="date" @change="validarFechaFin()" v-model="fechaFin" class="rounded-md block" />
             </div>
 
             <div class="">
-
-                <label for="" class="block">Cantidad a mostrar (Máx 50):</label>
-
-                <input type="number" class="rounded-md" name="" id="">
-
+                <label for="" class="block font-semibold">Cantidad a mostrar (Máx 50):</label>
+                <input type="number" v-model="cantidadAMostrar" class="rounded-md" name="" id="">
             </div>
 
             <div class="flex">
                 <div class="self-center">
-                    <label for="" class="">Productos más vendidos: </label>
-                    <input type="radio" class="rounded-md" value="desc" v-model="ordenConsulta" name="" id="desc">
+                    <label for="" class="font-semibold">Productos más vendidos: </label>
+                    <input type="radio" class="rounded-md" value="desc" v-model="tipoOrden" name="" id="desc">
                 </div>
             </div>
 
             <div class="flex">
                 <div class="self-center">
-                    <label for="" class="">Productos menos vendidos: </label>
-                <input type="radio" class="rounded-md" value="asc" v-model="ordenConsulta" name="" id="asc">
+                    <label for="" class="font-semibold">Productos menos vendidos: </label>
+                <input type="radio" class="rounded-md" value="asc" v-model="tipoOrden" name="" id="asc">
                 </div>
             </div>
-
-            {{ ordenConsulta  }}
 
             <div>
                 <button type="button"
-                    class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-[5%] dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Aplicar</button>
+                    class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-[5%] dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    @click="obtenerDatosFiltrados($event)" >Aplicar</button>
             </div>
 
         </div>
@@ -61,7 +54,7 @@
             <ComponenteTablaInformesVue :controlPagina="controlPagina" />
         </div>
 
-        <div class="flex justify-center align-center mt-[5%]">
+        <div class="flex justify-center align-center mt-[2%]">
             <nav aria-label="Page navigation example">
                 <ul class="flex items-center -space-x-px h-8 text-sm">
                     <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
@@ -115,13 +108,58 @@ export default {
             controlPagina: new ControlPagina('/api/productos_mas_vendidos/', axios),
             fechaInicio: '',
             fechaFin: '',
-            cantidadLimite: '',
-            ordenConsulta: 'asc',
+            cantidadAMostrar: 10,
+            tipoOrden: 'desc',
+            mensajeError: '',
         }
     },
+    methods: {
+        construirDatosfiltro(){
+            let datosFiltro = {};
+            if (this.fechaInicio != '') {
+                datosFiltro.fechaInicio = this.fechaInicio;
+            }
+            if (this.fechaFin != '') {
+                datosFiltro.fechaFin = this.fechaFin;
+            }
+            if (this.cantidadAMostrar > 0) {
+                datosFiltro.cantidadAMostrar = this.cantidadAMostrar;
+            }
+            if (this.tipoOrden != '') {
+                datosFiltro.tipoOrden = this.tipoOrden;
+            }
+            return datosFiltro;
+        },
+        obtenerDatosFiltrados(event){
+            event.preventDefault();
+            this.controlPagina = new ControlPagina('/api/productos_mas_vendidos/', axios);
+            this.controlPagina.setParametrosFiltro(this.construirDatosfiltro());
+            this.controlPagina.cargarPaginas();
+        },
+        validarFechaFin(){
+            if (this.fechaInicio != '' && this.fechaFin != '') {
+                if (Date.parse(this.fechaInicio) > Date.parse(this.fechaFin)) {
+                    this.mensajeError = 'La fecha de inicio no puede ser mayor a la fecha de fin';
+                }
+                else{
+                    this.mensajeError = '';
+                }
+            }
+        },
+    },
     mounted() {
+        this.controlPagina.setParametrosFiltro(this.construirDatosfiltro());
         this.controlPagina.cargarPaginas();
     },
 }
 
-</script>i
+</script>
+
+<style scoped>
+
+.isSelected{
+    background-color: #3056d3;
+    color: white;
+}
+
+</style>
