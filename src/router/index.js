@@ -208,11 +208,6 @@ const router = createRouter({
     //   component: ViewPageRoute
     // }
   ],
-  scrollBehavior (to, from, savedPosition) {
-    return savedPosition || new Promise((resolve)=>{
-      setTimeout(()=> resolve({ top:0 }), 300)
-    })
-  }
 })
 
 
