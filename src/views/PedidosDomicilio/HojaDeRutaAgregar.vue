@@ -43,7 +43,7 @@ import api_url from '../../config.js'
                             </div>
                         </div>
                         <div>
-                            <label for="total" class="block text-sm font-medium leading-6 text-gray-900">Total</label>
+                            <label for="total" class="block text-sm font-medium leading-6 text-gray-900">Total (USD)</label>
                             <div class="mt-2">
                                 <Field name="total" id="total" v-model="hoja_de_ruta.total" type="number" disabled
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6" />
@@ -73,7 +73,7 @@ import api_url from '../../config.js'
                                 <tr v-for="pedido in pedidos_factura" class="border-b ">
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.nombre_cliente_venta }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ pedido.total_venta }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <RouterLink
@@ -89,7 +89,7 @@ import api_url from '../../config.js'
                                 <tr v-for="pedido in pedidos_fiscal" class="border-b ">
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_creditofiscal }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_cliente }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ pedido.total_credito }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <RouterLink
@@ -134,7 +134,7 @@ import api_url from '../../config.js'
                                 <tr v-for="pedido in facturas" class="border-b ">
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.nombre_cliente_venta }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ pedido.total_venta }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <RouterLink
@@ -149,7 +149,7 @@ import api_url from '../../config.js'
                                 <tr v-for="pedido in creditosFiscales" class="border-b ">
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_creditofiscal }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ pedido.id_cliente }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ pedido.total_credito }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
                                         <RouterLink
