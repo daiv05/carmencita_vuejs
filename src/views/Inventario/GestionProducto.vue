@@ -1,5 +1,5 @@
 <script setup>
-import NavBar from "../../components/NavBar.vue";
+
 import DesactivarProducto from "../../components/Inventario/ProductoDesactivar.vue";
 import api_url from "../../config";
 import ModalConsultarProductoComponent from "../../components/Inventario/ModalConsultarProductoComponent.vue";
@@ -11,11 +11,7 @@ const agregar_producto = "agregar_producto";
 </script>
 
 <template>
-    
     <main>
-        <!--  NavBar component  -->
-        <NavBar />
-
         <!-- Encabezado -->
         <div class="w-full h-[60px]">
             <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"

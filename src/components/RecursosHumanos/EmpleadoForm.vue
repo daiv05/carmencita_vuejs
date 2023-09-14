@@ -1,5 +1,5 @@
 <script setup>
-//import NavBar from '../../components/NavBar.vue'
+//
 import api_url from '../../config.js' ;
 </script>
 

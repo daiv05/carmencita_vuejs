@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-import NavBar from '../../components/NavBar.vue'
+
 import api_url from '../../config.js'
 import btnConsultar from '../../components/Helpers/BotonConsultar.vue'
 import btnEditar from '../../components/Helpers/BotonEditar.vue'
@@ -9,7 +9,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
 
 <template>
     <main>
-        <NavBar></NavBar>
+        
         <div class="bg-slate-100 pb-4">
             <div class="bg-white w-full mx-auto p-5 shadow-md">
                 <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>

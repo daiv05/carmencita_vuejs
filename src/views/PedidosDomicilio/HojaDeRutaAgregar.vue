@@ -1,11 +1,11 @@
 <script setup>
-import NavBar from '../../components/NavBar.vue'
+
 import api_url from '../../config.js'
 </script>
 
 <template>
     <main>
-        <NavBar></NavBar>
+        
         <div class="bg-slate-100 pb-6 min-h-screen">
             <div class="bg-white w-full mx-auto p-5 shadow-md">
                 <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>

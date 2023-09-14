@@ -1,6 +1,6 @@
 <template>
   <main>
-    <NavBar></NavBar>
+    
     <div class="w-full h-[60px]">
       <div
         class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
@@ -152,16 +152,15 @@
 </template>
 
 <script>
-import NavBar from '../../components/NavBar.vue'
-import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue'
-import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue'
-import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue'
-import ModalConfirmarEliminacionVue from '../../components/Inventario/ModalConfirmarEliminacion.vue'
+
+import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue';
+import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue';
+import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue';
+import ModalConfirmarEliminacionVue from '../../components/Inventario/ModalConfirmarEliminacion.vue';
 import axios from 'axios'
 
 export default {
   components: {
-    NavBar,
     ModalEditarLote,
     ModalAgregarLote,
     ModalConsultarLote,

@@ -1,9 +1,9 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue'
+
 </script>
 
 <template>
-    <NavBar />
+    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -238,9 +238,6 @@ import axios from 'axios';
 import api_url from '../../config.js';
 
 export default {
-    components: {
-        NavBar
-    },
     data() {
         return {
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)

@@ -1,6 +1,6 @@
 <script setup>
-import api_url from "../../config"
-import NavBar from "../../components/NavBar.vue";
+import api_url from "../../config";
+
 import ModalCargoComponent from "../../components/RecursosHumanos/ModalCargoComponent.vue";
 import ModalAgregarCargoComponent from "../../components/RecursosHumanos/ModalAgregarCargoComponent.vue";
 import ModalEliminarCargoComponenteVue from "../../components/RecursosHumanos/ModalEliminarCargoComponente.vue";
@@ -10,7 +10,6 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
 
 <template>
      <main>
-          <NavBar/>
           <div class = "container mx-auto p-10 ">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión Cargos</h1>
           </div>

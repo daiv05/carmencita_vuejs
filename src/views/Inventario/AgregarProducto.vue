@@ -1,6 +1,6 @@
 <script setup>
 import ModalPrecioExtra from "../../components/Inventario/ModalPrecioExtra.vue";
-import NavBar from "../../components/NavBar.vue";
+
 import {Form,Field,ErrorMessage} from 'vee-validate';
 import api_url from "../../config";
 </script>
@@ -15,7 +15,7 @@ import api_url from "../../config";
         v-if="activarAlertaError==true">
         <span class="font-medium">{{ mensajeExito }}</span>
         </div>
-        <NavBar></NavBar>
+        
         <div class = "container mx-auto p-6 ">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de productos</h1>
           </div>
@@ -126,7 +126,7 @@ import api_url from "../../config";
                             <td>{{ precioExtra.precio }}</td>
                             <td class="flex justify-center items-center p-3">
                                 <p> 
-                                    <button type="button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
+                                    <button type="button" class="focus:outline-none text-red-800 bg-red-500 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-full mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 hover:text-white dark:focus:ring-red-900 px-2 py-1 text-sm font-bold" @click="eliminarPrecioExtra(precioExtra.idUnidadMedida)">X</button>
                                 </p>
                             </td>
                         </tr>

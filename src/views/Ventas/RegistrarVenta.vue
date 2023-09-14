@@ -1,5 +1,5 @@
 <template>
-    <NavBar />
+    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -381,14 +381,13 @@ import api_url from '../../config.js';
 import "../../assets/registrar_venta.css"
 import moment from 'moment';
 import { useToast } from 'vue-toastification'
-import NavBar from '@/components/NavBar.vue'
+
 import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue'
 
 const toast = useToast();
 
 export default {
     components: {
-        NavBar: NavBar,
         ModalVentaDomicilio
     },
     data() {
@@ -494,7 +493,7 @@ export default {
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
                 // No hay ningún campo activo, enfocar al input de busqueda por codigo
-                this.$refs.codigo_bp.focus();
+                this.$refs.codigo_bp?.focus();
             }
         },
         listener_buscar_codigo_producto() {
@@ -735,16 +734,19 @@ export default {
             });
         },
 
-        verificar_unidad_medida(fila) {
+        verificar_unidad_medida(detalle) {
             return new Promise((resolve, reject) => {
                 // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
-                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
+                // var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
                 var cantidad_compra = detalle.cantidad_prod_venta;
                 // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
                 var preciosOrdenados = detalle.producto_detalle.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
                 // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
                 let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
-                if (fila.cantidad_prod_venta < precioUnidadCercano.cantidad_producto) {
+
+                precioUnidadCercano ? console.log('Verificando precios extras...') : resolve();
+
+                if (detalle.cantidad_prod_venta < precioUnidadCercano.cantidad_producto) {
                     detalle.producto_detalle.precio_unitario = detalle.producto_detalle.precio_unitario_original;
                     resolve();
                 } else {

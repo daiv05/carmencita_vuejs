@@ -1,11 +1,11 @@
 <script setup>
-import NavBar from '../../components/NavBar.vue'
+
 import empleadoForm from '../../components/RecursosHumanos/EmpleadoForm.vue'
 import modalDesactivar from '../../components/RecursosHumanos/EmpleadoDesactivar.vue'
 </script>
 
 <template>
-    <NavBar></NavBar>
+    
     <div class="bg-slate-100">
     <div class = "bg-white w-full mx-auto p-5 shadow-md">
         <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Empleados</h1>
