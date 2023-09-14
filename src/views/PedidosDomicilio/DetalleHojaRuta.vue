@@ -27,14 +27,10 @@
                         <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
                     </a>
                 </div>
-                <!-- Contenido de los tabs -->
                 <div class="tab-content flex-grow">
-                    <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
                         <div class="flex pb-36">
-                            <div class="w-full pr-4 h-full pt-4">
-                                <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
-                                <!-- Input para ingresar Producto -->
+                            <div class="w-full pr-4 h-full pt-4 overflow-auto">
                                 <div class="flex justify-start items-center pb-6">
                                     <label class="text-base font-bold">
                                         Fecha de reparto:
@@ -49,19 +45,15 @@
                                         placeholder="David Deras"
                                         :value="hoja_ruta.empleado.primer_nombre + ' ' + hoja_ruta.empleado.primer_apellido" />
                                 </div>
-                                <div class="flex justify-start items-center pb-6">
-
-                                </div>
-                                <!-- Tabla de DetalleVenta -->
-                                <table class="table-fixed w-full shadow-lg">
+                                <table class="table-fixed w-auto shadow-lg">
                                     <thead>
                                         <tr class="border-b-2 border-black-400 h-[40px] items-center bg-slate-100">
                                             <th class="font-bold w-[5%]">No.</th>
                                             <th class="font-bold w-[18%]">Cliente</th>
                                             <th class="font-bold w-[15%]">Registrado</th>
                                             <th class="font-bold w-[17%]">Monto ($)</th>
-                                            <th class="font-bold w-[17%]">Tipo</th>
-                                            <th class="font-bold w-[30%]">Acciones</th>
+                                            <th class="font-bold w-[15%]">Tipo</th>
+                                            <th class="font-bold w-[32%]">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -74,25 +66,25 @@
                                             <td class="text-center">Consumidor Final</td>
                                             <td class="flex justify-end py-2 items-center">
                                                 <button @click="imprimir_venta_domicilio(fila)"
-                                                    class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
                                                 <router-link v-if="fila.esta_cancelada == 0"
                                                     @click="editar_venta_domicilio(fila)"
                                                     :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
-                                                    class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </router-link>
                                                 <button v-else disabled
-                                                    class="bg-indigo-400 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </button>
                                                 <button v-if="fila.esta_cancelada == 0" @click="registrar_pago_venta(fila)"
-                                                    class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
                                                 <button v-else disabled
-                                                    class="bg-sky-300 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
                                             </td>
@@ -108,24 +100,24 @@
                                             <td class="text-center">Crédito Fiscal</td>
                                             <td class="flex justify-end py-2 items-center">
                                                 <button @click="imprimir_credito_domicilio(fila)"
-                                                    class="bg-emerald-600 hover:bg-emerald-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Imprimir
                                                 </button>
                                                 <router-link v-if="fila.esta_cancelado == 0" @click="editar_credito_domicilio(fila)"
                                                     :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
-                                                    class="bg-indigo-600 hover:bg-indigo-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </router-link>
                                                 <button v-else disabled 
-                                                    class="bg-indigo-400 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Editar Pedido
                                                 </button>
                                                 <button v-if="fila.esta_cancelado == 0" @click="registrar_pago_credito(fila)"
-                                                    class="bg-cyan-600 hover:bg-cyan-800 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
                                                 <button v-else disabled
-                                                    class="bg-sky-300 text-sm text-white font-medium py-2 px-2 mx-2 rounded">
+                                                    class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                     Confirm. pago
                                                 </button>
                                             </td>
@@ -134,13 +126,11 @@
                                 </table>
                             </div>
                         </div>
-                        <!-- Resumen de la Venta -->
                         <hr>
                         <div class="flex pl-8 justify-between">
                             <table class="table-fixed">
                                 <thead>
                                     <tr>
-                                        <!-- <th class="font-bold h-[40px] text-lg">Resumen</th> -->
                                         <th class="font-bold"></th>
                                     </tr>
                                 </thead>
@@ -148,31 +138,31 @@
                                     <tr class="bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-md font-bold text-black pr-4">
-                                                Monto total ($):
+                                                Monto total:
                                             </label>
                                         </td>
                                         <td class="text-center">
                                             <div class="flex items-center">
                                                 <span
-                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
+                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 font-bold text-base">
                                                     $
                                                 </span>
                                                 <input
-                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-lg border-gray-100 rounded-tr-md rounded-br-md border"
+                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center border-l-0 text-lg border-gray-100 rounded-tr-md rounded-br-md border w-[50%]"
                                                     placeholder="0.00" :value="total_hoja" disabled>
                                             </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="flex justify-center">
+                            <div class="flex md:justify-center">
                                 <button @click="imprimir_resumen_hr()"
-                                    class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 my-2 px-4 rounded">
+                                    class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-base text-white font-bold py-2 my-2 px-4 rounded">
                                     Generar resumen
                                 </button>
                             </div>
                             <button @click="marcar_hr_entregada()"
-                                class="bg-red-700 hover:bg-indigo-800 h-[40px] text-white font-medium py-2 my-2 px-4 rounded">
+                                class="bg-red-700 hover:bg-red-800 h-[40px] text-white text-xs font-medium py-2 my-2 px-4 rounded">
                                 Marcar todo como entregado
                             </button>
                         </div>
@@ -186,10 +176,13 @@
             </div>
         </div>
     </div>
-
     <Teleport to="body">
         <ModalConfirmarPagoDomicilio :show="showModal" :factura="factura_modal" :total="total_factura_modal"
             @confirmed="pago_realizado()" @close="showModal = false" :is_credito="is_credito"></ModalConfirmarPagoDomicilio>
+    </Teleport>
+    <Teleport to="body">
+        <ModalConfirmarEntregasHoja :show="showModal" :hoja_ruta="factura_modal"
+            @confirmed="confirmar_entregas()" @close="showModal = false"></ModalConfirmarEntregasHoja>
     </Teleport>
 </template>
 
@@ -202,6 +195,7 @@ import moment from 'moment';
 import { useToast } from 'vue-toastification'
 
 import ModalConfirmarPagoDomicilio from '@/components/Ventas/ModalConfirmarPagoDomicilio.vue'
+import ModalConfirmarEntregasHoja from '../../components/Ventas/ModalConfirmarEntregasHoja.vue';
 
 const toast = useToast();
 
@@ -209,6 +203,7 @@ export default {
     props: ['ruta'],
     components: {
         ModalConfirmarPagoDomicilio: ModalConfirmarPagoDomicilio,
+        ModalConfirmarEntregasHoja: ModalConfirmarEntregasHoja
     },
     data() {
         return {
@@ -257,20 +252,24 @@ export default {
             axios.get(api_url + '/impresion_credito_fiscal/' + fila.credito_fiscal.id_creditofiscal)
                 .then((res) => {
                     console.log(res);
+                    this.watch_toast("success", "Imprimiendo...");
                 })
                 .catch((err) => {
                     console.log(err);
+                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar.");
                 });
         },
         imprimir_venta_domicilio(fila) {
             console.log('Pedido a imprimir...');
             console.log(fila.venta.id_venta);
             axios.get(api_url + '/impresion_consumidor_final/' + fila.venta.id_venta)
-                .then((res) => {
+            .then((res) => {
                     console.log(res);
+                    this.watch_toast("success", "Imprimiendo...");
                 })
                 .catch((err) => {
                     console.log(err);
+                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar.");
                 });
         },
         registrar_pago_credito(fila) {
@@ -289,7 +288,7 @@ export default {
             this.showModal = false;
             this.obtener_detalles_ruta();
         },
-        marcar_hr_entregada(){
+        confirmar_entregas(){
             axios.post(api_url + '/hoja_de_ruta/marcar_entregada/' + this.hoja_ruta.id_hr)
                 .then((res) => {
                     this.watch_toast("success", "Todos los pedidos han sido marcados como entregados");

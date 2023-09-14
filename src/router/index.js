@@ -24,7 +24,7 @@ import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
-import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
+import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import axios from 'axios';
 
@@ -194,7 +194,7 @@ const router = createRouter({
     {
       path: '/hoja_de_ruta/detalles/:ruta',
       name: 'hoja_de_ruta',
-      component: ViewPageRoute,
+      component: DetalleHojaRuta,
       props: true
     },
     {

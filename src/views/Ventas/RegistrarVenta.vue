@@ -444,7 +444,7 @@ export default {
             //Producto busqueda por nombre
             producto_nombre: '',
             //Contador Autoincremental para la tabla Detalle
-            contador_tabla: 1,
+            contador_tabla: 0,
             //Subtotal de la venta
             subtotal_venta: 0.00,
             //Codigo de Lector de Barras (para buscar producto)
@@ -492,6 +492,16 @@ export default {
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
                 this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+            },
+            deep: true,
+        },
+        active_tab: {
+            handler() {
+                if (this.active_tab === 1 && this.detalle_ventas_lista.length >= 13) {
+                    this.detalle_ventas_lista.slice(0, 11);
+                    this.contador_tabla = 12;
+                    this.watch_toast('error', 'Limite de productos por factura (Crédito) alcanzado.');
+                }
             },
             deep: true,
         },
@@ -663,9 +673,13 @@ export default {
         },
         //Anadir registro en tabla DETALLE
         agregar_producto_detalle() {
-            if (this.contador_tabla >= 20) {
-                console.log("Limite de 20 detalles");
-                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
+            if (this.active_tab === 0 && this.contador_tabla >= 20) {
+                console.log("Limite de 20 detalles, consumidor final");
+                this.watch_toast('error', 'Limite de productos por factura (cons. final) alcanzado.');
+                return;
+            } else if (this.active_tab === 1 && this.contador_tabla >= 13) {
+                console.log("Limite de 12 detalles, credito fiscal");
+                this.watch_toast('error', 'Limite de productos por factura (crédito) alcanzado.');
                 return;
             }
             this.get_producto_segun_nombre()
@@ -737,6 +751,7 @@ export default {
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
+                this.contador_tabla++;
                 resolve();
             });
         },
@@ -901,8 +916,10 @@ export default {
             };
             this.campo_identificador_cliente = "";
             this.contador_tabla = 1;
+
+            this.asignar_fecha_actual();
         },
-        restaurar_ultima_factura(){
+        restaurar_ultima_factura() {
             // Restaurar los valores de los campos en caso de error (recuperar ultima venta enviada)
             this.detalle_ventas_lista = this.detalle_ventas_lista_COPIA;
             this.cliente_info = this.cliente_info_COPIA;
