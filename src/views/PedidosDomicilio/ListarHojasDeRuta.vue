@@ -2,7 +2,7 @@
     <main>
         
         <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600 ml-[5%] mt-[2%]">Gestión de pedidos a domicilio</h1>
-        <table class="w-[100%] m-auto mt-[2%]">
+        <table class="m-auto w-[85%] mt-[2%]">
       <tr>
         <td colspan="4" class="text-2xl text-gray-950 font-semibold">
             Lista de pedidos

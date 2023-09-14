@@ -168,11 +168,11 @@
                             <div class="flex justify-center">
                                 <button @click="imprimir_resumen_hr()"
                                     class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 my-2 px-4 rounded">
-                                    Imprimir Resumen
+                                    Generar resumen
                                 </button>
                             </div>
                             <button @click="marcar_hr_entregada()"
-                                class="bg-red-700 hover:bg-indigo-800 h-[40px] text-white font-bold py-2 my-2 px-4 rounded">
+                                class="bg-red-700 hover:bg-indigo-800 h-[40px] text-white font-medium py-2 my-2 px-4 rounded">
                                 Marcar todo como entregado
                             </button>
                         </div>
@@ -254,10 +254,24 @@ export default {
             window.print();
         },
         imprimir_credito_domicilio(fila) {
-            window.print();
+            axios.get(api_url + '/impresion_credito_fiscal/' + fila.credito_fiscal.id_creditofiscal)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         imprimir_venta_domicilio(fila) {
-            window.print();
+            console.log('Pedido a imprimir...');
+            console.log(fila.venta.id_venta);
+            axios.get(api_url + '/impresion_consumidor_final/' + fila.venta.id_venta)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         registrar_pago_credito(fila) {
             this.factura_modal = fila;

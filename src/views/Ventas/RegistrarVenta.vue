@@ -1,5 +1,4 @@
 <template>
-    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -290,8 +289,8 @@
                         </div>
                         <!-- Resumen de la Venta -->
                         <hr>
-                        <div class="flex pl-8">
-                            <table class="table-fixed">
+                        <div class="grid grid-cols-12 pl-8">
+                            <table class="table-fixed col-span-4">
                                 <thead>
                                     <tr class="border-b-2 border-black-400 h-[40px]">
                                         <th class="font-bold">Resumen</th>
@@ -351,18 +350,25 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <button v-if="active_tab === 0" @click="register_new_venta(false)"
-                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
-                                    Guardar Venta Consumidor Final
-                                </button>
-                                <button v-if="active_tab === 1" @click="register_new_venta(false)"
-                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
-                                    Guardar Venta Credito Fiscal
-                                </button>
+                            <div class="grid grid-cols-12 col-span-8 justify-center items-center py-4 px-4 w-full mt-10">
+                                <div class="flex justify-end col-span-6">
+                                    <button v-if="active_tab === 0" @click="register_new_venta(false)"
+                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                        class="h-[40px] text-white font-bold py-2 px-4 rounded justify-end">
+                                        Guardar Venta Consumidor Final
+                                    </button>
+                                    <button v-if="active_tab === 1" @click="register_new_venta(false)"
+                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                        class="h-[40px] text-white font-bold py-2 px-4 rounded justify-end">
+                                        Guardar Venta Crédito Fiscal
+                                    </button>
+                                </div>
+                                <div class="flex justify-end align-bottom col-span-6">
+                                    <a @click="restaurar_ultima_factura()" class="text-sm font-light underline"
+                                        href="#">Restaurar última venta</a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -393,10 +399,8 @@ export default {
     data() {
         return {
             showModal: false,
-
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
-
             // Objeto Producto
             producto_info: {},
             // Listado de Detalles (para tabla) y objeto Detalle
@@ -437,31 +441,34 @@ export default {
                 total_credito_fiscal: 0,
                 total_iva_credito_fiscal: 0,
             },
-
             //Producto busqueda por nombre
             producto_nombre: '',
-
             //Contador Autoincremental para la tabla Detalle
             contador_tabla: 1,
-
             //Subtotal de la venta
             subtotal_venta: 0.00,
-
             //Codigo de Lector de Barras (para buscar producto)
             codigo_barra_lector: '',
             producto_codigo: '', //Para la busqueda de productos por filtro de codigo
             timer: null, //Para el timer del lector de barras
-
             //Para la busqueda de productos por filtro de nombre
             productos: [], // Lista de nombres de productos completa
             sugerencias: [], // Sugerencias de productos a partir del input de busqueda
             mostrar_sugerencias: false, // Mostrar o no las sugerencias
-
             //Para la busqueda de Clientes por filtro de identificador o distintivo
             clientes: [], // Lista de info de clientes completa
             sugerencias_cliente: [], // Sugerencias de Clientes a partir del input de busqueda
             mostrar_sugerencias_cliente: false, // Mostrar o no las sugerencias de Clientes
             campo_identificador_cliente: "", // Campo de identificador de cliente
+
+
+            // Copia de seguridad para restaurar los valores de los campos
+            detalle_ventas_lista_COPIA: [],
+            cliente_info_COPIA: {},
+            venta_info_COPIA: {},
+            credito_fiscal_info_COPIA: {},
+            campo_identificador_cliente_COPIA: "",
+            contador_tabla_COPIA: 1,
         };
     },
     created() {
@@ -859,6 +866,14 @@ export default {
         },
 
         limpiar_campos() {
+            // Copia de seguridad para restaurar los valores de los campos en caso de error
+            this.detalle_ventas_lista_COPIA = this.detalle_ventas_lista;
+            this.cliente_info_COPIA = this.cliente_info;
+            this.venta_info_COPIA = this.venta_info;
+            this.credito_fiscal_info_COPIA = this.credito_fiscal_info;
+            this.campo_identificador_cliente_COPIA = this.campo_identificador_cliente;
+            this.contador_tabla_COPIA = this.contador_tabla;
+
             this.detalle_ventas_lista = [];
             this.cliente_info = {
                 id_cliente: 0,
@@ -886,6 +901,15 @@ export default {
             };
             this.campo_identificador_cliente = "";
             this.contador_tabla = 1;
+        },
+        restaurar_ultima_factura(){
+            // Restaurar los valores de los campos en caso de error (recuperar ultima venta enviada)
+            this.detalle_ventas_lista = this.detalle_ventas_lista_COPIA;
+            this.cliente_info = this.cliente_info_COPIA;
+            this.venta_info = this.venta_info_COPIA;
+            this.credito_fiscal_info = this.credito_fiscal_info_COPIA;
+            this.campo_identificador_cliente = this.campo_identificador_cliente_COPIA;
+            this.contador_tabla = this.contador_tabla_COPIA;
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
