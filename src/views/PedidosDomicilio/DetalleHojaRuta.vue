@@ -1,5 +1,4 @@
 <template>
-    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -30,7 +29,7 @@
                 <div class="tab-content flex-grow">
                     <div class="p-4 bg-white">
                         <div class="flex pb-36">
-                            <div class="w-full pr-4 h-full pt-4 overflow-auto">
+                            <div class="w-full h-full pt-4 overflow-auto">
                                 <div class="flex justify-start items-center pb-6">
                                     <label class="text-base font-bold">
                                         Fecha de reparto:
@@ -45,85 +44,92 @@
                                         placeholder="David Deras"
                                         :value="hoja_ruta.empleado.primer_nombre + ' ' + hoja_ruta.empleado.primer_apellido" />
                                 </div>
-                                <table class="table-fixed w-auto shadow-lg">
-                                    <thead>
-                                        <tr class="border-b-2 border-black-400 h-[40px] items-center bg-slate-100">
-                                            <th class="font-bold w-[5%]">No.</th>
-                                            <th class="font-bold w-[18%]">Cliente</th>
-                                            <th class="font-bold w-[15%]">Registrado</th>
-                                            <th class="font-bold w-[17%]">Monto ($)</th>
-                                            <th class="font-bold w-[15%]">Tipo</th>
-                                            <th class="font-bold w-[32%]">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="fila, index in hoja_ruta.venta_domicilio" :key="fila.id_hr"
-                                            class="border-b-2 border-black-400 bg-black-300">
-                                            <td class="text-center">{{ index + 1 }}</td>
-                                            <td class="text-center">{{ fila.venta.nombre_cliente_venta }}</td>
-                                            <td class="text-center">{{ fila.venta.fecha_venta }}</td>
-                                            <td class="text-center">$ {{ Number(fila.venta.total_venta).toFixed(2) }}</td>
-                                            <td class="text-center">Consumidor Final</td>
-                                            <td class="flex justify-end py-2 items-center">
-                                                <button @click="imprimir_venta_domicilio(fila)"
-                                                    class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Imprimir
-                                                </button>
-                                                <router-link v-if="fila.esta_cancelada == 0"
-                                                    @click="editar_venta_domicilio(fila)"
-                                                    :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
-                                                    class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Editar Pedido
-                                                </router-link>
-                                                <button v-else disabled
-                                                    class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Editar Pedido
-                                                </button>
-                                                <button v-if="fila.esta_cancelada == 0" @click="registrar_pago_venta(fila)"
-                                                    class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Confirm. pago
-                                                </button>
-                                                <button v-else disabled
-                                                    class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Confirm. pago
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr v-for="fila, index in hoja_ruta.credito_fiscal_domicilio" :key="fila.id_hr"
-                                            class="border-b-2 border-black-400 bg-black-300">
-                                            <td class="text-center">{{ count + index + 1 }}</td>
-                                            <td class="text-center">{{ fila.credito_fiscal.cliente.distintivo_cliente }}
-                                            </td>
-                                            <td class="text-center">{{ fila.credito_fiscal.fecha_credito }}</td>
-                                            <td class="text-center">$ {{
-                                                Number(fila.credito_fiscal.total_credito).toFixed(2) }}</td>
-                                            <td class="text-center">Crédito Fiscal</td>
-                                            <td class="flex justify-end py-2 items-center">
-                                                <button @click="imprimir_credito_domicilio(fila)"
-                                                    class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Imprimir
-                                                </button>
-                                                <router-link v-if="fila.esta_cancelado == 0" @click="editar_credito_domicilio(fila)"
-                                                    :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
-                                                    class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Editar Pedido
-                                                </router-link>
-                                                <button v-else disabled 
-                                                    class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Editar Pedido
-                                                </button>
-                                                <button v-if="fila.esta_cancelado == 0" @click="registrar_pago_credito(fila)"
-                                                    class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Confirm. pago
-                                                </button>
-                                                <button v-else disabled
-                                                    class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
-                                                    Confirm. pago
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div class="flex justify-center w-full">
+                                    <table class="table-striped w-full shadow-lg">
+                                        <thead>
+                                            <tr class="border-b-2 border-black-400 h-[40px] items-center bg-slate-100">
+                                                <th class="font-bold w-[5%]">No.</th>
+                                                <th class="font-bold w-[18%]">Cliente</th>
+                                                <th class="font-bold w-[15%]">Registrado</th>
+                                                <th class="font-bold w-[17%]">Monto ($)</th>
+                                                <th class="font-bold w-[15%]">Tipo</th>
+                                                <th class="font-bold w-[32%]">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="fila, index in hoja_ruta.venta_domicilio" :key="fila.id_hr"
+                                                class="border-b-2 border-black-400 bg-black-300">
+                                                <td class="text-center">{{ index + 1 }}</td>
+                                                <td class="text-center">{{ fila.venta.nombre_cliente_venta }}</td>
+                                                <td class="text-center">{{ fila.venta.fecha_venta }}</td>
+                                                <td class="text-center">$ {{ Number(fila.venta.total_venta).toFixed(2) }}
+                                                </td>
+                                                <td class="text-center">Consumidor Final</td>
+                                                <td class="flex justify-end py-2 items-center">
+                                                    <button @click="imprimir_venta_domicilio(fila)"
+                                                        class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Imprimir
+                                                    </button>
+                                                    <router-link v-if="fila.esta_cancelada == 0"
+                                                        @click="editar_venta_domicilio(fila)"
+                                                        :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
+                                                        class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Editar Pedido
+                                                    </router-link>
+                                                    <button v-else disabled
+                                                        class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Editar Pedido
+                                                    </button>
+                                                    <button v-if="fila.esta_cancelada == 0"
+                                                        @click="registrar_pago_venta(fila)"
+                                                        class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Confirm. pago
+                                                    </button>
+                                                    <button v-else disabled
+                                                        class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Confirm. pago
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr v-for="fila, index in hoja_ruta.credito_fiscal_domicilio" :key="fila.id_hr"
+                                                class="border-b-2 border-black-400 bg-black-300">
+                                                <td class="text-center">{{ count + index + 1 }}</td>
+                                                <td class="text-center">{{ fila.credito_fiscal.cliente.distintivo_cliente }}
+                                                </td>
+                                                <td class="text-center">{{ fila.credito_fiscal.fecha_credito }}</td>
+                                                <td class="text-center">$ {{
+                                                    Number(fila.credito_fiscal.total_credito).toFixed(2) }}</td>
+                                                <td class="text-center">Crédito Fiscal</td>
+                                                <td class="flex justify-end py-2 items-center">
+                                                    <button @click="imprimir_credito_domicilio(fila)"
+                                                        class="text-center bg-emerald-600 hover:bg-emerald-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Imprimir
+                                                    </button>
+                                                    <router-link v-if="fila.esta_cancelado == 0"
+                                                        @click="editar_credito_domicilio(fila)"
+                                                        :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
+                                                        class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Editar Pedido
+                                                    </router-link>
+                                                    <button v-else disabled
+                                                        class="text-center bg-indigo-400 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Editar Pedido
+                                                    </button>
+                                                    <button v-if="fila.esta_cancelado == 0"
+                                                        @click="registrar_pago_credito(fila)"
+                                                        class="text-center bg-cyan-600 hover:bg-cyan-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Confirm. pago
+                                                    </button>
+                                                    <button v-else disabled
+                                                        class="text-center bg-sky-300 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
+                                                        Confirm. pago
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
                             </div>
                         </div>
                         <hr>
@@ -177,12 +183,13 @@
         </div>
     </div>
     <Teleport to="body">
-        <ModalConfirmarPagoDomicilio :show="showModal" :factura="factura_modal" :total="total_factura_modal"
-            @confirmed="pago_realizado()" @close="showModal = false" :is_credito="is_credito"></ModalConfirmarPagoDomicilio>
+        <ModalConfirmarPagoDomicilio :show="showModal_pago_individual" :factura="factura_modal" :total="total_factura_modal"
+            @confirmed="pago_realizado()" @close="showModal_pago_individual = false" :is_credito="is_credito">
+        </ModalConfirmarPagoDomicilio>
     </Teleport>
     <Teleport to="body">
-        <ModalConfirmarEntregasHoja :show="showModal" :hoja_ruta="factura_modal"
-            @confirmed="confirmar_entregas()" @close="showModal = false"></ModalConfirmarEntregasHoja>
+        <ModalConfirmarEntregasHoja :show="showModal_entregas_all" :hoja_ruta="factura_modal"
+            @confirmed="confirmar_entregas()" @close="showModal_entregas_all = false"></ModalConfirmarEntregasHoja>
     </Teleport>
 </template>
 
@@ -207,7 +214,8 @@ export default {
     },
     data() {
         return {
-            showModal: false,
+            showModal_pago_individual: false,
+            showModal_entregas_all: false,
             factura_modal: null,
             total_factura_modal: 0,
             is_credito: false,
@@ -263,7 +271,7 @@ export default {
             console.log('Pedido a imprimir...');
             console.log(fila.venta.id_venta);
             axios.get(api_url + '/impresion_consumidor_final/' + fila.venta.id_venta)
-            .then((res) => {
+                .then((res) => {
                     console.log(res);
                     this.watch_toast("success", "Imprimiendo...");
                 })
@@ -276,28 +284,23 @@ export default {
             this.factura_modal = fila;
             this.total_factura_modal = Number(fila.credito_fiscal.total_credito);
             this.is_credito = true;
-            this.showModal = true;
+            this.showModal_pago_individual = true;
         },
         registrar_pago_venta(fila) {
             this.factura_modal = fila;
             this.total_factura_modal = Number(fila.venta.total_venta);
             this.is_credito = false;
-            this.showModal = true;
+            this.showModal_pago_individual = true;
         },
         pago_realizado() {
-            this.showModal = false;
+            this.showModal_pago_individual = false;
             this.obtener_detalles_ruta();
         },
-        confirmar_entregas(){
-            axios.post(api_url + '/hoja_de_ruta/marcar_entregada/' + this.hoja_ruta.id_hr)
-                .then((res) => {
-                    this.watch_toast("success", "Todos los pedidos han sido marcados como entregados");
-                    this.$router.go(-1);
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
-                });
+        marcar_hr_entregada() {
+            this.showModal_entregas_all = true;
+        },
+        confirmar_entregas() {
+            this.showModal_entregas_all = false;
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
