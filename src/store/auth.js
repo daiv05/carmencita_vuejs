@@ -2,7 +2,7 @@ import {createStore} from "vuex";
 import axios from "axios";
 import router from "../router/index";
 import createPersistedState from 'vuex-persistedstate';
-
+import { useToast } from 'vue-toastification';
 //create a instance to handle user state
 
 const  store = createStore({
@@ -61,6 +61,9 @@ const  store = createStore({
                 .catch(
                     (response)=>{
                         console.log(response);
+                        context.dispatch("showToast",
+                        {"mensaje":response.response.data.message}
+                        );
                     }
                 );
             }catch(error){
@@ -78,13 +81,18 @@ const  store = createStore({
 
                     setTimeout(()=>{
                         /*you must changed alert for other kind of pop up*/
-                        alert("Has cerrado sesión correctamente");
+                        //alert("Has cerrado sesión correctamente");
+                        useToast().success("Cerro sesión correctamente",{
+                            timeout: 1000
+                        });
                         router.push("/iniciar_sesion");
-                    },2000);
+                    },100);
                 }
             ).catch(
                 (response)=>{
                     console.log(response);
+                    context.dispatch("cleanStore");
+                    router.push("/iniciar_sesion");
                 }
             )
         },
@@ -96,7 +104,14 @@ const  store = createStore({
             context.state.tokenUser = "";
             context.state.user = null;
             localStorage.removeItem("authUser");
-        }
+        },
+        showToast(context, payload) {
+           const toast = useToast();
+           toast.error(
+            payload.mensaje
+           );
+           //alert(payload.mensaje);
+          },
     },
     plugins: [createPersistedState(
         {

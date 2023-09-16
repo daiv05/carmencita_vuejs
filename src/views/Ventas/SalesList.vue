@@ -1,21 +1,21 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue'
+
 import VentaDesactivar from '../../components/Ventas/VentaDesactivar.vue';
 import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
 </script>
 
 <template>
-  <NavBar />
+  
   <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
             <div class="w-full h-[60px]">
                 <div class="flex justify-between align-middle px-16 w-full h-[60px] absolute left-0 bg-white"
                     style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
-                    <p class="mt-2 flex-grow-0 flex-shrink-0 w-[500px] text-[31px] font-semibold text-left text-[#3056d3]">
+                    <p class="mt-2 flex-grow-0 flex-shrink-0 text-[31px] font-semibold text-left text-[#3056d3]">
                         Listado de Ventas
                     </p>
-                    <router-link to="registrar_nueva_venta" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 h-auto my-auto mr-1 w-fit-content">Registrar nueva venta</router-link>
+                    <router-link to="registrar_nueva_venta" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-2 py-2 mr-1 my-2.5 text-center">Registrar nueva venta</router-link>
                 </div>
             </div>
 
@@ -40,10 +40,10 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
 
                     <!-- Contenido del las ventas para Consumidor Final -->
                     <div v-if="activeTab === 0" class="p-4 bg-white">
-                        <div class="flex max-h-[400px] overflow-y-auto pb-36">
+                        <div class="flex pb-36">
 
 
-                            <div class="w-4/4 pr-4 h-full pt-4">
+                            <div class="pr-4 h-full pt-4">
 
 
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
@@ -129,7 +129,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                       <div class="flex max-h-[400px] overflow-y-auto pb-36">
 
 
-<div class="w-4/4 pr-4 h-full pt-4">
+<div class="pr-4 pt-4">
 
 
     <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
@@ -225,9 +225,6 @@ import axios from 'axios';
 import api_url from '../../config.js';
 
 export default {
-    components: {
-        NavBar
-    },
     data() {
         return {
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)

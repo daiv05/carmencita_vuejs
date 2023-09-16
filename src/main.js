@@ -20,7 +20,7 @@ window.axios.defaults.headers.common["X-Requested-With"]="XMLHttpRequest";
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.location.origin;
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
-axios.defaults.baseURL="http://127.0.0.1:8000"
+axios.defaults.baseURL="http://localhost:8001"
 
 const app = createApp(App)
 
@@ -34,5 +34,7 @@ const options = {
 };
 
 app.use(Toast, options);
+app.use(router);
+app.use(store);
 app.use(VueApexCharts);
 app.mount('#app')

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <NavBar></NavBar>
+    
     <div class="w-full h-[60px]">
       <div
         class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
@@ -49,9 +49,9 @@
           <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
             <div class="flex justify-between content-center">
-              <button class="" @click="abrirModalConsultar(lote)">Consultar</button>
-              <button @click="abrirModalEditar(lote)">Editar</button>
-              <button @click="abrirModalEliminacion(lote)">Eliminar</button>
+              <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1" @click="abrirModalConsultar(lote)">Consultar</button>
+              <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1" @click="abrirModalEditar(lote)">Editar</button>
+              <button  class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1" @click="abrirModalEliminacion(lote)">Eliminar</button>
             </div>
           </td>
         </tr>
@@ -152,16 +152,15 @@
 </template>
 
 <script>
-import NavBar from '../../components/NavBar.vue'
-import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue'
-import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue'
-import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue'
-import ModalConfirmarEliminacionVue from '../../components/Inventario/ModalConfirmarEliminacion.vue'
+
+import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue';
+import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue';
+import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue';
+import ModalConfirmarEliminacionVue from '../../components/Inventario/ModalConfirmarEliminacion.vue';
 import axios from 'axios'
 
 export default {
   components: {
-    NavBar,
     ModalEditarLote,
     ModalAgregarLote,
     ModalConsultarLote,

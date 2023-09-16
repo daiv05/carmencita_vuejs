@@ -1,6 +1,8 @@
 <template>
-  <main class="relative" > 
+  <main class="relative"> 
+
     <NavBar />
+    
     <div class="w-full h-[60px]">
       <div
         class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
@@ -50,12 +52,9 @@
   </main>
 </template>
 <script>
-import NavBar from '../../components/NavBar.vue'
-import axios from 'axios'
+
+import axios from 'axios';
 export default {
-  components: {
-    NavBar
-  },
   mounted(){
     this.obtenerFechasFiltro();
   },

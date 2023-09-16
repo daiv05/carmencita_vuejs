@@ -1,4 +1,5 @@
 <template>
+    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -10,29 +11,36 @@
                     </p>
                     <div
                         class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button id="show-modal"
-                            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white"
-                            @click="showModal = true">
+                        <button class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
                             Registrar como Pedido a Domicilio
                         </button>
                     </div>
                 </div>
             </div>
+
             <!-- Tabs para Consumidor Final y Credito Fiscal-->
             <div class="flex flex-col h-full mt-6 ml-2 pl-2 pr-4">
                 <div class="flex justify-start items-center border-b-2 border-b-indigo-500">
                     <div class="tab" :class="{ 'active': active_tab === 0 }" @click="active_tab = 0">
                         Consumidor Final
                     </div>
+                    <!--
                     <div class="tab" :class="{ 'active': active_tab === 1 }" @click="active_tab = 1">
                         Crédito Fiscal
                     </div>
+                    -->
+                </div>
+                <div class="flex justify-start items-center mt-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
                 </div>
                 <!-- Contenido de los tabs -->
                 <div class="tab-content flex-grow">
+
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
-                        <div class="flex max-h-[750px] pb-36">
+                        <div class="flex max-h-[750px] overflow-y-auto pb-36">
                             <div class="w-3/4 pr-4 h-full pt-4">
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
                                 <!-- Input para ingresar Producto -->
@@ -43,21 +51,19 @@
                                     <input @input="listener_buscar_codigo_producto()" ref="codigo_bp"
                                         class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                         placeholder="Codigo del Producto" v-model="producto_codigo" />
-                                    <div class="sugerencias-container md:col-span-3">
+                                    <div class="sugerencias-container">
                                         <!-- Campo de entrada -->
                                         <input @input="listener_producto_nombre()" @focus="mostrar_sugerencias = true"
                                             @blur.self="mostrar_sugerencias = false"
-                                            class="md:col-span-3 ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                             placeholder="Nombre del Producto" v-model="producto_nombre" />
+
                                         <!-- Lista de sugerencias -->
-                                        <ul class="sugerencias-lista md:col-span-3 ml-4 border border-slate-500"
+                                        <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
-                                            <li class="w-64 m-2" href="#" v-for="sugerencia in sugerencias"
-                                                :key="sugerencia.id"
+                                            <li class="w-64 m-2" v-for="sugerencia in sugerencias" :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
-                                                <button class="w-full text-left">
-                                                    {{ sugerencia }}
-                                                </button>
+                                                {{ sugerencia }}
                                             </li>
                                         </ul>
                                     </div>
@@ -80,21 +86,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="fila, index in detalle_ventas_lista" :key="fila.id_venta"
+                                        <tr v-for="(fila, index) in detalle_ventas_lista" :key="fila.id_venta"
                                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
                                             <td class="text-center">{{ index + 1 }}</td>
-                                            <td class="text-center">{{ fila.producto_detalle.nombre_producto }}</td>
+                                            <td class="text-center">{{ fila.producto.nombre_producto }}</td>
                                             <td class="text-center">
-                                                <input @change="verificar_unidad_medida(fila)"
+                                                <input @change="watch_cantidad_producto(fila)"
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
-                                                    v-model="fila.cantidad_prod_venta">
+                                                    v-model="fila.cantidad_producto">
                                             </td>
-                                            <td class="text-center">$ {{ fila.producto_detalle.precio_unitario }}</td>
-                                            <td class="text-center">$ {{ fila.subtotal_detalle_venta =
-                                            Number(fila.producto_detalle.precio_unitario *
-                                                fila.cantidad_prod_venta).toFixed(2) }}</td>
+                                            <td class="text-center">{{ fila.producto.precio_unitario_mostrar? fila.producto.precio_unitario_mostrar : fila.producto.precio }}</td>
+                                            <td class="text-center">{{ fila.subtotal_detalle_venta }}</td>
                                             <td class="flex justify-end pr-4 py-2">
-                                                <button @click="eliminar_detalle_venta(index + 1)"
+                                                <button @click="eliminar_detalle_venta(fila.id_venta)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
                                                     X
                                                 </button>
@@ -104,7 +108,8 @@
                                 </table>
                             </div>
                             <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                            <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-h-[200px]">
+                            <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-w-[1/8px] min-h-[200px]">
+
                                 <div v-if="active_tab === 0">
                                     <!-- PARA CONSUMIDOR FINAL-->
                                     <div class="flex md:flex-row flex-col items-center py-4 px-4">
@@ -114,31 +119,32 @@
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                 Fecha de Venta
                                             </label>
-                                            <input id="fecha_venta" type="date" name="fecha_venta"
+                                            <input id="fecha_venta" type="date" name="fecha_venta" v-bind:disabled="fechaEditable"
                                                 v-model="venta_info.fecha_venta"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
+                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                         </div>
                                     </div>
-                                    <div class="flex flex-shrink-0 md:flex-row flex-col items-center py-4 px-4">
+                                    <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
                                         <!-- Input para ingresar Cliente -->
-                                        <div class="flex flex-col">
+                                        <div class="flex flex-col md:mr-16">
                                             <label for="nombre_cliente"
                                                 class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                 Cliente
                                             </label>
                                             <input id="nombre_cliente" type="text" name="nombre_cliente"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                 placeholder="Joaquin Perez" v-model="venta_info.nombre_cliente_venta" />
                                         </div>
                                     </div>
                                 </div>
+                                <!--
                                 <div v-if="active_tab === 1">
-                                    <!-- PARA CREDITO FISCAL-->
-                                    <div class="flex">
-                                        <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                                        <div class="pb-24 pl-2 flex-shrink-0">
+                                    {{ /*PARA CREDITO FISCAL*/ }} 
+                                    <div class="flex overflow-y-auto">
+                                        {{ /* Contenido del bloque de espacio derecho (1/4 del espacio) */ }}
+                                        <div class="w-1/4 pb-24 pl-2 flex-shrink-0">
                                             <div class="flex md:flex-row flex-col items-center py-4 px-4">
-                                                <!-- Input para ingresar Fecha -->
+                                                {{ /* Input para ingresar fecha */ }}
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="fecha_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -149,7 +155,7 @@
                                                         class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                                 </div>
                                             </div>
-                                            <!-- aqui iba nrc antes -->
+                                             {{ /* aqui iba nrc antes */ }}
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
                                                 <div class="flex flex-col md:mr-16">
@@ -166,7 +172,7 @@
                                                             class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                             placeholder="Ingrese el identificador"
                                                             v-model="campo_identificador_cliente" />
-                                                        <!--Lista de sugerencias -->
+                                                        {{ /* Lista de sugerencias */ }}
                                                         <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
                                                             v-if="mostrar_sugerencias_cliente && sugerencias_cliente.length > 0">
                                                             <li class="w-64 m-2" v-for=" cliente  in  sugerencias_cliente "
@@ -192,7 +198,7 @@
                                             </div>
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar Cliente -->
+                                                {{ /* Input para ingresar Cliente */ }} 
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="nombre_cliente_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -205,7 +211,7 @@
                                             </div>
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar nit -->
+                                                {{ /* Input para ingresar nit */ }} 
                                                 <div class="flex flex-col">
                                                     <label for="nit_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -218,7 +224,7 @@
                                                 </div>
                                                 <div
                                                     class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                    <!-- Input para ingresar nrc -->
+                                                    {{ /* Input para ingresar nrc */ }} 
                                                     <div class="flex flex-col">
                                                         <label for="nrc_credito"
                                                             class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -232,7 +238,7 @@
                                             </div>
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar dui -->
+                                                {{ /* Input para ingresar dui */ }} 
                                                 <div class="flex flex-col mr-4">
                                                     <label for="dui_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -242,7 +248,7 @@
                                                         class="text-slate-600 w-28 h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                         placeholder="29999999-9" v-model="cliente_info.dui_cliente" />
                                                 </div>
-                                                <!-- Input para ingresar depa -->
+                                                {{ /* Input para ingresar depa */ }} 
                                                 <div class="flex flex-col">
                                                     <label for="departamento_cliente_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -256,7 +262,7 @@
                                             </div>
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar Direccion -->
+                                                {{ /* Input para ingresar direccion */ }} 
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="direccion_cliente_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -271,7 +277,7 @@
                                             </div>
                                             <div
                                                 class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar Municipio -->
+                                                {{ /* Input para ingresar municipio */ }} 
                                                 <div class="flex flex-col">
                                                     <label for="municipio_cliente_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
@@ -285,12 +291,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                -->
                             </div>
                         </div>
                         <!-- Resumen de la Venta -->
                         <hr>
-                        <div class="grid grid-cols-12 pl-8">
-                            <table class="table-fixed col-span-4">
+                        <div class="flex pl-8">
+                            <table class="table-fixed">
                                 <thead>
                                     <tr class="border-b-2 border-black-400 h-[40px]">
                                         <th class="font-bold">Resumen</th>
@@ -343,72 +350,61 @@
                                         <td class="text-center">
                                             <div class="flex items-center">
                                                 <input
-                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-md  rounded-tr-md rounded-br-md"
+                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
                                                     placeholder="0.00" disabled v-model="venta_info.total_venta">
                                             </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="grid grid-cols-12 col-span-8 justify-center items-center py-4 px-4 w-full mt-10">
-                                <div class="flex justify-end col-span-6">
-                                    <button v-if="active_tab === 0" @click="register_new_venta(false)"
-                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                        class="h-[40px] text-white font-bold py-2 px-4 rounded justify-end">
-                                        Guardar Venta Consumidor Final
-                                    </button>
-                                    <button v-if="active_tab === 1" @click="register_new_venta(false)"
-                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                        class="h-[40px] text-white font-bold py-2 px-4 rounded justify-end">
-                                        Guardar Venta Crédito Fiscal
-                                    </button>
-                                </div>
-                                <div class="flex justify-end align-bottom col-span-6">
-                                    <a @click="restaurar_ultima_factura()" class="text-sm font-light underline"
-                                        href="#">Restaurar última venta</a>
-                                </div>
+                            <div class="flex justify-center py-4 px-4 pt-24 pl-36">
+                                <button v-if="active_tab === 0" @click="register_new_venta()"
+                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
+                                    Actualizar Pedido (Factura)
+                                </button>
+                                <button v-if="active_tab === 1" @click="register_new_venta()"
+                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
+                                    Guardar Venta Credito Fiscal
+                                </button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <Teleport to="body">
-        <ModalVentaDomicilio :show="showModal" :activeTab="active_tab" :fecha="venta_info.fecha_venta"
-            @close="showModal = false" @save="register_new_venta(true)"></ModalVentaDomicilio>
-    </Teleport>
 </template>
+
 
 <script>
 import axios from 'axios';
 import api_url from '../../config.js';
-import "../../assets/registrar_venta.css"
+import "../../assets/registrar_venta.css";
 import moment from 'moment';
-import { useToast } from 'vue-toastification'
-
-import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue'
+import { useToast } from 'vue-toastification';
+import { useRoute } from 'vue-router';
+import { createElementBlock } from 'vue';
 
 const toast = useToast();
 
 export default {
-    components: {
-        ModalVentaDomicilio
-    },
     data() {
         return {
-            showModal: false,
+            id: null,
+            fechaEditable:true,
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
+
             // Objeto Producto
             producto_info: {},
             // Listado de Detalles (para tabla) y objeto Detalle
             detalle_ventas_lista: [],
             detalle_venta: {
                 id_venta: 0,
-                producto_detalle: [],
-                cantidad_prod_venta: 0,
+                producto: [],
+                cantidad_producto: 0,
                 subtotal_detalle_venta: 0.00,
             },
             //Objeto Venta
@@ -420,6 +416,7 @@ export default {
                 total_iva: 0,
             },
             //Objeto Cliente
+            /*
             cliente_info: {
                 id_cliente: 0,
                 nombre_cliente: "",
@@ -432,7 +429,7 @@ export default {
             },
             departamento_cliente: "La Paz",
             municipio_cliente: "San Luis la Herradura",
-
+            
             //Objeto Creditos Fiscales
             credito_fiscal_info: {
                 id_credito_fiscal: 0,
@@ -440,44 +437,45 @@ export default {
                 fecha_credito_fiscal: null,
                 total_credito_fiscal: 0,
                 total_iva_credito_fiscal: 0,
-            },
+            },*/
+
             //Producto busqueda por nombre
             producto_nombre: '',
+
             //Contador Autoincremental para la tabla Detalle
-            contador_tabla: 0,
+            contador_tabla: 1,
+
             //Subtotal de la venta
             subtotal_venta: 0.00,
+
             //Codigo de Lector de Barras (para buscar producto)
             codigo_barra_lector: '',
             producto_codigo: '', //Para la busqueda de productos por filtro de codigo
             timer: null, //Para el timer del lector de barras
+
             //Para la busqueda de productos por filtro de nombre
             productos: [], // Lista de nombres de productos completa
             sugerencias: [], // Sugerencias de productos a partir del input de busqueda
             mostrar_sugerencias: false, // Mostrar o no las sugerencias
+            /*
             //Para la busqueda de Clientes por filtro de identificador o distintivo
             clientes: [], // Lista de info de clientes completa
             sugerencias_cliente: [], // Sugerencias de Clientes a partir del input de busqueda
             mostrar_sugerencias_cliente: false, // Mostrar o no las sugerencias de Clientes
             campo_identificador_cliente: "", // Campo de identificador de cliente
-
-
-            // Copia de seguridad para restaurar los valores de los campos
-            detalle_ventas_lista_COPIA: [],
-            cliente_info_COPIA: {},
-            venta_info_COPIA: {},
-            credito_fiscal_info_COPIA: {},
-            campo_identificador_cliente_COPIA: "",
-            contador_tabla_COPIA: 1,
+            */
         };
     },
     created() {
         this.asignar_fecha_actual();
         this.get_lista_nombres_productos();
-        this.get_lista_nombres_clientes();
+        //this.get_lista_nombres_clientes();
     },
     mounted() {
         document.addEventListener('keydown', this.redirigir_entrada_input);
+        const route = useRoute();
+        this.id = route.params.id;
+        this.getVenta();
     },
     watch: {
         //Calculos en cada cambio de detalle de venta
@@ -485,45 +483,75 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.venta_info.total_venta = 0;
+
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
-                // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
+
+                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
+
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
+
                 this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
-            },
-            deep: true,
-        },
-        active_tab: {
-            handler() {
-                if (this.active_tab === 1 && this.detalle_ventas_lista.length >= 13) {
-                    this.detalle_ventas_lista.slice(0, 11);
-                    this.contador_tabla = 12;
-                    this.watch_toast('error', 'Limite de productos por factura (Crédito) alcanzado.');
-                }
             },
             deep: true,
         },
     },
     methods: {
+        getVenta() {
+            return new Promise((resolve,reject)=>{
+                resolve();
+                axios.get(api_url + '/ventasCF_detalle/' + this.id).then(
+                response => {
+                    console.log(response.data),
+                        this.venta_info = response.data.ventaCF,
+                        this.calcular_subtotalventa(),
+                        this.detalle_ventas_lista = response.data.ventaCF.detalle_venta,
+                        this.watch_cantidad_producto_load(),
+                        (response.data.ventaCF.venta_domicilio == null ? this.fechaEditable = false : this.fechaEditable=true)
+                });
+            });
+        },
+        calcularSubtotalDetalleVenta(element) {
+            return new Promise((resolve, reject) => {
+                resolve();
+                let precio = Number(element.producto.precio_unitario);
+                let unidadesMedida = element.producto.precio_unidad_de_medida;
+                unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                if (unidadesMedida) {
+                    unidadesMedida.forEach(unidadMedida => {
+                        if (Number(element.cantidad_producto) >= Number(unidadMedida.cantidad_producto)) {
+                            precio = Number(unidadMedida.precio_unidad_medida_producto / unidadMedida.cantidad_producto).toFixed(4);
+                        }
+                    });
+                }
+                element.subtotal_detalle_venta = Number(element.cantidad_producto * precio).toFixed(2);
+                element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
+            });
+        },
+        watch_cantidad_producto_load(){
+            console.log("si entra al cargar")
+            this.detalle_ventas_lista.forEach(element => {
+                this.calcularSubtotalDetalleVenta(element);
+            });
+        },
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
                 // No hay ningún campo activo, enfocar al input de busqueda por codigo
-                this.$refs.codigo_bp?.focus();
+                this.$refs.codigo_bp.focus();
             }
         },
         listener_buscar_codigo_producto() {
             var codigoBarras = this.producto_codigo;
             console.log("codigo barras: " + codigoBarras);
+
             // Reiniciar el temporizador
-            this.timer ? clearTimeout(this.timer) : null;
-            // Si llegamos al limite de 20 detalles, return
-            if (this.contador_tabla >= 20) {
-                console.log("Limite de 20 detalles");
-                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
-                return;
+            if (this.timer) {
+                clearTimeout(this.timer);
             }
+
             // Establecer un nuevo temporizador para ejecutar la búsqueda después de un cierto tiempo (por ejemplo, 500 ms)
             this.timer = setTimeout(() => {
                 this.codigo_barra_lector = codigoBarras;
@@ -536,9 +564,14 @@ export default {
             if (this.detalle_ventas_lista.length === 1) {
                 // Si solo queda un detalle, restablecer los valores en lugar de eliminarlo
                 this.detalle_ventas_lista = []
+                this.contador_tabla = 1;
             } else {
                 this.detalle_ventas_lista.splice(index - 1, 1); //Index-1 porque el index empieza en 1
-                this.contador_tabla = this.contador_tabla - 1;
+                this.contador_tabla = 1;
+                // Actualizar el contador de los detalles restantes
+                for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
+                    this.detalle_ventas_lista[i].id_venta = this.contador_tabla++;
+                }
             }
         },
         //Obtener lista de todos los nombres de productos en la bdd
@@ -553,6 +586,7 @@ export default {
                     console.log(error);
                 });
         },
+        // --------------------- PRODUCTOS ---------------------
         //Buscar el nombre del producto mas cercano al texto ingresado
         listener_producto_nombre() {
             if (this.producto_nombre && this.mostrar_sugerencias) {
@@ -569,8 +603,9 @@ export default {
             this.agregar_producto_detalle();
             this.sugerencias = [];
         },
+        // --------------------- CLIENTES ---------------------
         //Obtener lista de todos los nombres de clientes en la bdd
-        get_lista_nombres_clientes() {
+        /*get_lista_nombres_clientes() {
             return axios
                 .get(api_url + '/clientes/identificador/lista')
                 .then((response) => {
@@ -580,9 +615,9 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 });
-        },
+        },*/
         //Buscar el nombre del Cliente mas cercano al texto ingresado
-        listener_cliente_identificador() {
+        /*listener_cliente_identificador() {
             if (this.campo_identificador_cliente) {
                 this.sugerencias_cliente = this.clientes.filter((cliente) => {
                     return cliente.distintivo_cliente.toLowerCase().includes(this.campo_identificador_cliente.toLowerCase());
@@ -590,9 +625,9 @@ export default {
             } else {
                 this.sugerencias_cliente = [];
             }
-        },
+        },*/
         //Seleccionar sugerencia de Clientes en buscador
-        seleccionar_sugerencia_cliente(sugerencia_cliente) {
+        /*seleccionar_sugerencia_cliente(sugerencia_cliente) {
             this.campo_identificador_cliente = sugerencia_cliente.distintivo_cliente;
             const id_cliente = sugerencia_cliente.id_cliente;
             this.llenar_detalle_cliente_credito(id_cliente);
@@ -637,7 +672,8 @@ export default {
                 .catch((err) => {
                     console.log(err);
                 });
-        },
+        },*/
+        // --------------------- CLIENTES ---------------------
         //Buscar Producto por codigo
         get_producto_segun_codigo() {
             return axios
@@ -669,19 +705,9 @@ export default {
         //Actualizar Fecha automaticamente
         asignar_fecha_actual() {
             this.venta_info.fecha_venta = moment().format('yyyy-MM-DD');
-            this.credito_fiscal_info.fecha_credito_fiscal = moment().format('yyyy-MM-DD');
         },
         //Anadir registro en tabla DETALLE
         agregar_producto_detalle() {
-            if (this.active_tab === 0 && this.contador_tabla >= 20) {
-                console.log("Limite de 20 detalles, consumidor final");
-                this.watch_toast('error', 'Limite de productos por factura (cons. final) alcanzado.');
-                return;
-            } else if (this.active_tab === 1 && this.contador_tabla >= 13) {
-                console.log("Limite de 12 detalles, credito fiscal");
-                this.watch_toast('error', 'Limite de productos por factura (crédito) alcanzado.');
-                return;
-            }
             this.get_producto_segun_nombre()
                 .then(() => {
                     return this.add_detalle_venta();
@@ -724,55 +750,75 @@ export default {
         },
         //Metodos de Detalles
         add_detalle_venta() {
-            if (this.contador_tabla >= 20) {
-                console.log("Limite de 20 detalles");
-                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
-                return;
-            }
             //Habian problemas con el objeto, toca hacer una copia
             const producto_copia = JSON.parse(JSON.stringify(this.producto_info));
             // Verificar que el producto no esté ya en la tabla
             const producto_ya_agregado = this.detalle_ventas_lista.find((detalle) => {
-                return detalle.producto_detalle.codigo_barra_producto === producto_copia.codigo_barra_producto;
+                return detalle.producto.codigo_barra_producto === producto_copia.codigo_barra_producto;
             });
             if (producto_ya_agregado) {
                 // Si el producto ya está en la tabla, aumentar la cantidad a ese detalle
-                producto_ya_agregado.cantidad_prod_venta++;
-                return new Promise((resolve, reject) => {
-                    resolve();
-                });
+                producto_ya_agregado.cantidad_producto++;
+                this.calcularSubtotalDetalleVenta(producto_ya_agregado);
+                return this.calcular_subtotalventa();
             }
             return new Promise((resolve, reject) => {
                 const detalle = {
-                    id_venta: 1, //Este valor es solo para usarlo en la tabla
-                    producto_detalle: producto_copia,
-                    cantidad_prod_venta: 1,
+                    id_venta: this.contador_tabla, //Este valor es solo para usarlo en la tabla
+                    producto: producto_copia,
+                    cantidad_producto: 1,
                     subtotal_detalle_venta: this.producto_info.precio_producto,
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
                 this.contador_tabla++;
+                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length-1]);
                 resolve();
             });
         },
-
-        verificar_unidad_medida(detalle) {
+        //Observar cambios en cantidad de producto y actualizar subtotal
+        watch_cantidad_producto(fila) {
+            //this.verificar_unidad_medida(fila)
+            this.calcularSubtotalDetalleVenta(fila)
+                .then(() => {
+                    return this.calcular_subtotalventa();
+                })
+                .then(() => {
+                    console.log("Todo bien todo correcto")
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        verificar_unidad_medida(fila) {
             return new Promise((resolve, reject) => {
+                resolve();
+                // Aqui se agregará la logica para verificar la unidad de medida en cada cambio de cantidad
+                // 2d sprint
+                console.log("Verificando unidad de medida: ");
+                console.log(fila);
+
+
                 // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
-                // var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
-                var cantidad_compra = detalle.cantidad_prod_venta;
+                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
+
+                var cantidad_compra = detalle.cantidad_producto;
+
                 // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
-                var preciosOrdenados = detalle.producto_detalle.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                var preciosOrdenados = detalle.producto.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                console.log("Aqui estoy")
+                console.log(preciosOrdenados[0]);
                 // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
                 let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
 
-                precioUnidadCercano ? console.log('Verificando precios extras...') : resolve();
-
-                if (detalle.cantidad_prod_venta < precioUnidadCercano.cantidad_producto) {
-                    detalle.producto_detalle.precio_unitario = detalle.producto_detalle.precio_unitario_original;
+                console.log(fila.cantidad_producto + '<' + precioUnidadCercano.cantidad_producto);
+                if (fila.cantidad_producto < precioUnidadCercano.cantidad_producto) {
+                    console.log("El precio unitario es menor al precio de la unidad de medida");
+                    detalle.producto.precio_unitario = detalle.producto.precio_unitario_original;
                     resolve();
                 } else {
                     for (let i = 0; i < preciosOrdenados.length; i++) {
+                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
                         if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
                             precioUnidadCercano = preciosOrdenados[i];
                         } else {
@@ -780,126 +826,100 @@ export default {
                         }
                     }
                     // Calcular el precio_producto basado en el promedio entre cantidad_producto y precio_unidad
-                    detalle.producto_detalle.precio_unitario = (parseFloat(precioUnidadCercano.precio_unidad_medida_producto) / parseFloat(precioUnidadCercano.cantidad_producto)).toFixed(4);
-                    console.log(detalle.producto_detalle.precio_unitario);
+                    detalle.producto.precio_unitario = (parseFloat(precioUnidadCercano.precio_unidad_medida_producto) / parseFloat(precioUnidadCercano.cantidad_producto)).toFixed(4);
+                    console.log(detalle.producto.precio_unitario);
                     resolve();
                 }
             });
+
+        },
+        //Subtotal de la venta RESUMEN
+        calcular_subtotalventa() {
+            new Promise((resolve, reject) => {
+                this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                    0.00
+                );
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                resolve();
+            });
         },
         //Registrar Venta y obtener el id de la venta registrada
-        register_new_venta(is_domicilio) {
-            if (this.detalle_ventas_lista.length === 0) {
-                this.watch_toast('error', 'No se ha agregado ningún producto');
+        register_new_venta() {
+            if (this.detalle_ventas_lista.length == 0) {
+                this.watch_toast('error', 'No se ha agregado ningun producto');
                 return;
             }
-            const detalles_listado_limpio = this.prepare_detalles_listado_limpio();
-            if (this.active_tab === 0) {
-                this.register_venta(detalles_listado_limpio, is_domicilio);
-            } else if (this.active_tab === 1) {
-                this.register_credito(detalles_listado_limpio, is_domicilio);
-            }
-        },
-
-        prepare_detalles_listado_limpio() {
-            return this.detalle_ventas_lista.map(detalle => {
-                if (this.active_tab === 0) {
-                    return {
-                        id_venta: 1,
-                        codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
-                        cantidad_producto: detalle.cantidad_prod_venta,
+            var datos_ventas = {};
+            var detalles_listado_limpio = [];
+            var detalle_obj = {};
+            if (this.active_tab == 0) {
+                // Para obtener el listado de ventas limpio para la insercion en la base de datos
+                this.detalle_ventas_lista.map((detalle) => {
+                    detalle_obj = {
+                        id_venta: 0,
+                        codigo_barra_producto: String(detalle.producto.codigo_barra_producto),
+                        cantidad_producto: detalle.cantidad_producto,
                         subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
                     };
-                } else {
-                    return {
-                        id_creditofiscal: 1,
+                    detalles_listado_limpio.push(detalle_obj);
+                });
+                axios.put(api_url + '/modificar_pedido_factura/' + this.id,
+                    datos_ventas = {
+                        venta: {
+                            nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
+                            fecha_venta: this.venta_info.fecha_venta,
+                            total_venta: Number(this.subtotal_venta),
+                            total_iva: Number(this.venta_info.total_iva),
+                        },
+                        detalles: detalles_listado_limpio,
+                    }).then((resp) => {
+                        this.watch_toast(resp.data.respuesta, "Venta actualizada correctamente");
+                        this.limpiar_campos();
+                        this.$router.push('/listar_pedidos_domicilio')
+                        this.$router.go(1);
+                        //router.replace('/listar_pedidos_domicilio')
+                    }).catch((error) => {
+                        this.watch_toast(error.response.data.respuesta, error.response.data.mensaje);
+                        //this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
+                        throw error;
+                    });
+            } /*else if (this.active_tab == 1) {
+                if (this.cliente_info.id_cliente == 0) {
+                    this.watch_toast('error', 'Debe seleccionar un Cliente');
+                    return;
+                }
+                this.detalle_ventas_lista.map((detalle) => {
+                    detalle_obj = {
+                        id_creditofiscal: 0,
                         codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                         cantidad_producto_credito: detalle.cantidad_prod_venta,
                         subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
                     };
-                }
-            });
-        },
-
-        register_venta(detalles_listado_limpio, is_domicilio) {
-            const datos_ventas = {
-                venta: {
-                    nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
-                    fecha_venta: this.venta_info.fecha_venta,
-                    total_venta: Number(this.venta_info.total_venta),
-                    total_iva: Number(this.venta_info.total_iva)
-                },
-                detalles: detalles_listado_limpio,
-                domicilio: is_domicilio
-            };
-
-            axios.post(api_url + '/ventas/registrar/', datos_ventas)
-                .then((response) => {
-                    console.log(response);
-                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Venta registrada correctamente');
-                    this.limpiar_campos();
-
-                })
-                .catch(error => {
-                    this.handle_error(error, 'Venta');
+                    detalles_listado_limpio.push(detalle_obj);
                 });
+                axios.post(api_url + '/creditos/registrar/',
+                    datos_ventas = {
+                        credito: {
+                            id_cliente: this.cliente_info.id_cliente,
+                            fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
+                            total_credito: Number(this.venta_info.total_venta),
+                            total_iva_credito: Number(this.venta_info.total_iva),
+                        },
+                        detalles: detalles_listado_limpio,
+                    }).then(() => {
+                        this.watch_toast('success', 'Credito registrado correctamente');
+                        this.limpiar_campos();
+                    }).catch((error) => {
+                        this.watch_toast('error', error.response.data.mensaje);
+                        this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
+                        throw error;
+                    })
+            }*/
         },
-
-        register_credito(detalles_listado_limpio, is_domicilio) {
-            if (this.cliente_info.id_cliente === 0) {
-                this.watch_toast('error', 'Debe seleccionar un Cliente');
-                return;
-            }
-
-            const datos_ventas = {
-                credito: {
-                    id_cliente: this.cliente_info.id_cliente,
-                    fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
-                    total_credito: Number(this.venta_info.total_venta),
-                    total_iva_credito: Number(this.venta_info.total_iva),
-                },
-                detalles: detalles_listado_limpio,
-                domicilio: is_domicilio,
-            };
-
-            console.log('credito va?');
-            console.log(is_domicilio);
-
-            axios.post(api_url + '/creditos/registrar/', datos_ventas)
-                .then((response) => {
-                    console.log(response);
-                    is_domicilio ? this.watch_toast('success', 'Pedido a domicilio registrado') : this.watch_toast('success', 'Crédito registrado correctamente');
-                    this.limpiar_campos();
-                })
-                .catch(error => {
-                    this.handle_error(error, 'Crédito');
-                });
-        },
-
-        handle_error(error, operation) {
-            this.watch_toast('error', error.response?.data.mensaje || `Ocurrió un error al registrar el ${operation}`);
-            throw error;
-        },
-
         limpiar_campos() {
-            // Copia de seguridad para restaurar los valores de los campos en caso de error
-            this.detalle_ventas_lista_COPIA = this.detalle_ventas_lista;
-            this.cliente_info_COPIA = this.cliente_info;
-            this.venta_info_COPIA = this.venta_info;
-            this.credito_fiscal_info_COPIA = this.credito_fiscal_info;
-            this.campo_identificador_cliente_COPIA = this.campo_identificador_cliente;
-            this.contador_tabla_COPIA = this.contador_tabla;
-
             this.detalle_ventas_lista = [];
-            this.cliente_info = {
-                id_cliente: 0,
-                nombre_cliente: "",
-                nit_cliente: "",
-                nrc_cliente: "",
-                dui_cliente: "",
-                direccion_cliente: "",
-                municipio_cliente: {},
-                identificador_cliente: ""
-            };
+
             this.venta_info = {
                 id_venta: 0,
                 nombre_cliente_venta: "",
@@ -907,30 +927,11 @@ export default {
                 total_venta: 0,
                 total_iva: 0,
             };
-            this.credito_fiscal_info = {
-                id_credito_fiscal: 0,
-                id_cliente: 0,
-                fecha_credito_fiscal: this.venta_info.fecha_venta,
-                total_credito_fiscal: 0,
-                total_iva_credito_fiscal: 0,
-            };
-            this.campo_identificador_cliente = "";
             this.contador_tabla = 1;
-
-            this.asignar_fecha_actual();
-        },
-        restaurar_ultima_factura() {
-            // Restaurar los valores de los campos en caso de error (recuperar ultima venta enviada)
-            this.detalle_ventas_lista = this.detalle_ventas_lista_COPIA;
-            this.cliente_info = this.cliente_info_COPIA;
-            this.venta_info = this.venta_info_COPIA;
-            this.credito_fiscal_info = this.credito_fiscal_info_COPIA;
-            this.campo_identificador_cliente = this.campo_identificador_cliente_COPIA;
-            this.contador_tabla = this.contador_tabla_COPIA;
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {
-            if (tipo == "success") {
+            if (tipo) {
                 toast.success(mensaje, {
                     position: "bottom-left",
                     timeout: 2994,
@@ -961,22 +962,6 @@ export default {
                     rtl: false
                 });
             }
-        },
-        // Modal registrar venta domicilio
-        nuevo_venta_domicilio() {
-            this.venta_domicilio_info = {
-                id_venta_domicilio: 0,
-                nombre_cliente_venta_domicilio: "",
-                direccion_venta_domicilio: "",
-                telefono_venta_domicilio: "",
-                total_venta_domicilio: 0,
-                total_iva_venta_domicilio: 0,
-                fecha_venta_domicilio: this.venta_info.fecha_venta,
-            };
-            this.detalle_ventas_domicilio_lista = [];
-            this.campo_identificador_cliente = "";
-            this.contador_tabla = 1;
-            this.$refs.modal_venta_domicilio.show();
         },
     }
 };

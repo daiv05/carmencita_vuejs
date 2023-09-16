@@ -1,9 +1,9 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue'
+
 </script>
 
 <template>
-    <NavBar />
+    
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -23,10 +23,13 @@ import NavBar from '@/components/NavBar.vue'
                     <div class="tab" :class="{ 'active': activeTab === 0 }" @click="activeTab = 0">
                         Credito Fiscal
                     </div>
-                    <router-link to="/sales_list" class="buttonColor bg-blue-700 text-white font-bold py-2 px-4 rounded">Regresar a la lista</router-link>
                 </div>
 
-
+                <div class="flex justify-start items-center mt-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+                </div>
                 <!-- Contenido de los tabs -->
 
                 <div class="tab-content flex-grow">
@@ -235,9 +238,6 @@ import axios from 'axios';
 import api_url from '../../config.js';
 
 export default {
-    components: {
-        NavBar
-    },
     data() {
         return {
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
