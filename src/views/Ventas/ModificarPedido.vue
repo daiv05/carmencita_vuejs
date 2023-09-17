@@ -1,5 +1,5 @@
 <template>
-    
+    <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -386,10 +386,14 @@ import moment from 'moment';
 import { useToast } from 'vue-toastification';
 import { useRoute } from 'vue-router';
 import { createElementBlock } from 'vue';
+import NavBar from '@/components/NavBar.vue';
 
 const toast = useToast();
 
 export default {
+    components: {
+        NavBar: NavBar,
+    },
     data() {
         return {
             id: null,

@@ -1,11 +1,11 @@
 <script setup>
 import api_url from "../../config";
-
+import NavBar from "../../components/NavBar.vue";
 import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesactivar.vue";
 </script>
 <template>
 <main>
-     
+     <NavBar></NavBar>
      <div class = "container mx-auto p-6 flex justify-between">
                <h1 class="font-bold text-blue-700 text-2xl " >Gestión de Empleados</h1>
                <router-link to="empleado_agregar" class="buttonColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Agregar Empleado</router-link>

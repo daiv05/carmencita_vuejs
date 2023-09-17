@@ -3,7 +3,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 </script>
 <template>
     <main>
-      
+      <NavBar></NavBar>
         <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600 ml-[5%] mt-[2%]">Informe de historial de ventas por producto</h1>
         <Form @submit="obtenerDatosFiltrados($event)">
         <section class="grid grid-row-2 gap-5 w-[90%] m-auto">
@@ -129,6 +129,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import axios from 'axios';
 import ControlPaginas from '../../helpers/ControlPagina.js';
 import ComponenteTablaInformesVue from '../../components/Inventario/ComponenteTablaInformes.vue';
+import NavBar from "../../components/NavBar.vue";
 
 import moment from 'moment';
 
@@ -136,6 +137,7 @@ export default {
 
     components:{
       ComponenteTablaInformesVue,
+      NavBar,
     },
     data(){
         return {

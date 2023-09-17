@@ -1,16 +1,15 @@
 <script setup>
 import { RouterLink } from 'vue-router';
-
+import NavBar from '../../components/NavBar.vue'
 import api_url from '../../config.js'
 import { CalendarIcon } from '@heroicons/vue/24/outline'
-
 import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vue'
 
 </script>
 
 <template>
     <main>
-        
+        <NavBar></NavBar>
         <div class="bg-slate-100 pb-4 min-h-screen grid">
             <div class="bg-white w-full mx-auto p-5 h-fit shadow-md">
                 <h1 class="font-bold text-blue-700 text-2xl ">Registro de asistencia</h1>

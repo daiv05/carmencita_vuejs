@@ -1,6 +1,6 @@
 <script setup>
 import TheWelcome from '../components/TheWelcome.vue'
-
+import NavBar from '@/components/NavBar.vue';
 import BarraTitulo from '../components/BarraTitulo.vue';
 import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
 import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } from '@heroicons/vue/24/outline'
@@ -9,7 +9,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
 <template>
   <main class="mb-5">
-    
+    <NavBar></NavBar>
     <BarraTitulo :titulo="titulo"></BarraTitulo>
     <div class="container flex justify-center py-5">
       <h1 class="font-bold text-lg">¡Bienvenido!</h1>

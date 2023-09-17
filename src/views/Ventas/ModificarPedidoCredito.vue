@@ -1,5 +1,5 @@
 <template>
-    
+    <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -381,12 +381,15 @@ import api_url from '../../config.js';
 import "../../assets/registrar_venta.css"
 import moment from 'moment';
 import { useToast } from 'vue-toastification'
-
+import NavBar from '@/components/NavBar.vue';
 import { useRoute } from 'vue-router';
 
 const toast = useToast();
 
 export default {
+    components: {
+        NavBar: NavBar,
+    },
     data() {
         return {
             id: null,

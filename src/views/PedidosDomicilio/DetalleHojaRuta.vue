@@ -1,4 +1,5 @@
 <template>
+    <NavBar></NavBar>
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -200,7 +201,7 @@ import api_url from '../../config.js';
 import "../../assets/registrar_venta.css"
 import moment from 'moment';
 import { useToast } from 'vue-toastification'
-
+import NavBar from '../../components/NavBar.vue';
 import ModalConfirmarPagoDomicilio from '@/components/Ventas/ModalConfirmarPagoDomicilio.vue'
 import ModalConfirmarEntregasHoja from '../../components/Ventas/ModalConfirmarEntregasHoja.vue';
 
@@ -210,7 +211,8 @@ export default {
     props: ['ruta'],
     components: {
         ModalConfirmarPagoDomicilio: ModalConfirmarPagoDomicilio,
-        ModalConfirmarEntregasHoja: ModalConfirmarEntregasHoja
+        ModalConfirmarEntregasHoja: ModalConfirmarEntregasHoja,
+        NavBar: NavBar
     },
     data() {
         return {

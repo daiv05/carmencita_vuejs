@@ -1,9 +1,9 @@
 <script setup>
-
+import NavBar from '@/components/NavBar.vue';
 </script>
 
 <template>
-    
+    <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
             <!-- Encabezado -->
@@ -59,13 +59,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="item, i in CFSale.detallecredito" :key="item.id_creditofiscal" class="border-b-2 border-black-400 h-[40px] bg-black-300">
-                                                <td v-text="(i+1)" class="text-center"></td>
-                                                <td class="text-center">{{item.producto.nombre_producto}}</td>
-                                                <td class="text-center">{{item.cantidad_producto_credito}}</td>
-                                                <td class="text-center">{{item.producto.precio_unitario}}</td>
-                                                <td class="text-center">{{item.subtotal_detalle_credito}}</td>
-                                            
+                                        <tr v-for="item, i in CFSale.detallecredito" :key="item.id_creditofiscal"
+                                            class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                            <td v-text="(i + 1)" class="text-center"></td>
+                                            <td class="text-center">{{ item.producto.nombre_producto }}</td>
+                                            <td class="text-center">{{ item.cantidad_producto_credito }}</td>
+                                            <td class="text-center">{{ item.producto.precio_unitario }}</td>
+                                            <td class="text-center">{{ item.subtotal_detalle_credito }}</td>
+
                                         </tr>
                                     </tbody>
                                 </table>
@@ -85,8 +86,8 @@
                                             Fecha de Venta
                                         </label>
                                         <input id="fecha_venta" type="text" name="fecha_venta"
-                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" 
-                                            disabled v-model="CFSale.fecha_credito"/>
+                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            disabled v-model="CFSale.fecha_credito" />
                                     </div>
                                 </div>
 
@@ -99,7 +100,7 @@
                                         </label>
                                         <input id="nombre_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            v-model="CFSale.cliente.nombre_cliente" disabled/>
+                                            v-model="CFSale.cliente.nombre_cliente" disabled />
                                     </div>
                                 </div>
 
@@ -112,7 +113,7 @@
                                         </label>
                                         <input id="distintivo_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            v-model="CFSale.cliente.distintivo_cliente" disabled/>
+                                            v-model="CFSale.cliente.distintivo_cliente" disabled />
                                     </div>
                                 </div>
                                 <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
@@ -124,7 +125,7 @@
                                         </label>
                                         <input id="distintivo_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            v-model="CFSale.cliente.nit_cliente" disabled/>
+                                            v-model="CFSale.cliente.nit_cliente" disabled />
                                     </div>
                                 </div>
                                 <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
@@ -136,7 +137,7 @@
                                         </label>
                                         <input id="distintivo_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            v-model="CFSale.cliente.nrc_cliente" disabled/>
+                                            v-model="CFSale.cliente.nrc_cliente" disabled />
                                     </div>
                                 </div>
                                 <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
@@ -148,7 +149,7 @@
                                         </label>
                                         <input id="distintivo_cliente" type="text" name="nombre_cliente"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                            v-model="CFSale.cliente.dui_cliente" disabled/>
+                                            v-model="CFSale.cliente.dui_cliente" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -180,12 +181,11 @@
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled
-                                                    v-model="subTotal" type="text" readonly>
+                                                    placeholder="0.00" disabled v-model="subTotal" type="text" readonly>
                                             </div>
                                         </td>
                                     </tr>
-                                    
+
                                     <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
@@ -200,8 +200,7 @@
                                                 </span>
                                                 <input
                                                     class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" disabled
-                                                    v-model="CFSale.total_iva_credito">
+                                                    placeholder="0.00" disabled v-model="CFSale.total_iva_credito">
                                             </div>
                                         </td>
                                     </tr>
@@ -215,8 +214,8 @@
                                             <div class="flex items-center">
                                                 <input
                                                     class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
-                                                    placeholder="0.00" disabled
-                                                    v-model="CFSale.total_credito" :key="id_creditofiscal">
+                                                    placeholder="0.00" disabled v-model="CFSale.total_credito"
+                                                    :key="id_creditofiscal">
                                             </div>
                                         </td>
                                     </tr>
@@ -238,6 +237,9 @@ import axios from 'axios';
 import api_url from '../../config.js';
 
 export default {
+    components: {
+        NavBar
+    },
     data() {
         return {
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
@@ -254,25 +256,25 @@ export default {
     },
 
     mounted() {
-        
+
     },
 
     methods: {
-        getDetalleVenta(id_creditofiscal){
-            axios.get(api_url +'/creditos_detalle/'+ id_creditofiscal +'/')
-            .then(response=>{
-                this.CFSale= response.data;
-                this.calcularSubTotal();
-                console.log(this.CFSale);
-            }).catch(error=>{
-                console.log(error);
-            });
+        getDetalleVenta(id_creditofiscal) {
+            axios.get(api_url + '/creditos_detalle/' + id_creditofiscal + '/')
+                .then(response => {
+                    this.CFSale = response.data;
+                    this.calcularSubTotal();
+                    console.log(this.CFSale);
+                }).catch(error => {
+                    console.log(error);
+                });
         },
 
-        calcularSubTotal(){
+        calcularSubTotal() {
             const totalVenta = Number(this.CFSale.total_credito);
             const totalIva = Number(this.CFSale.total_iva_credito);
-            this.subTotal= Number(totalVenta - totalIva).toFixed(2);
+            this.subTotal = Number(totalVenta - totalIva).toFixed(2);
         }
     },
 };
