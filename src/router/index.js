@@ -22,6 +22,9 @@ import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
+import InformeDeProductosMasVendidos from '../views/Estadisticas/InformeDeProductosMasVendidos.vue';
+import InformeDeProductosMenosVendidos from '../views/Estadisticas/InformeDeProductosMenosVendidos.vue';
+import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExistenciasDeProductos.vue';
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
@@ -182,15 +185,30 @@ const router = createRouter({
       component:InformeDeVentasTotales
     },
     {
+      path:'/informe_productos_mas_vendidos',
+      name:'informe_productos_mas_vendidos',
+      component:InformeDeProductosMasVendidos
+    },
+    {
+      path:'/informe_productos_menos_vendidos',
+      name:'informe_productos_menos_vendidos',
+      component:InformeDeProductosMenosVendidos
+    },
+    {
+      path:'/informe_existencias_de_productos',
+      name:'informe_existencias_de_productos',
+      component:InformeDeExistenciasDeProductos
+    },
+    {
       path:"/informe_inventario_valorado",
       name:"informe_inventario_valorado",
-      component:InformeDeInventarioValorado,
+      component:InformeDeInventarioValorado
     },
     {
       path:"/informe_ventas_productos",
       name:"informe_ventas_productos",
       component:InformeDeTotalVentasPorProducto,
-    },
+    },  
     {
       path: '/hoja_de_ruta/detalles/:ruta',
       name: 'hoja_de_ruta',
@@ -201,7 +219,7 @@ const router = createRouter({
       path:'/listar_hojas_de_ruta',
       name:'listar_hojas_de_ruta',
       component:ListarHojasDeRuta
-    }
+    },
     // {
     //   path: '/:pathMatch(.*)*',
     //   name: 'not_found',

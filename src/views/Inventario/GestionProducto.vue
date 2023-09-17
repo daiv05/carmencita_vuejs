@@ -99,7 +99,7 @@ const agregar_producto = "agregar_producto";
                                                 </div>
                                             </td>
                                             <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.codigo_barra_producto }}</td>
-                                            <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.precio_unitario }}</td>
+                                            <td class="px-4 py-3 text-ms font-semibold text-center">$ {{ producto.precio_unitario }}</td>
                                             <td class="px-4 py-3 text-ms font-semibold text-center">{{ producto.cantidad_producto_disponible }}</td>                                        
                                             <td class="px-4 py-3 text-xs text-center">
                                                 <button type="button" class="w-[70%] rounded-full focus:outline-none text-white hover:bg-cyan-500 focus:ring-4 focus:ring-cyan-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 bg-cyan-500 dark:hover:bg-cyan-700 dark:focus:ring-cyan-500" @click="modificarProducto(producto.codigo_barra_producto)">Editar</button>
