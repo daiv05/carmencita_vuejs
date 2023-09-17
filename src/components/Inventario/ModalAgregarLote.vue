@@ -4,8 +4,9 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
 </script>
 
 <template>
-  <Form
-    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
+  <div class="modal-mask">
+    <Form
+    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-lg shadow-md z-999 fixed top-[15%] left-0 right-0 modal-content"
     @submit="enviarFormulario($event)"
   >
     <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Agregar Lote</h1>
@@ -85,12 +86,13 @@ import {Form,Field,ErrorMessage} from 'vee-validate';
         <ErrorMessage name="costo_lote" class="error"/>
       </div>
     </div>
-    <div class="flex justify-center align-center mt-[1%] gap-4">
-        <input type="submit" value="Guardar" class=" w-[15%] text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer"/>
-        <button @click="cerrarModal" type="button" class=" w-[15%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
+    <div class="flex justify-center align-center mt-[3%] gap-4">
+        <input type="submit" value="Guardar" class=" w-[15%] text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer text-center"/>
+        <button @click="cerrarModal" type="button" class=" w-[15%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 text-center">Cancelar</button>
     </div>
     
   </Form>
+  </div>
 </template>
 
 <script>
@@ -196,6 +198,7 @@ export default {
       )
       .catch(
         (response)=>{
+          console.log(response);
           alert(response);
         }
       );
@@ -241,8 +244,24 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .error{
     color: red;
+}
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    transition: opacity 0.3s ease;
+}
+.modal-content{
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 </style>

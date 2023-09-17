@@ -133,7 +133,7 @@ const agregar_producto = "agregar_producto";
                 <a href="#"
                     class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 ml-0 rounded-l-lg leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
             </li>
-            <li v-for="page in calcularNumeroPaginas()" @click = "obtenerPaginaProducto(page)" :id="crearIdPaginacion(page)" >
+            <li v-if ="calcularNumeroPaginas()>0" v-for="page in calcularNumeroPaginas()" @click = "obtenerPaginaProducto(page)" :id="crearIdPaginacion(page)" >
 				<a href="#" :class="{pageActivate : page === controlPagina }"
 					class="bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700 leading-tight py-2 px-3 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ page }}</a>
 			</li>
@@ -184,7 +184,7 @@ export default {
             controlPagina: 0,
         };
     },
-    created() {
+    beforeMount() {
         this.obtenerDatosPaginado();
         this.obtenerProductos();
     },
@@ -214,6 +214,7 @@ export default {
                 this.controlPagina = this.productoPaginado.current_page;
                 console.log(this.productoPaginado.links);
                 console.log(this.productoPaginado.data);
+                this.obtenerProductos();
             })
                 .catch(error => {
                 console.log(error);
@@ -301,7 +302,7 @@ export default {
             })
             
         },
-        mostrarProducto(id_producto) {
+    mostrarProducto(id_producto) {
             // Mostrar el modal de consultar producto
             for (let index = 0; index < this.listaProductos.length; index++) {
                 if (this.listaProductos[index].codigo_barra_producto == id_producto) {

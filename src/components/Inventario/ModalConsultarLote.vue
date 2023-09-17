@@ -1,6 +1,7 @@
 <template>
-  <Form
-    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0"
+  <div class="modal-mask">
+    <Form
+    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0 modal-content"
     @submit="enviarFormulario($event)"
   >
     <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Consultar Lote</h1>
@@ -58,6 +59,8 @@
     </div>
     
   </Form>
+  </div>
+  
 </template>
 <script>
 import axios from 'axios';
@@ -127,3 +130,22 @@ export default {
 }
 
 </script>
+
+<style scoped>
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    transition: opacity 0.3s ease;
+}
+.modal-content{
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+</style>
