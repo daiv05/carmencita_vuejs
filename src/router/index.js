@@ -29,7 +29,6 @@ import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventar
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
-import ImprimirHojaRuta from '../views/PedidosDomicilio/ImprimirHojaRuta.vue';
 import axios from 'axios';
 
 const router = createRouter({
