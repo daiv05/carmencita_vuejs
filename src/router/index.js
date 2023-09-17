@@ -27,6 +27,7 @@ import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTota
 import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
+import Creditos from '../views/Creditos/Creditos.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -212,7 +213,12 @@ const router = createRouter({
       path:'/informe_productos_por_vencer',
       name:'informe_productos_por_vencer',
       component:InformeDeProductosPorVencer
-    }
+    },
+    {
+      path:'/registrar_credito_proveedor',
+      name:'registrar_credito_proveedor',
+      component:Creditos
+    },
   ]
 })
 
