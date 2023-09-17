@@ -187,9 +187,9 @@
             @confirmed="pago_realizado()" @close="showModal_pago_individual = false" :is_credito="is_credito">
         </ModalConfirmarPagoDomicilio>
     </Teleport>
-    <Teleport to="body">
-        <ModalConfirmarEntregasHoja :show="showModal_entregas_all" :hoja_ruta="factura_modal"
-            @confirmed="confirmar_entregas()" @close="showModal_entregas_all = false"></ModalConfirmarEntregasHoja>
+    <Teleport to="body" v-if="hoja_ruta != null">
+        <ModalConfirmarEntregasHoja @close="showModal_entregas_all = false" :show="showModal_entregas_all" :id_hoja="hoja_ruta.id_hr" @confirmed="confirmacion_entregas()">
+        </ModalConfirmarEntregasHoja>
     </Teleport>
 </template>
 
@@ -297,10 +297,12 @@ export default {
             this.obtener_detalles_ruta();
         },
         marcar_hr_entregada() {
+            //this.hoja_ruta.entregada == 1 ? this.watch_toast('success', 'Todos los pedidos ya han sido entregados') : this.showModal_entregas_all = true;
             this.showModal_entregas_all = true;
         },
-        confirmar_entregas() {
+        confirmacion_entregas() {
             this.showModal_entregas_all = false;
+            this.obtener_detalles_ruta();
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {

@@ -4,19 +4,10 @@
             <div class="modal-container">
                 <h1 class="text-2xl font-bold mb-6 text-center">Confirmar Entregas</h1>
                 <div class="mb-4 flex flex-row items-center justify-center">
-                    <p for="fecha_pedido text-center">¿Está seguro que desea confirmar la entrega de todos los pedidos?</p>
-                </div>
-                <div class="mb-4 flex flex-row items-center justify-center">
-                    <p v-if="!is_credito" for="fecha_pedido" class="text-center font-bold text-blue-950">------- Cliente: {{
-                        factura.venta.nombre_cliente_venta }} -------</p>
-                    <p v-else for="fecha_pedido" class="text-center">------- Cliente: {{
-                        factura.credito_fiscal.cliente.distintivo_cliente }} -------</p>
+                    <p for="fecha_pedido text-center">¿Está seguro que desea confirmar la entrega (y pago) de todos los
+                        pedidos?</p>
                 </div>
                 <div>
-                    <div class="mb-4">
-                        <h3 class="text-xl text-blue-950 font-bold mb-6 text-center">Monto Cancelado: ${{ total.toFixed(2)
-                        }}</h3>
-                    </div>
                     <div class="text-center">
                         <button @click="confirmar_pago()"
                             class="bg-red-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">Confirmar</button>
@@ -37,37 +28,18 @@ import { useToast } from 'vue-toastification'
 const toast = useToast();
 
 export default {
-    data() {
-        return {
-        }
-    },
-    props: ['show', 'factura', 'total', 'is_credito'],
-    mounted() {
-    },
+    props: ['show', 'id_hoja'],
     methods: {
         confirmar_pago() {
-            console.log(this.factura);
-            if (this.is_credito) {
-                axios.post(api_url + '/creditos/confirmar_pago/' + this.factura.id_cfd)
-                    .then(response => {
-                        console.log(response.data)
-                        this.watch_toast("success", "Pago confirmado");
-                        this.$emit('confirmed');
-                    }).catch(error => {
-                        this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
-                        console.log(error);
-                    });
-            } else {
-                axios.post(api_url + '/ventas/confirmar_pago/' + this.factura.id_vd)
-                    .then(response => {
-                        console.log(response.data)
-                        this.watch_toast("success", "Pago confirmado");
-                        this.$emit('confirmed');
-                    }).catch(error => {
-                        this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
-                        console.log(error);
-                    });
-            }
+            axios.post(api_url + '/hoja_de_ruta/marcar_entregada/' + this.id_hoja)
+                .then(response => {
+                    console.log(response.data)
+                    this.watch_toast("success", "Todos los pedidos fueron marcados como entregados");
+                    this.$emit('confirmed');
+                }).catch(error => {
+                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
+                    console.log(error);
+                });
 
         },
         //Mostrar Toast de exito o error
