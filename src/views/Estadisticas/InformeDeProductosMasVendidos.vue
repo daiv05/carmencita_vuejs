@@ -94,13 +94,11 @@
 </template>
 
 <script>
-import NavBar from '../../components/NavBar.vue'
 import ControlPagina from '../../helpers/ControlPagina.js'
 import axios from 'axios'
 import ComponenteTablaInformesVue from '../../components/Inventario/ComponenteTablaInformes.vue';
 export default {
     components: {
-        NavBar,
         ComponenteTablaInformesVue,
     },
     data() {
