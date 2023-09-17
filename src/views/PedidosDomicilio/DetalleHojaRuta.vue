@@ -254,7 +254,15 @@ export default {
                 });
         },
         imprimir_resumen_hr() {
-            window.print();
+            axios.get(api_url + '/impresion_hoja_de_ruta/' + this.hoja_ruta.id_hr)
+                .then((res) => {
+                    console.log(res);
+                    this.watch_toast("success", "Imprimiendo...");
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.watch_toast("error", "Ocurrió un error, vuelva a intentar.");
+                });     
         },
         imprimir_credito_domicilio(fila) {
             axios.get(api_url + '/impresion_credito_fiscal/' + fila.credito_fiscal.id_creditofiscal)
