@@ -4,7 +4,7 @@ import api_url from '../../config.js'
 </script>
 
 <template>
-    <Form ref="creditoForm" id="creditoForm" class="w-auto m-4" @submit="saveCredito">
+    <Form ref="promocionForm" id="promocionForm" class="w-auto m-4" @submit="savePromocion">
         <!--Mensajes de validacion-->
         <div id="submitMessage" class="m-0 w-full h-fit p-0">
             <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg" v-if="showMessageError">
@@ -44,7 +44,7 @@ import api_url from '../../config.js'
                                     d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </span>
-                        <h1 class="m-2">Credito guardado correctamente</h1>
+                        <h1 class="m-2">Promocion registrada correctamente</h1>
                     </div>
                     <div class="w-full flex justify-center items-center my-2">
                         <button type="button" @click="clearForm"
@@ -61,72 +61,75 @@ import api_url from '../../config.js'
             <div class="border-b border-gray-900/10 pb-12">
                 <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                        Datos del credito
+                        Datos de la promoción
                     </h2>
                 </div>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-3">
-                        <label for="fecha_credito" class="block text-sm font-medium leading-6 text-gray-900">Fecha del
-                            credito</label>
+                        <label for="fecha_inicio_oferta" class="block text-sm font-medium leading-6 text-gray-900">
+                            Fecha de inicio de la promoción
+                        </label>
                         <div class="mt-2">
-                            <Field v-model="credito.fecha_credito" name="fecha_credito" rules="required" id="fecha_credito"
+                            <Field v-model="promocion.fecha_inicio_oferta" name="fecha_inicio_oferta" rules="required" id="fecha_inicio_oferta"
                                 type="Date" placeholder="Ingresa tu primer nombre" autocomplete="given-name"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            <ErrorMessage name="fecha_credito" class="text-red-500 text-xs" />
+                            <ErrorMessage name="fecha_inicio_oferta" class="text-red-500 text-xs" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="fecha_limite_pago" class="block text-sm font-medium leading-6 text-gray-900">Fecha
-                            limite de pago</label>
+                        <label for="fecha_fin_oferta" class="block text-sm font-medium leading-6 text-gray-900">
+                            Fecha de finalización de la promoción
+                        </label>
                         <div class="mt-2">
-                            <Field v-model="credito.fecha_limite_pago" name="fecha_limite_pago" rules="required"
-                                id="fecha_limite_pago" type="Date" placeholder="Ingresa tu primer nombre"
+                            <Field v-model="promocion.fecha_fin_oferta" name="fecha_fin_oferta" rules="required"
+                                id="fecha_fin_oferta" type="Date" placeholder="Ingresa tu primer nombre"
                                 autocomplete="given-name"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                            <ErrorMessage name="fecha_limite_pago" class="text-red-500 text-xs" />
+                            <ErrorMessage name="fecha_fin_oferta" class="text-red-500 text-xs" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="detalle_credito" class="block text-sm font-medium leading-6 text-gray-900">Detalle del
-                            credito</label>
+                        <label for="nombre_oferta" class="block text-sm font-medium leading-6 text-gray-900">
+                            Nombre de la promoción
+                        </label>
                         <div class="mt-2">
-                            <Field v-model="credito.detalle_credito" name="detalle_credito" rules="required"
-                                id="detalle_credito" type="text" placeholder="Ingresa los detalles del credito"
+                            <Field v-model="promocion.nombre_oferta" name="nombre_oferta" rules="required"
+                                id="nombre_oferta" type="text" placeholder="Ingresa el nombre de la promoción"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 style="resize: vertical !important" />
-                            <ErrorMessage name="detalle_credito" class="text-red-500 text-xs" />
+                            <ErrorMessage name="nombre_oferta" class="text-red-500 text-xs" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-3" >
-                        <label for="monto_credito" class="block text-sm font-medium leading-6 text-gray-900">Monto</label>
+                        <label for="precio_oferta" class="block text-sm font-medium leading-6 text-gray-900">Precio de promoción</label>
                         <div class="mt-2">
                             <div class="mt-2 relative rounded-md shadow-sm">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     $
                                 </span>
-                                <Field name="monto_credito" rules="required" v-model="credito.monto_credito" id="monto_credito"
-                                    type="number" min="0" placeholder="Ingresa el mondto del credito"
+                                <Field name="precio_oferta" rules="required" v-model="promocion.precio_oferta" id="precio_oferta"
+                                    type="number" min="0" placeholder="Ingresa el precio de la promoción"
                                     class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-700 sm:text-sm sm:leading-5"> USD </span>
                                 </div>
                             </div>
-                            <ErrorMessage name="monto_credito" class="text-red-500 text-xs" />
+                            <ErrorMessage name="precio_oferta" class="text-red-500 text-xs" />
                         </div>
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="id_proveedor" class="block text-sm font-medium leading-6 text-gray-900">Proveedor</label>
+                        <label for="codigo_barra_producto" class="block text-sm font-medium leading-6 text-gray-900">Producto en promoción</label>
                         <div class="mt-2">
-                            <Field as="select" required name="id_proveedor" id="id_proveedor" v-model="credito.id_proveedor"
+                            <Field as="select" required name="codigo_barra_producto" id="codigo_barra_producto" v-model="promocion.codigo_barra_producto"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                 <option value="" selected>Seleccionar...</option>
-                                <option v-for="proveedor in proveedores" :key="proveedor.id" :value="proveedor.id">
-                                    {{ proveedor.nombre_proveedor }}
+                                <option v-for="producto in productos" :key="producto.codigo_barra_producto" :value="producto.codigo_barra_producto">
+                                    {{ producto.nombre_producto }} - {{ producto.codigo_barra_producto }}
                                 </option>
                             </Field>
                             <ErrorMessage name="id_proveedor" class="text-red-500" />
@@ -144,7 +147,7 @@ import api_url from '../../config.js'
             </router-link>
             <button type="submit"
                 class="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Registrar Credito
+                Registrar Promocion
             </button>
         </div>
     </Form>
@@ -185,39 +188,39 @@ export default {
             id: 0,
             showMessageError: false,
             showMessageSuccess: false,
-            proveedores: null,
-            credito: {
-                fecha_credito: '',
-                fecha_limite_pago: '',
-                detalle_credito: '',
-                monto_credito: '',
-                id_proveedor: '',
+            productos: null,
+            promocion: {
+                fecha_inicio_oferta: '',
+                fecha_fin_oferta: '',
+                nombre_oferta: '',
+                precio_oferta: '',
+                codigo_barra_producto: '',
             },
             error: []
         }
     },
     mounted() {
-        this.getProveedores()
+        this.getProductos()
         const route = useRoute()
         this.id = route.params.id
         if (this.createForm == null) {
-            this.getProveedores()
+            this.getProductos()
         }
     },
     methods: {
-        getProveedores() {
-            axios.get(api_url + '/proveedores').then((response) => (this.proveedores = response.data))
+        getProductos() {
+            axios.get(api_url + '/productoProm').then((response) => (this.productos = response.data))
         },
-        saveCredito(values) {
+        savePromocion(values) {
             if (this.createForm != null) {
                 const params = {
-                    fecha_credito:this.credito.fecha_credito,
-                    fecha_limite_pago:this.credito.fecha_limite_pago,
-                    monto_credito:this.credito.monto_credito,
-                    detalle_credito:this.credito.detalle_credito,
-                    id_proveedor:this.credito.id_proveedor,
+                    fecha_inicio_oferta:this.promocion.fecha_inicio_oferta,
+                    fecha_fin_oferta:this.promocion.fecha_fin_oferta,
+                    precio_oferta:this.promocion.precio_oferta,
+                    nombre_oferta:this.promocion.nombre_oferta,
+                    codigo_barra_producto:this.promocion.codigo_barra_producto,
                 }
-                axios.post(api_url + '/creditos', params).then(
+                axios.post(api_url + '/promociones', params).then(
                     (response) => {
                         this.error = showStatusModal(response.data['message']);
                         this.showMessageError = !response.data['status'];
@@ -234,7 +237,7 @@ export default {
         clearForm() {
             this.showMessageSuccess = false;
             this.showMessageError = false;
-            this.$refs.creditoForm.resetForm(); // Usamos resetForm para limpiar el formulario
+            this.$refs.promocionForm.resetForm(); // Usamos resetForm para limpiar el formulario
         }
     }
 }
