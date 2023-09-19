@@ -29,6 +29,9 @@ import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventar
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
+import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
+import Creditos from '../views/Creditos/Creditos.vue';
+import Promociones from '../views/Marketing/Promociones.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -220,12 +223,28 @@ const router = createRouter({
       name:'listar_hojas_de_ruta',
       component:ListarHojasDeRuta
     },
+    },
     // {
     //   path: '/:pathMatch(.*)*',
     //   name: 'not_found',
     //   component: ViewPageRoute
     // }
-  ],
+    {
+      path:'/informe_productos_por_vencer',
+      name:'informe_productos_por_vencer',
+      component:InformeDeProductosPorVencer
+    },
+    {
+      path:'/registrar_credito_proveedor',
+      name:'registrar_credito_proveedor',
+      component:Creditos
+    },
+    {
+      path:'/registrar_promociones',
+      name:'registrar_promociones',
+      component:Promociones,
+    }
+  ]
 })
 
 

@@ -1,6 +1,7 @@
 <template>
-    <main class="mx-auto lg:max-w-[45%] p-3 z-999 fixed top-[20%] left-0 right-0">
-    <div class="bg-white p-8 rounded shadow-md w-80 m-auto">
+    <div class="modal-mask">
+    <main class="z-999 fixed top-[20%] left-0 right-0 modal-content w-[30%] m-auto">
+    <div class="bg-white p-8 rounded shadow-md m-auto">
         <h2 class="text-lg font-semibold mb-4">Confirmar Eliminación</h2>
         <p class="mb-4">{{ mensaje }}</p>
         <div class="flex justify-end">
@@ -9,6 +10,7 @@
         </div>
     </div>
 </main>
+</div>
 </template>
 <script>
 import axios from "axios";
@@ -42,3 +44,22 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+  .modal-mask {
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    transition: opacity 0.3s ease;
+}
+.modal-content{
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+</style>

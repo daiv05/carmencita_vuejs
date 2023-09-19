@@ -1,5 +1,6 @@
 <template>
     <main>
+        <NavBar></NavBar>
         <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600 ml-[5%] mt-[2%]">Informe de Inventario Valorado</h1>
         <div class="grid grid-cols-2 grid-row-1 gap-2 w-[90%] m-auto mt-[2%]">
             <div>
@@ -15,10 +16,13 @@
 <script>
 import ComponenteGraficaInventarioValorado from '../../components/Inventario/ComponenteGraficaInventarioValorado.vue';
 import ComponenteListaInventarioValorado from "../../components/Inventario/ComponenteListaInventarioValorado.vue";
+import NavBar from "../../components/NavBar.vue";
+
 export default {
     components:{
         ComponenteListaInventarioValorado,
         ComponenteGraficaInventarioValorado,
+        NavBar,
     },  
     data(){
         return {

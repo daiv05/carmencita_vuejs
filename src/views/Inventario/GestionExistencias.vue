@@ -45,7 +45,7 @@
         <tr class="border-b" v-for="lote in listaLotes" :key="lote.id_lote">
           <td class="p-[1.5%] text-center">{{ lote.id_lote }}</td>
           <td class="text-center">{{ lote.producto.nombre_producto }}</td>
-          <td class="text-center">{{ lote.fecha_ingreso }}</td>
+          <td class="text-center">{{ convertirFecha(lote.fecha_ingreso) }}</td>
           <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
             <div class="flex justify-between content-center">
@@ -157,6 +157,7 @@ import ModalEditarLote from '../../components/Inventario/ModalEditarLote.vue';
 import ModalAgregarLote from '../../components/Inventario/ModalAgregarLote.vue';
 import ModalConsultarLote from '../../components/Inventario/ModalConsultarLote.vue';
 import ModalConfirmarEliminacionVue from '../../components/Inventario/ModalConfirmarEliminacion.vue';
+import moment from 'moment'
 import axios from 'axios'
 
 export default {
@@ -342,6 +343,9 @@ export default {
         }, 3000)
       }
       this.controlModalEliminacion = false
+    },
+    convertirFecha(fecha){
+      return moment(fecha).format("DD/MM/YY");
     }
   }
 }
