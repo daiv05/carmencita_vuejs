@@ -1,6 +1,6 @@
 <template>
     <main class="relative">
-        
+        <NavBar />
         <div class="w-full h-[60px]">
             <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white" style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0, 0, 0, 0.1),
                 0px 1.11px 2.219444513320923px 0 rgba(0, 0, 0, 0.06);">
@@ -95,11 +95,13 @@
 
 <script>
 import ControlPagina from '../../helpers/ControlPagina.js'
+import NavBar from '../../components/NavBar.vue'
 import axios from 'axios'
 import ComponenteTablaInformesVue from '../../components/Inventario/ComponenteTablaInformes.vue';
 export default {
     components: {
         ComponenteTablaInformesVue,
+        NavBar,
     },
     data() {
         return {

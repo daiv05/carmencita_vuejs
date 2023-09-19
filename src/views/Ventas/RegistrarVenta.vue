@@ -2,21 +2,20 @@
     <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
-            <!-- Encabezado -->
-            <div class="w-full h-[60px]">
-                <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
-                    style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
-                    <p class="mt-2 flex-grow-0 flex-shrink-0 w-[179px] text-[31px] font-semibold text-left text-[#3056d3]">
-                        Ventas
-                    </p>
-                    <div
-                        class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button id="show-modal"
-                            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white"
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-2xl">Ventas</h1>
+                    <div class="items-center rounded-[4.44px] bg-[#637381]">
+                        <button id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white"
                             @click="showModal = true">
                             Registrar como Pedido a Domicilio
                         </button>
                     </div>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
                 </div>
             </div>
             <!-- Tabs para Consumidor Final y Credito Fiscal-->

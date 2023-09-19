@@ -1,96 +1,94 @@
 <script setup>
-import {Form,Field,ErrorMessage} from 'vee-validate';
+import { Form, Field, ErrorMessage } from 'vee-validate';
 </script>
 
 <template>
-  <div class="modal-mask">
-  <Form
-    class="h-[70%] max-w-[100%] mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[15%] left-0 right-0 modal-content"
-    @submit="enviarFormulario($event)"
-  >
-    <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Editar Lote</h1>
+  <Transition name="modal">
+    <div class="modal-mask bg-white">
+      <div class="modal-container">
+        <Form @submit="enviarFormulario($event)">
+          <h1 class="text-2xl font-bold mb-6 text-left text-indigo-600">Editar Lote</h1>
 
-    <div class="grid grid-cols-2 gap-4 mb-[1%]">
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Fecha Ingreso</label>
-        <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_ingreso" disabled/>
-      </div>
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Fecha Vencimiento</label>
-        <Field type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_vencimiento"
-        :rules="validarFecha" name="fecha_vencimiento"/>
-        <ErrorMessage name = "fecha_vencimiento" class = "mensajeDeError"/>
-      </div>
-    </div>
+          <div class="grid grid-cols-2 gap-4 mb-[1%]">
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Fecha Ingreso</label>
+              <input type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.fecha_ingreso"
+                disabled />
+            </div>
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Fecha Vencimiento</label>
+              <Field type="date" class="rounded-md border-slate-400 text-slate-500 w-[100%]"
+                v-model="lote.fecha_vencimiento" :rules="validarFecha" name="fecha_vencimiento" />
+              <ErrorMessage name="fecha_vencimiento" class="mensajeDeError" />
+            </div>
+          </div>
 
-    <div class="grid grid-cols-2 gap-4">
-      <div class="">
-        <label for="countries" class="block text-sm font-medium text-gray-900 dark:text-white mb-[1%]"
-          >Seleccione el producto</label
-        >
-        <select
-          id="countries"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="idProducto"
-        >
-          <option v-for="producto in listaProductos" :key="producto.codigo_barra_producto" :value="producto.codigo_barra_producto"> 
-            {{ producto.nombre_producto }} 
-          </option>
-        </select>
-      </div>
-      <div class="">
-        <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          <div class="grid grid-cols-2 gap-4">
+            <div class="">
+              <label for="countries" class="block text-sm font-medium text-gray-900 dark:text-white mb-[1%]">Seleccione el
+                producto</label>
+              <select id="countries"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                v-model="idProducto">
+                <option v-for="producto in listaProductos" :key="producto.codigo_barra_producto"
+                  :value="producto.codigo_barra_producto">
+                  {{ producto.nombre_producto }}
+                </option>
+              </select>
+            </div>
+            <div class="">
+              <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la
+                unidad de los lotes</label>
+              <select id="countries"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                v-model="cantidadUnidadMedida">
+                <option v-for="precioUnidadMedida in listaUnidadesMedida"
+                  :key="precioUnidadMedida.id_precio_unidad_de_medida" :value="precioUnidadMedida.cantidad_producto">
+                  {{ precioUnidadMedida.unidad_de_medida.nombre_unidad_de_medida + ":" + precioUnidadMedida.cantidad_producto
+                    + " unidades" }}
 
-          >Seleccione la unidad de los lotes</label
-        >
-        <select
-          id="countries"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="cantidadUnidadMedida"
-        >
-          <option v-for="precioUnidadMedida in listaUnidadesMedida" 
-          :key="precioUnidadMedida.id_precio_unidad_de_medida"
-          :value="precioUnidadMedida.cantidad_producto"
-          >
-            {{ precioUnidadMedida.unidad_de_medida.nombre_unidad_de_medida+":"+precioUnidadMedida.cantidad_producto +" unidades"}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-[1%]">
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Cantidad a ingresar</label>
+              <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="cantidadIngresar"
+                name="cantidad_lotes" :rules="validarCantidadLotes" />
+              <ErrorMessage name="cantidad_lotes" class="mensajeDeError" />
+            </div>
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Unidades totales a ingresar</label>
+              <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" disabled
+                v-model="unidadesTotalesIngresadas" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-[1%]">
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Precio Unitario</label>
+              <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]"
+                v-model="lote.precio_unitario" :rules="validarPrecioUnitario" name="precio_unitario" />
+              <ErrorMessage name="precio_unitario" />
+            </div>
+            <div class="">
+              <label for="" class="block mb-[1%] font-semibold">Costo del lote</label>
+              <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total"
+                :rules="validarCostoDeLote" name="costo_lote" />
+              <ErrorMessage name="costo_lote" />
+            </div>
+          </div>
+          <div class="flex justify-center align-center mt-[1%] gap-4 pt-4">
+            <input type="submit" value="Guardar"
+              class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer" />
+            <button @click="cerrarModal" type="button"
+              class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
+          </div>
 
-        </option>
-        </select>
+        </Form>
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-4 mb-[1%]">
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Cantidad a ingresar</label>
-        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
-        v-model="cantidadIngresar" name="cantidad_lotes" :rules="validarCantidadLotes"/>
-        <ErrorMessage name = "cantidad_lotes" class = "mensajeDeError"/>
-      </div>
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Unidades totales a ingresar</label>
-        <input type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" disabled v-model="unidadesTotalesIngresadas"/>
-      </div>
-    </div>
-    <div class="grid grid-cols-2 gap-4 mb-[1%]">
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Precio Unitario</label>
-        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" 
-        v-model="lote.precio_unitario" :rules="validarPrecioUnitario" name="precio_unitario"/>
-        <ErrorMessage name = "precio_unitario" />
-      </div>
-      <div class="">
-        <label for="" class="block mb-[1%] font-semibold">Costo del lote</label>
-        <Field type="number" class="rounded-md border-slate-400 text-slate-500 w-[100%]" v-model="lote.costo_total"
-        :rules="validarCostoDeLote" name="costo_lote"/>
-        <ErrorMessage name="costo_lote"/>
-      </div>
-    </div>
-    <div class="flex justify-center align-center mt-[1%] gap-4">
-        <input type="submit" value="Guardar" class=" w-[15%] text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer"/>
-        <button @click="cerrarModal" type="button" class=" w-[15%] focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
-    </div>
-    
-  </Form>
-  </div>
+  </Transition>
 </template>
 
 <script>
@@ -98,59 +96,59 @@ import axios from 'axios';
 
 
 export default {
-  props:{
-    tempLote:Object,
+  props: {
+    tempLote: Object,
   },
-    data(){
-        return{
-          listaUnidadesMedida:[],
-          cantidadUnidadMedida:0,
-          idProducto:"",
-          fechaIngreso:  null,//this.convertirFecha(lote.fechaIngreso),
-          fechaVencimiento: null,
-          cantidadIngresar:0,
-          unidadesTotalesIngresadas:0,
-          nuevoPrecioUnitarioProducto:0,
-          costoLote:0,
-          listaProductos:[],
-          lote:this.tempLote,
-        }
+  data() {
+    return {
+      listaUnidadesMedida: [],
+      cantidadUnidadMedida: 0,
+      idProducto: "",
+      fechaIngreso: null,//this.convertirFecha(lote.fechaIngreso),
+      fechaVencimiento: null,
+      cantidadIngresar: 0,
+      unidadesTotalesIngresadas: 0,
+      nuevoPrecioUnitarioProducto: 0,
+      costoLote: 0,
+      listaProductos: [],
+      lote: this.tempLote,
+    }
+  },
+  mounted() {
+    this.cargarUnidadesMedida();
+    this.cargarProductos();
+    this.idProducto = this.lote.producto.codigo_barra_producto;
+    this.configurarFechasLote();
+    this.cantidadIngresar = this.lote.cantidad;
+    this.unidadesTotalesIngresadas = this.lote.cantida_total_unidades;
+    this.calcularTipoDeUnidadDeMedida();
+  },
+  methods: {
+    configurarFechasLote() {
+      this.fechaIngreso = this.convertirFecha(this.lote.fecha_ingreso);
+      this.fechaVencimiento = this.convertirFecha(this.lote.fecha_vencimiento);
     },
-    mounted(){
-      this.cargarUnidadesMedida();
-      this.cargarProductos();
-      this.idProducto = this.lote.producto.codigo_barra_producto;
-      this.configurarFechasLote();
-      this.cantidadIngresar = this.lote.cantidad;
-      this.unidadesTotalesIngresadas = this.lote.cantida_total_unidades;
-      this.calcularTipoDeUnidadDeMedida();
+    cerrarModal() {
+      this.$emit("cerrarModalEditar");
     },
-    methods:{
-       configurarFechasLote(){
-        this.fechaIngreso = this.convertirFecha(this.lote.fecha_ingreso);
-        this.fechaVencimiento = this.convertirFecha(this.lote.fecha_vencimiento);
-       },
-       cerrarModal(){
-        this.$emit("cerrarModalEditar");
-       },
-       cargarUnidadesMedida(){
-        //let url = "api/productos/precios/"+this.lote.producto.codigo_barra_producto;
-        let url = "api/precio_lista_unidades/"+this.lote.producto.codigo_barra_producto;
-        axios.get(url)
+    cargarUnidadesMedida() {
+      //let url = "api/productos/precios/"+this.lote.producto.codigo_barra_producto;
+      let url = "api/precio_lista_unidades/" + this.lote.producto.codigo_barra_producto;
+      axios.get(url)
         .then(
-          (response)=>{
-            console.log("La lista de unidades de medida son: ",response.data);
+          (response) => {
+            console.log("La lista de unidades de medida son: ", response.data);
             this.listaUnidadesMedida = response.data.lista_precios_extra;
           }
         )
         .catch(
-          (response)=>{
+          (response) => {
             console.log(response);
             alert("El programador no quizo programar la exepción");
           }
         );
-       },
-       obtenerFechaFormateada() {
+    },
+    obtenerFechaFormateada() {
       const fechaActual = new Date();
       const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
       return fechaActual.toLocaleDateString("en-US", opciones);
@@ -160,102 +158,83 @@ export default {
       const fechaEnFormatoISO = `${partes[2]}-${partes[0]}-${partes[1]}`;
       return fechaEnFormatoISO;
     },
-    cargarProductos(){
+    cargarProductos() {
       axios.get("/api/productos")
-      .then(
-        (response)=>{
-          this.listaProductos = response.data;    
-        }
-      )
-      .catch(
-        (response)=>{
-          alert("Ocurrio un problema");
-        }
-      );
+        .then(
+          (response) => {
+            this.listaProductos = response.data;
+          }
+        )
+        .catch(
+          (response) => {
+            alert("Ocurrio un problema");
+          }
+        );
     },
-    calcularTipoDeUnidadDeMedida(){
-      this.cantidadUnidadMedida = this.lote.cantidad_total_unidades/this.lote.cantidad;
+    calcularTipoDeUnidadDeMedida() {
+      this.cantidadUnidadMedida = this.lote.cantidad_total_unidades / this.lote.cantidad;
       console.log(this.cantidadUnidadMedida);
     },
-    enviarFormulario(event,values){
+    enviarFormulario(event, values) {
       event.preventDefault;
       console.log(this.lote);
       let configuracionPut = "?_method=PUT";
       let dataForm = {
-        id_lote:this.lote.id_lote,
-        fecha_vencimiento:this.lote.fecha_vencimiento,
-        codigo_barra_producto:this.idProducto,
-        cantidad_total_unidades:this.unidadesTotalesIngresadas,
-        cantidad:this.cantidadIngresar,
-        precio_unitario:this.lote.precio_unitario,
-        costo_total:this.lote.costo_total,
-        fecha_ingreso:this.lote.fecha_ingreso,
+        id_lote: this.lote.id_lote,
+        fecha_vencimiento: this.lote.fecha_vencimiento,
+        codigo_barra_producto: this.idProducto,
+        cantidad_total_unidades: this.unidadesTotalesIngresadas,
+        cantidad: this.cantidadIngresar,
+        precio_unitario: this.lote.precio_unitario,
+        costo_total: this.lote.costo_total,
+        fecha_ingreso: this.lote.fecha_ingreso,
       };
-      axios.post("/api/gestion_existencias/"+this.lote.id_lote+configuracionPut,dataForm)
-      .then(
-        (response)=>{
-          alert(response.data.mensaje);
-          dataForm.producto = this.lote.producto;
-          this.$emit("guardarLoteModificado",{dataForm:dataForm,mensaje:`Se edito el lote ${this.lote.id_lote} con éxito`});
-        }
-      )
-      .catch(
-        (response)=>{
-          alert(response);
-        }
-      );
+      axios.post("/api/gestion_existencias/" + this.lote.id_lote + configuracionPut, dataForm)
+        .then(
+          (response) => {
+            alert(response.data.mensaje);
+            dataForm.producto = this.lote.producto;
+            this.$emit("guardarLoteModificado", { dataForm: dataForm, mensaje: `Se edito el lote ${this.lote.id_lote} con éxito` });
+          }
+        )
+        .catch(
+          (response) => {
+            alert(response);
+          }
+        );
     },
-    validarFecha(value){
-      if(!value){
+    validarFecha(value) {
+      if (!value) {
         return "La fecha no debe quedar vacía.Seleccione una fecha";
       }
       return true;
     },
-    validarCantidadLotes(values){
-        if(values <= 0){
-          return "Cantidad de lotes debe ser mayor a 0";
-        }
-        return true;
+    validarCantidadLotes(values) {
+      if (values <= 0) {
+        return "Cantidad de lotes debe ser mayor a 0";
+      }
+      return true;
     },
-    validarPrecioUnitario(values){
-      if(values <= 0){
+    validarPrecioUnitario(values) {
+      if (values <= 0) {
         return "El precio unitario debe ser mayor a 0";
       }
       return true;
     },
-    validarCostoDeLote(values){
-      if(values<=0){
+    validarCostoDeLote(values) {
+      if (values <= 0) {
         return "El costo dle lote debe ser mayor a 0"
       }
       return true;
     }
+  },
+  watch: {
+    cantidadUnidadMedida(newValue, oldValue) {
+      this.unidadesTotalesIngresadas = newValue * this.cantidadIngresar;
     },
-    watch:{
-     cantidadUnidadMedida(newValue,oldValue){
-        this.unidadesTotalesIngresadas = newValue * this.cantidadIngresar;
-     },
-     cantidadIngresar(newValue,oldValue){
-        this.unidadesTotalesIngresadas = newValue * this.cantidadUnidadMedida;
-     }
+    cantidadIngresar(newValue, oldValue) {
+      this.unidadesTotalesIngresadas = newValue * this.cantidadUnidadMedida;
     }
+  }
 }
 </script>
-
-<style scoped>
- .modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    transition: opacity 0.3s ease;
-}
-.modal-content{
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-</style>

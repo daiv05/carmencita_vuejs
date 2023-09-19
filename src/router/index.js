@@ -32,6 +32,7 @@ import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
 import Promociones from '../views/Marketing/Promociones.vue';
+import not_found from '../views/not_found.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -223,12 +224,11 @@ const router = createRouter({
       name:'listar_hojas_de_ruta',
       component:ListarHojasDeRuta
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: not_found
     },
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   name: 'not_found',
-    //   component: ViewPageRoute
-    // }
     {
       path:'/informe_productos_por_vencer',
       name:'informe_productos_por_vencer',
