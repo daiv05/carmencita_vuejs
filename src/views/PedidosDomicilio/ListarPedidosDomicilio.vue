@@ -80,7 +80,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                             <td class="whitespace-nowrap px-2 py-4">{{ pedido.id }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ pedido.cliente }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ formatFecha(pedido.fecha) }}</td>
-                            <td class="whitespace-nowrap px-4 py-4">{{ Number(pedido.total).toFixed(2) }}</td>
+                            <td class="whitespace-nowrap px-4 py-4">${{ Number(pedido.total).toFixed(2) }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ pedido.tipo }}</td>
                             <td v-if="pedido.hr" class="whitespace-nowrap px-4 py-4">HR-{{ pedido.hr }}</td>
                             <td v-if="!pedido.hr" class="whitespace-nowrap px-4 py-4">Sin asignar</td>

@@ -95,8 +95,8 @@
                                                     class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_producto">
                                             </td>
-                                            <td class="text-center">{{ fila.producto.precio_unitario_mostrar? fila.producto.precio_unitario_mostrar : fila.producto.precio }}</td>
-                                            <td class="text-center">{{ fila.subtotal_detalle_venta }}</td>
+                                            <td class="text-center">${{ fila.producto.precio_unitario_mostrar? fila.producto.precio_unitario_mostrar : fila.producto.precio }}</td>
+                                            <td class="text-center">${{ fila.subtotal_detalle_venta }}</td>
                                             <td class="flex justify-end pr-4 py-2">
                                                 <button @click="eliminar_detalle_venta(fila.id_venta)"
                                                     class="font-medium text-center text-white rounded ml-4 bg-red-600 h-[25px] w-[25px]">
@@ -496,7 +496,7 @@ export default {
 
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
 
-                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.venta_info.total_iva = Number(this.venta_info.total_venta-this.subtotal_venta).toFixed(2);
 
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
             },
@@ -842,9 +842,9 @@ export default {
             new Promise((resolve, reject) => {
                 this.subtotal_venta = this.detalle_ventas_lista.reduce(
                     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.00
+                    0.0000
                 );
-                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                this.subtotal_venta = Number(this.subtotal_venta/1.13).toFixed(2);
                 resolve();
             });
         },
