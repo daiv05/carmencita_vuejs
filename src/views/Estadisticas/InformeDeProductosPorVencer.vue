@@ -34,9 +34,11 @@ const agregar_producto = "agregar_producto";
 
                 <section class="grid-cols-1 sm:col-span-5">           
                     <section class="container mx-auto p-6 z-900">
-                        <p class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[20px] font-semibold text-left text-[#727171]">
-                                    Los productos mostrados vencen en los proximos 15 dias a partir de la fecha actual
-                                </p>
+                        <p class="mt-2 flex-grow-0 flex-shrink-0 w-[200%] text-[20px] font-semibold text-left text-[#727171]">
+                            Los productos mostrados vencen en los próximos 15 días a partir de la fecha actual 
+                            <span class="text-[#3056d3]">{{ formatearFechas(productosPV.fecha_actual) }}</span>
+                        </p>
+
                                 <br>
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                             <div class="w-full overflow-x-auto">
