@@ -1,45 +1,34 @@
 <template>
   <main>
     <NavBar></NavBar>
-    <div class="w-full h-[60px]">
-      <div
-        class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
-        style="
-          box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0, 0, 0, 0.1),
-            0px 1.11px 2.219444513320923px 0 rgba(0, 0, 0, 0.06);
-        "
-      >
-        <p
-          class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[30px] font-semibold text-left text-[#3056d3]"
-        >
-          Getion Existencias
-        </p>
-        <div
-          class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-indigo-700"
-        >
-          <button
-            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white"
-            @click="abrirModalAgregar()"
-          >
+    <div>
+      <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+        <h1 class="font-bold text-blue-700 text-xl">Gestión de Existencias de Productos</h1>
+        <div class="flex items-center rounded-[4.44px] bg-[#637381]">
+          <button class="w-auto h-auto my-2 mx-4 text-[13px] font-medium text-center text-white"
+            @click="abrirModalAgregar()">
             Agregar Lote
           </button>
         </div>
       </div>
+      <div class="flex justify-start items-center mt-4 ml-4">
+        <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+          <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+        </a>
+      </div>
     </div>
-    <div
-      class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
-      role="alert"
-      v-if="isSucces"
-    >
+
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert"
+      v-if="isSucces">
       <span class="font-medium">{{ mensajeResultado }}</span>
     </div>
     <table class="w-[95%] lg:w-[75%] m-auto mt-[2%]">
       <tr class="text-gray-400 bg-gray-50 border-b">
-        <th class="p-[1%] font-semibold">ID DE LOTE</th>
-        <th class="p-[1%] font-semibold">PRODUCTO</th>
-        <th class="p-[1%] font-semibold">FECHA DE INGRESO</th>
-        <th class="p-[1%] font-semibold">CANTIDAD INGRESADA</th>
-        <th class="p-[1%] font-semibold">ACCIONES</th>
+        <th class="p-[1%] font-semibold">ID</th>
+        <th class="p-[1%] font-semibold w-[30%]">Producto</th>
+        <th class="p-[1%] font-semibold">Fecha de Ingreso</th>
+        <th class="p-[1%] font-semibold">Cant. Ingresada</th>
+        <th class="p-[1%] font-semibold">Acciones</th>
       </tr>
       <tbody>
         <tr class="border-b" v-for="lote in listaLotes" :key="lote.id_lote">
@@ -48,10 +37,16 @@
           <td class="text-center">{{ convertirFecha(lote.fecha_ingreso) }}</td>
           <td class="text-center">{{ lote.cantidad_total_unidades }} Unidades</td>
           <td>
-            <div class="flex justify-between content-center">
-              <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1" @click="abrirModalConsultar(lote)">Consultar</button>
-              <button  class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1" @click="abrirModalEditar(lote)">Editar</button>
-              <button  class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1" @click="abrirModalEliminacion(lote)">Eliminar</button>
+            <div class="flex justify-center content-center">
+              <button
+                class="my-2 px-4 py-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white border border-green-500 hover:border-transparent rounded-full"
+                @click="abrirModalConsultar(lote)">Consultar</button>
+              <button
+                class="my-2 px-4 py-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded-full"
+                @click="abrirModalEditar(lote)">Editar</button>
+              <button
+                class="my-2 px-4 py-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent rounded-full"
+                @click="abrirModalEliminacion(lote)">Eliminar</button>
             </div>
           </td>
         </tr>
@@ -61,56 +56,30 @@
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
           <li @click="cargarPaginaPrevia(prev)">
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              <span class="sr-only">Previous</span>
-              <svg
-                class="w-2.5 h-2.5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 1 1 5l4 4"
-                />
+            <a href="#"
+              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              
+              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5 1 1 5l4 4" />
               </svg>
+              <span class="mx-2">Anterior</span>
             </a>
           </li>
           <li v-for="pageLink in pagesLinks" @click="cargarPagina(pageLink)">
-            <a
-              href="#"
-              :class="{ pageActivate: pageLink.active === true }"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              >{{ pageLink.label }}</a
-            >
+            <a href="#" :class="{ pageActivate: pageLink.active === true }"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">{{
+                pageLink.label }}</a>
           </li>
           <li @click="cargarPaginaSiguiente(next)">
-            <a
-              href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              <span class="sr-only">Next</span>
-              <svg
-                class="w-2.5 h-2.5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m1 9 4-4-4-4"
-                />
+            <a href="#"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+              <span class="mx-2">Siguiente</span>
+              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 9 4-4-4-4" />
               </svg>
             </a>
           </li>
@@ -118,35 +87,20 @@
       </nav>
     </div>
     <Teleport to="body">
-      <ModalEditarLote
-        :tempLote="loteParametroComponente"
-        v-if="controlModalEditarLote"
-        @cerrarModalEditar="cerrarModalEditar"
-        @guardarLoteModificado="guardarLoteModificado"
-      ></ModalEditarLote>
+      <ModalEditarLote :tempLote="loteParametroComponente" v-if="controlModalEditarLote"
+        @cerrarModalEditar="cerrarModalEditar" @guardarLoteModificado="guardarLoteModificado"></ModalEditarLote>
     </Teleport>
     <Teleport to="body">
-      <ModalAgregarLote
-        v-if="controlModalAgregarLote"
-        @cerrarModalAgregar="cerrarModalAgregar"
-        @guardarLoteNuevo="guardarLoteNuevo"
-      ></ModalAgregarLote>
+      <ModalAgregarLote v-if="controlModalAgregarLote" @cerrarModalAgregar="cerrarModalAgregar"
+        @guardarLoteNuevo="guardarLoteNuevo"></ModalAgregarLote>
     </Teleport>
     <Teleport to="body">
-      <ModalConsultarLote
-        v-if="controlModalConsultar"
-        :lote="loteParametroComponente"
-        @cerrarModalConsultar="cerrarModalConsultar"
-        @abrirModalConsultar="abrirModalConsultar"
-      ></ModalConsultarLote>
+      <ModalConsultarLote v-if="controlModalConsultar" :lote="loteParametroComponente"
+        @cerrarModalConsultar="cerrarModalConsultar" @abrirModalConsultar="abrirModalConsultar"></ModalConsultarLote>
     </Teleport>
     <Teleport to="body">
-      <ModalConfirmarEliminacionVue
-        v-if="controlModalEliminacion"
-        :urlEndpoint="urlEndpoint"
-        :mensaje="mensaje"
-        @cerrarModalEliminacion="cerrarModalEliminacion"
-      ></ModalConfirmarEliminacionVue>
+      <ModalConfirmarEliminacionVue v-if="controlModalEliminacion" :urlEndpoint="urlEndpoint" :mensaje="mensaje"
+        @cerrarModalEliminacion="cerrarModalEliminacion"></ModalConfirmarEliminacionVue>
     </Teleport>
   </main>
 </template>
@@ -344,7 +298,7 @@ export default {
       }
       this.controlModalEliminacion = false
     },
-    convertirFecha(fecha){
+    convertirFecha(fecha) {
       return moment(fecha).format("DD/MM/YY");
     }
   }
@@ -355,6 +309,7 @@ export default {
   font-weight: 900;
   color: black;
 }
+
 .loteModificado {
   border: 2px solid rgb(156 163 175);
 }

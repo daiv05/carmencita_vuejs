@@ -2,44 +2,31 @@
     <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
-            <!-- Encabezado -->
-            <div class="w-full h-[60px]">
-                <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
-                    style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
-                    <p class="mt-2 flex-grow-0 flex-shrink-0 w-[179px] text-[31px] font-semibold text-left text-[#3056d3]">
-                        Ventas
-                    </p>
-                    <div
-                        class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
-                            Registrar como Pedido a Domicilio
-                        </button>
-                    </div>
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Modificar Pedido</h1>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
                 </div>
             </div>
 
             <!-- Tabs para Consumidor Final y Credito Fiscal-->
             <div class="flex flex-col h-full mt-6 ml-2 pl-2 pr-4">
                 <div class="flex justify-start items-center border-b-2 border-b-indigo-500">
-                    <!--<div class="tab" :class="{ 'active': active_tab === 0 }" @click="active_tab = 0">
-                        Consumidor Final
-                    </div>-->
                     <div class="tab" :class="{ 'active': active_tab === 1 }" @click="active_tab = 1">
                         Crédito Fiscal
                     </div>
-                </div>
-                <div class="flex justify-start items-center mt-4">
-                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
-                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
-                    </a>
                 </div>
                 <!-- Contenido de los tabs -->
                 <div class="tab-content flex-grow">
 
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div class="p-4 bg-white">
-                        <div class="flex max-h-[750px] overflow-y-auto pb-36">
-                            <div class="w-3/4 pr-4 h-full pt-4">
+                        <div class="flex pb-36">
+                            <div class="w-3/4 pr-4 h-full min-h-screen pt-4 overflow-auto">
                                 <!-- Contenido del bloque de espacio izquierdo (3/4 del espacio) -->
                                 <!-- Input para ingresar Producto -->
                                 <div class="flex justify-start items-center pb-6">
@@ -47,21 +34,22 @@
                                         Producto
                                     </label>
                                     <input @input="listener_buscar_codigo_producto()" ref="codigo_bp"
-                                        class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                        class="mx-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-40 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                         placeholder="Codigo del Producto" v-model="producto_codigo" />
-                                    <div class="sugerencias-container">
+                                    <div class="sugerencias-container md:col-span-3">
                                         <!-- Campo de entrada -->
                                         <input @input="listener_producto_nombre()" @focus="mostrar_sugerencias = true"
                                             @blur.self="mostrar_sugerencias = false"
-                                            class="ml-4 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                            class="md:col-span-3 text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                             placeholder="Nombre del Producto" v-model="producto_nombre" />
-
                                         <!-- Lista de sugerencias -->
-                                        <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
+                                        <ul class="sugerencias-lista border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
-                                            <li class="w-64 m-2" v-for="sugerencia in sugerencias" :key="sugerencia.id"
+                                            <li class="m-2" href="#" v-for="sugerencia in sugerencias" :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
-                                                {{ sugerencia }}
+                                                <button class="w-full text-left">
+                                                    {{ sugerencia }}
+                                                </button>
                                             </li>
                                         </ul>
                                     </div>
@@ -90,7 +78,7 @@
                                             <td class="text-center">{{ fila.producto.nombre_producto }}</td>
                                             <td class="text-center">
                                                 <input @change="watch_cantidad_producto(fila)"
-                                                    class="w-[70px] h-[25px] text-center" type="number" min="1" max="100"
+                                                    class="w-auto h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_producto_credito">
                                             </td>
                                             <td class="text-center">${{ fila.producto.precio_unitario_mostrar }}</td>
@@ -106,59 +94,30 @@
                                 </table>
                             </div>
                             <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                            <div class="w-1/4 border-l border-gray-300 pl-2 flex-shrink-0 min-w-[1/8px] min-h-[200px]">
-
-                                <!--<div v-if="active_tab === 0">
-                                    PARA CONSUMIDOR FINAL
-                                    <div class="flex md:flex-row flex-col items-center py-4 px-4">
-                                        {{ /* Input para ingresar fecha */ }} 
-                                        <div class="flex flex-col md:mr-16">
-                                            <label for="fecha_venta"
-                                                class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
-                                                Fecha de Venta
-                                            </label>
-                                            <input id="fecha_venta" type="date" name="fecha_venta"
-                                                v-model="venta_info.fecha_venta"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-4 px-4">
-                                        {{ /* Input para ingresar cliente */ }} 
-                                        <div class="flex flex-col md:mr-16">
-                                            <label for="nombre_cliente"
-                                                class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
-                                                Cliente
-                                            </label>
-                                            <input id="nombre_cliente" type="text" name="nombre_cliente"
-                                                class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                placeholder="Joaquin Perez" v-model="venta_info.nombre_cliente_venta" />
-                                        </div>
-                                    </div>
-                                </div>-->
+                            <div class="w-1/4 border-l border-gray-300 pl-2 min-h-[200px] overflow-x-auto">
                                 <div v-if="active_tab === 1">
                                     <!-- PARA CREDITO FISCAL-->
-                                    <div class="flex overflow-y-auto">
+                                    <div class="flex pl-2">
                                         <!-- Contenido del bloque de espacio derecho (1/4 del espacio) -->
-                                        <div class="w-1/4 pb-24 pl-2 flex-shrink-0">
-                                            <div class="flex md:flex-row flex-col items-center py-4 px-4">
+                                        <div>
+                                            <div class="flex md:flex-row flex-col items-center py-4">
                                                 <!-- Input para ingresar Fecha -->
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="fecha_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                         Fecha de Venta
                                                     </label>
-                                                    <input id="fecha_credito" type="date" name="fecha_credito" v-bind:disabled="fechaEditable"
+                                                    <input id="fecha_credito" type="date" name="fecha_credito"
+                                                        v-bind:disabled="fechaEditable"
                                                         v-model="credito_fiscal_info.fecha_credito"
-                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
+                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-auto h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" />
                                                 </div>
                                             </div>
-                                            <!-- aqui iba nrc antes -->
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <div class="flex flex-col md:mr-16">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
+                                                <div class="flex flex-col">
                                                     <label for="identificador_cliente_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
-                                                        Buscar Cliente existente
+                                                        Seleccionar Cliente
                                                     </label>
                                                     <div class="sugerencias-container">
                                                         <input @input="listener_cliente_identificador()"
@@ -166,22 +125,25 @@
                                                             @blur.self="mostrar_sugerencias_cliente = false"
                                                             id="identificador_cliente_credito" type="text"
                                                             name="identificador_cliente_credito"
-                                                            class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                            class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                             placeholder="Ingrese el identificador"
                                                             v-model="campo_identificador_cliente" />
                                                         <!--Lista de sugerencias -->
-                                                        <ul class="sugerencias-lista w-64 ml-4 border border-slate-500"
+                                                        <ul class="sugerencias-lista border border-slate-500"
                                                             v-if="mostrar_sugerencias_cliente && sugerencias_cliente.length > 0">
-                                                            <li class="w-64 m-2" v-for=" cliente  in  sugerencias_cliente "
+                                                            <li class="m-2" href="#"
+                                                                v-for=" cliente  in  sugerencias_cliente"
                                                                 :key="cliente.distintivo_cliente"
                                                                 @mousedown.prevent="seleccionar_sugerencia_cliente(cliente)">
-                                                                {{ cliente.distintivo_cliente }}
+                                                                <button class="w-full text-left">
+                                                                    {{ cliente.distintivo_cliente }}
+                                                                </button>
                                                             </li>
                                                         </ul>
                                                     </div>
                                                     <div class="flex justify-end pt-2 text-align-center">
                                                         <button
-                                                            class="bg-emerald-600 flex justify-center items-center h-[30px] w-[165px] hover:bg-emerald-800 text-white font-bold rounded">
+                                                            class="py-2 px-4 bg-emerald-600 flex justify-center items-center h-[30px] w-auto hover:bg-emerald-800 text-white font-bold rounded">
                                                             Registrar nuevo
                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                 class="h-6 w-6 text-gray-400" fill="none"
@@ -193,8 +155,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
                                                 <!-- Input para ingresar Cliente -->
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="nombre_cliente_credito"
@@ -202,39 +163,33 @@
                                                         Cliente
                                                     </label>
                                                     <input type="text" name="nombre_cliente_credito" disabled
-                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                        placeholder="Joaquin Perez" v-model="cliente_info.nombre_cliente" />
+                                                        class="text-slate-600 bg-white font-normal w-auto h-10 flex items-center pl-3 text-sm rounded border-gray-300 border"
+                                                        v-model="cliente_info.nombre_cliente" />
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                <!-- Input para ingresar nit -->
-                                                <div class="flex flex-col">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
+                                                <div class="flex flex-col mr-2">
                                                     <label for="nit_credito"
                                                         class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                         NIT
                                                     </label>
                                                     <input id="nit_credito" type="text" name="nit_credito" disabled
-                                                        class="text-slate-600 w-40 h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                        placeholder="2999-299999-299-2"
+                                                        class="text-slate-600 w-auto max-w-[150px] h-10 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                         v-model="cliente_info.nit_cliente" />
                                                 </div>
-                                                <div
-                                                    class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
-                                                    <!-- Input para ingresar nrc -->
+                                                <div class="flex md:flex-row flex-col items-center py-2">
                                                     <div class="flex flex-col">
                                                         <label for="nrc_credito"
                                                             class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                                             NRC
                                                         </label>
                                                         <input id="nrc_credito" type="text" name="nrc_credito" disabled
-                                                            class="text-slate-600  w-[93px] h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                            placeholder="299999-9" v-model="cliente_info.nrc_cliente" />
+                                                            class="text-slate-600 w-auto max-w-[90px] h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                            v-model="cliente_info.nrc_cliente" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
                                                 <!-- Input para ingresar dui -->
                                                 <div class="flex flex-col mr-4">
                                                     <label for="dui_credito"
@@ -242,8 +197,8 @@
                                                         DUI
                                                     </label>
                                                     <input id="dui_credito" type="text" name="dui_credito" disabled
-                                                        class="text-slate-600 w-28 h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                        placeholder="29999999-9" v-model="cliente_info.dui_cliente" />
+                                                        class="text-slate-600 w-auto max-w-[110px] h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                        v-model="cliente_info.dui_cliente" />
                                                 </div>
                                                 <!-- Input para ingresar depa -->
                                                 <div class="flex flex-col">
@@ -253,12 +208,11 @@
                                                     </label>
                                                     <input id="departamento_cliente_credito" type="text"
                                                         name="departamento_cliente_credito" disabled
-                                                        class="text-slate-600 w-28 h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                        placeholder="San Salvador" v-model="departamento_cliente" />
+                                                        class="text-slate-600 w-auto max-w-[110px] h-10 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal flex items-center pl-3 text-sm border-gray-300 rounded border"
+                                                        v-model="departamento_cliente" />
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
                                                 <!-- Input para ingresar Direccion -->
                                                 <div class="flex flex-col md:mr-16">
                                                     <label for="direccion_cliente_credito"
@@ -267,13 +221,11 @@
                                                     </label>
                                                     <input disabled id="direccion_cliente_credito" type="text"
                                                         name="direccion_cliente_credito"
-                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-                                                        placeholder="Joaquin Perez"
+                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-auto h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                                         v-model="cliente_info.direccion_cliente" />
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex flex-shrink-0 min-w-[8px] md:flex-row flex-col items-center py-2 px-4">
+                                            <div class="flex md:flex-row flex-col items-center py-2">
                                                 <!-- Input para ingresar Municipio -->
                                                 <div class="flex flex-col">
                                                     <label for="municipio_cliente_credito"
@@ -282,7 +234,7 @@
                                                     </label>
                                                     <input disabled id="municipio_cliente_credito" type="text"
                                                         name="municipio_cliente_credito" v-model="municipio_cliente"
-                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-64 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
+                                                        class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-auto h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
                                                 </div>
                                             </div>
                                         </div>
@@ -292,8 +244,8 @@
                         </div>
                         <!-- Resumen de la Venta -->
                         <hr>
-                        <div class="flex pl-8">
-                            <table class="table-fixed">
+                        <div class="grid grid-cols-12 pl-8">
+                            <table class="table col-span-4">
                                 <thead>
                                     <tr class="border-b-2 border-black-400 h-[40px]">
                                         <th class="font-bold">Resumen</th>
@@ -347,24 +299,22 @@
                                         <td class="text-center">
                                             <div class="flex items-center">
                                                 <input
-                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-sm  rounded-tr-md rounded-br-md"
+                                                    class="text-slate-600 bg-white font-bold h-[40px] pl-3 flex items-center text-md  rounded-tr-md rounded-br-md"
                                                     placeholder="0.00" disabled v-model="credito_fiscal_info.total_credito">
                                             </div>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="flex justify-center py-4 px-4 pt-24 pl-36">
-                                <!--<button v-if="active_tab === 0" @click="register_new_venta()"
-                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
-                                    Guardar Venta Consumidor Final
-                                </button>-->
-                                <button v-if="active_tab === 1" @click="register_new_venta()"
-                                    :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                    class="h-[40px] text-white font-bold py-2 px-4 rounded">
-                                    Actualizar Pedido (Credito Fiscal)
-                                </button>
+                            <div class="grid grid-cols-12 col-span-8 justify-center items-center py-4 px-4 w-full mt-10">
+                                <div class="flex justify-end col-span-6">
+                                    <button v-if="active_tab === 1" @click="register_new_venta()"
+                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
+                                        class="h-auto text-white font-bold py-2 px-4 rounded">
+                                        Actualizar Pedido (Credito Fiscal)
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -378,9 +328,9 @@
 <script>
 import axios from 'axios';
 import api_url from '../../config.js';
-import "../../assets/registrar_venta.css"
+import "../../assets/registrar_venta.css";
 import moment from 'moment';
-import { useToast } from 'vue-toastification'
+import { useToast } from 'vue-toastification';
 import NavBar from '@/components/NavBar.vue';
 import { useRoute } from 'vue-router';
 
@@ -393,7 +343,7 @@ export default {
     data() {
         return {
             id: null,
-            fechaEditable:true,
+            fechaEditable: true,
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 1,
 
@@ -427,8 +377,8 @@ export default {
                 municipio: {},
                 distintivo_cliente: ""
             },
-            departamento_cliente: "La Paz",
-            municipio_cliente: "San Luis la Herradura",
+            departamento_cliente: "",
+            municipio_cliente: "",
 
             //Objeto Creditos Fiscales
             credito_fiscal_info: {
@@ -443,7 +393,7 @@ export default {
             producto_nombre: '',
 
             //Contador Autoincremental para la tabla Detalle
-            contador_tabla: 1,
+            contador_tabla: 0,
 
             //Subtotal de la venta
             subtotal_venta: 0.00,
@@ -491,7 +441,7 @@ export default {
 
                 this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(2);
 
-                this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito-this.subtotal_venta).toFixed(2);
+                this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito - this.subtotal_venta).toFixed(2);
 
                 this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
             },
@@ -507,10 +457,10 @@ export default {
                         this.setInfoCliente(response.data.cliente),
                         this.calcular_subtotalventa(),
                         this.watch_cantidad_producto_on_load(),
-                        response.data.credito_fiscal_domicilio == null ? this.fechaEditable = false: this.fechaEditable=true
+                        response.data.credito_fiscal_domicilio == null ? this.fechaEditable = false : this.fechaEditable = true
                 });
         },
-        setInfoCliente(cliente){
+        setInfoCliente(cliente) {
             this.cliente_info = cliente;
             this.municipio_cliente = cliente.municipio.nombre_municipio;
             this.departamento_cliente = cliente.municipio.departamento.nombre_departamento;
@@ -540,18 +490,20 @@ export default {
         redirigir_entrada_input() {
             if (!(document.activeElement.tagName == "INPUT")) {
                 // No hay ningún campo activo, enfocar al input de busqueda por codigo
-                this.$refs.codigo_bp.focus();
+                this.$refs.codigo_bp?.focus();
             }
         },
         listener_buscar_codigo_producto() {
             var codigoBarras = this.producto_codigo;
             console.log("codigo barras: " + codigoBarras);
-
             // Reiniciar el temporizador
-            if (this.timer) {
-                clearTimeout(this.timer);
+            this.timer ? clearTimeout(this.timer) : null;
+            // Si llegamos al limite de 20 detalles, return
+            if (this.contador_tabla >= 20) {
+                console.log("Limite de 20 detalles");
+                this.watch_toast('error', 'Limite de productos por factura alcanzado.');
+                return;
             }
-
             // Establecer un nuevo temporizador para ejecutar la búsqueda después de un cierto tiempo (por ejemplo, 500 ms)
             this.timer = setTimeout(() => {
                 this.codigo_barra_lector = codigoBarras;
@@ -564,14 +516,10 @@ export default {
             if (this.detalle_ventas_lista.length === 1) {
                 // Si solo queda un detalle, restablecer los valores en lugar de eliminarlo
                 this.detalle_ventas_lista = []
-                this.contador_tabla = 1;
+                this.contador_tabla = 0;
             } else {
                 this.detalle_ventas_lista.splice(index, 1); //Index-1 porque el index empieza en 1
-                this.contador_tabla = 1;
-                // Actualizar el contador de los detalles restantes
-                for (let i = 0; i < this.detalle_ventas_lista.length; i++) {
-                    this.detalle_ventas_lista[i].id_venta = this.contador_tabla++;
-                }
+                this.contador_tabla = this.contador_tabla - 1;
             }
         },
         //Obtener lista de todos los nombres de productos en la bdd
@@ -580,13 +528,11 @@ export default {
                 .get(api_url + '/productos/nombres/lista')
                 .then((response) => {
                     this.productos = response.data.nombres_productos;
-                    //console.log("nombreees: " + response.data.nombres_productos);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         },
-        // --------------------- PRODUCTOS ---------------------
         //Buscar el nombre del producto mas cercano al texto ingresado
         listener_producto_nombre() {
             if (this.producto_nombre && this.mostrar_sugerencias) {
@@ -603,14 +549,12 @@ export default {
             this.agregar_producto_detalle();
             this.sugerencias = [];
         },
-        // --------------------- CLIENTES ---------------------
         //Obtener lista de todos los nombres de clientes en la bdd
         get_lista_nombres_clientes() {
             return axios
                 .get(api_url + '/clientes/identificador/lista')
                 .then((response) => {
                     this.clientes = response.data.datos;
-                    //console.log(response.data.datos);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -673,7 +617,6 @@ export default {
                     console.log(err);
                 });
         },
-        // --------------------- CLIENTES ---------------------
         //Buscar Producto por codigo
         get_producto_segun_codigo() {
             return axios
@@ -709,6 +652,11 @@ export default {
         },
         //Anadir registro en tabla DETALLE
         agregar_producto_detalle() {
+            if (this.contador_tabla >= 12) {
+                console.log("Limite de 12 detalles, credito fiscal");
+                this.watch_toast('error', 'Limite de productos por factura (crédito) alcanzado.');
+                return;
+            }
             this.get_producto_segun_nombre()
                 .then(() => {
                     return this.add_detalle_venta();
@@ -774,13 +722,13 @@ export default {
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
                 this.contador_tabla++;
-                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length-1]);
+                this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length - 1]);
                 resolve();
             });
         },
         //Observar cambios en cantidad de producto y actualizar subtotal
         watch_cantidad_producto(fila) {
-            //this.verificar_unidad_medida(fila)
+            this.verificar_unidad_medida(fila)
             this.calcularSubtotalDetalleVenta(fila)
                 .then(() => {
                     return this.calcular_subtotalventa();
@@ -792,34 +740,20 @@ export default {
                     console.log(error);
                 });
         },
-        verificar_unidad_medida(fila) {
+        verificar_unidad_medida(detalle) {
             return new Promise((resolve, reject) => {
-                resolve();
-                // Aqui se agregará la logica para verificar la unidad de medida en cada cambio de cantidad
-                // 2d sprint
-                console.log("Verificando unidad de medida: ");
-                console.log(fila);
-
-                // Recorrer this.detalle_ventas_lista para encontrar el detalle correspondiente a fila_detalle_venta.id_venta
-                var detalle = this.detalle_ventas_lista.find((detalle) => detalle.id_venta === fila.id_venta);
-                console.log(detalle.producto.precio_unitario)
                 var cantidad_compra = detalle.cantidad_producto_credito;
-
                 // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
                 var preciosOrdenados = detalle.producto.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
-                console.log("Aqui estoy")
-                console.log(preciosOrdenados[0]);
                 // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
                 let precioUnidadCercano = preciosOrdenados[0]; // Por defecto, tomar el primero
 
-                console.log(fila.cantidad_producto_credito + '<' + precioUnidadCercano.cantidad_producto);
-                if (fila.cantidad_producto_credito < precioUnidadCercano.cantidad_producto) {
-                    console.log("El precio unitario es menor al precio de la unidad de medida");
+                precioUnidadCercano ? console.log('Verificando precios extras...') : resolve();
+                if (detalle.cantidad_producto_credito < precioUnidadCercano.cantidad_producto) {
                     detalle.producto.precio_unitario = detalle.producto.precio_unitario_original;
                     resolve();
                 } else {
                     for (let i = 0; i < preciosOrdenados.length; i++) {
-                        console.log(preciosOrdenados[i].cantidad_producto + '>=' + cantidad_compra);
                         if (preciosOrdenados[i].cantidad_producto <= cantidad_compra) {
                             precioUnidadCercano = preciosOrdenados[i];
                         } else {
@@ -947,7 +881,7 @@ export default {
                 total_iva_credito: 0,
             };
             this.campo_identificador_cliente = "";
-            this.contador_tabla = 1;
+            this.contador_tabla = 0;
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {

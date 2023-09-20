@@ -10,7 +10,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
     <div class="w-full bg-slate-100">
       <div>
         <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
-          <h1 class="font-bold text-blue-700 text-2xl">Listado de Ventas</h1>
+          <h1 class="font-bold text-blue-700 text-xl">Listado de Ventas</h1>
           <div class="flex items-center rounded-[4.44px] bg-blue-700 hover:bg-blue-800">
             <router-link to="registrar_nueva_venta"
               class="text-white w-auto h-auto m-2 text-[13px] font-medium text-center">Registrar nueva venta

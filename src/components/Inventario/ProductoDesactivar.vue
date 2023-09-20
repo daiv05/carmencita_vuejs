@@ -1,10 +1,10 @@
 <template>
     <div class="">
       <div class="flex justify-center">
-        <button @click="isOpen = true" class="w-[70%] text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800" type="button" v-if="estado==0">
+        <button @click="isOpen = true" class="py-2 px-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-[30px] text-sm text-center" type="button" v-if="estado==0">
           Activar
         </button>
-        <button @click="isOpen = true" class="w-[70%] text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-800" type="button" v-if="estado==1">
+        <button @click="isOpen = true" class="py-2 px-4 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-[30px] text-sm text-center  dark:hover:text-white" type="button" v-if="estado==1">
           Desactivar
         </button>
         <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
@@ -37,19 +37,19 @@
                 
             </div>
             <div class="flex items-center justify-between">
-              <h3 class="text-2xl text-center w-full" v-if="estado">¿Desactivar producto?</h3>
-              <h3 class="text-2xl text-center w-full" v-if="!estado">¿Activar producto?</h3>
+              <h3 class="text-xl text-center w-full" v-if="estado">¿Desactivar producto?</h3>
+              <h3 class="text-xl text-center w-full" v-if="!estado">¿Activar producto?</h3>
             </div>
             <div class="mt-4 text-center">
-              <p class="mb-4 text-lg text-center" v-if="estado">
-                El producto no se mostrará en la lista de productos. Los detalles asociadaos a este producto serán desactivados.
+              <p class="mb-4 text-base text-center" v-if="estado">
+                El producto no se mostrará en la lista de productos. Los detalles asociados a este producto serán desactivados.
               </p>
-              <p class="mb-4 text-lg text-center" v-if="!estado">
-                El producto se mostrará en la lista de productos. Los detalles asociadaos a este producto serán activados.
+              <p class="mb-4 text-base text-center" v-if="!estado">
+                El producto se mostrará en la lista de productos. Los detalles asociados a este producto serán activados.
               </p>
                 <div v-if="estado">
                     <button @click="isOpen = false" class="px-6 py-2 text-red-800 border border-red-500 rounded">
-                        Cancel
+                        Cancelar
                     </button>
                     <button class="px-6 py-2 ml-2 text-white bg-red-500 rounded" @click="desactivarProducto()" type="button">
                         Desactivar
@@ -57,7 +57,7 @@
                 </div>
                 <div v-if="!estado">
                     <button @click="isOpen = false" class="px-6 py-2 text-blue-800 border border-blue-500 rounded">
-                        Cancel
+                        Cancelar
                     </button> 
                     <button class="px-6 py-2 ml-2 text-white bg-blue-500 rounded" type="button" @click="desactivarProducto()">
                         Activar

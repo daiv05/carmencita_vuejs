@@ -11,7 +11,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
   <main class="mb-5">
     <NavBar></NavBar>
     <BarraTitulo :titulo="titulo"></BarraTitulo>
-    <div class="container flex justify-center py-5">
+    <div class="flex justify-center py-5">
       <h1 class="font-bold text-lg">¡Bienvenido!</h1>
     </div>
     <!--Cards-->

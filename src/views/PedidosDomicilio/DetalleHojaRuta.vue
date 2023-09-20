@@ -2,31 +2,26 @@
     <NavBar></NavBar>
     <div class="h-screen">
         <div class="w-full bg-slate-100">
+
             <!-- Encabezado -->
-            <div class="w-full h-[60px]">
-                <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
-                    style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
-                    <p class="mt-2 flex-grow-0 flex-shrink-0 text-[25px] font-semibold text-left text-[#3056d3]">
-                        Hojas de Ruta
-                    </p>
-                    <div
-                        class="flex items-center mt-4 flex-grow-0 flex-shrink-0 h-[31px] py-[16px] rounded-[4.44px] bg-[#637381]">
-                        <button id="show-modal"
-                            class="flex-grow-0 flex-shrink-0 w-[225px] text-[13px] font-medium text-center text-white">
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
+                    <div class="flex items-center rounded-[4.44px] bg-[#637381]">
+                        <button id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
                             Editar Hoja de Ruta
                         </button>
                     </div>
                 </div>
-            </div>
-
-            <!-- Tabs para Consumidor Final y Credito Fiscal-->
-            <div v-if="hoja_ruta != null" class="flex flex-col h-full mt-6 ml-2 pl-2 pr-4">
-                <!-- Boton Regresar -->
-                <div class="flex justify-start items-center">
+                <div class="flex justify-start items-center mt-4 ml-4">
                     <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
                         <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
                     </a>
                 </div>
+            </div>
+
+            <!-- Tabs para Consumidor Final y Credito Fiscal-->
+            <div v-if="hoja_ruta != null" class="flex flex-col h-full mt-2 ml-2 pl-2 pr-4">
                 <div class="tab-content flex-grow">
                     <div class="p-4 bg-white">
                         <div class="flex pb-36">
@@ -164,12 +159,16 @@
                             </table>
                             <div class="flex md:justify-center">
                                 <button @click="imprimir_resumen_hr()"
-                                    class="bg-indigo-600 hover:bg-indigo-800 h-[40px] text-base text-white font-bold py-2 my-2 px-4 rounded">
+                                    class="bg-indigo-600 hover:bg-indigo-800 h-auto text-base text-white font-bold py-2 my-2 px-4 rounded">
                                     Generar resumen
                                 </button>
                             </div>
-                            <button @click="marcar_hr_entregada()"
-                                class="bg-red-700 hover:bg-red-800 h-[40px] text-white text-xs font-medium py-2 my-2 px-4 rounded">
+                            <button v-if="!hoja_ruta.esta_entregado" @click="marcar_hr_entregada()"
+                                class="bg-red-700 hover:bg-red-800 h-auto text-white text-xs font-medium py-2 my-2 px-4 rounded">
+                                Marcar todo como entregado
+                            </button>
+                            <button v-else
+                                class="bg-red-300 h-auto text-white text-xs font-medium py-2 my-2 px-4 rounded">
                                 Marcar todo como entregado
                             </button>
                         </div>
@@ -189,7 +188,8 @@
         </ModalConfirmarPagoDomicilio>
     </Teleport>
     <Teleport to="body" v-if="hoja_ruta != null">
-        <ModalConfirmarEntregasHoja @close="showModal_entregas_all = false" :show="showModal_entregas_all" :id_hoja="hoja_ruta.id_hr" @confirmed="confirmacion_entregas()">
+        <ModalConfirmarEntregasHoja @close="showModal_entregas_all = false" :show="showModal_entregas_all"
+            :id_hoja="hoja_ruta.id_hr" @confirmed="confirmacion_entregas()">
         </ModalConfirmarEntregasHoja>
     </Teleport>
 </template>
@@ -264,7 +264,7 @@ export default {
                 .catch((err) => {
                     console.log(err);
                     this.watch_toast("error", "Ocurrió un error, vuelva a intentar.");
-                });     
+                });
         },
         imprimir_credito_domicilio(fila) {
             axios.get(api_url + '/impresion_credito_fiscal/' + fila.credito_fiscal.id_creditofiscal)
