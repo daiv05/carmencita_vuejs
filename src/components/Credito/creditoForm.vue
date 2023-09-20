@@ -217,7 +217,7 @@ export default {
                     detalle_credito:this.credito.detalle_credito,
                     id_proveedor:this.credito.id_proveedor,
                 }
-                axios.post(api_url + '/creditos', params).then(
+                axios.post(api_url + '/creditosProveedores', params).then(
                     (response) => {
                         this.error = showStatusModal(response.data['message']);
                         this.showMessageError = !response.data['status'];

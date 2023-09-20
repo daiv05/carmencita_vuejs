@@ -61,8 +61,8 @@ const agregar_producto = "agregar_producto";
                                                         <td v-text="(i+1)" class="text-center"></td>
                                                         <td v-text="(lote.codigo_barra_producto)" class="text-center"></td>
                                                         <td v-text="(lote.producto.nombre_producto)" class="text-center"></td>
-                                                        <td v-text="(lote.fecha_ingreso)" class="text-center"></td>
-                                                        <td v-text="(lote.fecha_vencimiento)" class="text-center"></td>
+                                                        <td v-text="formatearFechas(lote.fecha_ingreso)" class="text-center"></td>
+                                                        <td v-text="formatearFechas(lote.fecha_vencimiento)" class="text-center"></td>
                                                         <td v-text="(lote.cantidad)" class="text-center"></td>
                                                     </tr>
                                                 </tbody>
@@ -92,6 +92,8 @@ const agregar_producto = "agregar_producto";
 //Importar axios
 import axios from 'axios';
 import api_url from '../../config.js';
+import moment from 'moment'
+
 
 export default {
     components: {
@@ -130,7 +132,11 @@ export default {
 
       actualizarTabla: function(){
         this.getProductosPV();
-      }
+      },
+
+      formatearFechas(fecha) {
+      return moment(fecha).format('DD/MM/YYYY')
+      },
     },
 };
 </script>
