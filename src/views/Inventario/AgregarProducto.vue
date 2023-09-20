@@ -49,6 +49,12 @@ import api_url from "../../config";
                         <ErrorMessage name = "cantidad_disponible" class = "mensajeDeError corregirLongitud" />
                     </div>
                     <div class="">
+                        <label for="cantidad_fisica" class="block mb-[0.5%]">Cantidad Fisica</label>
+                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_fisica" placeholder = "Cantidad" v-model = "producto.cantidadProductoFisico"
+                        :rules="validarCantidadFisica"/>
+                        <ErrorMessage name = "cantidad_fisica" class = "mensajeDeError corregirLongitud" />
+                    </div>
+                    <div class="mb-4">
                         <label for="precio_unitario" class="block mb-[0.5%]">Precio Unitario</label>
                         <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" 
                         placeholder = "Precio" v-model = "producto.precioUnitarioProducto" :rules = "validarPrecioUnitario"/>
@@ -56,7 +62,7 @@ import api_url from "../../config";
                     </div>
                     <div class="grow">
                         <label for="activo" class="block mb-[0.5%]">Activo</label>
-                        <div class="my-[5%]">
+                        <div class="my-[0.5%]">
                         <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo" value = "activo" v-model="producto.estaActivoProducto"/>
                         <label for = "activo"  class=" inline-block text-slate-500 ml-[1%]">Disponible para la venta</label>
                         </div>
@@ -162,6 +168,7 @@ export default {
                 nombreProducto : null,
                 codigoBarraProducto : null,
                 cantidadProductoDisponible : null,
+                cantidadProductoFisico : null,
                 precioUnitarioProducto : null,
                 estaActivoProducto : "activo",
                 fotoProducto : null
@@ -171,6 +178,7 @@ export default {
             nombreEsValido:false,
             codigoBarraProductoEsValido:false,
             cantidadDisponibleEsValido:false,
+            cantidadFisicaEsValido:false,
             precioUnitarioEsValido:false,
             mensajeExito:"",
             activarAlerta : false,
@@ -238,6 +246,17 @@ export default {
             this.cantidadDisponibleEsValido = true;
             return true;
         },
+        validarCantidadFisica(value){
+            let regExpresion = /^[0-9]{1,5}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "La cantidad fisica deben ser numeros";
+            }
+            this.cantidadFisicaEsValido = true;
+            return true;
+        },
         validarPrecioUnitario(value){
             let regExpresion = /^[0-9]{1,5}\.?[0-9]{1,2}$/;
             if(value == null){
@@ -282,6 +301,7 @@ export default {
             bodyFormData.append("codigo_barra_producto",this.producto.codigoBarraProducto);
             bodyFormData.append("nombre_producto",this.producto.nombreProducto);
             bodyFormData.append("cantidad_producto_disponible",this.producto.cantidadProductoDisponible);
+            bodyFormData.append("cantidad_producto_fisico",this.producto.cantidadProductoFisico);
             bodyFormData.append("precio_unitario",this.producto.precioUnitarioProducto);
             if(this.producto.estaActivoProducto){
                 bodyFormData.append("esta_disponible",1);
