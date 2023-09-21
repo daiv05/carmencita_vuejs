@@ -111,7 +111,7 @@ export default {
                controlModalEliminar: ref(false),
           }
      },
-     mounted() {
+     created() {
           this.getCargos();
      },
      methods: {

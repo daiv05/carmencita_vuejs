@@ -12,7 +12,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
         <NavBar></NavBar>
         <div class="bg-slate-100 pb-4">
             <div class="bg-white w-full mx-auto p-5 shadow-md">
-                <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>
+                <h1 class="font-bold text-blue-700 text-xl ">Gestión de Pedidos a Domicilio</h1>
             </div>
             <div class="flex justify-start items-center mt-4 ml-4">
                 <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -20,11 +20,11 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                 </a>
             </div>
 
-            <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
+            <div class="m-auto p-1 pb-0 pt-4 w-4/5">
                 <h2 class="font-bold text-lg">Listado de Pedidos</h2>
             </div>
             <!--Controles para filtros-->
-            <div class="container grid grid-cols-2 md:grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
+            <div class="grid grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
                 <div class="col-span-1 flex flex-col justify-center p-2">
                     <label class="block text-sm font-medium leading-6 text-gray-900" for="estado">Estado</label>
                     <div class="">
@@ -62,8 +62,8 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
             </div>
             <!--Tabla de pedidos-->
             <div
-                class="container w-full m-1 md:w-11/12 lg:w-4/5 p-4 sm:mx-auto bg-slate-50 shadow rounded-md overflow-scroll lg:overflow-auto">
-                <table class="w-full max-h-screen rounded-md">
+                class="md:w-[85%] w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
+                <table class="table w-full max-h-screen rounded-md">
                     <thead class="border-b bg-slate-100">
                         <tr class="text-center">
                             <td scope="col" class="px-6 py-4 text-xs text-gray-500 font-semibold">CODIGO</td>
@@ -148,7 +148,7 @@ export default {
             vacio: true, //si pedidos esta vacio,
         }
     },
-    mounted() {
+    created() {
         this.getPedidos();
     },
     methods: {

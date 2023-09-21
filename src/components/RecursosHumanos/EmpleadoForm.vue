@@ -140,14 +140,14 @@ import api_url from '../../config.js' ;
                 <label for="nacionalidad" class="block text-sm font-medium leading-6 text-gray-900">Nacionalidad</label>
                 <div class="mt-2">
                     <Field v-model="empleado.id_nacionalidad" as="select" name="nacionalidad" id="nacionalidad" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                        <option value="" selected>Choose a country</option>
+                        <option value="" selected>Seleccione...</option>
                         <option v-for="nac in nacionalidades" :key="nac.id_nacionalidad" :value=nac.id_nacionalidad>{{nac.nombre_nacionalidad}}</option>
                     </Field>
                 </div>
                 </div>
 
                 <div class="sm:col-span-3">
-                <label for="dui_empleado" class="block text-sm font-medium leading-6 text-gray-900">Documento de identidad</label>
+                <label for="dui_empleado" class="block text-sm font-medium leading-6 text-gray-900">DUI</label>
                 <div class="mt-2">
                     <Field name="dui_empleado" rules="required|dui" v-model="empleado.dui_empleado" id="dui_empleado" type="text" placeholder="Ingresa tu numero de documento sin - " class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     <ErrorMessage name="dui_empleado" class="text-red-500 text-xs"/>
@@ -165,7 +165,7 @@ import api_url from '../../config.js' ;
                 </div>
 
                 <div class="sm:col-span-3">
-                <label for="telefono" class="block text-sm font-medium leading-6 text-gray-900">Telefono</label>
+                <label for="telefono" class="block text-sm font-medium leading-6 text-gray-900">Teléfono</label>
                 <div class="mt-2">
                     <Field name="telefono" rules="required" v-model="empleado.telefono" id="telefono" type="text" placeholder="Ingresa tu numero de telefono" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     <ErrorMessage name="telefono" class="text-red-500 text-xs"/>
@@ -178,7 +178,7 @@ import api_url from '../../config.js' ;
   <!--Usuario-->
     <div class="container bg-white shadow m-auto w-4/5 my-4" >
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Datos del usuario</h2>
+                <h2 class="pt-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Datos del usuario</h2>
             </div>
         <div class="w-full text-center flex justify-center" v-if="!createForm">
             <a href="#" class=" m-2 bg-purple-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Editar usuario</a>
@@ -186,7 +186,7 @@ import api_url from '../../config.js' ;
         <div class="w-full" v-if="createForm">
             <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-8 lg:px-8">
                 <div class="mt-auto sm:mx-auto sm:w-full sm:max-w-sm">
-                    <div>
+                    <div class="mb-4">
                         <label for="usuario" class="block text-sm font-medium leading-6 text-gray-900">Usuario</label>
                         <div class="mt-2">
                         <Field name="usuario" rules="required" v-model="empleado.email" id="usuario" type="text" placeholder="Ingresa nombre de usuario" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
@@ -194,7 +194,7 @@ import api_url from '../../config.js' ;
                     </div>
                     </div>
 
-                    <div>
+                    <div class="mb-4">
                         <div class="flex items-center justify-between">
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Contraseña</label>
                         </div>
@@ -204,7 +204,7 @@ import api_url from '../../config.js' ;
                         </div>
                     </div>
 
-                    <div>
+                    <div class="mb-4">
                         <div class="flex items-center justify-between">
                         <label for="password_confirm" class="block text-sm font-medium leading-6 text-gray-900">Confirmar contraseña</label>
                         </div>
@@ -223,8 +223,11 @@ import api_url from '../../config.js' ;
         <router-link to="/listar_empleados" class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Cancelar
         </router-link>
-        <button type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Enviar
+        <button v-if="createForm" type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Registrar empleado
+        </button>
+        <button v-else type="submit" class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Guardar Cambios
         </button>
     </div>
   

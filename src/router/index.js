@@ -75,12 +75,6 @@ const router = createRouter({
 
       },
     },
-
-    {
-      path: '/listar_empleados',
-      name: 'listar_empleados',
-      component: ListarEmpleados
-    },
     {
       path: '/',
       name: 'home',

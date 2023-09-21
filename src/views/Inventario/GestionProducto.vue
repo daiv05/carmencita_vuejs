@@ -101,61 +101,55 @@ const agregar_producto = "agregar_producto";
 
                 <section class="grid-cols-1 sm:col-span-5">
                     <section class="container mx-auto p-6 z-900">
-
                         <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                             <div class="w-full overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
+                                                <th class="font-bold">Producto</th>
+                                                <th class="font-bold">Código de Barras</th>
+                                                <th class="font-bold">Precio Unit.</th>
+                                                <th class="font-bold">Cant. Disponible</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
 
-                                <table class="w-full">
-
-                                    <thead>
-                                        <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
-                                            <th class="font-bold">Producto</th>
-                                            <th class="font-bold">Código de Barras</th>
-                                            <th class="font-bold">Precio Unit.</th>
-                                            <th class="font-bold">Cant. Disponible</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody class="bg-white">
-                                        <tr class="border-b-2 border-black-400 h-[40px] bg-black-300"
-                                            v-for="producto in even(listaProductos, estado)"
-                                            v-bind:key="producto.codigo_barra_producto">
-                                            <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100"
-                                                @click="mostrarProducto(producto.codigo_barra_producto)">
-                                                <div class="flex items-center">
-                                                    <img class="w-10 h-10 rounded-full mr-4"
-                                                        v-bind:src="api_url + '/productos/' + producto.codigo_barra_producto + '/foto'"
-                                                        v-if="producto.foto != ''" alt="Avatar of Jonathan Reinink" />
-                                                    <img :src="notImg" v-if="producto.foto == ''" alt=""
-                                                        class="w-10 h-10 rounded-full mr-4">
-                                                    <p class="font-semibold text-black">{{ producto.nombre_producto }}</p>
-                                                </div>
-                                            </td>
-                                            <td class="px-4 py-3 text-ms font-semibold text-center">{{
-                                                producto.codigo_barra_producto }}</td>
-                                            <td class="px-4 py-3 text-ms font-semibold text-center">$ {{
-                                                producto.precio_unitario }}</td>
-                                            <td class="px-4 py-3 text-ms font-semibold text-center">{{
-                                                producto.cantidad_producto_disponible }}</td>
-                                            <td class="px-4 py-3 text-xs text-center">
-                                                <button type="button"
-                                                    class="px-8 py-2 m-2 rounded-full focus:outline-none text-white hover:bg-cyan-500 focus:ring-4 focus:ring-cyan-300 font-medium text-sm bg-cyan-500"
-                                                    @click="modificarProducto(producto.codigo_barra_producto)">Editar</button>
-                                                <DesactivarProducto :estado="producto.esta_disponible"
-                                                    :id="producto.codigo_barra_producto" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-
+                                        <tbody class="bg-white">
+                                            <tr class="border-b-2 border-black-400 h-[40px] bg-black-300"
+                                                v-for="producto in even(listaProductos, estado)"
+                                                v-bind:key="producto.codigo_barra_producto">
+                                                <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100"
+                                                    @click="mostrarProducto(producto.codigo_barra_producto)">
+                                                    <div class="flex items-center">
+                                                        <img class="w-10 h-10 rounded-full mr-4"
+                                                            v-bind:src="api_url + '/productos/' + producto.codigo_barra_producto + '/foto'"
+                                                            v-if="producto.foto != ''" alt="Avatar of Jonathan Reinink" />
+                                                        <img :src="notImg" v-if="producto.foto == ''" alt=""
+                                                            class="w-10 h-10 rounded-full mr-4">
+                                                        <p class="font-semibold text-black">{{ producto.nombre_producto }}
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-3 text-ms font-semibold text-center">{{
+                                                    producto.codigo_barra_producto }}</td>
+                                                <td class="px-4 py-3 text-ms font-semibold text-center">$ {{
+                                                    producto.precio_unitario }}</td>
+                                                <td class="px-4 py-3 text-ms font-semibold text-center">{{
+                                                    producto.cantidad_producto_disponible }}</td>
+                                                <td class="px-4 py-3 text-xs text-center">
+                                                    <button type="button"
+                                                        class="px-8 py-2 m-2 rounded-full focus:outline-none text-white hover:bg-cyan-500 focus:ring-4 focus:ring-cyan-300 font-medium text-sm bg-cyan-500"
+                                                        @click="modificarProducto(producto.codigo_barra_producto)">Editar</button>
+                                                    <DesactivarProducto :estado="producto.esta_disponible"
+                                                        :id="producto.codigo_barra_producto" />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                             </div>
                         </div>
                     </section>
-
                 </section>
-
             </div>
 
             <!--Apartado para paginacion-->
@@ -223,9 +217,8 @@ export default {
             controlPagina: 0,
         };
     },
-    beforeMount() {
+    created() {
         this.obtenerDatosPaginado();
-        this.obtenerProductos();
     },
     mounted() {
 
