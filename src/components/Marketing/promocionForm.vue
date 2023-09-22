@@ -59,16 +59,16 @@ import api_url from '../../config.js'
         <!--Contenedor de inputs-->
         <div class="container bg-white shadow m-auto p-6 w-4/5 my-4">
             <div class="border-b border-gray-900/10 pb-12">
-                <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                        Datos de la promoción
+                <div class="w-full text-center">
+                    <h2 class="mt-2 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">
+                        Información de la Promoción
                     </h2>
                 </div>
 
                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-3">
                         <label for="fecha_inicio_oferta" class="block text-sm font-medium leading-6 text-gray-900">
-                            Fecha de inicio de la promoción
+                            Fecha de inicio
                         </label>
                         <div class="mt-2">
                             <Field v-model="promocion.fecha_inicio_oferta" name="fecha_inicio_oferta" rules="required" id="fecha_inicio_oferta"
@@ -80,7 +80,7 @@ import api_url from '../../config.js'
 
                     <div class="sm:col-span-3">
                         <label for="fecha_fin_oferta" class="block text-sm font-medium leading-6 text-gray-900">
-                            Fecha de finalización de la promoción
+                            Fecha de finalización
                         </label>
                         <div class="mt-2">
                             <Field v-model="promocion.fecha_fin_oferta" name="fecha_fin_oferta" rules="required"
@@ -127,7 +127,7 @@ import api_url from '../../config.js'
                         <div class="mt-2">
                             <Field as="select" required name="codigo_barra_producto" id="codigo_barra_producto" v-model="promocion.codigo_barra_producto"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                                <option value="" selected>Seleccionar...</option>
+                                <option value="" selected disabled>Seleccionar...</option>
                                 <option v-for="producto in productos" :key="producto.codigo_barra_producto" :value="producto.codigo_barra_producto">
                                     {{ producto.nombre_producto }} - {{ producto.codigo_barra_producto }}
                                 </option>
@@ -147,7 +147,7 @@ import api_url from '../../config.js'
             </router-link>
             <button type="submit"
                 class="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Registrar Promocion
+                Registrar Promoción
             </button>
         </div>
     </Form>

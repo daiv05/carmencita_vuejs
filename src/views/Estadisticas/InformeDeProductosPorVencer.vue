@@ -10,12 +10,10 @@ const agregar_producto = "agregar_producto";
     <main>
         <!--  NavBar component  -->
         <NavBar />
-
-
         <!-- Encabezado -->
         <div>
             <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
-                <h1 class="font-bold text-blue-700 text-xl">Informe de Productos por Vencer</h1>
+                <h1 class="font-bold text-blue-700 text-xl">Informe de Lotes por Vencer</h1>
             </div>
             <div class="flex justify-start items-center mt-4 ml-4">
                 <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -23,35 +21,27 @@ const agregar_producto = "agregar_producto";
                 </a>
             </div>
         </div>
-
-        <section class="container mx-auto p-6 z-900">
-
-            <div class="grid grid-cols-1 sm:grid-cols-6">
-
-
+        <section class="container mx-auto p-6">
+            <div class="grid grid-cols-1">
                 <!-- Apartado para Listado de Productos  -->
-
-                <section class="grid-cols-1 sm:col-span-5">
-                    <section class="container mx-auto p-6 z-900">
-                        <p
-                            class="mt-2 flex-grow-0 flex-shrink-0 w-[200%] text-[20px] font-semibold text-left text-[#727171]">
-                            Los productos mostrados vencen en los próximos 15 días a partir de la fecha actual
-                            <span class="text-[#3056d3]">{{ formatearFechas(productosPV.fecha_actual) }}</span>
+                <section class="grid-cols-1">
+                    <section class="mx-auto p-6">
+                        <span class="text-[#3056d3]">Fecha actual: {{ formatearFechas(productosPV.fecha_actual) }}</span>
+                        <p class="mt-2 flex-grow-0 flex-shrink-0 text-md font-semibold text-left text-[#727171]">
+                            Lotes por vencer en los próximos 15 días
                         </p>
                         <br>
                         <br>
                         <div class="w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
-
-
                             <table class="table w-full max-h-screen rounded-md">
                                 <thead class="border-b bg-slate-100">
                                     <tr class="text-center">
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">N°</th>
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Codigo de Barra</th>
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Producto</th>
-                                        <td v-text="formatearFechas(lote.fecha_ingreso)" class="text-center"></td>
-                                        <td v-text="formatearFechas(lote.fecha_vencimiento)" class="text-center"></td>
-                                        <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Cantidad disponible</th>
+                                        <td class="px-6 py-4 text-xs text-gray-500 font-semibold">Fecha de ingreso</td>
+                                        <td class="px-6 py-4 text-xs text-gray-500 font-semibold">Fecha de Vencimiento</td>
+                                        <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Cantidad Restante</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider" id="contenido">
@@ -65,8 +55,8 @@ const agregar_producto = "agregar_producto";
                                         <td v-text="(i + 1)" class="text-center"></td>
                                         <td v-text="(lote.codigo_barra_producto)" class="text-center"></td>
                                         <td v-text="(lote.producto.nombre_producto)" class="text-center"></td>
-                                        <td v-text="(lote.fecha_ingreso)" class="text-center"></td>
-                                        <td v-text="(lote.fecha_vencimiento)" class="text-center"></td>
+                                        <td v-text="formatearFechas(lote.fecha_ingreso)" class="text-center"></td>
+                                        <td v-text="formatearFechas(lote.fecha_vencimiento)" class="text-center"></td>
                                         <td v-text="(lote.cantidad)" class="text-center"></td>
                                     </tr>
                                 </tbody>
@@ -131,9 +121,9 @@ export default {
             this.getProductosPV();
         },
 
-      formatearFechas(fecha) {
-      return moment(fecha).format('DD/MM/YYYY')
-      },
+        formatearFechas(fecha) {
+            return moment(fecha).format('DD/MM/YYYY')
+        },
     },
 };
 </script>
