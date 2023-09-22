@@ -34,9 +34,11 @@ const agregar_producto = "agregar_producto";
                 <section class="grid-cols-1 sm:col-span-5">
                     <section class="container mx-auto p-6 z-900">
                         <p
-                            class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[20px] font-semibold text-left text-[#727171]">
-                            Listado de producto a vencer en los proximos 15 dias.
+                            class="mt-2 flex-grow-0 flex-shrink-0 w-[200%] text-[20px] font-semibold text-left text-[#727171]">
+                            Los productos mostrados vencen en los próximos 15 días a partir de la fecha actual
+                            <span class="text-[#3056d3]">{{ formatearFechas(productosPV.fecha_actual) }}</span>
                         </p>
+                        <br>
                         <br>
                         <div class="w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
 
@@ -47,8 +49,8 @@ const agregar_producto = "agregar_producto";
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">N°</th>
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Codigo de Barra</th>
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Producto</th>
-                                        <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Fecha de Ingreso</th>
-                                        <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Fecha de Vencimiento</th>
+                                        <td v-text="formatearFechas(lote.fecha_ingreso)" class="text-center"></td>
+                                        <td v-text="formatearFechas(lote.fecha_vencimiento)" class="text-center"></td>
                                         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Cantidad disponible</th>
                                     </tr>
                                 </thead>
@@ -87,6 +89,8 @@ const agregar_producto = "agregar_producto";
 //Importar axios
 import axios from 'axios';
 import api_url from '../../config.js';
+import moment from 'moment'
+
 
 export default {
     components: {
@@ -125,7 +129,11 @@ export default {
 
         actualizarTabla: function () {
             this.getProductosPV();
-        }
+        },
+
+      formatearFechas(fecha) {
+      return moment(fecha).format('DD/MM/YYYY')
+      },
     },
 };
 </script>

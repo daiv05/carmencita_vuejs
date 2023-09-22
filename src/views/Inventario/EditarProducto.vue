@@ -49,31 +49,33 @@ import api_url from '../../config';
                                 <ErrorMessage name="codigo_barra_producto" class="mensajeDeError" />
                             </div>
 
-                            <div class="mb-[4%] flex flex-wrap">
-                                <div class="">
-                                    <label for="cantidad_disponible" class="block mb-[0.5%]">Cantidad Disponible</label>
-                                    <Field type="text" class="w-[90%] border-1 rounded border-slate-300"
-                                        name="cantidad_disponible" placeholder="Cantidad"
-                                        v-model="producto.cantidadProductoDisponible" :rules="validarCantidadDisponible" />
-                                    <ErrorMessage name="cantidad_disponible" class="mensajeDeError corregirLongitud" />
-                                </div>
-                                <div class="">
-                                    <label for="precio_unitario" class="block mb-[0.5%]">Precio Unitario ($)</label>
-                                    <Field type="text" class="w-[80%] border-1 rounded border-slate-300"
-                                        name="precio_unitario" placeholder="Precio"
-                                        v-model="producto.precioUnitarioProducto" :rules="validarPrecioUnitario" />
-                                    <ErrorMessage name="precio_unitario" class="mensajeDeError corregirLongitud" />
-                                </div>
-                                <div class="grow">
-                                    <label for="activo" class="block mb-[0.5%] mt-4">Activo</label>
-                                    <div>
-                                        <Field type="checkbox" class="border-1 rounded border-slate-300" name="activo"
-                                            value="activo" v-model="producto.estaActivoProducto" />
-                                        <label for="activo" class="inline-block text-slate-500 ml-[1%]">Disponible para la
-                                            venta</label>
-                                    </div>
-                                </div>
-                            </div>
+                  <div class="mb-[4%] flex flex-wrap">
+                    <div class="">
+                        <label for="cantidad_disponible" class="block mb-[0.5%]">Cantidad Disponible</label>
+                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_disponible" placeholder = "Cantidad" v-model = "producto.cantidadProductoDisponible"
+                        :rules="validarCantidadDisponible"/>
+                        <ErrorMessage name = "cantidad_disponible" class = "mensajeDeError corregirLongitud" />
+                    </div>
+                    <div class="">
+                        <label for="cantidad_fisica" class="block mb-[0.5%]">Cantidad Fisica</label>
+                        <Field type = "text" class = "w-[90%] border-1 rounded border-slate-300" name = "cantidad_fisica" placeholder = "Cantidad Fisica" v-model = "producto.cantidadProductoFisico"
+                        :rules="validarCantidadFisica"/>
+                        <ErrorMessage name = "cantidad_fisica" class = "mensajeDeError corregirLongitud" />
+                    </div>
+                    <div class="mb-4">
+                        <label for="precio_unitario" class="block mb-[0.5%]">Precio Unitario</label>
+                        <Field type = "text" class = "w-[80%] border-1 rounded border-slate-300" name = "precio_unitario" 
+                        placeholder = "Precio" v-model = "producto.precioUnitarioProducto" :rules = "validarPrecioUnitario"/>
+                        <ErrorMessage name = "precio_unitario" class = "mensajeDeError corregirLongitud" />
+                    </div>
+                    <div class="grow">
+                        <label for="activo" class="block mb-[0.5%]">Activo</label>
+                        <div class="my-[5%]">
+                        <Field type = "checkbox" class = "border-1 rounded border-slate-300" name = "activo" value = "activo" v-model="producto.estaActivoProducto"/>
+                        <label for = "activo"  class=" inline-block text-slate-500 ml-[1%]">Disponible para la venta</label>
+                        </div>
+                    </div>
+                  </div>  
 
                             <!--Columna dos contenedor de foto-->
                         </div>
@@ -212,16 +214,17 @@ export default {
             activarAlertaError: false,
             activarAlerta: false,
             listaPrecios: [],
-            controlModalPrecioExtra: false,
-            controlModalEditarPrecioExtra: false,
-            precioExtraParametro: {},
-            producto: {
-                nombreProducto: null,
-                codigoBarraProducto: null,
-                cantidadProductoDisponible: null,
-                precioUnitarioProducto: null,
-                estaActivoProducto: "activo",
-                fotoProducto: null
+            controlModalPrecioExtra:false,
+            controlModalEditarPrecioExtra:false,
+            precioExtraParametro:{},
+            producto : {
+                nombreProducto : null,
+                codigoBarraProducto : null,
+                cantidadProductoDisponible : null,
+                cantidadProductoFisico : null,
+                precioUnitarioProducto : null,
+                estaActivoProducto : "activo",
+                fotoProducto : null
             },
             urlFotoProducto: " ",
             imagenProductoServidor: null
@@ -278,27 +281,28 @@ export default {
         cargarProducto() {
             let url = api_url + "/productos/precios/" + this.idProducto;
             axios.get(url).
-                then(
-                    (response) => {
-                        let tempProducto = response.data.producto[0];
-                        this.producto.cantidadProductoDisponible = tempProducto.cantidad_producto_disponible;
-                        this.producto.codigoBarraProducto = tempProducto.codigo_barra_producto;
-                        this.producto.nombreProducto = tempProducto.nombre_producto;
-                        this.producto.precioUnitarioProducto = tempProducto.precio_unitario;
-                        this.asignarEstadoProducto(tempProducto.esta_disponible);
-                        this.cargarFoto(tempProducto.foto);
-                        this.cargarPreciosExtra();
+            then(
+                (response)=>{
+                    let tempProducto = response.data.producto[0];
+                    this.producto.cantidadProductoDisponible = tempProducto.cantidad_producto_disponible;
+                    this.producto.cantidadProductoFisico = tempProducto.cantidad_producto_fisico;
+                    this.producto.codigoBarraProducto = tempProducto.codigo_barra_producto;
+                    this.producto.nombreProducto = tempProducto.nombre_producto;
+                    this.producto.precioUnitarioProducto = tempProducto.precio_unitario;
+                    this.asignarEstadoProducto(tempProducto.esta_disponible);
+                    this.cargarFoto(tempProducto.foto);
+                    this.cargarPreciosExtra();
+                }
+            )
+            .catch(
+                response=>{
+                    if(response.response.data.status === false){
+                        this.mensajeExito = "El codigo de barra de producto que envio de parametro no se encuentar en la base de datos";
+                        console.log(this.mensajeExito);
+                        this.controlAlertaError();
                     }
-                )
-                .catch(
-                    response => {
-                        if (response.response.data.status === false) {
-                            this.mensajeExito = "El codigo de barra de producto que envio de parametro no se encuentar en la base de datos";
-                            console.log(this.mensajeExito);
-                            this.controlAlertaError();
-                        }
-                    }
-                );
+                }
+            );
         },
         cargarPreciosExtra(codigoBarraProducto) {
             axios.get(api_url + "/precio_lista_unidades/" + this.producto.codigoBarraProducto)
@@ -377,7 +381,18 @@ export default {
             this.cantidadDisponibleEsValido = true;
             return true;
         },
-        validarCodigoBarra(value) {
+        validarCantidadFisica(value){
+            let regExpresion = /^[0-9]{1,5}$/;
+            if(value == null){
+                return "Este campo no puede quedar vacio";
+            }
+            else if(!regExpresion.test(value)){
+                return "La cantidad fisica deben ser numeros";
+            }
+            this.cantidadFisicoEsValido = true;
+            return true;
+        },
+        validarCodigoBarra(value){
             const expresionRegular = /^[0-9]{10,13}$/;
             const regExpresion = new RegExp(expresionRegular);
             if (value == null) {
@@ -444,12 +459,13 @@ export default {
         },
         crearFormDataPutProducto() {
             let bodyFormData = new FormData();
-            bodyFormData.append("codigo_barra_producto", this.producto.codigoBarraProducto);
-            bodyFormData.append("nombre_producto", this.producto.nombreProducto);
-            bodyFormData.append("cantidad_producto_disponible", this.producto.cantidadProductoDisponible);
-            bodyFormData.append("precio_unitario", this.producto.precioUnitarioProducto);
-            if (this.producto.estaActivoProducto) {
-                bodyFormData.append("esta_disponible", 1);
+            bodyFormData.append("codigo_barra_producto",this.producto.codigoBarraProducto);
+            bodyFormData.append("nombre_producto",this.producto.nombreProducto);
+            bodyFormData.append("cantidad_producto_disponible",this.producto.cantidadProductoDisponible);
+            bodyFormData.append("cantidad_producto_fisico",this.producto.cantidadProductoFisico);
+            bodyFormData.append("precio_unitario",this.producto.precioUnitarioProducto);
+            if(this.producto.estaActivoProducto){
+                bodyFormData.append("esta_disponible",1);
             }
             else {
                 bodyFormData.append("esta_disponible", 0);

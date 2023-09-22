@@ -65,7 +65,7 @@
             <div class="flex justify-center align-center">
               <BotonConsultar :url="urlConsultar + datosHojaDeRuta.id_hr"></BotonConsultar>
               <BotonEditar :url="urlEditar + datosHojaDeRuta.id_hr"></BotonEditar>
-              <BotonEliminar :url="urlEliminar + datosHojaDeRuta.id_hr"></BotonEliminar>
+              <EliminarHR :id="datosHojaDeRuta.id_hr"></EliminarHR>
             </div>
           </td>
         </tr>
@@ -115,13 +115,16 @@ import BotonConsultar from '../../components/Helpers/BotonConsultar.vue'
 import BotonEditar from '../../components/Helpers/BotonEditar.vue'
 import BotonEliminar from '../../components/Helpers/BotonEliminar.vue'
 import moment from 'moment'
+import EliminarHR from '../../components/Ventas/EliminarHR.vue'
+
 
 export default {
   components: {
     NavBar,
     BotonConsultar,
     BotonEditar,
-    BotonEliminar
+    BotonEliminar,
+    EliminarHR
   },
   data() {
     return {
