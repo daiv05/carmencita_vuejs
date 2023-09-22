@@ -36,20 +36,19 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
                               {{ mensajeTransaccion }}
                          </div>
                     </Teleport>
-                    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-                         <div class="w-full overflow-x-auto">
-                              <table class="w-full">
-                                   <thead>
+                         <div class="md:w-[85%] w-auto p-4 mx-auto bg-white shadow rounded-md overflow-auto">
+                              <table class="table w-full max-h-screen rounded-md">
+                                   <thead class="border-b bg-slate-100">
                                         <tr
-                                             class="text-md font-semibold tracking-wide text-gray-900 bg-gray-100 uppercase text-center">
-                                             <th class="px-4 py-3">Cargo</th>
-                                             <th class="px-4 py-3">Sueldo ($)</th>
-                                             <th class="px-4 py-3">Acciones</th>
+                                             class="text-center uppercase">
+                                             <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Cargo</th>
+                                             <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Sueldo ($)</th>
+                                             <th class="px-6 py-4 text-xs text-gray-500 font-semibold">Acciones</th>
                                         </tr>
                                    </thead>
-                                   <tbody class="bg-white">
-                                        <tr class=" text-gray-700" v-for="cargo in listaCargos" v-bind:key="cargo.id_cargo">
-                                             <td class="cursor-pointer px-4 py-3 text-center casillaClick hover:bg-gray-100"
+                                   <tbody>
+                                        <tr class=" border-b hover:bg-slate-100 hover:shadow" v-for="cargo in listaCargos" v-bind:key="cargo.id_cargo">
+                                             <td class="cursor-pointer px-4 py-3 text-center hover:bg-gray-100"
                                                   @click="mostrarCargo(cargo.id_cargo)">
                                                   <div class="">
                                                        <p class="font-semibold text-black">{{ cargo.nombre_cargo }}</p>
@@ -69,7 +68,6 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
                                    </tbody>
                               </table>
                          </div>
-                    </div>
                </section>
           </section>
 
