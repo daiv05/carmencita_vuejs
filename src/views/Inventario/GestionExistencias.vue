@@ -22,8 +22,9 @@
       v-if="isSucces">
       <span class="font-medium">{{ mensajeResultado }}</span>
     </div>
-    <table class="w-[95%] lg:w-[75%] m-auto mt-[2%]">
-      <tr class="text-gray-400 bg-gray-50 border-b">
+    <div class="mt-8 md:w-[85%] w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
+      <table class="table w-full max-h-screen rounded-md">
+      <tr class="border-b bg-slate-100">
         <th class="p-[1%] font-semibold">ID</th>
         <th class="p-[1%] font-semibold w-[30%]">Producto</th>
         <th class="p-[1%] font-semibold">Fecha de Ingreso</th>
@@ -39,19 +40,22 @@
           <td>
             <div class="flex justify-center content-center">
               <button
-                class="my-2 px-4 py-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white border border-green-500 hover:border-transparent rounded-full"
+                class="my-2 mx-2 px-4 py-2 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white border border-green-500 hover:border-transparent rounded-full"
                 @click="abrirModalConsultar(lote)">Consultar</button>
               <button
-                class="my-2 px-4 py-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded-full"
+                class="my-2 mx-2 px-4 py-2 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white border border-blue-500 hover:border-transparent rounded-full"
                 @click="abrirModalEditar(lote)">Editar</button>
               <button
-                class="my-2 px-4 py-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent rounded-full"
+                class="my-2 mx-2 px-4 py-2 bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white border border-red-500 hover:border-transparent rounded-full"
                 @click="abrirModalEliminacion(lote)">Eliminar</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    
+  </div>
     <div class="flex justify-center mt-[2%] mb-[2%]">
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
@@ -86,6 +90,7 @@
         </ul>
       </nav>
     </div>
+
     <Teleport to="body">
       <ModalEditarLote :tempLote="loteParametroComponente" v-if="controlModalEditarLote"
         @cerrarModalEditar="cerrarModalEditar" @guardarLoteModificado="guardarLoteModificado"></ModalEditarLote>

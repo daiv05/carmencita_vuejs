@@ -481,9 +481,11 @@ export default {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
                 });
                 // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
                 this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
             },
             deep: true,
         },

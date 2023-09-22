@@ -439,11 +439,13 @@ export default {
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
 
-                this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(2);
+                this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(4);
 
                 this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito - this.subtotal_venta).toFixed(2);
 
                 this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
+
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
             },
             deep: true,
         },

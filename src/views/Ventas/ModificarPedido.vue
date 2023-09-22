@@ -327,11 +327,13 @@ export default {
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
 
-                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(2);
+                this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
 
                 this.venta_info.total_iva = Number(this.venta_info.total_venta - this.subtotal_venta).toFixed(2);
 
                 this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+
+                this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
             },
             deep: true,
         },

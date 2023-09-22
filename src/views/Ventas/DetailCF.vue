@@ -6,13 +6,14 @@ import NavBar from '@/components/NavBar.vue';
     <NavBar />
     <div class="h-screen">
         <div class="w-full bg-slate-100">
-            <!-- Encabezado -->
-            <div class="w-full h-[60px]">
-                <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white"
-                    style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0,0,0,0.1), 0px 1.11px 2.219444513320923px 0 rgba(0,0,0,0.06);">
-                    <p class="mt-2 flex-grow-0 flex-shrink-0 w-[179px] text-[31px] font-semibold text-left text-[#3056d3]">
-                        Ventas
-                    </p>
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Ventas</h1>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
                 </div>
             </div>
 
@@ -24,12 +25,6 @@ import NavBar from '@/components/NavBar.vue';
                         Credito Fiscal
                     </div>
                 </div>
-
-                <div class="flex justify-start items-center mt-4">
-                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
-                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
-                    </a>
-                </div>
                 <!-- Contenido de los tabs -->
 
                 <div class="tab-content flex-grow">
@@ -38,7 +33,7 @@ import NavBar from '@/components/NavBar.vue';
 
                     <!-- Contenido del formulario para Consumidor Final -->
                     <div v-if="activeTab === 0" class="p-4 bg-white">
-                        <div class="flex max-h-[300px] overflow-y-auto pb-36">
+                        <div class="flex overflow-y-auto pb-36">
 
 
                             <div class="w-3/4 pr-4 h-full pt-4">
@@ -64,8 +59,8 @@ import NavBar from '@/components/NavBar.vue';
                                             <td v-text="(i + 1)" class="text-center"></td>
                                             <td class="text-center">{{ item.producto.nombre_producto }}</td>
                                             <td class="text-center">{{ item.cantidad_producto_credito }}</td>
-                                            <td class="text-center">{{ item.producto.precio_unitario }}</td>
-                                            <td class="text-center">{{ item.subtotal_detalle_credito }}</td>
+                                            <td class="text-center">$ {{ Number(item.producto.precio_unitario).toFixed(4) }}</td>
+                                            <td class="text-center">$ {{ Number(item.subtotal_detalle_credito).toFixed(2) }}</td>
 
                                         </tr>
                                     </tbody>
@@ -85,7 +80,7 @@ import NavBar from '@/components/NavBar.vue';
                                             class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
                                             Fecha de Venta
                                         </label>
-                                        <input id="fecha_venta" type="text" name="fecha_venta"
+                                        <input id="fecha_venta" type="date" name="fecha_venta"
                                             class="text-slate-600 focus:outline-none focus:border focus:border-indigo-700 bg-white font-normal w-36 h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                                             disabled v-model="CFSale.fecha_credito" />
                                     </div>
@@ -265,6 +260,8 @@ export default {
                 .then(response => {
                     this.CFSale = response.data;
                     this.calcularSubTotal();
+                    this.CFSale.total_credito = Number(this.CFSale.total_credito).toFixed(2);
+                    this.CFSale.total_iva_credito = Number(this.CFSale.total_iva_credito).toFixed(2);
                     console.log(this.CFSale);
                 }).catch(error => {
                     console.log(error);

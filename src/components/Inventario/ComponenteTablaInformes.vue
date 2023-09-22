@@ -18,7 +18,7 @@
             <td class="p-[1.5%] text-center">{{ datosProducto.codigo_barra_producto }}</td>
             <td class="text-center">{{ datosProducto.nombre_producto }}</td>
             <td class="text-center">{{ datosProducto.total_producto_vendido }} Unidades</td>
-            <td class="text-center">$ {{ datosProducto.total }}</td>
+            <td class="text-center">$ {{ Number(datosProducto.total).toFixed(2) }}</td>
           </tr>
         </tbody>
 

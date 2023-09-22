@@ -28,7 +28,7 @@ import api_url from '../../config';
             </div>
         </div>
         <div class="w-[80%] mx-auto mt-8">
-            <p class="mb-8 text-gray-950 font-semibold text-2xl">Detalles del producto</p>
+            <p class="mb-8 text-gray-950 font-semibold text-xl">Detalles del producto</p>
             <Form @submit="guradarCambiosProducto($event)">
                 <div class="bg-white p-4 rounded shadow-md">
                     <div class="grid grid-cols-5">

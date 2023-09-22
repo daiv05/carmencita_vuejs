@@ -1,12 +1,16 @@
 <template>
     <main class="relative">
         <NavBar />
-        <div class="w-full h-[60px]">
-            <div class="flex justify-between px-16 w-full h-[60px] absolute left-0 bg-white" style="box-shadow: 0px 1.11px 3.329166889190674px 0 rgba(0, 0, 0, 0.1),
-                0px 1.11px 2.219444513320923px 0 rgba(0, 0, 0, 0.06);">
-                <p class="mt-2 flex-grow-0 flex-shrink-0 w-[80%] text-[30px] font-semibold text-left text-[#3056d3]">
-                    Informe de productos más y menos vendidos
-                </p>
+
+        <!-- Encabezado -->
+        <div>
+            <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                <h1 class="font-bold text-blue-700 text-xl">Informe de Productos Más y Menos Vendidos</h1>
+            </div>
+            <div class="flex justify-start items-center mt-4 ml-4">
+                <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                    <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                </a>
             </div>
         </div>
 
@@ -15,7 +19,7 @@
             <div class="align-middle">
                 <label for="" class="block font-semibold">Desde:</label>
                 <input type="date" v-model="fechaInicio" class="rounded-md block" />
-                <p v-if="mensajeError != '' " class="text-red-500 W-[50%]">{{ mensajeError }}</p>
+                <p v-if="mensajeError != ''" class="text-red-500 W-[50%]">{{ mensajeError }}</p>
             </div>
 
             <div class="align-middle">
@@ -38,14 +42,14 @@
             <div class="flex">
                 <div class="self-center">
                     <label for="" class="font-semibold">Productos menos vendidos: </label>
-                <input type="radio" class="rounded-md" value="asc" v-model="tipoOrden" name="" id="asc">
+                    <input type="radio" class="rounded-md" value="asc" v-model="tipoOrden" name="" id="asc">
                 </div>
             </div>
 
             <div>
                 <button type="button"
                     class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mt-[5%] dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    @click="obtenerDatosFiltrados($event)" >Aplicar</button>
+                    @click="obtenerDatosFiltrados($event)">Aplicar</button>
             </div>
 
         </div>
@@ -114,7 +118,7 @@ export default {
         }
     },
     methods: {
-        construirDatosfiltro(){
+        construirDatosfiltro() {
             let datosFiltro = {};
             if (this.fechaInicio != '') {
                 datosFiltro.fechaInicio = this.fechaInicio;
@@ -130,18 +134,18 @@ export default {
             }
             return datosFiltro;
         },
-        obtenerDatosFiltrados(event){
+        obtenerDatosFiltrados(event) {
             event.preventDefault();
             this.controlPagina = new ControlPagina('/api/productos_mas_vendidos/', axios);
             this.controlPagina.setParametrosFiltro(this.construirDatosfiltro());
             this.controlPagina.cargarPaginas();
         },
-        validarFechaFin(){
+        validarFechaFin() {
             if (this.fechaInicio != '' && this.fechaFin != '') {
                 if (Date.parse(this.fechaInicio) > Date.parse(this.fechaFin)) {
                     this.mensajeError = 'La fecha de inicio no puede ser mayor a la fecha de fin';
                 }
-                else{
+                else {
                     this.mensajeError = '';
                 }
             }
@@ -156,10 +160,8 @@ export default {
 </script>
 
 <style scoped>
-
-.isSelected{
+.isSelected {
     background-color: #3056d3;
     color: white;
 }
-
 </style>

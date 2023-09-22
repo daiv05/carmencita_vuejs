@@ -7,19 +7,27 @@ import api_url from '../../config.js'
     <main>
         <NavBar></NavBar>
         <div class="bg-slate-100 pb-6 min-h-screen">
-            <div class="bg-white w-full mx-auto p-5 shadow-md">
-                <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>
+            <!-- Encabezado -->
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+                </div>
             </div>
 
             <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
-                <h2 class="font-bold text-lg">Crear Hoja de Ruta</h2>
+                <p class="mb-8 text-gray-950 font-semibold text-xl">Crear Hoja de Ruta</p>
             </div>
 
             <!--datos de la hoja de ruta-->
             <Form>
                 <div class="container grid lg:grid-cols-6 rounded-md m-auto p-6 pt-4 w-4/5 bg-white shadow">
                     <div class="lg:col-span-1">
-                        <div>
+                        <div class="mb-4">
                             <label for="fecha_entrega" class="block text-sm font-medium leading-6 text-gray-900">Fecha de
                                 entrega</label>
                             <div class="mt-2">
@@ -29,7 +37,7 @@ import api_url from '../../config.js'
                                 <ErrorMessage name="fecha_entrega" class="text-red-500 text-xs" />
                             </div>
                         </div>
-                        <div>
+                        <div  class="mb-4">
                             <label for="repartidor"
                                 class="block text-sm font-medium leading-6 text-gray-900">Repartidor</label>
                             <div class="mt-2">
@@ -42,7 +50,7 @@ import api_url from '../../config.js'
                                 <ErrorMessage name="repartidor" class="text-red-500" />
                             </div>
                         </div>
-                        <div>
+                        <div  class="mb-4">
                             <label for="total" class="block text-sm font-medium leading-6 text-gray-900">Total (USD)</label>
                             <div class="mt-2">
                                 <Field name="total" id="total" v-model="hoja_de_ruta.total" type="number" disabled
@@ -76,13 +84,11 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink
-                                            :to="'/detail_sales/' + pedido.id_venta"
-                                            target="_blank"
+                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
-                                        
-                                            <button type="button" @click="quitarFacturasDomicilio(pedido.id_venta)"
+
+                                        <button type="button" @click="quitarFacturasDomicilio(pedido.id_venta)"
                                             class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Quitar</button>
                                     </td>
                                 </tr>
@@ -92,9 +98,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink
-                                            :to="'/detail_cf/' + pedido.id_creditofiscal"
-                                            target="_blank"
+                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="quitarCreditoFiscalDomicilio(pedido.id_credito)"
@@ -118,8 +122,10 @@ import api_url from '../../config.js'
                     <div class="p-4 flex items-center text-lg">
                         <h2 class="font-semibold text-center w-full">Pedidos del {{ fechaFormateada }}</h2>
                     </div>
-                    <div class="overflow-y-scroll max-h-3/12" id="body" style="max-height: 70vh;">
-                        <div class="min-w-full p-4 text-center" v-if="facturas.length == 0"><span class=" w-full text-center text-slate-500">No se encontraron pedidos sin asignar a Hoja de Ruta para el {{ fechaFormateada }}</span></div>
+                    <div class="overflow-y-auto max-h-3/12" id="body" style="max-height: 70vh;">
+                        <div class="min-w-full p-4 text-center" v-if="facturas.length == 0"><span
+                                class=" w-full text-center text-slate-500">No se encontraron pedidos sin asignar a Hoja de
+                                Ruta para el {{ fechaFormateada }}</span></div>
                         <table v-if="facturas.length != 0" class="min-w-full">
                             <thead class="border-b bg-slate-100">
                                 <tr class="text-center">
@@ -137,9 +143,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink
-                                            :to="'/detail_sales/' + pedido.id_venta"
-                                            target="_blank"
+                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="addFacturasDomicilio(pedido.id_venta)"
@@ -152,9 +156,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink
-                                            :to="'/detail_cf/' + pedido.id_creditofiscal"
-                                            target="_blank"
+                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type=" mx-1 button"
@@ -200,7 +202,7 @@ import api_url from '../../config.js'
                             </span>
                         </div>
                     </div>
-                    <div class="overflow-y-scroll max-h-3/12 p-4" id="body" style="max-height: 70vh;">
+                    <div class="overflow-y-auto max-h-3/12 p-4" id="body" style="max-height: 70vh;">
                         <ul class="text-center">
                             <li v-for="message in messages">{{ message }}</li>
                         </ul>
@@ -283,7 +285,7 @@ export default {
             this.hoja_de_ruta.fecha_entrega = date;
             this.setFecha(this.hoja_de_ruta.fecha_entrega);
         },
-        setFecha(fecha){
+        setFecha(fecha) {
             this.fechaFormateada = moment(fecha).format('DD/MM/yyyy');
         },
         getEmpleados() {
@@ -293,10 +295,10 @@ export default {
                         this.empleados = this.getRepartidores(response.data.data)
                     ));
         },
-        getRepartidores(empleados){
+        getRepartidores(empleados) {
             let repartidores = [];
             empleados.forEach(empleado => {
-                if(empleado.estado_empleado == 1 && empleado.cargo == 'Repartidor'){
+                if (empleado.estado_empleado == 1 && empleado.cargo == 'Repartidor') {
                     repartidores.push(empleado);
                 }
             });
@@ -381,7 +383,7 @@ export default {
             this.actualizarPedidos();
         },
         saveHojaDeRuta() {
-            if (this.hoja_de_ruta.id_empleado == null || this.hoja_de_ruta.id_empleado == "" ) {
+            if (this.hoja_de_ruta.id_empleado == null || this.hoja_de_ruta.id_empleado == "") {
                 this.watch_toast("error", "Seleccione un repartidor")
             } else {
                 const params = {
