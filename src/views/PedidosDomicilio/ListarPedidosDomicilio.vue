@@ -11,13 +11,21 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
     <main>
         <NavBar></NavBar>
         <div class="bg-slate-100 pb-4">
-            <div class="bg-white w-full mx-auto p-5 shadow-md">
-                <h1 class="font-bold text-blue-700 text-xl ">Gestión de Pedidos a Domicilio</h1>
-            </div>
-            <div class="flex justify-start items-center mt-4 ml-4">
-                <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
-                    <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
-                </a>
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
+                    <div class="flex items-center rounded-[4.44px] bg-[#637381]">
+                        <router-link to="/registrar_nueva_venta"
+                        class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+                        Nuevo pedido
+                    </router-link>
+                    </div>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+                </div>
             </div>
 
             <div class="m-auto p-1 pb-0 pt-4 w-4/5">

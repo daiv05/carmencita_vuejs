@@ -8,9 +8,9 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 </script>
 
 <template>
-  <main class="mb-5">
+  <main class="mb-36">
     <NavBar></NavBar>
-    <BarraTitulo :titulo="titulo"></BarraTitulo>
+    <BarraTitulo class="bg-white" :titulo="titulo"></BarraTitulo>
     <div class="flex justify-center py-5">
       <h1 class="font-bold text-lg">¡Bienvenido!</h1>
     </div>
@@ -37,6 +37,16 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
+          </list-group>
+        </dropdown>
+      </the-card>
+
+
+      <!--Pedidos a Domicilio y Hojas de Ruta-->
+      <the-card variant="image" img-src="assets/img/domicilio.jpg" img-alt="Desk">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pedidos a Domicilio</h5>
+        <dropdown text="Pedidos">
+          <list-group>
             <list-group-item>
               <router-link to="/listar_hojas_de_ruta">
                 <div class="flex items-center">
@@ -49,13 +59,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/listar_pedidos_domicilio">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Listado de Pedidos a Domicilio</p>
+                  <p>Pedidos a Domicilio</p>
                 </div>
               </router-link>
             </list-group-item>
           </list-group>
         </dropdown>
       </the-card>
+
+
 
       <!--Inventario-->
       <the-card variant="image" img-src="assets/img/inventario.jpg" img-alt="Desk">
@@ -165,24 +177,119 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         </dropdown>
       </the-card>
 
-      <!--Informes y estadisticas-->
+      <!--Informes de Ventas-->
       <the-card variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes y Estadisticas</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes de Ventas</h5>
         <dropdown text="Informes">
           <list-group>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/informe_ventas_totales" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de ventas</p>
+                  <p>Informe de Ventas Totales</p>
                 </div>
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta">
+              <router-link to="/informe_productos_mas_vendidos">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de inventarios</p>
+                  <p>Informe de Productos +/- Vendidos</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/informe_ventas_productos">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Informe de Ventas por Producto</p>
+                </div>
+              </router-link>
+            </list-group-item>
+          </list-group>
+        </dropdown>
+      </the-card>
+
+
+      <!--Informes de Inventario-->
+      <the-card variant="image" img-src="assets/img/inf_inventario.jpg" img-alt="Desk">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes de Inventario</h5>
+        <dropdown text="Informes">
+          <list-group>
+            <list-group-item>
+              <router-link to="/informe_productos_por_vencer" class="w-full h-full">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Informe de Productos Próx. a caducar</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/informe_inventario_valorado">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Informe de Inventario Valorado</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/informe_existencias_de_productos">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Informe de Existencias de Productos</p>
+                </div>
+              </router-link>
+            </list-group-item>
+          </list-group>
+        </dropdown>
+      </the-card>
+
+
+      <!--Proveedores y Creditos-->
+      <the-card variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Proveedores</h5>
+        <dropdown text="Proveedores">
+          <list-group>
+            <list-group-item>
+              <router-link to="/">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Listado de proveedores</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/registrar_credito_proveedor">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Registrar nuevo Crédito</p>
+                </div>
+              </router-link>
+            </list-group-item>
+          </list-group>
+        </dropdown>
+      </the-card>
+
+
+
+      <!--Ofertas-->
+      <the-card variant="image" img-src="assets/img/ofertas.jpg" img-alt="Desk">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ofertas</h5>
+        <dropdown text="Proveedores">
+          <list-group>
+            <list-group-item>
+              <router-link to="/registrar_promociones">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Crear nueva oferta</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/registrar_credito_proveedor">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Listado de Ofertas y Promociones</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -208,36 +315,6 @@ export default {
       titulo: 'Panel de Control',
     }
   },
-  // methods: {
-  //   imprimir() {
-  //     // Obtener el PDF e imprimirlo con js
-  //     axios.get('http://localhost:8002/api/impresion_prueba', {
-  //       responseType: 'blob',
-  //     }).then((response) => {
-  //       console.log(response);
-  //       const fileBlob = new Blob([response.data], { type: 'application/pdf' });
-  //       const fileURL = URL.createObjectURL(fileBlob);
-
-  //       // Crear un iframe oculto para cargar el PDF y luego imprimirlo
-  //       const pdfIframe = document.createElement('iframe');
-  //       pdfIframe.style.display = 'none';
-  //       pdfIframe.src = fileURL;
-  //       document.body.appendChild(pdfIframe);
-
-  //       pdfIframe.onload = function () {
-  //         // Imprimir el PDF después de cargarlo en el iframe
-  //         pdfIframe.contentWindow.print();
-  //       };
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     });
-  //   }
-
-
-  // },
-  // created() {
-  //   this.imprimir();
-  // }
 }
 </script>
 

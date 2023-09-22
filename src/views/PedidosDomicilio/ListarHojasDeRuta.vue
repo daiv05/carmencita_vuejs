@@ -5,6 +5,11 @@
     <div>
       <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
         <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
+        <div class="flex items-center rounded-[4.44px] bg-[#637381]">
+          <router-link to="/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+            Nueva Hoja de Ruta
+          </router-link>
+        </div>
       </div>
       <div class="flex justify-start items-center mt-4 ml-4">
         <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -15,7 +20,9 @@
 
     <table class="m-auto mt-8 w-[85%]">
       <tr>
-        <td colspan="4" class="text-gray-950"><p class="mb-8 font-semibold text-2xl">Lista de Hojas de Ruta</p></td>
+        <td colspan="4" class="text-gray-950">
+          <p class="mb-8 font-semibold text-2xl">Lista de Hojas de Ruta</p>
+        </td>
       </tr>
       <tr>
         <td colspan="5">
@@ -49,7 +56,8 @@
         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">ACCIONES</th>
       </tr>
       <tbody>
-        <tr class="border-b bg-white" v-for="datosHojaDeRuta in controlPagina.getDatosPagina()" :key="datosHojaDeRuta.id_hr">
+        <tr class="border-b bg-white" v-for="datosHojaDeRuta in controlPagina.getDatosPagina()"
+          :key="datosHojaDeRuta.id_hr">
           <td class="p-[1.5%] text-center">{{ datosHojaDeRuta.id_hr }}</td>
           <td class="p-[1.5%] text-center">{{ obtenerEstadoEnTexto(datosHojaDeRuta.esta_entregado) }}</td>
           <td class="text-center">{{ formatearFechas(datosHojaDeRuta.fecha_entrega) }}</td>
