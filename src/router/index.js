@@ -28,6 +28,7 @@ import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExis
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
+import HojaDeRutaModificar from '../views/PedidosDomicilio/HojaDeRutaModificar.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
@@ -143,6 +144,12 @@ const router = createRouter({
       path: "/crear_hoja_de_ruta",
       name : "crear_hoja_de_ruta",
       component : HojaDeRutaAgregar
+    },
+    {
+      path: '/hoja_de_ruta/update/:id',
+      name: 'hoja_de_ruta_modificar',
+      component: HojaDeRutaModificar,
+      props: true
     },
     {
       path: "/listar_pedidos_domicilio",
