@@ -32,6 +32,7 @@ import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
 import Promociones from '../views/Marketing/Promociones.vue';
+import ClientesList from '../views/Ventas/ClientesList.vue';
 import not_found from '../views/not_found.vue';
 import axios from 'axios';
 
@@ -237,6 +238,11 @@ const router = createRouter({
       path:'/registrar_promociones',
       name:'registrar_promociones',
       component:Promociones,
+    },
+    {
+      path:'/gestionar_clientes',
+      name:'clientes_list',
+      component:ClientesList,
     }
   ]
 })
