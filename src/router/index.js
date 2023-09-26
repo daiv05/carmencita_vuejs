@@ -28,6 +28,7 @@ import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
+import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import axios from 'axios';
 
 const router = createRouter({
@@ -219,6 +220,11 @@ const router = createRouter({
       name:'registrar_credito_proveedor',
       component:Creditos
     },
+    {
+      path:'/historial_planillas',
+      name:'consultar_historial_planillas',
+      component:HistorialPlanillas
+    }
   ]
 })
 
