@@ -119,6 +119,7 @@ export default {
                             this.estatus = response.data.status,
                             this.showMessages(this.estatus, this.respuesta),
                             this.credito.pendiente = this.credito.pendiente - this.monto,
+                            this.credito.abonos.push(params),
                             this.clearData(),
                             this.isOpen = false
                         )

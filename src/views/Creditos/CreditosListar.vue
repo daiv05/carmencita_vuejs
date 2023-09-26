@@ -5,7 +5,6 @@ import api_url from '../../config.js'
 import btnConsultar from '../../components/Helpers/BotonConsultar.vue'
 import btnEditar from '../../components/Helpers/BotonEditar.vue'
 import btnAgregarAbono from '../../components/Credito/AbonoAgregar.vue'
-import pagination from '../../components/Helpers/pagination.vue'
 import VueAxios from 'vue-axios';
 </script>
 
@@ -90,7 +89,7 @@ import VueAxios from 'vue-axios';
                                 credito.pendiente }}</td>
                             <td v-if="credito.pendiente == 0" class="whitespace-nowrap px-4 py-4">Pagado</td>
                             <td class="whitespace-nowrap px-4 py-4">
-                                <btnConsultar :url="'/detail_sales/' + credito.id"></btnConsultar>
+                                <btnConsultar :url="'/detalle_credito_proveedor/' + credito.id"></btnConsultar>
                                 <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
 
                                 <btnAgregarAbono :credito="credito"></btnAgregarAbono>

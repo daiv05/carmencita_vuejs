@@ -33,6 +33,7 @@ import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
 import CreditosListar from '../views/Creditos/CreditosListar.vue';
+import CreditoMostrar from '../views/Creditos/CreditosMostrar.vue';
 import Promociones from '../views/Marketing/Promociones.vue';
 import not_found from '../views/not_found.vue';
 import axios from 'axios';
@@ -240,6 +241,11 @@ const router = createRouter({
       path:'/registrar_credito_proveedor',
       name:'registrar_credito_proveedor',
       component:Creditos
+    },
+    {
+      path:'/detalle_credito_proveedor/:id',
+      name:'detalle_credito_proveedor',
+      component:CreditoMostrar
     },
     {
       path:'/listar_creditos_proveedor',
