@@ -259,10 +259,10 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_credito_proveedor">
+              <router-link to="/listar_creditos_proveedor">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Registrar nuevo Crédito</p>
+                  <p>Administrar créditos</p>
                 </div>
               </router-link>
             </list-group-item>
