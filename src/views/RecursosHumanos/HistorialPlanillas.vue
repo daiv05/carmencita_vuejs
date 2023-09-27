@@ -93,6 +93,7 @@
           class="border-b cursor-pointer hover:bg-slate-50"
           v-for="planilla in controlPagina.datosPagina"
           :key="planilla.id"
+          @click="verDetallePlanilla(planilla.id)"
         >
           <td class="text-center p-[1%]">{{ planilla.id }}</td>
           <td class="text-center p-[1%]">
@@ -168,6 +169,9 @@
         </ul>
       </nav>
     </div>
+    <Teleport to="body">
+          <DetallePlanilla v-if="controlModal" @cerrarModal = "cerrarModal" :idPlanilla = "idPlanilla"></DetallePlanilla>
+    </Teleport>
   </main>
 </template>
 
@@ -176,10 +180,12 @@ import axios from 'axios'
 import Navbar from '../../components/NavBar.vue'
 import ControladorPagina from '../../helpers/ControlPagina'
 import moment from 'moment'
+import DetallePlanilla from '../../components/RecursosHumanos/DetallePlanilla.vue'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    DetallePlanilla
   },
   data() {
     return {
@@ -188,7 +194,9 @@ export default {
       controlPagina: new ControladorPagina('api/filtroPlanillas', axios),
       listaAniosDisponibles: [],
       anioFiltro: '',
-      listaErrores: []
+      listaErrores: [],
+      controlModal:false,
+      idPlanilla:0,
     }
   },
   created() {
@@ -253,6 +261,16 @@ moment.locale("es-sv");
       }
 
       return parametrosFiltro
+    },
+    verDetallePlanilla(idPlanilla){
+      this.$router.push("detalle_planilla/"+idPlanilla);
+    },
+    abrirModal(idPlanilla){
+      this.idPlanilla = idPlanilla;
+      this.controlModal = true;
+    },
+    cerrarModal(){
+      this.controlModal = false;
     }
   }
 }
