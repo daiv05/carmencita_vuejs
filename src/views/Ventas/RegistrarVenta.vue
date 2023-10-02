@@ -911,6 +911,9 @@ export default {
             this.campo_identificador_cliente = "";
             this.contador_tabla = 0;
 
+            this.departamento_cliente = "",
+            this.municipio_cliente = "",
+
             this.asignar_fecha_actual();
         },
         restaurar_ultima_factura() {
