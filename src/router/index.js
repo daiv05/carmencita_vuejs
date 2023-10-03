@@ -31,6 +31,7 @@ import Creditos from '../views/Creditos/Creditos.vue';
 import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
+import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import axios from 'axios';
 
 const router = createRouter({
@@ -236,6 +237,11 @@ const router = createRouter({
       path:'/modificar_aviso/:idAviso',
       name:'modificar_aviso',
       component:ModificarAviso
+    },
+    {
+      path:'/consultar_avisos',
+      name:'consultar_avisos',
+      component:ConsultarAvisos
     }
   ]
 })

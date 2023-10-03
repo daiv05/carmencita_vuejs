@@ -40,7 +40,7 @@
             <div class="col-span-3 h-[100%]">
                 <div>
                     <label for="fecha_creacion" class="font-semibold ">Fecha Creacion</label>
-                    <input type="date" id="fecha_creacion" class="p-[5px] rounded-[5px] border border-slate-300 w-[100%]"
+                    <input type="date" id="fecha_creacion" class="p-[5px] rounded-[5px] border border-slate-300 w-[100%]" disabled
                     v-model="fecha_creacion">
                 </div>
                 <div class="mt-[5%]">
@@ -80,7 +80,7 @@
                 
                 <div class="mt-[5%]">
                     <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancelar</button>
-                    <input type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" value="Guardar Cambios">
+                    <input type="submit" id ="btnEnviar" class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" value="Guardar Cambios">
                 </div>
 
             </div>
@@ -93,6 +93,7 @@ import axios from "axios";
 import NavBar from '../../components/NavBar.vue';
 import {Form,Field,ErrorMessage} from 'vee-validate';
 import moment from 'moment';
+import { DocumentIcon } from '@heroicons/vue/24/outline';
 
 export default {
     components:{
@@ -146,6 +147,13 @@ export default {
 
                 });
         },
+        desactivarBotonEnviar(){
+            let botonEnviar = document.getElementById("btnEnviar");
+            botonEnviar.disabled = true;
+        },
+        activarBotonEnviar(){
+            document.getElementById("btnEnviar").disabled = false;
+        },
         parametrosConsulta(){   
             let parametros = {};
             parametros.fecha_finalizacion = moment(this.fecha_finalizacion).format("DD-MM-YY");
@@ -156,6 +164,7 @@ export default {
         },
         enviarDatos(event){
             event.preventDefault;
+            this.desactivarBotonEnviar();
             let parametros = this.parametrosConsulta();
             console.log(parametros);
             axios.put("/api/avisos/"+this.$route.params.idAviso,parametros)
@@ -169,6 +178,7 @@ export default {
                 setTimeout(()=>{
                     this.mensajeExito = " ";
                 },6000);
+                this.activarBotonEnviar();
             })
             .catch((response)=>{
 //                console.log(response.response.data.listaErrores);
@@ -176,6 +186,7 @@ export default {
                 setTimeout(()=>{
                     this.listaErrores = null;
                 },6000);
+                this.activarBotonEnviar();
             });
         }
         

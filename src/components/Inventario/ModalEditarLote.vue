@@ -194,7 +194,6 @@ export default {
       axios.post("/api/gestion_existencias/"+this.lote.id_lote+configuracionPut,dataForm)
       .then(
         (response)=>{
-          alert(response.data.mensaje);
           dataForm.producto = this.lote.producto;
           this.$emit("guardarLoteModificado",{dataForm:dataForm,mensaje:`Se edito el lote ${this.lote.id_lote} con éxito`});
         }
