@@ -111,4 +111,13 @@ export default class ControladorPagina {
   llenarListaPaginas() {
     this.listaPaginas = new Array(this.totalPaginas).fill(0).map((_, index) => index + 1)
   }
+
+  /**/
+ obtenerListaResultadoPorPagina(){
+    return this.datosPagina;
+ }
+
+ obtenerPosicionElemento(elemento){
+    return  this.datosPagina.indexOf(elemento);
+ }
 }
