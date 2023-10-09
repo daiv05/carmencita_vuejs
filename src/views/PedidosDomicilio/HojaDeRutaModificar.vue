@@ -453,7 +453,9 @@ export default {
                         }
                     )
                     .catch(error => {
-                        this.watch_toast("error", error);
+                        error.response.data.mensaje.forEach(mensaje => {
+                            this.watch_toast("error", mensaje);
+                        });
                     });
             }
         },
