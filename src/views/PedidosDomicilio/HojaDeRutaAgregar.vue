@@ -352,6 +352,8 @@ export default {
                         response => {
                             this.watch_toast("success", response.data.mensaje)
                             this.clearData();
+                            this.$router.push('/listar_hojas_de_ruta')
+                            this.$router.go(1);
                         }
                     ).catch(error => {
                         error.response.data.mensaje.forEach(mensaje => {
