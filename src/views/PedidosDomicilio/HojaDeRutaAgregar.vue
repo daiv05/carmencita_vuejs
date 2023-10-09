@@ -123,10 +123,10 @@ import api_url from '../../config.js'
                         <h2 class="font-semibold text-center w-full">Pedidos del {{ fechaFormateada }}</h2>
                     </div>
                     <div class="overflow-y-auto max-h-3/12" id="body" style="max-height: 70vh;">
-                        <div class="min-w-full p-4 text-center" v-if="facturas.length == 0"><span
+                        <div class="min-w-full p-4 text-center" v-if="facturas.length == 0 && creditosFiscales.length == 0"><span
                                 class=" w-full text-center text-slate-500">No se encontraron pedidos sin asignar a Hoja de
                                 Ruta para el {{ fechaFormateada }}</span></div>
-                        <table v-if="facturas.length != 0" class="min-w-full">
+                        <table v-if="facturas.length != 0 || creditosFiscales.length != 0" class="min-w-full">
                             <thead class="border-b bg-slate-100">
                                 <tr class="text-center">
                                     <td scope="col" class="px-6 py-4 text-xs text-gray-500 font-semibold">CODIGO</td>
@@ -178,45 +178,7 @@ import api_url from '../../config.js'
                     </div>
                 </div>
             </div>
-            <!--modal de mensajes-->
-            <div v-if="isShowMessages" class="h-screen w-screen" id="backgroud-modal"
-                style="position:fixed; top:0; background-color:rgba(0,0,0,0.3);display: flex; align-items: center; justify-content: center;">
-                <div class="w-9/12 max-w-sm mx-auto my-2 rounded-lg bg-slate-50" id="card">
-                    <div class="p-4 flex items-center text-lg text-center justify-center">
-                        <div v-if="!typeMessages">
-                            <span class="text-red-400 my-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
-                                    stroke="currentColor" class="w-12 h-12">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                                </svg>
-                            </span>
-                        </div>
-                        <div v-if="typeMessages">
-                            <span class="text-green-400 my-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-12 h-12">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="overflow-y-auto max-h-3/12 p-4" id="body" style="max-height: 70vh;">
-                        <ul class="text-center">
-                            <li v-for="message in messages">{{ message }}</li>
-                        </ul>
-                    </div>
-                    <div class="p-4" id="footer">
-                        <div class="flex justify-center">
-                            <button @click="closeMessages" type="button"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Aceptar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </main>
 </template>
@@ -238,14 +200,6 @@ const toast = useToast();
 
 //Para el modal
 const isShowModal = ref(false)
-const isShowMessages = ref(false)
-
-function showMessages() {
-    isShowMessages.value = true;
-}
-function closeMessages() {
-    isShowMessages.value = false;
-}
 
 function closeModal() {
     isShowModal.value = false
@@ -396,13 +350,14 @@ export default {
                 axios.post(api_url + '/hoja_de_ruta', params)
                     .then(
                         response => {
-                            this.messages = response.data['mensaje'];
-                            this.typeMessages = response.data['respuesta'];
-                            console.log(this.messages);
-                            showMessages();
+                            this.watch_toast("success", response.data.mensaje)
                             this.clearData();
                         }
-                    );
+                    ).catch(error => {
+                        error.response.data.mensaje.forEach(mensaje => {
+                            this.watch_toast("error", mensaje);
+                        });
+                    });
             }
         },
         watch_toast(tipo, mensaje) {
