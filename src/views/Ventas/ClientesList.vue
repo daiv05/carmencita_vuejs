@@ -21,44 +21,6 @@
         <div class="m-auto p-1 pb-0 pt-4 w-4/5">
             <h2 class="font-bold text-lg mb-8">Listado de Clientes</h2>
         </div>
-        <!--Controles para filtros-->
-        <!-- <div class="grid grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
-        <div class="col-span-1 flex flex-col justify-center p-2">
-            <label class="block text-sm font-medium leading-6 text-gray-900" for="estado">Estado</label>
-            <div class="">
-                <select v-model="estado" name="estado" id="estado"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    <option disabled>Seleccione...</option>
-                    <option value="asignadas">Asignadas</option>
-                    <option value="no_asignadas">Sin asignar</option>
-                    <option value="">Todos</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-span-1 flex flex-col justify-center p-2">
-            <label class="block text-sm font-medium leading-6 text-gray-900" for="tipo">Tipo</label>
-            <div>
-                <select v-model="tipo" name="tipo" id="tipo"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    <option disabled>Seleccione...</option>
-                    <option value="all">Todos</option>
-                    <option value="factura">Factura</option>
-                    <option value="credito">Credito Fiscal</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-span-1 flex flex-col justify-center p-2">
-            <label class="block text-sm font-medium leading-6 text-gray-900" for="fecha">Fecha</label>
-            <div><input v-model="fecha" type="Date"
-                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-        </div>
-        <div class="col-span-1 flex justify-center align-middle">
-            <button @click="filtrarPedidos" class="bg-blue-500 px-3 py-2 rounded text-slate-50 h-fit flex m-auto">Aplicar
-                filtros</button>
-        </div>
-    </div> -->
-        <!--Tabla de pedidos-->
         <div class="md:w-[90%] w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
             <table v-if="clientes" class="table w-full max-h-screen rounded-md">
                 <thead class="border-b bg-slate-100">
@@ -87,10 +49,10 @@
                         </td>
                         <td class="whitespace-nowrap px-4 py-4">{{ cliente.nrc_cliente }}</td>
                         <td v-if="cliente.estado_cliente == 1" class="whitespace-nowrap px-4 py-4">
-                            <p class="rounded-full bg-emerald-700 text-white font-semibold">Activo</p>
+                            <p class="rounded-full bg-emerald-700 text-white px-1 py-1 font-semibold">Activo</p>
                         </td>
                         <td v-else class="whitespace-nowrap px-4 py-4">
-                            <p class="rounded-full bg-red-700 text-white font-semibold">Inactivo</p>
+                            <p class="rounded-full bg-red-700 text-white px-2 py-1 font-semibold">Inactivo</p>
                         </td>
                         <td class="whitespace-nowrap px-4 py-4">
                             <button @click="modal_editar_cliente(cliente)"
@@ -118,16 +80,20 @@
         <ModalModificarCliente :show="show_modal_modificar" :cliente="cliente_seleccionado" @close="getClientes(); show_modal_modificar = false;">
         </ModalModificarCliente>
     </Teleport>
+    <Teleport to="body">
+        <ClienteDesactivar :show="show_modal_estado" :cliente="cliente_seleccionado" @close="getClientes(); show_modal_estado = false;">
+        </ClienteDesactivar>
+    </Teleport>
 </template>
 
 <script>
 import axios from 'axios';
 import API_URL from '../../config';
 import NavBar from '@/components/NavBar.vue';
-import { useToast } from 'vue-toastification';
 import ModalAgregarCliente from '@/components/Ventas/ModalAgregarCliente.vue';
 import ModalModificarCliente from '@/components/Ventas/ModalModificarCliente.vue';
 import ModalEstadoCliente from '@/components/Ventas/ModalEstadoCliente.vue';
+import ClienteDesactivar from '../../components/Ventas/ClienteDesactivar.vue';
 import '../../assets/modal_default.css'
 export default {
     name: 'ClientesList',
@@ -144,7 +110,8 @@ export default {
         NavBar,
         ModalAgregarCliente,
         ModalModificarCliente,
-        ModalEstadoCliente
+        ModalEstadoCliente,
+        ClienteDesactivar
     },
     created() {
         this.getClientes()

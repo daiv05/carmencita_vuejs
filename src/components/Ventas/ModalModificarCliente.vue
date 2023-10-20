@@ -165,16 +165,24 @@ export default {
                 });
         },
         modificar_cliente() {
-            if (this.cliente.nombre_cliente == "" || this.cliente.distintivo_cliente == "" || this.cliente.dui_cliente == "" || this.cliente.nit_cliente == "" || this.cliente.nrc_cliente == "" || this.cliente.direccion_cliente == "" || this.cliente.id_municipio == "Seleccione...") {
+            if (this.cliente.nombre_cliente == "" || this.cliente.distintivo_cliente == "" || this.cliente.nrc_cliente == "" || this.cliente.direccion_cliente == "" || this.cliente.id_municipio == "Seleccione...") {
                 this.watch_toast("error", "Debe llenar todos los campos");
                 return;
             }
-            if (this.cliente.dui_cliente.length < 10) {
+            if (this.cliente.dui_cliente == "" && this.cliente.nit_cliente == ""){
+                this.watch_toast("error", "Debe ingresar al menos un DUI o NIT");
+                return;
+            }
+            if (this.cliente.dui_cliente.length < 10 && this.cliente.dui_cliente.length > 0) {
                 this.watch_toast("error", "Ingrese un DUI válido");
                 return;
             }
-            if (this.cliente.nit_cliente.length < 17) {
+            if (this.cliente.nit_cliente.length < 17 && this.cliente.nit_cliente.length > 0) {
                 this.watch_toast("error", "Ingrese un NIT válido");
+                return;
+            }
+            if (this.cliente.nrc_cliente.length < 7) {
+                this.watch_toast("error", "Ingrese un NRC válido");
                 return;
             }
             axios.put(api_url + "/clientes/" + this.cliente.id_cliente, this.cliente)

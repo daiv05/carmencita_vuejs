@@ -139,7 +139,27 @@ export default {
     created() {
         this.get_departamentos();
     },
+    watch: {
+        show: function (newValue) {
+            if (newValue) {
+                this.limpiar_campos();
+            }
+        },
+    },
     methods: {
+        limpiar_campos() {
+            this.cliente = {
+                nombre_cliente: "",
+                distintivo_cliente: "",
+                dui_cliente: "",
+                nit_cliente: "",
+                nrc_cliente: "",
+                direccion_cliente: "",
+                id_municipio: "Seleccione...",
+            };
+            this.departamento_select = "Seleccione...";
+            this.municipios_listado = [];
+        },
         get_departamentos() {
             axios.get(api_url + "/departamentos")
                 .then((res) => {
@@ -159,16 +179,24 @@ export default {
                 });
         },
         registrar_nuevo_cliente() {
-            if (this.cliente.nombre_cliente == "" || this.cliente.distintivo_cliente == "" || this.cliente.dui_cliente == "" || this.cliente.nit_cliente == "" || this.cliente.nrc_cliente == "" || this.cliente.direccion_cliente == "" || this.cliente.id_municipio == "Seleccione...") {
+            if (this.cliente.nombre_cliente == "" || this.cliente.distintivo_cliente == "" || this.cliente.nrc_cliente == "" || this.cliente.direccion_cliente == "" || this.cliente.id_municipio == "Seleccione...") {
                 this.watch_toast("error", "Debe llenar todos los campos");
                 return;
             }
-            if (this.cliente.dui_cliente.length < 10) {
+            if (this.cliente.dui_cliente == "" && this.cliente.nit_cliente == ""){
+                this.watch_toast("error", "Debe ingresar al menos un DUI o NIT");
+                return;
+            }
+            if (this.cliente.dui_cliente.length < 10 && this.cliente.dui_cliente.length > 0) {
                 this.watch_toast("error", "Ingrese un DUI válido");
                 return;
             }
-            if (this.cliente.nit_cliente.length < 17) {
+            if (this.cliente.nit_cliente.length < 17 && this.cliente.nit_cliente.length > 0) {
                 this.watch_toast("error", "Ingrese un NIT válido");
+                return;
+            }
+            if (this.cliente.nrc_cliente.length < 7) {
+                this.watch_toast("error", "Ingrese un NRC válido");
                 return;
             }
             axios.post(api_url + "/clientes", this.cliente)
