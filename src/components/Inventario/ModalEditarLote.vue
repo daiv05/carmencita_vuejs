@@ -189,7 +189,7 @@ export default {
         costo_total: this.lote.costo_total,
         fecha_ingreso: this.lote.fecha_ingreso,
       };
-<<<<<<< HEAD
+
       axios.post("/api/gestion_existencias/"+this.lote.id_lote+configuracionPut,dataForm)
       .then(
         (response)=>{
@@ -202,7 +202,7 @@ export default {
           alert(response);
         }
       );
-=======
+      /*
       axios.post("/api/gestion_existencias/" + this.lote.id_lote + configuracionPut, dataForm)
         .then(
           (response) => {
@@ -215,8 +215,7 @@ export default {
           (response) => {
             alert(response);
           }
-        );
->>>>>>> 497ce8a7eebc1d9d98eaed323477b54b382cb19d
+        );*/
     },
     validarFecha(value) {
       if (!value) {

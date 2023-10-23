@@ -256,7 +256,7 @@ const router = createRouter({
       path:'/consultar_avisos',
       name:'consultar_avisos',
       component:ConsultarAvisos
-    }
+    },
     {
       path:'/registrar_promociones',
       name:'registrar_promociones',
