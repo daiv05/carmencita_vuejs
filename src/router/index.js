@@ -22,9 +22,12 @@ import ComponenteBaseRH from '../views/RecursosHumanos/ComponenteBaseRH.vue';
 import GestionExistencias from '../views/Inventario/GestionExistencias.vue';
 import EditarLote from '../components/Inventario/ModalEditarLote.vue';
 import InformeDeVentasTotales from '../views/Estadisticas/InformeDeVentasTotales.vue';
+import InformeDeProductosMasVendidos from '../views/Estadisticas/InformeDeProductosMasVendidos.vue';
+import InformeDeProductosMenosVendidos from '../views/Estadisticas/InformeDeProductosMenosVendidos.vue';
+import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExistenciasDeProductos.vue';
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
-import ViewPageRoute from '../views/Ventas/ViewPageRoute.vue';
+import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
@@ -32,6 +35,8 @@ import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
 import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
+import Promociones from '../views/Marketing/Promociones.vue';
+import not_found from '../views/not_found.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -73,12 +78,6 @@ const router = createRouter({
         }
 
       },
-    },
-
-    {
-      path: '/listar_empleados',
-      name: 'listar_empleados',
-      component: ListarEmpleados
     },
     {
       path: '/',
@@ -188,19 +187,34 @@ const router = createRouter({
       component:InformeDeVentasTotales
     },
     {
+      path:'/informe_productos_mas_vendidos',
+      name:'informe_productos_mas_vendidos',
+      component:InformeDeProductosMasVendidos
+    },
+    {
+      path:'/informe_productos_menos_vendidos',
+      name:'informe_productos_menos_vendidos',
+      component:InformeDeProductosMenosVendidos
+    },
+    {
+      path:'/informe_existencias_de_productos',
+      name:'informe_existencias_de_productos',
+      component:InformeDeExistenciasDeProductos
+    },
+    {
       path:"/informe_inventario_valorado",
       name:"informe_inventario_valorado",
-      component:InformeDeInventarioValorado,
+      component:InformeDeInventarioValorado
     },
     {
       path:"/informe_ventas_productos",
       name:"informe_ventas_productos",
       component:InformeDeTotalVentasPorProducto,
-    },
+    },  
     {
       path: '/hoja_de_ruta/detalles/:ruta',
       name: 'hoja_de_ruta',
-      component: ViewPageRoute,
+      component: DetalleHojaRuta,
       props: true
     },
     {
@@ -208,11 +222,11 @@ const router = createRouter({
       name:'listar_hojas_de_ruta',
       component:ListarHojasDeRuta
     },
-    // {
-    //   path: '/:pathMatch(.*)*',
-    //   name: 'not_found',
-    //   component: ViewPageRoute
-    // }
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not_found',
+      component: not_found
+    },
     {
       path:'/informe_productos_por_vencer',
       name:'informe_productos_por_vencer',
@@ -242,6 +256,11 @@ const router = createRouter({
       path:'/consultar_avisos',
       name:'consultar_avisos',
       component:ConsultarAvisos
+    },
+    {
+      path:'/registrar_promociones',
+      name:'registrar_promociones',
+      component:Promociones,
     }
   ]
 })

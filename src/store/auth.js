@@ -103,6 +103,8 @@ const  store = createStore({
             ).catch(
                 (response)=>{
                     console.log(response);
+                    context.dispatch("cleanStore");
+                    router.push("/iniciar_sesion");
                 }
             )
         },

@@ -5,7 +5,10 @@ import api_url from "../../config";
 
 <template>
 
-<Form class=" h-[25%] max-w-[100%]  mx-auto lg:max-w-[45%] bg-white p-3 rounded-md shadow-md z-999 fixed top-[25%] left-0 right-0" @submit="agregarPrecioExtra()">
+<Transition name="modal">
+    <div class="modal-mask bg-white">
+      <div class="modal-container">
+<Form @submit="agregarPrecioExtra()">
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-[2%]">
       <div class="col-span-3">
@@ -35,12 +38,12 @@ import api_url from "../../config";
 
     <div class="col-span=1">
         <button type="button" 
-        class="display:inline-block mt-[0%] mb-[5%]  md:mt-[12%]  md:w-full md:mb-[0%] lg:mt-[20%] md:block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        class="display:inline-block mt-[0%] md:mt-[12%]  md:w-full md:mb-[0%] lg:mt-[20%] md:block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         @click="guardarPrecioExtra">
             Guardar Cambios
         </button>
         <button type="button" 
-        class=" display:inline-block mt-[0%] mb-[5%]  md:mt-[26%]  md:w-full md:mb-[0%]  lg:mt-[28%] md:block focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+        class=" display:inline-block mt-[0%] md:mt-[26%]  md:w-full md:mb-[0%]  lg:mt-[28%] md:block focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
         @click="cerrarModal">
             Cancelar
         </button>
@@ -48,10 +51,14 @@ import api_url from "../../config";
   </div>
 
 </Form>
+</div>
+    </div>
+  </Transition>
 
 </template>
 <script>
 import axios from 'axios';
+import '../../assets/modal_default.css';
 export default {
   props:{
     precioExtraParametro:{},

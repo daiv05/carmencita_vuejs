@@ -8,8 +8,6 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css';
 import VueApexCharts from "vue3-apexcharts";
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
 import axios from 'axios';
 
 
@@ -21,14 +19,25 @@ window.axios.defaults.headers.common["X-Requested-With"]="XMLHttpRequest";
 
 // Set the appropriate CORS headers based on the current origin
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.location.origin;
-axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
-axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
-axios.defaults.baseURL="http://localhost:8000"
+window.axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
+window.axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
+window.axios.defaults.baseURL="http://localhost:8001"
+
+// Validar en cada response si el usuario esta autenticado
+window.axios.interceptors.response.use(
+  response => response,
+  error => {
+    if (!(error.response.data.is_auth === undefined)) {
+      error.response.data.is_auth ? console.log('aa') : store.dispatch('logout');
+    }
+    return Promise.reject(error);
+  }
+);
 
 const app = createApp(App)
 
-
-app.component('VueDatePicker', VueDatePicker);
+app.use(router);
+app.use(store);
 
 const options = {
   transition: "Vue-Toastification__fade",
