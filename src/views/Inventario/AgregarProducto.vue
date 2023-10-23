@@ -332,6 +332,7 @@ export default {
         clearForm(){
             setTimeout(()=>{
                 //location.href = location.href;
+                this.$store.commit("setFromAgregarEditarProducto",{fromAgregarEditarProducto:true});
                 this.$router.push({ name: "gestion_productos" } );
             },3000);
             /**

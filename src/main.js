@@ -1,5 +1,6 @@
 import './assets/main.css'
 import store from './store/auth'
+import paginacionStore from './store/paginacionControl'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
