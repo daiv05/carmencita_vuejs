@@ -332,7 +332,8 @@ export default {
         clearForm(){
             setTimeout(()=>{
                 //location.href = location.href;
-                this.$router.push({ name: "gestion_productos" } );
+                //this.$router.push({ name: "gestion_productos" } );
+                this.$router.go(-1);
             },3000);
             /**
              * 
