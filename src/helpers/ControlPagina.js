@@ -24,7 +24,7 @@ export default class ControladorPagina {
     let res = await this.axios.get(this.urlEndpoint,
       {"params":this.parametrosFiltro}
       ).catch((response) => {
-      console.log(response.data.data.mensaje)
+      //console.log(response.data.data.mensaje)
     })
     if (!res) {
       return false
