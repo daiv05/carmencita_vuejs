@@ -48,4 +48,5 @@ form {
     left: 0;
     z-index: 999;
     background-color: #fff;
+    width: 100%;
 }

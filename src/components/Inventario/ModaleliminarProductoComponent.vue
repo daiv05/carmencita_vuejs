@@ -32,7 +32,7 @@
 
 <script>
 import axios from 'axios';
-//cambiar el nombre de las variables
+import API_URL from '../../config';
 export default {
     data(){
         return{
@@ -48,7 +48,7 @@ export default {
             this.productoModificado = this.producto;
         },
         desactivarProducto(){
-            axios.delete('http://127.0.0.1:8000/api/productos/'+this.productoModificado.codigo_barra_producto).then(
+            axios.delete(API_URL + '/api/productos/'+this.productoModificado.codigo_barra_producto).then(
                 response=>{
                     console.log(response.data.respuesta)
                     if(response.data.respuesta){

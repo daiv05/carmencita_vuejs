@@ -11,15 +11,28 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
     <main>
         <NavBar></NavBar>
         <div class="bg-slate-100 pb-4">
-            <div class="bg-white w-full mx-auto p-5 shadow-md">
-                <h1 class="font-bold text-blue-700 text-2xl ">Gestión de Pedidos a Domicilio</h1>
+            <div>
+                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
+                    <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
+                    <div class="flex items-center rounded-[4.44px] bg-[#637381]">
+                        <router-link to="/registrar_nueva_venta"
+                        class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+                        Nuevo pedido
+                    </router-link>
+                    </div>
+                </div>
+                <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+                </div>
             </div>
 
-            <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
+            <div class="m-auto p-1 pb-0 pt-4 w-4/5">
                 <h2 class="font-bold text-lg">Listado de Pedidos</h2>
             </div>
             <!--Controles para filtros-->
-            <div class="container grid grid-cols-2 md:grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
+            <div class="grid grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
                 <div class="col-span-1 flex flex-col justify-center p-2">
                     <label class="block text-sm font-medium leading-6 text-gray-900" for="estado">Estado</label>
                     <div class="">
@@ -57,8 +70,8 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
             </div>
             <!--Tabla de pedidos-->
             <div
-                class="container w-full m-1 md:w-11/12 lg:w-4/5 p-4 sm:mx-auto bg-slate-50 shadow rounded-md overflow-scroll lg:overflow-auto">
-                <table class="w-full max-h-screen rounded-md">
+                class="md:w-[85%] w-auto p-4 mx-auto bg-slate-50 shadow rounded-md overflow-auto">
+                <table class="table w-full max-h-screen rounded-md">
                     <thead class="border-b bg-slate-100">
                         <tr class="text-center">
                             <td scope="col" class="px-6 py-4 text-xs text-gray-500 font-semibold">CODIGO</td>
@@ -71,11 +84,11 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr v-for="(pedido,index) in pedidos" class="border-b hover:bg-slate-100 hover:shadow">
+                        <tr v-for="(pedido, index) in pedidos" class="border-b hover:bg-slate-100 hover:shadow">
                             <td class="whitespace-nowrap px-2 py-4">{{ pedido.id }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ pedido.cliente }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ formatFecha(pedido.fecha) }}</td>
-                            <td class="whitespace-nowrap px-4 py-4">{{ Number(pedido.total).toFixed(2) }}</td>
+                            <td class="whitespace-nowrap px-4 py-4">${{ Number(pedido.total).toFixed(2) }}</td>
                             <td class="whitespace-nowrap px-4 py-4">{{ pedido.tipo }}</td>
                             <td v-if="pedido.hr" class="whitespace-nowrap px-4 py-4">HR-{{ pedido.hr }}</td>
                             <td v-if="!pedido.hr" class="whitespace-nowrap px-4 py-4">Sin asignar</td>
@@ -88,12 +101,10 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                 <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
                                 <btnEditar :url="'/modificar_pedido/factura/' + pedido.id"></btnEditar>
                                 <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
-                                <btnEliminar :url="'/delete_pedido/factura/' + pedido.id" 
+                                <btnEliminar :url="'/delete_pedido/factura/' + pedido.id"
                                     :titulo="'Eliminar Pedido' + pedido.id"
                                     :mensaje="'El pedido ' + pedido.id + ' se eliminara de la base de datos'"
-                                    :lista="pedidos"
-                                    :index="index"
-                                    >
+                                    :lista="pedidos" :index="index">
                                 </btnEliminar>
                             </td>
                             <td v-if="pedido.tipo == 'Credito Fiscal'" class="whitespace-nowrap px-4 py-4">
@@ -105,9 +116,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                 <btnEliminar :url="'/delete_pedido/credito_fiscal/' + pedido.id"
                                     :titulo="'Eliminar Pedido' + pedido.id"
                                     :mensaje="'El pedido ' + pedido.id + ' se eliminara de la base de datos'"
-                                    :lista="pedidos"
-                                    :index="index"
-                                    >
+                                    :lista="pedidos" :index="index">
                                 </btnEliminar>
                             </td>
                         </tr>
@@ -147,7 +156,7 @@ export default {
             vacio: true, //si pedidos esta vacio,
         }
     },
-    mounted() {
+    created() {
         this.getPedidos();
     },
     methods: {
@@ -163,7 +172,7 @@ export default {
             mes = mes < 10 ? '0' + mes : mes;
 
             // Crear la fecha formateada
-            return  dia + '/' + mes + '/' + year;
+            return dia + '/' + mes + '/' + year;
         },
         pedidosVacio() {
             //Controla si la lista de pedidos esta vacia, se ocupa para mostrar el mensaje 'pedidos no encontrados'

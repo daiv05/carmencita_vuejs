@@ -7,8 +7,10 @@
                     <p for="fecha_pedido text-center">¿Está seguro que desea confirmar el pago?</p>
                 </div>
                 <div class="mb-4 flex flex-row items-center justify-center">
-                    <p v-if="!is_credito" for="fecha_pedido" class="text-center font-bold text-blue-950">Cliente: {{ factura.venta.nombre_cliente_venta }}</p>
-                    <p v-else for="fecha_pedido" class="text-center">------- Cliente: {{ factura.credito_fiscal.cliente.distintivo_cliente }} -------</p>
+                    <p v-if="!is_credito" for="fecha_pedido" class="text-center font-bold text-blue-950">Cliente: {{
+                        factura.venta.nombre_cliente_venta }}</p>
+                    <p v-else for="fecha_pedido" class="text-center">------- Cliente: {{
+                        factura.credito_fiscal.cliente.distintivo_cliente }} -------</p>
                 </div>
                 <div>
                     <div class="mb-4">
@@ -46,12 +48,11 @@ export default {
         confirmar_pago() {
             console.log(this.factura);
             if (this.is_credito) {
-                axios.post(api_url + '/creditos/confirmar_pago/' + this.factura.id_vd)
+                axios.post(api_url + '/creditos/confirmar_pago/' + this.factura.id_cfd)
                     .then(response => {
-                        if (response.data.success) {
-                            this.watch_toast("success", "Pago confirmado");
-                            this.$emit('confirmed');
-                        }
+                        console.log(response.data)
+                        this.watch_toast("success", "Pago confirmado");
+                        this.$emit('confirmed');
                     }).catch(error => {
                         this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
                         console.log(error);
@@ -59,10 +60,9 @@ export default {
             } else {
                 axios.post(api_url + '/ventas/confirmar_pago/' + this.factura.id_vd)
                     .then(response => {
-                        if (response.data.success) {
-                            this.watch_toast("success", "Pago confirmado");
-                            this.$emit('confirmed');
-                        }
+                        console.log(response.data)
+                        this.watch_toast("success", "Pago confirmado");
+                        this.$emit('confirmed');
                     }).catch(error => {
                         this.watch_toast("error", "Ocurrió un error, vuelva a intentar");
                         console.log(error);
@@ -143,15 +143,6 @@ export default {
 .modal-default-button {
     float: right;
 }
-
-/*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
 
 .modal-enter-from {
     opacity: 0;

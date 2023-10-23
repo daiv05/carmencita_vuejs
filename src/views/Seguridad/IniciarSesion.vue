@@ -17,14 +17,14 @@
                     </div>
                 <div>
                     <Field type="email" name="email" id="email"
-                     class=" w-[100%] border border-gray-300 text-gray-900 sm:text-sm rounded-[5px] focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-[5%]" 
+                     class=" w-[100%] border border-gray-300 text-gray-900 sm:text-sm rounded-[5px] focus:ring-primary-600 focus:border-primary-600 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-[5%]" 
                      placeholder="blackmore@gmail.com" required=""  v-model="email" :rules="isRequired"/>
                      <ErrorMessage name="email" />
                 </div>
                 <div>
                     <Field type="password" name="password" id="pass"
-                     class=" w-[100%] border border-gray-300 text-gray-900 sm:text-sm 
-                     rounded-[5px] focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-[5%]"
+                     class="w-[100%] border border-gray-300 text-gray-900 sm:text-sm 
+                     rounded-[5px] focus:ring-primary-600 focus:border-primary-600 blockp-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-[5%]"
                       placeholder="Contraseña" required=""  v-model="password" :rules="isRequired"/>
                       <ErrorMessage name="password" />
                 </div>
