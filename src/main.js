@@ -26,9 +26,14 @@ window.axios.defaults.baseURL="http://localhost:8001"
 window.axios.interceptors.response.use(
   response => response,
   error => {
-    if (!(error.response.data.is_auth === undefined)) {
-      error.response.data.is_auth ? console.log('aa') : store.dispatch('logout');
+    try {
+      if (error.response.status === 401) {
+        store.dispatch('logout');
+      }
+    } catch (error) {
+      console.log(error);
     }
+    //error.response.data.is_auth ? console.log('aa') : store.dispatch('logout');
     return Promise.reject(error);
   }
 );
