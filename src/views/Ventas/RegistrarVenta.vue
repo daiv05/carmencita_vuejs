@@ -52,8 +52,7 @@
                                         <!-- Lista de sugerencias -->
                                         <ul class="sugerencias-lista border border-slate-500"
                                             v-if="mostrar_sugerencias && sugerencias.length > 0">
-                                            <li class="m-2" href="#" v-for="sugerencia in sugerencias"
-                                                :key="sugerencia.id"
+                                            <li class="m-2" href="#" v-for="sugerencia in sugerencias" :key="sugerencia.id"
                                                 @mousedown.prevent="seleccionar_sugerencia_producto(sugerencia)">
                                                 <button class="w-full text-left">
                                                     {{ sugerencia }}
@@ -61,11 +60,6 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <button @click="agregar_producto_detalle()"
-                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                        class="font-medium text-center text-white rounded ml-4 h-[32px] w-[100px]">
-                                        Agregar
-                                    </button>
                                 </div>
                                 <!-- Tabla de DetalleVenta -->
                                 <table class="table-fixed w-full shadow-lg">
@@ -152,7 +146,7 @@
                                             <div class="flex md:flex-row flex-col items-center py-2">
                                                 <div class="flex flex-col">
                                                     <label for="identificador_cliente_credito"
-                                                        class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2">
+                                                        class="text-black-800 text-sm font-bold leading-tight tracking-normal mb-2 flex">
                                                         Seleccionar Cliente
                                                     </label>
                                                     <div class="sugerencias-container">
@@ -167,7 +161,8 @@
                                                         <!--Lista de sugerencias -->
                                                         <ul class="sugerencias-lista border border-slate-500"
                                                             v-if="mostrar_sugerencias_cliente && sugerencias_cliente.length > 0">
-                                                            <li class="m-2" href="#" v-for=" cliente  in  sugerencias_cliente"
+                                                            <li class="m-2" href="#"
+                                                                v-for=" cliente  in  sugerencias_cliente"
                                                                 :key="cliente.distintivo_cliente"
                                                                 @mousedown.prevent="seleccionar_sugerencia_cliente(cliente)">
                                                                 <button class="w-full text-left">
@@ -176,8 +171,9 @@
                                                             </li>
                                                         </ul>
                                                     </div>
+
                                                     <div class="flex justify-end pt-2 text-align-center">
-                                                        <button
+                                                        <button @click="show_modal_agregar = true"
                                                             class="py-2 px-4 bg-emerald-600 flex justify-center items-center h-[30px] w-auto hover:bg-emerald-800 text-white font-bold rounded">
                                                             Registrar nuevo
                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -272,6 +268,13 @@
                                                         class="text-slate-600 focus:outline-none focus:border focus:border-emerald-700 bg-white font-normal w-auto h-10 flex items-center pl-3 text-sm border-gray-300 rounded border">
                                                 </div>
                                             </div>
+                                            <div class="flex md:flex-row flex-col items-center pt-8">
+                                                <a href="#" @click="reset_seleccion_cliente()"
+                                                    class="underline text-xs font-light text-blue-950 w-full text-end">
+                                                    (Quitar selección)
+                                                </a>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -369,6 +372,11 @@
         <ModalVentaDomicilio :show="showModal" :activeTab="active_tab" :fecha="venta_info.fecha_venta"
             @close="showModal = false" @save="register_new_venta(true)"></ModalVentaDomicilio>
     </Teleport>
+
+    <Teleport to="body">
+        <ModalAgregarCliente :show="show_modal_agregar" @close="get_lista_nombres_clientes(); show_modal_agregar = false;">
+        </ModalAgregarCliente>
+    </Teleport>
 </template>
 
 <script>
@@ -379,7 +387,8 @@ import moment from 'moment';
 import { useToast } from 'vue-toastification';
 import NavBar from '@/components/NavBar.vue';
 
-import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue'
+import ModalVentaDomicilio from '@/components/Ventas/ModalVentaDomicilio.vue';
+import ModalAgregarCliente from '@/components/Ventas/ModalAgregarCliente.vue';
 
 const toast = useToast();
 
@@ -387,10 +396,12 @@ export default {
     components: {
         ModalVentaDomicilio,
         NavBar: NavBar,
+        ModalAgregarCliente
     },
     data() {
         return {
             showModal: false,
+            show_modal_agregar: false,
             //Tab activo (0 = Consumidor Final, 1 = Credito Fiscal)
             active_tab: 0,
             // Objeto Producto
@@ -911,7 +922,10 @@ export default {
             this.campo_identificador_cliente = "";
             this.contador_tabla = 0;
 
-            this.asignar_fecha_actual();
+            this.departamento_cliente = "",
+                this.municipio_cliente = "",
+
+                this.asignar_fecha_actual();
         },
         restaurar_ultima_factura() {
             // Restaurar los valores de los campos en caso de error (recuperar ultima venta enviada)
@@ -921,6 +935,18 @@ export default {
             this.credito_fiscal_info = this.credito_fiscal_info_COPIA;
             this.campo_identificador_cliente = this.campo_identificador_cliente_COPIA;
             this.contador_tabla = this.contador_tabla_COPIA;
+        },
+        reset_seleccion_cliente() {
+            this.cliente_info = {
+                id_cliente: 0,
+                nombre_cliente: "",
+                nit_cliente: "",
+                nrc_cliente: "",
+                dui_cliente: "",
+                direccion_cliente: "",
+                municipio_cliente: {},
+                identificador_cliente: ""
+            };
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {

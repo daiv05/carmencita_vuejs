@@ -67,8 +67,7 @@
                                                         Imprimir
                                                     </button>
                                                     <router-link v-if="fila.esta_cancelada == 0"
-                                                        @click="editar_venta_domicilio(fila)"
-                                                        :to="{ name: 'modificar_pedido', params: { id: fila.venta.id_venta } }"
+                                                        :to="{ name: 'modificar_pedido', params: { id: fila.id_venta } }"
                                                         class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                         Editar Pedido
                                                     </router-link>
@@ -102,8 +101,7 @@
                                                         Imprimir
                                                     </button>
                                                     <router-link v-if="fila.esta_cancelado == 0"
-                                                        @click="editar_credito_domicilio(fila)"
-                                                        :to="{ name: 'modificar_pedido_credito', params: { id: fila.credito_fiscal.id_creditofiscal } }"
+                                                        :to="{ name: 'modificar_pedido_credito', params: { id: fila.id_creditofiscal } }"
                                                         class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                         Editar Pedido
                                                     </router-link>
@@ -267,7 +265,7 @@ export default {
                 });
         },
         imprimir_credito_domicilio(fila) {
-            axios.get(api_url + '/impresion_credito_fiscal/' + fila.credito_fiscal.id_creditofiscal)
+            axios.get(api_url + '/impresion_credito_fiscal/' + fila.id_creditofiscal)
                 .then((res) => {
                     console.log(res);
                     this.watch_toast("success", "Imprimiendo...");
@@ -279,8 +277,8 @@ export default {
         },
         imprimir_venta_domicilio(fila) {
             console.log('Pedido a imprimir...');
-            console.log(fila.venta.id_venta);
-            axios.get(api_url + '/impresion_consumidor_final/' + fila.venta.id_venta)
+            console.log(fila.id_venta);
+            axios.get(api_url + '/impresion_consumidor_final/' + fila.id_venta)
                 .then((res) => {
                     console.log(res);
                     this.watch_toast("success", "Imprimiendo...");

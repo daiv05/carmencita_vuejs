@@ -36,6 +36,8 @@ import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetalleP
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
 import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import Promociones from '../views/Marketing/Promociones.vue';
+import ClientesList from '../views/Ventas/ClientesList.vue';
+import ProveedoresList from '../views/Creditos/Proveedores.vue';
 import not_found from '../views/not_found.vue';
 import Blog from '../views/Marketing/Blog.vue'
 import axios from 'axios';
@@ -267,6 +269,16 @@ const router = createRouter({
       path:'/blog',
       name:'blog',
       component:Blog
+    },
+    {
+      path:'/gestionar_clientes',
+      name:'clientes_list',
+      component:ClientesList,
+    },
+    {
+      path:'/gestionar_proveedores',
+      name:'Proveedores_list',
+      component:ProveedoresList,
     }
   ]
 })
