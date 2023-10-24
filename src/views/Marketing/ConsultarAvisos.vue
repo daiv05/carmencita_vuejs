@@ -27,6 +27,11 @@
       </div>
     </div>
     <p class="font-bold ml-[7%] mt-[1%] text-[25px]">Consultar Avisos</p>
+    <div class="flex justify-start items-center mt-4 ml-4">
+                    <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                        <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+                    </a>
+        </div>
     <table class="w-[95%] lg:w-[75%] m-auto mt-[2px]">
       <tr>
         <td colspan="5">
@@ -152,6 +157,7 @@ import BotonConsultar from '../../components/Helpers/BotonConsultar.vue'
 import BotonEditar from '../../components/Helpers/BotonEditar.vue'
 import BotonEliminarAviso from '../../components/Helpers/BotonEliminarAviso.vue'
 import BotonDesactivarAviso from '../../components/Helpers/BotonDesactivarAviso.vue'
+import RegresarPagina from '../../components/RegresarPagina.vue'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -161,7 +167,8 @@ export default {
     BotonConsultar,
     BotonEditar,
     BotonEliminarAviso,
-    BotonDesactivarAviso
+    BotonDesactivarAviso,
+    RegresarPagina,
   },
   data() {
     return {

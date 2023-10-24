@@ -265,7 +265,7 @@ export default {
                 this.obtenerProductos();
                 this.guardarEstadoPaginacion(this.obtenerEnlacePaginaActual());
             })
-                .catch(error => {
+                .catch((error) => {
                 console.log(error);
             });
             }

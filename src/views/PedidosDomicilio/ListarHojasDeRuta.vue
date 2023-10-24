@@ -68,7 +68,7 @@
               datosHojaDeRuta.empleado.primer_apellido
             }}
           </td>
-          <td class="text-center">{{ datosHojaDeRuta.total }}</td>
+          <td class="text-center">${{ datosHojaDeRuta.total }}</td>
           <td class="text-center">
             <div class="flex justify-center align-center">
               <BotonConsultar :url="urlConsultar + datosHojaDeRuta.id_hr"></BotonConsultar>
@@ -143,7 +143,7 @@ export default {
       urlEliminar: '',
       fechaEntrega: null,
       estado: '',
-      listaEstados: [{ 'estado': 'Entregados', 'valor': 1 }, { 'estado': 'No entregados', 'valor': 0 }]
+      listaEstados: [{'estado':'Todos','valor':null},{ 'estado': 'Entregados', 'valor': 1 }, { 'estado': 'No entregados', 'valor': 0 }]
     }
   },
   mounted() {
