@@ -37,6 +37,7 @@ import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
 import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import Promociones from '../views/Marketing/Promociones.vue';
 import not_found from '../views/not_found.vue';
+import Blog from '../views/Marketing/Blog.vue'
 import axios from 'axios';
 
 const router = createRouter({
@@ -261,6 +262,11 @@ const router = createRouter({
       path:'/registrar_promociones',
       name:'registrar_promociones',
       component:Promociones,
+    },
+    {
+      path:'/blog',
+      name:'blog',
+      component:Blog
     }
   ]
 })
