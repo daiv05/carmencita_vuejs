@@ -228,8 +228,11 @@ export default {
                 });
         },
         obtenerDatosPaginado() {
-            axios.get(api_url + '/productos/paginacion/' + 5).then(response => {
+            if(this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarProducto == true){
+                this.$store.state.fromAgregarEditarProducto = false;
+                axios.get(this.$store.state.urlPaginaActual).then(response => {
                 this.productoPaginado = response.data.productos;
+
                 this.listaProductos = this.productoPaginado.data;
                 this.total = this.productoPaginado.total;
                 this.registrosPorPagina = this.productoPaginado.per_page;
@@ -240,16 +243,48 @@ export default {
                 console.log(this.productoPaginado.links);
                 console.log(this.productoPaginado.data);
                 this.obtenerProductos();
+                this.guardarEstadoPaginacion(this.obtenerEnlacePaginaActual());
             })
                 .catch(error => {
-                    console.log(error);
-                });
+                console.log(error);
+            });
+            }
+            else{
+                axios.get(api_url + '/productos/paginacion/' + 5).then(response => {
+                this.productoPaginado = response.data.productos;
+
+                this.listaProductos = this.productoPaginado.data;
+                this.total = this.productoPaginado.total;
+                this.registrosPorPagina = this.productoPaginado.per_page;
+                this.enlacesPaginaProducto = this.productoPaginado.links;
+                this.prev_page_url = this.productoPaginado.prev_page_url;
+                this.next_page_url = this.productoPaginado.next_page_url;
+                this.controlPagina = this.productoPaginado.current_page;
+                console.log(this.productoPaginado.links);
+                console.log(this.productoPaginado.data);
+                this.obtenerProductos();
+                this.guardarEstadoPaginacion(this.obtenerEnlacePaginaActual());
+            })
+                .catch((error) => {
+                console.log(error);
+            });
+            }
+        },
+        obtenerEnlacePaginaActual(){
+            let enlacePaginaActual = " ";
+            this.enlacesPaginaProducto.forEach((link)=>{
+                if(link.active == true){
+                    enlacePaginaActual = link.url;
+                }
+            });
+            return enlacePaginaActual;
         },
         calcularNumeroPaginas() {
             return Math.ceil(this.total / this.registrosPorPagina);
         },
-        obtenerPaginaProducto(page) {
-            axios.get(this.enlacesPaginaProducto[page].url).then(response => {
+        obtenerPaginaProducto(page){
+            this.guardarEstadoPaginacion(this.enlacesPaginaProducto[page].url);
+            axios.get( this.enlacesPaginaProducto[page].url ).then(response => {
                 //this.productoPaginado = response.data.productos;
                 this.listaProductos = [];
                 this.listaProductos = response.data.productos.data;
@@ -262,39 +297,39 @@ export default {
                 //this.registrosPorPagina = this.productoPaginado.per_page;
                 //this.enlacesPaginaProducto = this.productoPaginado.links;
                 //console.log(this.productoPaginado.data);
+                //this.guardarEstadoPaginacion();
             })
                 .catch(error => {
                     console.log('msj');
                     console.log(error);
                 });
         },
-        obtenerPaginaSiguiente() {
-            if (this.next_page_url != null && this.next_page_url != "") {
-                axios.get(this.next_page_url).then(response => {
-
-                    this.listaProductos = [];
-                    this.listaProductos = response.data.productos.data;
-                    this.next_page_url = response.data.productos.next_page_url;
-                    this.prev_page_url = response.data.productos.prev_page_url;
-                    this.controlPagina++;
-                    console.log(response)
-
+        obtenerPaginaSiguiente(){
+            if (this.next_page_url != null && this.next_page_url != ""){
+                axios.get( this.next_page_url ).then(response => {
+                this.guardarEstadoPaginacion(this.next_page_url);
+                this.listaProductos = [];
+                this.listaProductos = response.data.productos.data;
+                this.next_page_url = response.data.productos.next_page_url;
+                this.prev_page_url = response.data.productos.prev_page_url;
+                this.controlPagina++;
                 });
             }
             else {
                 console.log('No hay siguiente');
             }
         },
-        obtenerPaginaAnterior() {
-            if (this.prev_page_url != null && this.prev_page_url != "") {
-                axios.get(this.prev_page_url).then(response => {
-
-                    this.listaProductos = [];
-                    this.listaProductos = response.data.productos.data;
-                    this.prev_page_url = response.data.productos.prev_page_url;
-                    this.next_page_url = response.data.productos.next_page_url;
-                    this.controlPagina--;
-                    console.log(response)
+        obtenerPaginaAnterior(){
+            if (this.prev_page_url != null && this.prev_page_url != ""){
+                axios.get( this.prev_page_url ).then(response => {
+                
+                this.guardarEstadoPaginacion(this.prve_page_url);
+                this.listaProductos = [];
+                this.listaProductos = response.data.productos.data;
+                this.prev_page_url = response.data.productos.prev_page_url;
+                this.next_page_url = response.data.productos.next_page_url;
+                this.controlPagina--;
+                
 
                 });
             }
@@ -358,8 +393,14 @@ export default {
                             //return 'https://i.pinimg.com/550x/64/b7/35/64b735fe92c580cad36351a26d4b13c9.jpg';
                         });
             }
+        },  
+        guardarEstadoPaginacion(paramUrlPaginaActual){
+            this.$store.commit("setUrlPaginaActual",{urlPaginaActual:paramUrlPaginaActual});
+            this.$store.commit("setExistenDatos",{existenDatos:true});
         },
+        verificarControlPaginacionStore(){
 
+        }
 
     }
 }

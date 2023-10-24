@@ -31,6 +31,10 @@ import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
+import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
+import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
+import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
+import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import Promociones from '../views/Marketing/Promociones.vue';
 import ClientesList from '../views/Ventas/ClientesList.vue';
 import ProveedoresList from '../views/Creditos/Proveedores.vue';
@@ -234,6 +238,26 @@ const router = createRouter({
       path:'/registrar_credito_proveedor',
       name:'registrar_credito_proveedor',
       component:Creditos
+    },
+    {
+      path:'/historial_planillas',
+      name:'consultar_historial_planillas',
+      component:HistorialPlanillas
+    },
+    {
+      path:'/detalle_planilla/:idPlanilla',
+      name:'detalle_planilla',
+      component:ConsultarDetallePlanilla
+    },
+    {
+      path:'/modificar_aviso/:idAviso',
+      name:'modificar_aviso',
+      component:ModificarAviso
+    },
+    {
+      path:'/consultar_avisos',
+      name:'consultar_avisos',
+      component:ConsultarAvisos
     },
     {
       path:'/registrar_promociones',

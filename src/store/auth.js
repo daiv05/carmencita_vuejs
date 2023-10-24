@@ -12,6 +12,9 @@ const  store = createStore({
             estaAutenticado:false,
             tokenUser:"",
             permisos:[],
+            urlPaginaActual:"",
+            existenDatos:false,
+            fromAgregarEditarProducto:false,
         }
     },
     mutations:{
@@ -29,6 +32,15 @@ const  store = createStore({
             payload.permisos.forEach(element => {
                 state.permisos.push(element.name);
             });
+        },
+        setUrlPaginaActual(state,payload){
+            state.urlPaginaActual = payload.urlPaginaActual;
+        },
+        setFromAgregarEditarProducto(state,payload){
+            state.fromAgregarEditarProducto = payload.fromAgregarEditarProducto;
+        },
+        setExistenDatos(state,payload){
+            state.existenDatos = payload.existenDatos;
         }
     },
     actions:{
@@ -113,7 +125,7 @@ const  store = createStore({
     plugins: [createPersistedState(
         {
             key:"authUser",
-            paths:["user","estaAutenticado","tokenUser","permisos"]
+            paths:["user","estaAutenticado","tokenUser","permisos","urlPaginaActual","existenDatos","fromAgregarEditarProducto"]
         }
     )]
 })
