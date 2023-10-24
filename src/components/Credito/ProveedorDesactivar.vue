@@ -4,19 +4,19 @@
             <div class="modal-container">
                 <h1 class="text-2xl font-bold mb-6 text-center">Confirmar cambios</h1>
                 <div class="mb-4 flex flex-row items-center justify-center">
-                    <p v-if="cliente.estado_cliente == 1" for="fecha_pedido text-center">¿Está seguro que desea desactivar a
-                        este cliente?</p>
-                    <p v-else for="fecha_pedido text-center">¿Está seguro que desea activar a este cliente?</p>
+                    <p v-if="proveedor.estado_pr == 1" for="fecha_pedido text-center">¿Está seguro que desea desactivar a
+                        este proveedor?</p>
+                    <p v-else for="fecha_pedido text-center">¿Está seguro que desea activar a este proveedor?</p>
                 </div>
                 <div class="mb-4 flex flex-row items-center justify-center">
-                    <p v-if="cliente.estado_cliente == 1" class="text-center font-bold text-blue-950">La selección del
-                        cliente dejará de estar disponible en el registro de ventas</p>
-                    <p v-else class="text-center font-bold text-blue-950">El cliente estará disponible en el registro de
-                        ventas</p>
+                    <p v-if="proveedor.estado_pr == 1" class="text-center font-bold text-blue-950">La selección del
+                        proveedor dejará de estar disponible en el registro de créditos</p>
+                    <p v-else class="text-center font-bold text-blue-950">El proveedor estará disponible en el registro de
+                        créditos</p>
                 </div>
                 <div>
                     <div class="text-center">
-                        <button @click="desactivar_cliente()"
+                        <button @click="desactivar_proveedor()"
                             class="bg-red-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300">Confirmar</button>
                         <button id="btnCancelar" @click="$emit('close')"
                             class="ml-4 py-2.5 px-5 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
@@ -35,16 +35,16 @@ import { useToast } from 'vue-toastification'
 const toast = useToast();
 
 export default {
-    props: ['show', 'cliente'],
+    props: ['show', 'proveedor'],
     methods: {
-        desactivar_cliente() {
-            axios.post(api_url + '/clientes/cambiar_estado/' + this.cliente.id_cliente)
+        desactivar_proveedor() {
+            axios.put(api_url + '/proveedor/cambiar_estado/' + this.proveedor.id)
                 .then(response => {
-                    if (this.cliente.estado_cliente == 1) {
-                        this.watch_toast("success", "Cliente desactivado con éxito.");
+                    if (this.proveedor.estado_pr == 1) {
+                        this.watch_toast("success", "Proveedor desactivado con éxito.");
                         this.$emit('close');
                     } else {
-                        this.watch_toast("success", "Cliente activado con éxito.");
+                        this.watch_toast("success", "Proveedor activado con éxito.");
                         this.$emit('close');
                     }
                 }).catch(error => {

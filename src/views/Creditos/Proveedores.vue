@@ -85,7 +85,6 @@ import API_URL from '../../config';
 import NavBar from '../../components/NavBar.vue';
 import ModalAgregarProveedor from '@/components/Credito/ModalAgregarProveedor.vue';
 import ModalModificarProveedor from '@/components/Credito/ModalModificarProveedor.vue';
-import ModalEstadoProveedor from '@/components/Credito/ModalEstadoProveedor.vue';
 import ProveedorDesactivar from '@/components/Credito/ProveedorDesactivar.vue';
 import '../../assets/modal_default.css'
 export default {
@@ -103,7 +102,6 @@ export default {
         NavBar,
         ModalAgregarProveedor,
         ModalModificarProveedor,
-        ModalEstadoProveedor,
         ProveedorDesactivar
     },
     created() {

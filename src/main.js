@@ -28,10 +28,13 @@ window.axios.interceptors.response.use(
   error => {
     try {
       if (error.response.status === 401) {
+        console.log('no auth');
         store.dispatch('logout');
       }
     } catch (error) {
       console.log(error);
+      store.dispatch("cleanStore");
+      router.push("/iniciar_sesion");
     }
     //error.response.data.is_auth ? console.log('aa') : store.dispatch('logout');
     return Promise.reject(error);

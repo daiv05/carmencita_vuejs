@@ -78,7 +78,6 @@ const  store = createStore({
                 (response)=>{
                     console.log(response);
                     context.dispatch("cleanStore");
-
                     setTimeout(()=>{
                         /*you must changed alert for other kind of pop up*/
                         //alert("Has cerrado sesión correctamente");
@@ -91,8 +90,6 @@ const  store = createStore({
             ).catch(
                 (response)=>{
                     console.log(response);
-                    context.dispatch("cleanStore");
-                    router.push("/iniciar_sesion");
                 }
             )
         },
