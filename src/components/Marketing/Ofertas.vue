@@ -9,6 +9,7 @@
           <div class="oferta-info">
             <h2 class="oferta-nombre">{{ oferta.nombre_oferta}}</h2>
             <p class="oferta-precio">Precio de oferta ${{ oferta.precio_oferta}}</p>
+            <h2 class="oferta-nombre">Valido hasta el {{ formatearFechas(oferta.fecha_fin_oferta)}}</h2>
           </div>
         </div>
       </div>
@@ -27,6 +28,8 @@
   <script>
   import axios from 'axios';
   import api_url from '../../config.js';
+  import moment from 'moment'
+
 
   
   export default {
@@ -82,6 +85,9 @@
                         });
             }
         },
+      formatearFechas(fecha) {
+        return moment(fecha).format('DD/MM/YYYY')
+      },
     }
   };
   </script>
