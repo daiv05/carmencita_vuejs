@@ -3,18 +3,17 @@ import ModalPrecioExtra from '../../components/Inventario/ModalPrecioExtra.vue'
 import ModalEditarPrecioExtra from '../../components/Inventario/ModalEditarPrecioExtra.vue'
 import NavBar from "../../components/NavBar.vue";
 import api_url from '../../config';
+import { showMessages } from '../../components/functions.js'
 </script>
+<style>
+.mensajeDeError{
+    display: block;
+    color:red;
+    font-size: small;
+}
+</style>
 <template>
     <main>
-
-        <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 fixed top-20 left-0 right-0"
-            role="alert" v-if="activarAlerta == true">
-            <span class="font-medium">{{ mensajeExito }}</span>
-        </div>
-        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400 fixed top-10 left-0 right-0"
-            role="alert" v-if="activarAlertaError == true">
-            <span class="font-medium">{{ mensajeExito }}</span>
-        </div>
         <NavBar></NavBar>
         <!-- Encabezado -->
         <div>
@@ -421,16 +420,16 @@ export default {
             console.log(bodyData);
             axios.post(api_url + "/productos/" + this.idProducto + configuracionPut, bodyData)
                 .then(
-                    response => {
-                        this.mensajeExito = response.data.mensaje;
+                    (response) => {
                         this.guardarCambiosListaPrecios();
+                        showMessages(response.data.respuesta, response.data.mensaje);
                     }
                 )
                 .catch(
-                    response => {
-                        console.log(
-                            response.response.data
-                        );
+                    (error) => {
+                        error.response.data.mensaje.forEach(mensaje => {
+                            showMessages(error.response.data.respuesta, mensaje);
+                        });
                     }
                 );
         },
