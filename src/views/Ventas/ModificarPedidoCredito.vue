@@ -53,11 +53,6 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <button @click="agregar_producto_detalle()"
-                                        :class="{ 'bg-emerald-600 hover:bg-emerald-800': active_tab == 1, 'bg-indigo-600 hover:bg-indigo-800': active_tab == 0 }"
-                                        class="font-medium text-center text-white rounded ml-4 h-[32px] w-[100px]">
-                                        Agregar
-                                    </button>
                                 </div>
                                 <!-- Tabla de DetalleVenta -->
                                 <table class="table-fixed w-full shadow-lg">
