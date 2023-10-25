@@ -123,6 +123,14 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
+            <list-group-item>
+              <router-link to="/historial_planillas">
+                <div class="flex items-center">
+                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Historial Planillas</p>
+                </div>
+              </router-link>
+            </list-group-item>
           </list-group>
         </dropdown>
       </the-card>
@@ -290,6 +298,23 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Listado de Ofertas y Promociones</p>
+                </div>
+              </router-link>
+            </list-group-item>
+          </list-group>
+        </dropdown>
+      </the-card>
+
+      <!--Avisos-->
+      <the-card variant="image" img-src="assets/img/ofertas.jpg" img-alt="Avisos">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Avisos</h5>
+        <dropdown text="Avisos">
+          <list-group>
+            <list-group-item>
+              <router-link to="/consultar_avisos">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Consultar Avisos</p>
                 </div>
               </router-link>
             </list-group-item>

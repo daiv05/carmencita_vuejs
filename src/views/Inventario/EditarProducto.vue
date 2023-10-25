@@ -505,15 +505,19 @@ export default {
                 this.activarAlertaError = false;
             }, 5000);
         },
-        clearForm() {
-            setTimeout(() => {
-                this.$router.push({ name: 'editar_producto', params: { id_producto: this.producto.codigoBarraProducto.toString() } });
+        clearForm(){
+            setTimeout(()=>{
+                this.$store.commit("setFromAgregarEditarProducto",{fromAgregarEditarProducto:true});
+                this.$router.push({ name: "gestion_productos" } );
+                //this.$router.push({ name: 'editar_producto', params: { id_producto: this.producto.codigoBarraProducto.toString() } });
                 //this.$router.push({ name: "editar_producto", params: { id_producto : this.producto.codigoBarraProducto.toString() } });
             }, 3000);
             URL.revokeObjectURL(this.urlFotoProducto);
         },
-        cancelarModificacion() {
-            this.$router.push({ name: "gestion_productos" });
+        cancelarModificacion(){
+            this.$store.commit("setFromAgregarEditarProducto",{fromAgregarEditarProducto:true});
+            this.$router.push({ name: "gestion_productos"});
+            //this.$router.push({ name: "gestion_productos" } );
         }
     }
 }

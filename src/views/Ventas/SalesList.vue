@@ -98,7 +98,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                             class="border-b-2 border-black-400 h-[40px] bg-black-300">
                             <td v-text="(i + 1)" class="text-center"></td>
                             <td v-text="(venta.id_venta)" class="text-center"></td>
-                            <td v-text="(venta.fecha_venta)" class="text-center"></td>
+                            <td v-text="formatearFechas(venta.fecha_venta)" class="text-center"></td>
                             <td class="text-center">Consumidor Final</td>
                             <td v-text="(venta.total_venta)" class="text-center"></td>
                             <td class="text-center flex">
@@ -187,7 +187,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                             <td v-text="(i + 1)" class="text-center"></td>
                             <td v-text="(venta.cliente.nrc_cliente)" class="text-center"></td>
                             <td v-text="(venta.cliente.distintivo_cliente)" class="text-center"></td>
-                            <td v-text="(venta.fecha_credito)" class="text-center"></td>
+                            <td v-text="formatearFechas(venta.fecha_credito)" class="text-center"></td>
                             <td class="text-center">Credito Fiscal</td>
                             <td v-text="(venta.total_credito)" class="text-center"></td>
                             <td class="text-center flex">
@@ -229,6 +229,8 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
 //Importar axios
 import axios from 'axios';
 import api_url from '../../config.js';
+import moment from 'moment'
+
 
 export default {
   components: {
@@ -331,6 +333,10 @@ export default {
 
     actualizarTabla: function () {
       this.getVentasCF();
+    },
+
+    formatearFechas(fecha) {
+        return moment(fecha).format('DD/MM/YYYY')
     }
   },
 };
