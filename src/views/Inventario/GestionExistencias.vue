@@ -246,7 +246,7 @@ export default {
     },
     guardarLoteModificado(tempLote) {
       /*agregar mensaje de alerta*/
-      let copyListaLotes = [...this.listaLotes]
+      /*let copyListaLotes = [...this.listaLotes]
       this.listaLotes = []
       console.log('la copia del arreglo es: ', copyListaLotes)
       copyListaLotes.forEach((element, index) => {
@@ -255,7 +255,8 @@ export default {
           this.activarMensajeExito(tempLote.mensaje)
         }
       })
-      this.listaLotes = [...copyListaLotes]
+      this.listaLotes = [...copyListaLotes]*/
+      this.obtenerListaLotes();
       this.controlModalEditarLote = false
     },
     cerrarModalAgregar() {
