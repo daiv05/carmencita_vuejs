@@ -4,9 +4,12 @@ import HomeView from '../views/HomeView.vue'
 import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
 import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
 import AsistenciaAgregar from '../views/RecursosHumanos/AsistenciaAgregar.vue'
+import HistorialAsistencia from '../views/RecursosHumanos/HistorialAsistencia.vue'
+import ConsultarAsistencia from '../views/RecursosHumanos/ConsultarAsistencia.vue';
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue';
 import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue';
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue';
+import GestionUsuario from '../views/RecursosHumanos/GestionUsuario.vue';
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue';
 import GestionProducto from '../views/Inventario/GestionProducto.vue';
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue';
@@ -111,6 +114,11 @@ const router = createRouter({
       component : GestionCargo
     },
     {
+      path: "/gestion_usuarios",
+      name : "gestion_usuarios",
+      component : GestionUsuario
+    },
+    {
       path: "/editar_producto/:id_producto",
       name: "editar_producto",
       component: EditarProducto
@@ -153,6 +161,16 @@ const router = createRouter({
       path: "/registrar_asistencia",
       name : "Registrar_asistencia",
       component : AsistenciaAgregar
+    },
+    {
+      path: "/consultar_asistencia/:id_empleado",
+      name : "consultar_asistencia",
+      component : ConsultarAsistencia
+    },
+    {
+      path: "/historial_asistencia",
+      name : "historial_asistencia",
+      component : HistorialAsistencia
     },
     {
       path:"/iniciar_sesion",
