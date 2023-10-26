@@ -147,8 +147,13 @@ export default {
     }
   },
   mounted() {
-    this.controlPagina.setParametrosFiltro({ tipo: 'Consumidor final' })
-    this.controlPagina.cargarPaginas()
+    if(this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarHR == true){
+      this.controlPagina = new ControladorPagina(this.$store.state.urlPaginaActualHR);
+      this.$store.commit("setFromAgregarEditarHR",false);
+    }
+    this.controlPagina.cargarPaginas();
+    this.$store.commit("setExistenDatos",true);
+    this.$store.commit("setUrlPaginaActualHR",this.controlPagina.getUrlPaginaActual());
   },
   methods: {
     formatearFechas(fecha) {
