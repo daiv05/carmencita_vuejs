@@ -78,7 +78,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/gestion_productos" class="w-full h-full">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Gestión de productos</p>
+                  <p>Productos</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -86,7 +86,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <DocumentCheckIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Gestión de existencias</p>
+                  <p>Existencias</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -111,7 +111,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/listar_empleados">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Lista de empleados</p>
+                  <p>Empleados</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -119,7 +119,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/gestion_cargos">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Gestión de cargos</p>
+                  <p>Cargos</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -177,7 +177,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/registrar_nueva_venta">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Lista de usuarios</p>
+                  <p>Usuarios</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -187,82 +187,39 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
       <!--Informes de Ventas-->
       <the-card variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes de Ventas</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes</h5>
         <dropdown text="Informes">
           <list-group>
             <list-group-item>
-              <router-link to="/informe_ventas_totales" class="w-full h-full">
+              <router-link to="/panel_informes" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Ventas Totales</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/informe_productos_mas_vendidos">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Productos +/- Vendidos</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/informe_ventas_productos">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Ventas por Producto</p>
+                  <p>Informes de Ventas / Inventario</p>
                 </div>
               </router-link>
             </list-group-item>
           </list-group>
         </dropdown>
       </the-card>
-
-
-      <!--Informes de Inventario-->
-      <the-card variant="image" img-src="assets/img/inf_inventario.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes de Inventario</h5>
-        <dropdown text="Informes">
-          <list-group>
-            <list-group-item>
-              <router-link to="/informe_productos_por_vencer" class="w-full h-full">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Productos Próx. a caducar</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/informe_inventario_valorado">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Inventario Valorado</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/informe_existencias_de_productos">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Informe de Existencias de Productos</p>
-                </div>
-              </router-link>
-            </list-group-item>
-          </list-group>
-        </dropdown>
-      </the-card>
-
 
       <!--Proveedores y Creditos-->
       <the-card variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Proveedores</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Stakeholders</h5>
         <dropdown text="Proveedores">
           <list-group>
             <list-group-item>
-              <router-link to="/">
+              <router-link to="/gestionar_proveedores">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Listado de proveedores</p>
+                  <p>Proveedores</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/gestionar_clientes">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Clientes</p>
                 </div>
               </router-link>
             </list-group-item>

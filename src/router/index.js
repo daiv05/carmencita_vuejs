@@ -38,6 +38,7 @@ import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import Promociones from '../views/Marketing/Promociones.vue';
 import ClientesList from '../views/Ventas/ClientesList.vue';
 import ProveedoresList from '../views/Creditos/Proveedores.vue';
+import PanelInformes from '../views/Estadisticas/PanelInformes.vue';
 import not_found from '../views/not_found.vue';
 import Blog from '../views/Marketing/Blog.vue'
 import axios from 'axios';
@@ -279,6 +280,11 @@ const router = createRouter({
       path:'/gestionar_proveedores',
       name:'Proveedores_list',
       component:ProveedoresList,
+    },
+    {
+      path:'/panel_informes',
+      name:'panel_informes',
+      component:PanelInformes,
     }
   ]
 })
