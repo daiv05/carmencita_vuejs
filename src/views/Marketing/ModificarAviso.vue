@@ -179,6 +179,7 @@ export default {
                     this.mensajeExito = " ";
                 },6000);
                 this.activarBotonEnviar();
+                console.log(this.estado_de_aviso);
             })
             .catch((response)=>{
 //                console.log(response.response.data.listaErrores);
