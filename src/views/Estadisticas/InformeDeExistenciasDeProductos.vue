@@ -12,10 +12,19 @@
             </div>
         </div>
         <div class="m-8">
-            <div class="w-full ml-8 mt-4">
+            <div class=" flex w-full ml-8 mt-4">
                 <div>
                     <label for="" class="font-bold text-sm">Resaltar productos con stock menor a</label>
                     <input type="number" class="rounded mx-3 mr-3 w-auto max-w-[100px]" min="1" v-model="limite">
+                </div>
+                <div>
+                    <label for="sort_by_disponibles" class="font-bold text-sm">Ordenar por </label>
+                    <select name="sort_by_disponibles" v-model="sort_by" id="" @change="obtenerProductos"
+                    class="rounded mx-3 mr-3 w-fit max-w-[300px]"
+                    >
+                        <option value="0">Menos existencias</option>
+                        <option value="1">Más existencias</option>
+                    </select>
                 </div>
             </div>
             <div class="mt-4">
@@ -75,6 +84,7 @@ import axios from 'axios'
 export default {
     data() {
         return {
+            sort_by:0,
             listaProductos: [],
             limite: 100,
             listaPaginas: [],
@@ -89,7 +99,7 @@ export default {
     },
     methods: {
         obtenerProductos() {
-            axios.get(api_url + '/productos/paginacion/5')
+            axios.get(api_url + '/productos/paginacion/5?sort_by='+this.sort_by)
                 .then(response => {
                     this.listaProductos = response.data.productos.data;
                     this.listaPaginas = response.data.productos.links;
