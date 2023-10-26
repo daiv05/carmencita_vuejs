@@ -100,7 +100,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                             <td v-text="(venta.id_venta)" class="text-center"></td>
                             <td v-text="formatearFechas(venta.fecha_venta)" class="text-center"></td>
                             <td class="text-center">Consumidor Final</td>
-                            <td v-text="(venta.total_venta)" class="text-center"></td>
+                            <td v-text="'$ '+Number(venta.total_venta).toFixed(2)" class="text-center"></td>
                             <td class="text-center flex">
 
                               <router-link
@@ -189,7 +189,7 @@ import CreditoDesactivar from '../../components/Ventas/CreditoDesactivar.vue';
                             <td v-text="(venta.cliente.distintivo_cliente)" class="text-center"></td>
                             <td v-text="formatearFechas(venta.fecha_credito)" class="text-center"></td>
                             <td class="text-center">Credito Fiscal</td>
-                            <td v-text="(venta.total_credito)" class="text-center"></td>
+                            <td v-text="'$' + Number(venta.total_credito).toFixed(2)" class="text-center"></td>
                             <td class="text-center flex">
                               <router-link
                                 class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-[30px] text-sm px-5 py-2.5 text-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 cursor-pointer"
