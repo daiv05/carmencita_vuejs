@@ -5,7 +5,7 @@ import { showMessages } from '../../components/functions.js'
 </script>
 
 <template>
-    <Form ref="creditoForm" id="creditoForm" class="w-auto m-4" @submit="saveCredito">
+    <Form :validation-schema="schema" ref="creditoForm" id="creditoForm" class="w-auto m-4" @submit="saveCredito">
         <!--Contenedor de inputs-->
         <div class="container bg-white shadow m-auto p-6 w-4/5 my-4">
             <div class="border-b border-gray-900/10 pb-12">
@@ -80,7 +80,7 @@ import { showMessages } from '../../components/functions.js'
                                     {{ proveedor.nombre_proveedor }}
                                 </option>
                             </Field>
-                            <ErrorMessage name="id_proveedor" class="text-red-500" />
+                            <ErrorMessage name="id_proveedor" class="text-red-500 text-xs" />
                         </div>
                     </div>
                 </div>
@@ -107,12 +107,32 @@ import { Form, Field, ErrorMessage } from 'vee-validate'
 import { defineRule } from 'vee-validate'
 import { useRoute } from 'vue-router'
 
-defineRule('required', (value) => {
-    if (!value || !value.length) {
-        return '*Campo requerido'
+function requerido(value){
+    if(value){return true}
+        return "*Campo requerido"
+}
+function seleccione(value){
+    if(value){return true}
+        return "Seleccione una opción"
+}
+const schema={
+    fecha_credito: (value)=>{
+        return requerido(value)
+    },
+    fecha_limite_pago:(value)=>{
+        return requerido(value)
+    },
+    detalle_credito:(value)=>{
+        return requerido(value)
+    },
+    monto_credito:(value)=>{
+        return requerido(value)
+    },
+    id_proveedor:(value)=>{
+        return seleccione(value)
     }
-    return true
-})
+
+}
 
 export default {
     props: {
