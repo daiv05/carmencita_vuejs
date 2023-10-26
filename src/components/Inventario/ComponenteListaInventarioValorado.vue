@@ -1,14 +1,14 @@
 <template>
   <main>
     <Form>
-      <div class="grid grid-cols-3 gap-10 mb-[5%]">
-        <div class="grid grid-row-2 gap-2">
+      <div class="flex justify-center mt-4 mb-2">
+        <div class="grid grid-row-2 gap-2 justify-items-center">
           <p>Valor minímo</p>
           <Field type="number" name="valor_minimo" placeholder="0.00" step="0.05" class="block w-[90%] rounded" min="0.00"
             v-model="valorMinimo" :rules="validarValorMinimo" />
           <ErrorMessage name="valor_minimo"></ErrorMessage>
         </div>
-        <div class="grid grid-row-2 gap-2">
+        <div class="grid grid-row-2 gap-2 justify-items-center">
           <p>Valor máximo</p>
           <Field type="number" name="valor_maximo" placeholder="150.00" step="0.05" class="block w-[90%] rounded"
             min="0.00" v-model="valorMaximo" :rules="validarValorMaximo" />

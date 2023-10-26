@@ -32,13 +32,13 @@
         class="text-white bg-indigo-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         @click="obtenerDatosFiltrados">Aplicar</button>
     </div>
-    <div class="absolute left-[81.5%] bottom-[62%]">
+    <div class="p-4 absolute left-[81.5%] bottom-[62%]">
       <select name="filtroAnio" id="filtroAnio" class="border-slate-300 rounded text-slate-400 bg-slate-50"
         v-model="fechaFiltro">
         <option v-for="anio in datosAniosFiltros" :value="anio" :key="anio">{{ anio }}</option>
       </select>
     </div>
-    <div class="w-[80%] col-span-6 m-auto border mt-[1%] mb-16">
+    <div class="p-4 w-[80%] col-span-6 m-auto border mt-[1%] mb-16">
       <apexchart width="100%" height="250%" type="bar" :options="chartOptions" :series="series"></apexchart>
     </div>
   </main>
@@ -53,22 +53,23 @@ export default {
   },
   mounted() {
     this.obtenerFechasFiltro();
+    this.obtenerDatosFiltrados();
   },
   data() {
     return {
       opcionesFiltroMeses: [
-        { mes: 'ene', estaActivo: false, numMes: 1 },
-        { mes: 'feb', estaActivo: false, numMes: 2 },
-        { mes: 'mar', estaActivo: false, numMes: 3 },
-        { mes: 'abr', estaActivo: false, numMes: 4 },
-        { mes: 'may', estaActivo: false, numMes: 5 },
-        { mes: 'jun', estaActivo: false, numMes: 6 },
-        { mes: 'jul', estaActivo: false, numMes: 7 },
-        { mes: 'ago', estaActivo: false, numMes: 8 },
-        { mes: 'sep', estaActivo: false, numMes: 9 },
-        { mes: 'oct', estaActivo: false, numMes: 10 },
-        { mes: 'nov', estaActivo: false, numMes: 11 },
-        { mes: 'dic', estaActivo: false, numMes: 12 },
+        { mes: 'feb', estaActivo: true, numMes: 2 },
+        { mes: 'ene', estaActivo: true, numMes: 1 },
+        { mes: 'mar', estaActivo: true, numMes: 3 },
+        { mes: 'abr', estaActivo: true, numMes: 4 },
+        { mes: 'may', estaActivo: true, numMes: 5 },
+        { mes: 'jun', estaActivo: true, numMes: 6 },
+        { mes: 'jul', estaActivo: true, numMes: 7 },
+        { mes: 'ago', estaActivo: true, numMes: 8 },
+        { mes: 'sep', estaActivo: true, numMes: 9 },
+        { mes: 'oct', estaActivo: true, numMes: 10 },
+        { mes: 'nov', estaActivo: true, numMes: 11 },
+        { mes: 'dic', estaActivo: true, numMes: 12 },
       ],
       fechaFiltro: new Date().getFullYear(),
       datosAniosFiltros: [],
@@ -77,19 +78,40 @@ export default {
           id: 'vuechart-example',
           stackType: "100%",
         },
+        yaxis: {
+          title: {
+            text: 'Total Ventas ($)'
+          }
+        },
         xaxis: {
+          title: {
+            text: "Meses"
+          },
           categories: []
         },
         colors: "#13C296",
         plotOptions: {
           bar: {
-            columnWidth: "30%", // Cambia este valor para ajustar el ancho de las barras
+            columnWidth: "30%",
+            horizontal: false,
+
           },
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return "$" + val;
+          },
+          style: {
+            fontSize: '12px',
+            fontWeight: 1000,
+            colors:['#333', '#999']
+          }
         }
       },
       series: [
         {
-          name: 'Ventas totales',
+          name: 'Ventas totales ($)',
           data: []
         }
       ]
@@ -139,6 +161,7 @@ export default {
                 this.series[0].data.push(totalMes.total_venta);
               }
             );
+            console.log(this.chartOptions);
           }
         )
         .catch(
@@ -147,6 +170,6 @@ export default {
           }
         );
     }
-  }
+  },
 }
 </script>

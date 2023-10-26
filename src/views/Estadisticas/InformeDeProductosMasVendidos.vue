@@ -1,5 +1,5 @@
 <template>
-    <main class="relative">
+    <main class="relative mb-4">
         <NavBar />
 
         <!-- Encabezado -->
@@ -29,7 +29,7 @@
 
             <div class="">
                 <label for="" class="block font-semibold">Cantidad a mostrar (Máx 50):</label>
-                <input type="number" v-model="cantidadAMostrar" class="rounded-md" name="" id="">
+                <input type="number" v-model="cantidadAMostrar" class="rounded-md" name="" id="" max="50">
             </div>
 
             <div class="flex">

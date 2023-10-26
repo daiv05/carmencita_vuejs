@@ -1,9 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router';
 import NavBar from '../../components/NavBar.vue'
 import api_url from '../../config.js'
 import { CalendarIcon } from '@heroicons/vue/24/outline'
-import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vue'
 
 </script>
 
@@ -13,7 +11,7 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
         <div class="bg-slate-100 pb-4 min-h-screen grid">
             <div>
                 <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
-                    <h1 class="font-bold text-blue-700 text-xl">Registro de asistencia</h1>
+                    <h1 class="font-bold text-blue-700 text-xl">Consulta de asistencia</h1>
                 </div>
                 <div class="flex justify-start items-center mt-4 ml-4">
                     <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -25,7 +23,7 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                 <div class="container grid lg:grid-cols-2 gap-4 max-w-5xl m-auto py-4">
                     <div class="col-span-1 w-full m-auto">
                         <div class="mb-4">
-                            <h3 class="text-center text-2xl">Usuario</h3>
+                            <h3 class="text-center text-2xl">Empleado</h3>
                         </div>
                         <div class="bg-white text-center rounded-md shadow p-6">
                             <div><span class="font-bold text-lg">{{ empleado.nombre }} {{ empleado.apellido }}</span></div>
@@ -37,9 +35,6 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                                     </div>
                                     <span class="font-semibold">{{ getFechaSpanish(fecha) }}</span>
                                 </div>
-                                <button type="button" @click="marcarAsistencia"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white rounded px-2 py-2 my-2">Marcar
-                                    asistencia</button>
                             </div>
                         </div>
                     </div>
@@ -64,8 +59,8 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import esLocale from "@fullcalendar/core/locales/es";
 import { useToast } from 'vue-toastification'
+import { useRoute } from 'vue-router'
 
-const fechaActual = new Date();
 const toast = useToast();
 
 export default {
@@ -79,7 +74,7 @@ export default {
             id_empleado: null,
             empleado: {},
             asistencias: [],
-            mensajes: [],
+            mensajes: [],            
             calendarOptions: {
                 plugins: [dayGridPlugin],
                 initialView: 'dayGridMonth',
@@ -92,10 +87,8 @@ export default {
         }
     },
     mounted() {
-        if (localStorage.authUser) {
-            this.datosAuth = JSON.parse(localStorage.authUser);
-            this.id_empleado = this.datosAuth.user.id_empleado;
-        }
+        const route = useRoute();
+        this.id_empleado = route.params.id_empleado;
         this.getAsistencias();
     },
     methods: {
@@ -104,19 +97,9 @@ export default {
             const dias_semana = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'S ábado'];
             return dias_semana[fecha.getDay()] + ', ' + fecha.getDate() + ' de ' + meses[fecha.getMonth()] + ' de ' + fecha.getUTCFullYear();
         },
-        marcarAsistencia() {
-            axios.post(api_url + '/asistencia')
-                .then(
-                    response => (
-                        this.mensajes = response.data.mensaje,
-                        this.showMessages(response.data.status, response.data.mensaje),
-                        this.getAsistencias()
-                    )
-                )
-        },
         getAsistencias() {
             this.asistencias.splice(0, this.asistencias.length);
-            axios.get(api_url + '/asistencia')
+            axios.get(api_url + '/asistencia/' + this.id_empleado)
                 .then(
                     response => (
                         this.empleado = response.data.empleado,
