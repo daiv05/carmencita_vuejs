@@ -17,6 +17,7 @@
 <script>
 import axios from "axios";
 import '../../assets/modal_default.css';
+import {showMessages} from '../../components/functions.js'
 
 export default {
     props: {
@@ -34,11 +35,12 @@ export default {
                 .then(
                     (response) => {
                         this.$emit("cerrarModalEliminacion", response.data.mensaje);
+                        showMessages(response.data.status,response.data.mensaje)
                     }
                 )
                 .catch(
-                    (response) => {
-                        console.log(response);
+                    (error) => {
+                        showMessages(error.response.data.status,error.response.data.mensaje)
                     }
                 );
         },

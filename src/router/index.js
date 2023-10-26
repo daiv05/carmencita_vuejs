@@ -28,9 +28,12 @@ import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExis
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
+import HojaDeRutaModificar from '../views/PedidosDomicilio/HojaDeRutaModificar.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
+import CreditosListar from '../views/Creditos/CreditosListar.vue';
+import CreditoMostrar from '../views/Creditos/CreditosMostrar.vue';
 import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
@@ -154,6 +157,12 @@ const router = createRouter({
       component : HojaDeRutaAgregar
     },
     {
+      path: '/hoja_de_ruta/update/:id',
+      name: 'hoja_de_ruta_modificar',
+      component: HojaDeRutaModificar,
+      props: true
+    },
+    {
       path: "/listar_pedidos_domicilio",
       name : "Pedidos_domicilio",
       component : PedidosDomicilio
@@ -241,6 +250,16 @@ const router = createRouter({
       path:'/registrar_credito_proveedor',
       name:'registrar_credito_proveedor',
       component:Creditos
+    },
+    {
+      path:'/detalle_credito_proveedor/:id',
+      name:'detalle_credito_proveedor',
+      component:CreditoMostrar
+    },
+    {
+      path:'/listar_creditos_proveedor',
+      name:'listar_creditos_proveedor',
+      component:CreditosListar
     },
     {
       path:'/historial_planillas',

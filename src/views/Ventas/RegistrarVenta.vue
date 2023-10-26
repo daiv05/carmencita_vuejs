@@ -922,15 +922,17 @@ export default {
             this.campo_identificador_cliente = "";
             this.contador_tabla = 0;
 
-            this.departamento_cliente = "",
-                this.municipio_cliente = "",
+            this.departamento_cliente = "";
+            this.municipio_cliente = "";
 
-                this.asignar_fecha_actual();
+            this.asignar_fecha_actual();
         },
         restaurar_ultima_factura() {
             // Restaurar los valores de los campos en caso de error (recuperar ultima venta enviada)
             this.detalle_ventas_lista = this.detalle_ventas_lista_COPIA;
             this.cliente_info = this.cliente_info_COPIA;
+            this.municipio_cliente = this.cliente_info.municipio_cliente.nombre_municipio;
+            this.obtener_departamento_cliente();
             this.venta_info = this.venta_info_COPIA;
             this.credito_fiscal_info = this.credito_fiscal_info_COPIA;
             this.campo_identificador_cliente = this.campo_identificador_cliente_COPIA;
@@ -947,6 +949,9 @@ export default {
                 municipio_cliente: {},
                 identificador_cliente: ""
             };
+            this.campo_identificador_cliente = "";
+            this.departamento_cliente = "";
+            this.municipio_cliente = "";
         },
         //Mostrar Toast de exito o error
         watch_toast(tipo, mensaje) {

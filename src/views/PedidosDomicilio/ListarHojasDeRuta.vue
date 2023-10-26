@@ -72,7 +72,7 @@
           <td class="text-center">
             <div class="flex justify-center align-center">
               <BotonConsultar :url="urlConsultar + datosHojaDeRuta.id_hr"></BotonConsultar>
-              <BotonEditar :url="urlEditar + datosHojaDeRuta.id_hr"></BotonEditar>
+              <BotonEditar :url="'hoja_de_ruta/update/' + datosHojaDeRuta.id_hr" :deshabilitado="datosHojaDeRuta.esta_entregado" :class="{ 'cursor-not-allowed': datosHojaDeRuta.esta_entregado}"></BotonEditar>
               <EliminarHR :id="datosHojaDeRuta.id_hr"></EliminarHR>
             </div>
           </td>

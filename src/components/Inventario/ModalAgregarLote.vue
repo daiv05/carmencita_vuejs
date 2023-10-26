@@ -1,6 +1,7 @@
 
 <script setup>
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import {showMessages} from '../../components/functions.js'
 </script>
 
 <template>
@@ -107,10 +108,10 @@ export default {
       idProducto: "",
       fechaIngreso: null,//this.convertirFecha(lote.fechaIngreso),
       fechaVencimiento: null,
-      cantidadIngresar: 0,
-      unidadesTotalesIngresadas: 0,
-      nuevoPrecioUnitarioProducto: 0,
-      costoLote: 0,
+      cantidadIngresar: null,
+      unidadesTotalesIngresadas: null,
+      nuevoPrecioUnitarioProducto: null,
+      costoLote: null,
       listaProductos: [],
       lote: null,
     }
@@ -133,7 +134,6 @@ export default {
       axios.get(url)
         .then(
           (response) => {
-            console.log("La lista de unidades de medida son: ", response.data);
             this.listaUnidadesMedida = response.data.lista_precios_extra;
             if (this.listaUnidadesMedida.length > 0) {
               this.cantidadUnidadMedida = this.listaUnidadesMedida[0].cantidad_producto;
@@ -195,12 +195,14 @@ export default {
             let lote = response.data.lote;
             console.log(lote);
             this.$emit("guardarLoteNuevo", { lote: response.data.lote, mensaje: `Se agrego el lote ${lote.id_lote} con éxito` });
+            showMessages(response.data.status, response.data.mensaje)
           }
         )
         .catch(
-          (response) => {
-            console.log(response);
-            alert(response);
+          (error) => {
+            error.response.data.errores.forEach(mensaje=>{
+            showMessages(error.response.data.status, mensaje);
+          })
           }
         );
     },
