@@ -40,6 +40,8 @@ import ClientesList from '../views/Ventas/ClientesList.vue';
 import ProveedoresList from '../views/Creditos/Proveedores.vue';
 import not_found from '../views/not_found.vue';
 import Blog from '../views/Marketing/Blog.vue'
+import ConsultarOfertas from '../views/Marketing/ConsultarOfertas.vue';
+import CrearAviso from '../views/Marketing/CrearAviso.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -279,7 +281,17 @@ const router = createRouter({
       path:'/gestionar_proveedores',
       name:'Proveedores_list',
       component:ProveedoresList,
-    }
+    },
+    {
+      path:'/consultar_ofertas',
+      name:'consultar_ofertas',
+      component:ConsultarOfertas,
+    },
+    {
+      path:'/crear_aviso',
+      name:'crear_aviso',
+      component:CrearAviso,
+    },
   ]
 })
 
