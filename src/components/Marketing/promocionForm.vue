@@ -35,7 +35,7 @@ import api_url from '../../config.js'
 
             <div class="container bg-white shadow w-4/5 my-4 max-w-md rounded-lg fixed" v-if="showMessageSuccess"
                 style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1;">
-                <div class="modal bg-gray-800 text-white rounded-lg p-2 w-full max-w-2xl max-h-full m-auto" >
+                <div class="modal bg-gray-800 text-white rounded-lg p-2 w-full max-w-2xl max-h-full m-auto">
                     <div name="modalHeader" class="text-green-400 flex m-2">
                         <span class="text-green-400 my-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -71,8 +71,9 @@ import api_url from '../../config.js'
                             Fecha de inicio
                         </label>
                         <div class="mt-2">
-                            <Field v-model="promocion.fecha_inicio_oferta" name="fecha_inicio_oferta" rules="required" id="fecha_inicio_oferta"
-                                type="Date" placeholder="Ingresa tu primer nombre" autocomplete="given-name"
+                            <Field v-model="promocion.fecha_inicio_oferta" name="fecha_inicio_oferta" rules="required"
+                                id="fecha_inicio_oferta" type="Date" placeholder="Ingresa tu primer nombre"
+                                autocomplete="given-name"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                             <ErrorMessage name="fecha_inicio_oferta" class="text-red-500 text-xs" />
                         </div>
@@ -104,16 +105,18 @@ import api_url from '../../config.js'
                         </div>
                     </div>
 
-                    <div class="sm:col-span-3" >
-                        <label for="precio_oferta" class="block text-sm font-medium leading-6 text-gray-900">Precio de promoción</label>
+                    <div class="sm:col-span-3">
+                        <label for="precio_oferta" class="block text-sm font-medium leading-6 text-gray-900">Precio de
+                            promoción</label>
                         <div class="mt-2">
                             <div class="mt-2 relative rounded-md shadow-sm">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     $
                                 </span>
-                                <Field name="precio_oferta" rules="required" v-model="promocion.precio_oferta" id="precio_oferta"
-                                    type="number" min="0" placeholder="Ingresa el precio de la promoción"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <Field name="precio_oferta" rules="required" v-model="promocion.precio_oferta"
+                                    id="precio_oferta" type="number" min="0" placeholder="Ingresa el precio de la promoción"
+                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    @input="calcularDescuento" @change="obtenerPrecioUnitario" />
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-700 sm:text-sm sm:leading-5"> USD </span>
                                 </div>
@@ -123,18 +126,65 @@ import api_url from '../../config.js'
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="codigo_barra_producto" class="block text-sm font-medium leading-6 text-gray-900">Producto en promoción</label>
+                        <label for="cantidad_producto" class="block text-sm font-medium leading-6 text-gray-900">Catidad del
+                            producto</label>
                         <div class="mt-2">
-                            <Field as="select" required name="codigo_barra_producto" id="codigo_barra_producto" v-model="promocion.codigo_barra_producto"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <div class="mt-2 relative rounded-md shadow-sm">
+                                <Field name="cantidad_producto" rules="required" v-model="promocion.cantidad_producto"
+                                    id="cantidad_producto" type="number" min="0"
+                                    placeholder="Ingresa la cantidad de productos"
+                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    @input="calcularDescuento" @change="obtenerPrecioUnitario" />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 sm:text-sm sm:leading-5"> UNI </span>
+                                </div>
+                            </div>
+                            <ErrorMessage name="cantidad_producto" class="text-red-500 text-xs" />
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label for="codigo_barra_producto"
+                            class="block text-sm font-medium leading-6 text-gray-900">Producto en promoción</label>
+                        <div class="mt-2">
+                            <Field as="select" required name="codigo_barra_producto" id="codigo_barra_producto"
+                                v-model="promocion.codigo_barra_producto"
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                @input="calcularDescuento" @change="obtenerPrecioUnitario">
                                 <option value="" selected disabled>Seleccionar...</option>
-                                <option v-for="producto in productos" :key="producto.codigo_barra_producto" :value="producto.codigo_barra_producto">
-                                    {{ producto.nombre_producto }} - {{ producto.codigo_barra_producto }}
+                                <option v-for="producto in productos" :key="producto.codigo_barra_producto"
+                                    :value="producto.codigo_barra_producto">
+                                    {{ producto.nombre_producto }} - ${{ producto.precio_unitario }}
                                 </option>
                             </Field>
                             <ErrorMessage name="id_proveedor" class="text-red-500" />
                         </div>
                     </div>
+
+
+                    <div class="sm:col-span-3">
+                        <label for="monto_rebaja" class="block text-sm font-medium leading-6 text-gray-900">
+                            Monto de Rebaja
+                        </label>
+                        <div class="mt-2">
+                            <div class="relative rounded-md shadow-sm">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    $
+                                </span>
+                                <input id="monto_rebaja" type="text"
+                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    :value="promocion.monto_rebaja" readonly />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-700 sm:text-sm sm:leading-5"> USD </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
                 </div>
             </div>
         </div>
@@ -195,6 +245,9 @@ export default {
                 nombre_oferta: '',
                 precio_oferta: '',
                 codigo_barra_producto: '',
+                cantidad_producto: '',
+                monto_rebaja: '',
+                precio_unitario: 0,
             },
             error: []
         }
@@ -214,11 +267,13 @@ export default {
         savePromocion(values) {
             if (this.createForm != null) {
                 const params = {
-                    fecha_inicio_oferta:this.promocion.fecha_inicio_oferta,
-                    fecha_fin_oferta:this.promocion.fecha_fin_oferta,
-                    precio_oferta:this.promocion.precio_oferta,
-                    nombre_oferta:this.promocion.nombre_oferta,
-                    codigo_barra_producto:this.promocion.codigo_barra_producto,
+                    fecha_inicio_oferta: this.promocion.fecha_inicio_oferta,
+                    fecha_fin_oferta: this.promocion.fecha_fin_oferta,
+                    precio_oferta: this.promocion.precio_oferta,
+                    nombre_oferta: this.promocion.nombre_oferta,
+                    codigo_barra_producto: this.promocion.codigo_barra_producto,
+                    cantidad_producto: this.promocion.cantidad_producto,
+                    monto_rebaja: this.promocion.monto_rebaja,
                 }
                 axios.post(api_url + '/promociones', params).then(
                     (response) => {
@@ -226,6 +281,9 @@ export default {
                         this.showMessageError = !response.data['status'];
                         this.showMessageSuccess = response.data['status'];
                         this.scroll();
+
+                        this.calcularDescuento();
+                        this.obtenerPrecioUnitario();
                     }
                 )
             }
@@ -238,6 +296,30 @@ export default {
             this.showMessageSuccess = false;
             this.showMessageError = false;
             this.$refs.promocionForm.resetForm(); // Usamos resetForm para limpiar el formulario
+        },
+        calcularDescuento() {
+            this.obtenerPrecioUnitario();
+            const precioOferta = Number(this.promocion.precio_oferta);
+            const precioUnitario = Number(this.promocion.precio_unitario);
+            const cantidadProducto = Number(this.promocion.cantidad_producto);
+            const montoRebaja = Number((precioUnitario * cantidadProducto) - precioOferta).toFixed(2);
+
+            this.promocion.monto_rebaja = montoRebaja;
+
+            console.log(precioOferta, precioUnitario, cantidadProducto, montoRebaja);
+        },
+        obtenerPrecioUnitario() {
+            const codigoBarraSeleccionado = this.promocion.codigo_barra_producto;
+
+            // Busca el producto seleccionado en la lista de productos
+            const productoSeleccionado = this.productos.find(producto => producto.codigo_barra_producto === codigoBarraSeleccionado);
+
+            if (productoSeleccionado) {
+                // Si el producto se encuentra, actualiza el precio_unitario
+                this.promocion.precio_unitario = productoSeleccionado.precio_unitario;
+                // Imprime el precio unitario en la consola
+                console.log('Precio Unitario:', productoSeleccionado.precio_unitario);
+            }
         }
     }
 }

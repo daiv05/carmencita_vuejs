@@ -160,7 +160,7 @@
         return moment(fecha).format('DD-MM-YY')
       },
       obtenerUrlEditarOferta(id) {
-        return '/modificar_aviso/' + id
+        return '/modificar_oferta/' + id
       },
       obtenerUrlEliminarOferta(id) {
         return "/ofertaDelete/"+id;

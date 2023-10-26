@@ -45,6 +45,7 @@ import not_found from '../views/not_found.vue';
 import Blog from '../views/Marketing/Blog.vue'
 import ConsultarOfertas from '../views/Marketing/ConsultarOfertas.vue';
 import CrearAviso from '../views/Marketing/CrearAviso.vue';
+import ModificarOferta from '../views/Marketing/ModificarOferta.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -311,6 +312,11 @@ const router = createRouter({
       name:'crear_aviso',
       component:CrearAviso,
     },
+    {
+      path:'/modificar_oferta/:idOferta',
+      name:'modificar_oferta',
+      component:ModificarOferta,
+    }
   ]
 })
 
