@@ -149,7 +149,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta">
+              <router-link to="/historial_asistencia">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de asistencia</p>
@@ -174,10 +174,11 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta">
+              <router-link to="/gestion_usuarios">
                 <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Usuarios</p>
+                  <!--<QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />-->
+                  <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Gestión de usuarios</p>
                 </div>
               </router-link>
             </list-group-item>
