@@ -8,9 +8,9 @@
                 <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
                     <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
                     <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-                        <button id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+                        <RouterLink :to="'/hoja_de_ruta/update/'+hoja_ruta.id_hr" id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
                             Editar Hoja de Ruta
-                        </button>
+                        </RouterLink>
                     </div>
                 </div>
                 <div class="flex justify-start items-center mt-4 ml-4">
