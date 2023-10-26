@@ -28,9 +28,12 @@ import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExis
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
+import HojaDeRutaModificar from '../views/PedidosDomicilio/HojaDeRutaModificar.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
+import CreditosListar from '../views/Creditos/CreditosListar.vue';
+import CreditoMostrar from '../views/Creditos/CreditosMostrar.vue';
 import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
@@ -41,6 +44,8 @@ import ProveedoresList from '../views/Creditos/Proveedores.vue';
 import PanelInformes from '../views/Estadisticas/PanelInformes.vue';
 import not_found from '../views/not_found.vue';
 import Blog from '../views/Marketing/Blog.vue'
+import ConsultarOfertas from '../views/Marketing/ConsultarOfertas.vue';
+import CrearAviso from '../views/Marketing/CrearAviso.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -153,6 +158,12 @@ const router = createRouter({
       component : HojaDeRutaAgregar
     },
     {
+      path: '/hoja_de_ruta/update/:id',
+      name: 'hoja_de_ruta_modificar',
+      component: HojaDeRutaModificar,
+      props: true
+    },
+    {
       path: "/listar_pedidos_domicilio",
       name : "Pedidos_domicilio",
       component : PedidosDomicilio
@@ -242,6 +253,16 @@ const router = createRouter({
       component:Creditos
     },
     {
+      path:'/detalle_credito_proveedor/:id',
+      name:'detalle_credito_proveedor',
+      component:CreditoMostrar
+    },
+    {
+      path:'/listar_creditos_proveedor',
+      name:'listar_creditos_proveedor',
+      component:CreditosListar
+    },
+    {
       path:'/historial_planillas',
       name:'consultar_historial_planillas',
       component:HistorialPlanillas
@@ -285,7 +306,17 @@ const router = createRouter({
       path:'/panel_informes',
       name:'panel_informes',
       component:PanelInformes,
-    }
+    },
+    {
+      path:'/consultar_ofertas',
+      name:'consultar_ofertas',
+      component:ConsultarOfertas,
+    },
+    {
+      path:'/crear_aviso',
+      name:'crear_aviso',
+      component:CrearAviso,
+    },
   ]
 })
 

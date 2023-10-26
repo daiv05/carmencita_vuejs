@@ -93,7 +93,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 
 <script>
 import axios from 'axios';
-
+import {showMessages} from '../../components/functions.js'
 
 export default {
   props: {
@@ -195,11 +195,14 @@ export default {
         (response)=>{
           dataForm.producto = this.lote.producto;
           this.$emit("guardarLoteModificado",{dataForm:dataForm,mensaje:`Se edito el lote ${this.lote.id_lote} con éxito`});
+          showMessages(response.data.status, response.data.mensaje)
         }
       )
       .catch(
-        (response)=>{
-          alert(response);
+        (error)=>{
+          error.response.data.errores.forEach(mensaje=>{
+            showMessages(error.response.data.status, error.response.data.errores);
+          })
         }
       );
       /*

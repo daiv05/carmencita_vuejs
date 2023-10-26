@@ -83,7 +83,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta">
+              <router-link to="/gestion_existencias">
                 <div class="flex items-center">
                   <DocumentCheckIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Existencias</p>
@@ -224,10 +224,10 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_credito_proveedor">
+              <router-link to="/listar_creditos_proveedor">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Registrar nuevo Crédito</p>
+                  <p>Administrar créditos</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -251,10 +251,10 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/registrar_credito_proveedor">
+              <router-link to="/consultar_ofertas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Listado de Ofertas y Promociones</p>
+                  <p>Consultar Ofertas</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -267,6 +267,14 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Avisos</h5>
         <dropdown text="Avisos">
           <list-group>
+            <list-group-item>
+              <router-link to="/crear_aviso">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Crear nuevo aviso</p>
+                </div>
+              </router-link>
+            </list-group-item>
             <list-group-item>
               <router-link to="/consultar_avisos">
                 <div class="flex items-center">

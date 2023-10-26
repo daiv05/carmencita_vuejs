@@ -29,14 +29,14 @@ import api_url from '../../config';
                   <label for="Precio">Precio total ($)</label>
                   <Field name="Precio" v-model="precioExtra.precio" type="number"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                    step="0.05" />
+                    step="0.01" min="0.01" placeholder="1,00"/>
                   <span v-if="errorCantidad != ''" class="mensajeError">{{ errorPrecio }}</span>
                 </div>
                 <div>
                   <label for="canitdad">Cantidad</label>
                   <Field v-model="precioExtra.cantidad"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                    type="number" />
+                    type="number" min="1" placeholder="100"/>
                   <span v-if="errorCantidad != ''" class="mensajeError">{{ errorCantidad }}</span>
                 </div>
               </div>
@@ -74,8 +74,8 @@ export default {
       precioExtra: {
         nombreUnidadDeMedida: "",
         idUnidadMedida: 0,
-        precio: 0,
-        cantidad: 0,
+        precio: "",
+        cantidad: "",
       },
       listaUnidadDeMedida: [],
       errorUnidadMedida: "",
@@ -130,13 +130,13 @@ export default {
         this.errorUnidadMedida = "";
       }
       if (this.precioExtra.cantidad == 0 || this.precioExtra.cantidad == "") {
-        this.errorCantidad = "La cantidad tiene que ser mayor a 0";
+        this.errorCantidad = "La cantidad debe ser mayor a cero";
       }
       else {
         this.errorCantidad = "";
       }
       if (this.precioExtra.precio == 0 || this.precioExtra.precio == 0) {
-        this.errorPrecio = "El precio tiene que ser mayor a cero";
+        this.errorPrecio = "El precio debe ser mayor a cero";
       } else {
         this.errorPrecio = "";
       }
