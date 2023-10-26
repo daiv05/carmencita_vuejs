@@ -4,9 +4,12 @@ import HomeView from '../views/HomeView.vue'
 import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
 import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
 import AsistenciaAgregar from '../views/RecursosHumanos/AsistenciaAgregar.vue'
+import HistorialAsistencia from '../views/RecursosHumanos/HistorialAsistencia.vue'
+import ConsultarAsistencia from '../views/RecursosHumanos/ConsultarAsistencia.vue';
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue';
 import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue';
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue';
+import GestionUsuario from '../views/RecursosHumanos/GestionUsuario.vue';
 import AgregarProducto from '../views/Inventario/AgregarProducto.vue';
 import GestionProducto from '../views/Inventario/GestionProducto.vue';
 import RegistrarVenta from '../views/Ventas/RegistrarVenta.vue';
@@ -28,15 +31,24 @@ import InformeDeExistenciasDeProductos from '../views/Estadisticas/InformeDeExis
 import InformeDeInventarioValorado from '../views/Estadisticas/InformeDeInventarioValorado.vue';
 import InformeDeTotalVentasPorProducto from '../views/Estadisticas/InformeDeTotalVentasPorProducto.vue';
 import DetalleHojaRuta from '../views/PedidosDomicilio/DetalleHojaRuta.vue';
+import HojaDeRutaModificar from '../views/PedidosDomicilio/HojaDeRutaModificar.vue';
 import ListarHojasDeRuta from '../views/PedidosDomicilio/ListarHojasDeRuta.vue';
 import InformeDeProductosPorVencer from '../views/Estadisticas/InformeDeProductosPorVencer.vue';
 import Creditos from '../views/Creditos/Creditos.vue';
+import CreditosListar from '../views/Creditos/CreditosListar.vue';
+import CreditoMostrar from '../views/Creditos/CreditosMostrar.vue';
 import HistorialPlanillas from '../views/RecursosHumanos/HistorialPlanillas.vue'
 import ConsultarDetallePlanilla from '../views/RecursosHumanos/ConsultarDetallePlanilla.vue'
 import ModificarAviso from '../views/Marketing/ModificarAviso.vue'
 import ConsultarAvisos from '../views/Marketing/ConsultarAvisos.vue'
 import Promociones from '../views/Marketing/Promociones.vue';
+import ClientesList from '../views/Ventas/ClientesList.vue';
+import ProveedoresList from '../views/Creditos/Proveedores.vue';
+import PanelInformes from '../views/Estadisticas/PanelInformes.vue';
 import not_found from '../views/not_found.vue';
+import Blog from '../views/Marketing/Blog.vue'
+import ConsultarOfertas from '../views/Marketing/ConsultarOfertas.vue';
+import CrearAviso from '../views/Marketing/CrearAviso.vue';
 import axios from 'axios';
 
 const router = createRouter({
@@ -115,6 +127,11 @@ const router = createRouter({
       component : GestionCargo
     },
     {
+      path: "/gestion_usuarios",
+      name : "gestion_usuarios",
+      component : GestionUsuario
+    },
+    {
       path: "/editar_producto/:id_producto",
       name: "editar_producto",
       component: EditarProducto
@@ -149,6 +166,12 @@ const router = createRouter({
       component : HojaDeRutaAgregar
     },
     {
+      path: '/hoja_de_ruta/update/:id',
+      name: 'hoja_de_ruta_modificar',
+      component: HojaDeRutaModificar,
+      props: true
+    },
+    {
       path: "/listar_pedidos_domicilio",
       name : "Pedidos_domicilio",
       component : PedidosDomicilio
@@ -157,6 +180,16 @@ const router = createRouter({
       path: "/registrar_asistencia",
       name : "Registrar_asistencia",
       component : AsistenciaAgregar
+    },
+    {
+      path: "/consultar_asistencia/:id_empleado",
+      name : "consultar_asistencia",
+      component : ConsultarAsistencia
+    },
+    {
+      path: "/historial_asistencia",
+      name : "historial_asistencia",
+      component : HistorialAsistencia
     },
     {
       path:"/iniciar_sesion",
@@ -238,6 +271,16 @@ const router = createRouter({
       component:Creditos
     },
     {
+      path:'/detalle_credito_proveedor/:id',
+      name:'detalle_credito_proveedor',
+      component:CreditoMostrar
+    },
+    {
+      path:'/listar_creditos_proveedor',
+      name:'listar_creditos_proveedor',
+      component:CreditosListar
+    },
+    {
       path:'/historial_planillas',
       name:'consultar_historial_planillas',
       component:HistorialPlanillas
@@ -261,7 +304,37 @@ const router = createRouter({
       path:'/registrar_promociones',
       name:'registrar_promociones',
       component:Promociones,
-    }
+    },
+    {
+      path:'/blog',
+      name:'blog',
+      component:Blog
+    },
+    {
+      path:'/gestionar_clientes',
+      name:'clientes_list',
+      component:ClientesList,
+    },
+    {
+      path:'/gestionar_proveedores',
+      name:'Proveedores_list',
+      component:ProveedoresList,
+    },
+    {
+      path:'/panel_informes',
+      name:'panel_informes',
+      component:PanelInformes,
+    },
+    {
+      path:'/consultar_ofertas',
+      name:'consultar_ofertas',
+      component:ConsultarOfertas,
+    },
+    {
+      path:'/crear_aviso',
+      name:'crear_aviso',
+      component:CrearAviso,
+    },
   ]
 })
 

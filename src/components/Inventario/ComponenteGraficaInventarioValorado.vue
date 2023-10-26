@@ -23,6 +23,11 @@ export default {
           id: 'vuechart-example',
           stackType: '100%'
         },
+        yaxis: {
+          title: {
+            text: 'Valor en inventario ($)'
+          }
+        },
         xaxis: {
           categories: ["1","2"],
         },
@@ -31,11 +36,17 @@ export default {
           bar: {
             columnWidth: '76%' // Cambia este valor para ajustar el ancho de las barras
           }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return "$" + val;
+          },
         }
       },
       series: [
         {
-          name: 'valor monetario producto',
+          name: 'valor monetario producto ($)',
           data: []
         }
       ]

@@ -4,7 +4,7 @@ import api_url from '../../config.js'
 </script>
 
 <template>
-    <Form ref="promocionForm" id="promocionForm" class="w-auto m-4" @submit="savePromocion">
+    <Form :validation-schema="schema" ref="promocionForm" id="promocionForm" class="w-auto m-4" @submit="savePromocion">
         <!--Mensajes de validacion-->
         <div id="submitMessage" class="m-0 w-full h-fit p-0">
             <div class="container bg-white shadow m-auto w-4/5 my-4 max-w-md rounded-lg" v-if="showMessageError">
@@ -132,7 +132,7 @@ import api_url from '../../config.js'
                                     {{ producto.nombre_producto }} - {{ producto.codigo_barra_producto }}
                                 </option>
                             </Field>
-                            <ErrorMessage name="id_proveedor" class="text-red-500" />
+                            <ErrorMessage name="codigo_barra_producto" class="text-red-500 text-xs" />
                         </div>
                     </div>
                 </div>
@@ -158,20 +158,33 @@ import axios from 'axios'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { defineRule } from 'vee-validate'
 import { useRoute } from 'vue-router'
+import { showMessages } from '../../components/functions.js'
 
-defineRule('required', (value) => {
-    if (!value || !value.length) {
-        return '*Campo requerido'
+function requerido(value){
+    if(value){return true}
+        return "*Campo requerido"
+}
+function seleccione(value){
+    if(value){return true}
+        return "Seleccione una opción"
+}
+const schema={
+    fecha_inicio_oferta: (value)=>{
+        return requerido(value)
+    },
+    fecha_fin_oferta:(value)=>{
+        return requerido(value)
+    },
+    nombre_oferta:(value)=>{
+        return requerido(value)
+    },
+    precio_oferta:(value)=>{
+        return requerido(value)
+    },
+    codigo_barra_producto:(value)=>{
+        return seleccione(value)
     }
-    return true
-})
 
-function showStatusModal(message) {
-    if (message.length == 0) {
-        return 'Registro guardado correctamente'
-    } else {
-        return message
-    }
 }
 
 export default {
@@ -222,10 +235,17 @@ export default {
                 }
                 axios.post(api_url + '/promociones', params).then(
                     (response) => {
-                        this.error = showStatusModal(response.data['message']);
-                        this.showMessageError = !response.data['status'];
-                        this.showMessageSuccess = response.data['status'];
-                        this.scroll();
+                        response.data.message.forEach(mensaje=>{
+                            showMessages(response.data.status,mensaje);
+                        });
+                        this.$router.push('/consultar_ofertas')
+                        this.$router.go(1);
+                    }
+                ).catch(
+                    (error)=>{
+                        error.response.data.message.forEach(mensaje=>{
+                            showMessages(error.response.data.status,mensaje);
+                        })
                     }
                 )
             }

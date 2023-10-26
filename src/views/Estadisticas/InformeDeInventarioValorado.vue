@@ -13,12 +13,13 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 grid-row-1 gap-2 w-[90%] m-auto mt-[2%]">
-            <div>
-                <ComponenteListaInventarioValorado></ComponenteListaInventarioValorado>
-            </div>
+        <div class="grid grid-cols-1 gap-2 w-[90%] m-auto mt-[2%] mb-4">
             <div>
                 <ComponenteGraficaInventarioValorado></ComponenteGraficaInventarioValorado>
+            </div>
+            
+            <div>
+                <ComponenteListaInventarioValorado></ComponenteListaInventarioValorado>
             </div>
         </div>
     </main>
