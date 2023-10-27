@@ -158,7 +158,26 @@ const router = createRouter({
           name:'editar_lote',
           component:EditarLote,
         },
-
+        {
+          path:'/gestionar_proveedores',
+          name:'Proveedores_list',
+          component:ProveedoresList,
+        },
+        {
+          path:'/registrar_credito_proveedor',
+          name:'registrar_credito_proveedor',
+          component:Creditos
+        },
+        {
+          path:'/detalle_credito_proveedor/:id',
+          name:'detalle_credito_proveedor',
+          component:CreditoMostrar
+        },
+        {
+          path:'/listar_creditos_proveedor',
+          name:'listar_creditos_proveedor',
+          component:CreditosListar
+        },
       ],
       beforeEnter:(to,from)=>{
         tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
@@ -290,26 +309,6 @@ const router = createRouter({
           name:'informe_productos_por_vencer',
           component:InformeDeProductosPorVencer
         },  
-        {
-          path:'/gestionar_proveedores',
-          name:'Proveedores_list',
-          component:ProveedoresList,
-        },
-        {
-          path:'/registrar_credito_proveedor',
-          name:'registrar_credito_proveedor',
-          component:Creditos
-        },
-        {
-          path:'/detalle_credito_proveedor/:id',
-          name:'detalle_credito_proveedor',
-          component:CreditoMostrar
-        },
-        {
-          path:'/listar_creditos_proveedor',
-          name:'listar_creditos_proveedor',
-          component:CreditosListar
-        },
       ],
       beforeEnter:(to,from)=>{
           tienePermisos(to.meta.permisosRequeridos,store.state.permisos);

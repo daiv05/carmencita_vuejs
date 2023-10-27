@@ -20,7 +20,7 @@ const agregar_producto = "agregar_producto";
             <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
                 <h1 class="font-bold text-blue-700 text-xl">Gestión de Productos</h1>
                 <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-                    <router-link to="/agregar_producto"
+                    <router-link to="/ventas_inventarios/agregar_producto"
                         class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
                         Agregar Producto
                     </router-link>
@@ -224,8 +224,14 @@ export default {
         };
     },
     beforeMount() {
-        this.obtenerDatosPaginado();
-        this.obtenerProductos();
+        if(this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarProducto == true){
+            this.obtenerDatosPaginado(this.$store.state.urlPaginaActual);
+            this.$store.commit("setFromAgregarEditarProducto",{fromAgregarEditarProducto:false});
+        }
+        else{
+            this.obtenerDatosPaginado();
+            this.obtenerProductos();
+        }
     },
     mounted() {
 
@@ -241,8 +247,12 @@ export default {
                     console.log(error);
                 });
         },
-        obtenerDatosPaginado() {
-            axios.get(api_url + '/productos/paginacion/' + 5).then(response => {
+        obtenerDatosPaginado(url=null) {
+            let enlaceConsulta = api_url + '/productos/paginacion/' + 5;
+            if (url!=null && url!=""){
+                enlaceConsulta = url;
+            }
+            axios.get(enlaceConsulta).then(response => {
                 this.productoPaginado = response.data.productos;
                 this.listaProductos = this.productoPaginado.data;
                 this.total = this.productoPaginado.total;
@@ -254,10 +264,20 @@ export default {
                 console.log(this.productoPaginado.links);
                 console.log(this.productoPaginado.data);
                 this.obtenerProductos();
+                this.setEstadoPaginacion(this.obtenerPaginaActualProducto());
             })
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        obtenerPaginaActualProducto(){
+            let urlActual = "";
+            this.enlacesPaginaProducto.forEach((page)=>{
+                if(page.active == true){
+                    urlActual = page.url;
+                }
+            });
+            return urlActual;
         },
         calcularNumeroPaginas() {
             return Math.ceil(this.total / this.registrosPorPagina);
@@ -270,8 +290,8 @@ export default {
                 this.prev_page_url = response.data.productos.prev_page_url;
                 this.next_page_url = response.data.productos.next_page_url;
                 this.controlPagina = page;
+                this.setEstadoPaginacion(this.enlacesPaginaProducto[page].url);
                 console.log(response);
-
                 //this.total = this.productoPaginado.total;
                 //this.registrosPorPagina = this.productoPaginado.per_page;
                 //this.enlacesPaginaProducto = this.productoPaginado.links;
@@ -282,17 +302,19 @@ export default {
                     console.log(error);
                 });
         },
+        setEstadoPaginacion(urlPaginaActual){
+            this.$store.commit("setExistenDatos",{existenDatos:true});
+            this.$store.commit("setUrlPaginaActual",{urlPaginaActual:urlPaginaActual});
+        },
         obtenerPaginaSiguiente() {
             if (this.next_page_url != null && this.next_page_url != "") {
                 axios.get(this.next_page_url).then(response => {
-
+                    this.setEstadoPaginacion(this.next_page_url);
                     this.listaProductos = [];
                     this.listaProductos = response.data.productos.data;
                     this.next_page_url = response.data.productos.next_page_url;
                     this.prev_page_url = response.data.productos.prev_page_url;
                     this.controlPagina++;
-                    console.log(response)
-
                 });
             }
             else {
@@ -302,14 +324,12 @@ export default {
         obtenerPaginaAnterior() {
             if (this.prev_page_url != null && this.prev_page_url != "") {
                 axios.get(this.prev_page_url).then(response => {
-
+                    this.setEstadoPaginacion(this.prev_page_url);
                     this.listaProductos = [];
                     this.listaProductos = response.data.productos.data;
                     this.prev_page_url = response.data.productos.prev_page_url;
                     this.next_page_url = response.data.productos.next_page_url;
                     this.controlPagina--;
-                    console.log(response)
-
                 });
             }
             else {

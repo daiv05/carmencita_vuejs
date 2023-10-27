@@ -12,7 +12,7 @@ const store = createStore({
       estaAutenticado: false,
       tokenUser: '',
       permisos: [],
-      urlPaginaActual: '',
+      urlPaginaActual: 'url/por_defecto',
       urlPaginaActualHR: '',
       existenDatos: false,
       fromAgregarEditarProducto: false,

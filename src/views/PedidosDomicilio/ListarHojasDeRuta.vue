@@ -6,7 +6,7 @@
       <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
         <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
         <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-          <router-link to="/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+          <router-link to="/facturacion/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
             Nueva Hoja de Ruta
           </router-link>
         </div>

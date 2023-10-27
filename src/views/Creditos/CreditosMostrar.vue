@@ -9,7 +9,7 @@ import { CalendarIcon, CheckCircleIcon } from '@heroicons/vue/24/outline';
                 <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
                     <h1 class="font-bold text-blue-700 text-xl">Gestión de Creditos</h1>
                     <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-                        <router-link to="/registrar_credito_proveedor"
+                        <router-link to="/ventas_inventarios/registrar_credito_proveedor"
                             class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
                             Abono
                         </router-link>

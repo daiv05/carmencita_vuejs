@@ -256,8 +256,8 @@ export default {
         }
       })
       this.listaLotes = [...copyListaLotes]*/
-      this.obtenerListaLotes();
-      this.controlModalEditarLote = false
+      this.obtenerListaLotes(this.urlPeticion);
+      this.controlModalEditarLote = false;
     },
     cerrarModalAgregar() {
       this.controlModalAgregarLote = false
