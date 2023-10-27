@@ -203,7 +203,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         </dropdown>
       </the-card>
 
-      <!--Proveedores y Creditos-->
+      <!-- Proveedores - Creditos - Clientes -->
       <the-card variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Stakeholders</h5>
         <dropdown text="Proveedores">
@@ -238,41 +238,18 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
 
 
-      <!--Ofertas-->
+      <!--Ofertas y Avisos-->
       <the-card variant="image" img-src="assets/img/ofertas.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ofertas</h5>
-        <dropdown text="Proveedores">
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ofertas y Avisos</h5>
+        <dropdown text="Promociones">
           <list-group>
             <list-group-item>
-              <router-link to="/registrar_promociones">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Crear nueva oferta</p>
-                </div>
-              </router-link>
             </list-group-item>
             <list-group-item>
               <router-link to="/consultar_ofertas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Consultar Ofertas</p>
-                </div>
-              </router-link>
-            </list-group-item>
-          </list-group>
-        </dropdown>
-      </the-card>
-
-      <!--Avisos-->
-      <the-card variant="image" img-src="assets/img/ofertas.jpg" img-alt="Avisos">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Avisos</h5>
-        <dropdown text="Avisos">
-          <list-group>
-            <list-group-item>
-              <router-link to="/crear_aviso">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Crear nuevo aviso</p>
+                  <p>Ofertas</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -280,7 +257,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/consultar_avisos">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Consultar Avisos</p>
+                  <p>Avisos</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item>
+              <router-link to="/blog">
+                <div class="flex items-center">
+                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Blog</p>
                 </div>
               </router-link>
             </list-group-item>
