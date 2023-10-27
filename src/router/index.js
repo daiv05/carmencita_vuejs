@@ -337,7 +337,7 @@ const router = createRouter({
       component:CrearAviso,
     },
     {
-      path:'/modificar_oferta/:idOferta',
+      path:'/modificar_oferta/:id',
       name:'modificar_oferta',
       component:ModificarOferta,
     }

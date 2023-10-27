@@ -191,13 +191,17 @@ import api_url from '../../config.js'
 
         <!--submit button-->
         <div class="flex items-center justify-center">
-            <router-link to="/"
-                class="m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <router-link to="/listar_empleados"
+                class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Cancelar
             </router-link>
-            <button type="submit"
-                class="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Registrar Promoción
+            <button v-if="createForm" type="submit"
+                class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Registrar Oferta
+            </button>
+            <button v-else type="submit"
+                class=" m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Guardar Cambios
             </button>
         </div>
     </Form>
@@ -269,16 +273,45 @@ export default {
         this.getProductos()
         const route = useRoute()
         this.id = route.params.id
-        if (this.createForm == null) {
-            this.getProductos()
+        alert(this.createForm)
+        alert(this.id)
+        if (this.createForm == false) {
+            this.getOferta()
+            alert("hola")
         }
     },
     methods: {
         getProductos() {
             axios.get(api_url + '/productoProm').then((response) => (this.productos = response.data))
         },
+        getOferta() {
+            axios.get('api/oferta/' + this.id).then(
+                response => (
+                    this.promocion.codigo_barra_producto = response.data['codigo_barra_producto'],
+                    this.promocion.fecha_inicio_oferta = response.data['fecha_inicio_oferta'],
+                    this.promocion.fecha_fin_oferta = response.data['fecha_fin_oferta'],
+                    this.promocion.nombre_oferta = response.data['nombre_oferta'],
+                    this.promocion.precio_oferta = response.data['precio_oferta'],
+                    this.promocion.cantidad_producto = response.data['cantidad_producto'],
+                    this.promocion.monto_rebaja = response.data['monto_rebaja']
+                )
+            )
+                .catch((error) => {
+                    if (error.response.status === 404) {
+                        // La solicitud no fue encontrada (404)
+                        console.log('La solicitud no ha sido encontrada.')
+                        this.error[0] = 'Oferta no encontrada'
+                        showStatusModal(this.error)
+                        this.showMessageError = true
+                        // O puedes mostrar un mensaje en tu interfaz de usuario
+                    } else {
+                        // Ocurrió otro tipo de error
+                        console.log('Ocurrió un error:', error.message)
+                    }
+                })
+        },
         savePromocion(values) {
-            if (this.createForm != null) {
+            if (this.createForm == true) {
                 const params = {
                     fecha_inicio_oferta: this.promocion.fecha_inicio_oferta,
                     fecha_fin_oferta: this.promocion.fecha_fin_oferta,
@@ -289,6 +322,29 @@ export default {
                     monto_rebaja: this.promocion.monto_rebaja,
                 }
                 axios.post(api_url + '/promociones', params).then(
+                    (response) => {
+                        response.data.message.forEach(mensaje=>{
+                            showMessages(response.data.status,mensaje);
+                        });
+                        this.$router.push('/consultar_ofertas')
+                        this.$router.go(1);
+                    }
+                ).catch(
+                    (error)=>{
+                        error.response.data.message.forEach(mensaje=>{
+                            showMessages(error.response.data.status,mensaje);
+                        })
+                    }
+                )
+            }else {
+                const params = {
+                    fecha_inicio_oferta:this.promocion.fecha_inicio_oferta,
+                    fecha_fin_oferta:this.promocion.fecha_fin_oferta,
+                    precio_oferta:this.promocion.precio_oferta,
+                    nombre_oferta:this.promocion.nombre_oferta,
+                    codigo_barra_producto:this.promocion.codigo_barra_producto
+                }
+                axios.put(api_url + '/ofertaUpdate/' + this.id, params).then(
                     (response) => {
                         response.data.message.forEach(mensaje=>{
                             showMessages(response.data.status,mensaje);
