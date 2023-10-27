@@ -339,7 +339,9 @@ export default {
                     fecha_fin_oferta:this.promocion.fecha_fin_oferta,
                     precio_oferta:this.promocion.precio_oferta,
                     nombre_oferta:this.promocion.nombre_oferta,
-                    codigo_barra_producto:this.promocion.codigo_barra_producto
+                    codigo_barra_producto:this.promocion.codigo_barra_producto,
+                    cantidad_producto: this.promocion.cantidad_producto,
+                    monto_rebaja: this.promocion.monto_rebaja,
                 }
                 axios.put(api_url + '/ofertaUpdate/' + this.id, params).then(
                     (response) => {
