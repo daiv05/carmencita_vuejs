@@ -54,6 +54,7 @@ import ComponenteBaseVentasInventario from '../views/ComponenteBaseVentasInventa
 import ComponenteBaseFacturacion from '../views/ComponenteBaseFacturacion.vue';
 import ComponenteBaseGerencia from '../views/ComponenteBaseGerencia.vue';
 import ComponenteBaseMarketing from '../views/ComponenteBaseMarketing.vue';
+import ModificarOferta from '../views/Marketing/ModificarOferta.vue';
 import axios from 'axios';
 
 let puedeEntrar = false;
@@ -289,6 +290,26 @@ const router = createRouter({
           name:'informe_productos_por_vencer',
           component:InformeDeProductosPorVencer
         },  
+        {
+          path:'/gestionar_proveedores',
+          name:'Proveedores_list',
+          component:ProveedoresList,
+        },
+        {
+          path:'/registrar_credito_proveedor',
+          name:'registrar_credito_proveedor',
+          component:Creditos
+        },
+        {
+          path:'/detalle_credito_proveedor/:id',
+          name:'detalle_credito_proveedor',
+          component:CreditoMostrar
+        },
+        {
+          path:'/listar_creditos_proveedor',
+          name:'listar_creditos_proveedor',
+          component:CreditosListar
+        },
       ],
       beforeEnter:(to,from)=>{
           tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
@@ -323,14 +344,19 @@ const router = createRouter({
           component:Promociones,
         },
         {
-          path:'/consultar_ofertas',
+          path:'consultar_ofertas',
           name:'consultar_ofertas',
           component:ConsultarOfertas,
         },
         {
-          path:'/crear_aviso',
+          path:'crear_aviso',
           name:'crear_aviso',
           component:CrearAviso,
+        },
+        {
+          path:'modificar_oferta/:id',
+          name:'modificar_oferta',
+          component:ModificarOferta,
         },
       ],
       beforeEnter:(to,from)=>{
@@ -385,29 +411,9 @@ const router = createRouter({
       component: not_found
     },
     {
-      path:'/registrar_credito_proveedor',
-      name:'registrar_credito_proveedor',
-      component:Creditos
-    },
-    {
-      path:'/detalle_credito_proveedor/:id',
-      name:'detalle_credito_proveedor',
-      component:CreditoMostrar
-    },
-    {
-      path:'/listar_creditos_proveedor',
-      name:'listar_creditos_proveedor',
-      component:CreditosListar
-    },
-    {
       path:'/blog',
       name:'blog',
       component:Blog
-    },
-    {
-      path:'/gestionar_proveedores',
-      name:'Proveedores_list',
-      component:ProveedoresList,
     },
   ]
 })

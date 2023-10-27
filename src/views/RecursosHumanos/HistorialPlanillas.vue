@@ -53,8 +53,9 @@
       <div class="text-[21px] mt-[1%]">
         <p class="font-semibold ml-[5%]">Historial Planillas de Pago</p>
       </div>
+      <generarPlanilla></generarPlanilla>
     </div>
-    <div class="w-[95%] text-center text-[18px]">
+    <div class="w-full text-center text-[18px]">
       <span>Planillas año: </span>
       <p v-if="controlPagina.datosPagina[0]" class="font-semibold">
         {{ obtenerAnio(controlPagina.datosPagina[0].fecha_fin) }}
@@ -105,7 +106,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="flex justify-center align-center mt-[5%]">
+    <div class="flex justify-center align-center mt-[5%] mb-4">
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
           <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
@@ -181,11 +182,13 @@ import Navbar from '../../components/NavBar.vue'
 import ControladorPagina from '../../helpers/ControlPagina'
 import moment from 'moment'
 import DetallePlanilla from '../../components/RecursosHumanos/DetallePlanilla.vue'
+import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vue'
 
 export default {
   components: {
     Navbar,
-    DetallePlanilla
+    DetallePlanilla,
+    generarPlanilla
   },
   data() {
     return {
