@@ -22,7 +22,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Facturación">
           <list-group>
             <list-group-item>
-              <router-link to="/registrar_nueva_venta" class="w-full h-full">
+              <router-link to="/facturacion/registrar_nueva_venta" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar Ventas</p>
@@ -30,7 +30,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/sales_list">
+              <router-link to="/facturacion/sales_list">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de ventas</p>
@@ -48,7 +48,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Pedidos">
           <list-group>
             <list-group-item>
-              <router-link to="/listar_hojas_de_ruta">
+              <router-link to="/facturacion/listar_hojas_de_ruta">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Hojas de Ruta</p>
@@ -56,7 +56,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/listar_pedidos_domicilio">
+              <router-link to="/facturacion/listar_pedidos_domicilio">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Pedidos a Domicilio</p>
@@ -75,7 +75,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Inventario">
           <list-group>
             <list-group-item>
-              <router-link to="/gestion_productos" class="w-full h-full">
+              <router-link to="/ventas_inventarios/gestion_productos" class="w-full h-full">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Productos</p>
@@ -100,7 +100,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Empleados">
           <list-group>
             <list-group-item>
-              <router-link to="/empleado_agregar" class="w-full h-full">
+              <router-link to="/recursos_humanos/empleado_agregar" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Registrar empleado</p>
@@ -108,7 +108,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/listar_empleados">
+              <router-link to="/recursos_humanos/listar_empleados">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Empleados</p>
@@ -116,7 +116,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/gestion_cargos">
+              <router-link to="/recursos_humanos/gestion_cargos">
                 <div class="flex items-center">
                   <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Cargos</p>
@@ -124,7 +124,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               </router-link>
             </list-group-item>
             <list-group-item>
-              <router-link to="/historial_planillas">
+              <router-link to="/recursos_humanos/historial_planillas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial Planillas</p>
@@ -192,7 +192,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Informes">
           <list-group>
             <list-group-item>
-              <router-link to="/panel_informes" class="w-full h-full">
+              <router-link to="/informes/panel_informes" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Informes de Ventas / Inventario</p>

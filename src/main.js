@@ -43,9 +43,6 @@ window.axios.interceptors.response.use(
 
 const app = createApp(App)
 
-app.use(router);
-app.use(store);
-
 const options = {
   transition: "Vue-Toastification__fade",
   maxToasts: 20,
@@ -55,5 +52,15 @@ const options = {
 app.use(Toast, options);
 app.use(router);
 app.use(store);
+
+/*const options = {
+  transition: "Vue-Toastification__fade",
+  maxToasts: 20,
+  newestOnTop: true
+};*/
+
+//app.use(Toast, options);
+//app.use(router);
+//app.use(store);
 app.use(VueApexCharts);
 app.mount('#app')
