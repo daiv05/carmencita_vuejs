@@ -167,7 +167,7 @@ export default {
         return {
             listaProductos: [],
             estado: null,
-            filtro: "activos",
+            filtro: "all",
             listaProductosFiltrados: [],
             productoSeleccionado: {},
             exitoTransaccion: false,
