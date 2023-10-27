@@ -273,11 +273,8 @@ export default {
         this.getProductos()
         const route = useRoute()
         this.id = route.params.id
-        alert(this.createForm)
-        alert(this.id)
         if (this.createForm == false) {
             this.getOferta()
-            alert("hola")
         }
     },
     methods: {
