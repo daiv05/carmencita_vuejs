@@ -56,7 +56,6 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
             </div>
         </div>
     </main>
-    <generarPlanilla></generarPlanilla>
 </template>
 
 <script>
