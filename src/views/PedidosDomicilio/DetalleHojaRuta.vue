@@ -8,7 +8,7 @@
                 <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
                     <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
                     <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-                        <RouterLink :to="'/facturacion/hoja_de_ruta/update/'+hoja_ruta.id_hr" id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+                        <RouterLink v-if="hoja_ruta" :to="'/facturacion/hoja_de_ruta/update/' + hoja_ruta.id_hr" id="show-modal" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
                             Editar Hoja de Ruta
                         </RouterLink>
                     </div>
@@ -67,7 +67,7 @@
                                                         Imprimir
                                                     </button>
                                                     <router-link v-if="fila.esta_cancelada == 0"
-                                                        :to="{ path: '/facturacion/modificar_pedido', params: { id: fila.id_venta } }"
+                                                        :to="{ name: 'modificar_pedido', params: { id: fila.id_venta } }"
                                                         class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                         Editar Pedido
                                                     </router-link>

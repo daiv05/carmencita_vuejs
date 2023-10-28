@@ -89,7 +89,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
 
@@ -103,7 +103,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="quitarCreditoFiscalDomicilio(pedido.id_creditofiscal)"
@@ -148,7 +148,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="addFacturasDomicilio(pedido.id_venta)"
@@ -161,7 +161,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type=" mx-1 button"

@@ -84,7 +84,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
 
@@ -98,7 +98,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="quitarCreditoFiscalDomicilio(pedido.id_credito)"
@@ -109,7 +109,7 @@ import api_url from '../../config.js'
                         </table>
                     </div>
                     <div class="w-min-full flex items-center justify-center col-span-1 lg:col-span-6">
-                        <button class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2">Cancelar</button>
+                        <RouterLink to="/facturacion/listar_hojas_de_ruta" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded mx-2">Cancelar</RouterLink>
                         <button @click="saveHojaDeRuta" type="button"
                             class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mx-2">Guardar</button>
                     </div>
@@ -143,7 +143,7 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_venta }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Factura</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_sales/' + pedido.id_venta" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_sales/' + pedido.id_venta" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
                                             ver</RouterLink>
                                         <button type="button" @click="addFacturasDomicilio(pedido.id_venta)"
@@ -156,9 +156,9 @@ import api_url from '../../config.js'
                                     <td class="whitespace-nowrap px-6 py-4">${{ pedido.total_credito }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">Credito Fiscal</td>
                                     <td class="whitespace-nowrap px-6 py-4">
-                                        <RouterLink :to="'/detail_cf/' + pedido.id_creditofiscal" target="_blank"
+                                        <RouterLink :to="'/facturacion/detail_cf/' + pedido.id_creditofiscal" target="_blank"
                                             class="bg-transparent hover:bg-blue-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-full m-1">
-                                            ver</RouterLink>
+                                            Ver</RouterLink>
                                         <button type=" mx-1 button"
                                             @click="addCreditoFiscalDomicilio(pedido.id_creditofiscal)"
                                             class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full">agregar</button>
