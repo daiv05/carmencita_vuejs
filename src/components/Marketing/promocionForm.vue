@@ -115,8 +115,7 @@ import api_url from '../../config.js'
                                 </span>
                                 <Field name="precio_oferta" rules="required" v-model="promocion.precio_oferta"
                                     id="precio_oferta" type="number" min="0" placeholder="Ingresa el precio de la promoción"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    @input="calcularDescuento" @change="obtenerPrecioUnitario" />
+                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-700 sm:text-sm sm:leading-5"> USD </span>
                                 </div>
@@ -126,15 +125,15 @@ import api_url from '../../config.js'
                     </div>
 
                     <div class="sm:col-span-3">
-                        <label for="cantidad_producto" class="block text-sm font-medium leading-6 text-gray-900">Catidad del
+                        <label for="cantidad_producto" class="block text-sm font-medium leading-6 text-gray-900">Cantidad
+                            del
                             producto</label>
                         <div class="mt-2">
                             <div class="mt-2 relative rounded-md shadow-sm">
                                 <Field name="cantidad_producto" rules="required" v-model="promocion.cantidad_producto"
                                     id="cantidad_producto" type="number" min="0"
                                     placeholder="Ingresa la cantidad de productos"
-                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    @input="calcularDescuento" @change="obtenerPrecioUnitario" />
+                                    class="block w-full rounded-md border-0 py-1.5 pl-7 pr-12 text-gray-900 shadow-sm focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                     <span class="text-gray-700 sm:text-sm sm:leading-5"> UNI </span>
                                 </div>
@@ -149,8 +148,7 @@ import api_url from '../../config.js'
                         <div class="mt-2">
                             <Field as="select" required name="codigo_barra_producto" id="codigo_barra_producto"
                                 v-model="promocion.codigo_barra_producto"
-                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                @input="calcularDescuento" @change="obtenerPrecioUnitario">
+                                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                 <option value="" selected disabled>Seleccionar...</option>
                                 <option v-for="producto in productos" :key="producto.codigo_barra_producto"
                                     :value="producto.codigo_barra_producto">
@@ -214,28 +212,28 @@ import { defineRule } from 'vee-validate'
 import { useRoute } from 'vue-router'
 import { showMessages } from '../../components/functions.js'
 
-function requerido(value){
-    if(value){return true}
-        return "*Campo requerido"
+function requerido(value) {
+    if (value) { return true }
+    return "*Campo requerido"
 }
-function seleccione(value){
-    if(value){return true}
-        return "Seleccione una opción"
+function seleccione(value) {
+    if (value) { return true }
+    return "Seleccione una opción"
 }
-const schema={
-    fecha_inicio_oferta: (value)=>{
+const schema = {
+    fecha_inicio_oferta: (value) => {
         return requerido(value)
     },
-    fecha_fin_oferta:(value)=>{
+    fecha_fin_oferta: (value) => {
         return requerido(value)
     },
-    nombre_oferta:(value)=>{
+    nombre_oferta: (value) => {
         return requerido(value)
     },
-    precio_oferta:(value)=>{
+    precio_oferta: (value) => {
         return requerido(value)
     },
-    codigo_barra_producto:(value)=>{
+    codigo_barra_producto: (value) => {
         return seleccione(value)
     }
 
@@ -270,16 +268,25 @@ export default {
         }
     },
     mounted() {
-        this.getProductos()
         const route = useRoute()
         this.id = route.params.id
-        if (this.createForm == false) {
-            this.getOferta()
+        this.getProductos()
+    },
+    watch: {
+        promocion: {
+            handler: function (val, oldVal) {
+                this.calcularDescuento();
+            },
+            deep: true
         }
     },
     methods: {
         getProductos() {
-            axios.get(api_url + '/productoProm').then((response) => (this.productos = response.data))
+            axios.get(api_url + '/productoProm')
+                .then((response) => (
+                        this.productos = response.data,
+                        this.createForm == false ? this.getOferta() : null
+                    ))
         },
         getOferta() {
             axios.get('api/oferta/' + this.id).then(
@@ -290,7 +297,8 @@ export default {
                     this.promocion.nombre_oferta = response.data['nombre_oferta'],
                     this.promocion.precio_oferta = response.data['precio_oferta'],
                     this.promocion.cantidad_producto = response.data['cantidad_producto'],
-                    this.promocion.monto_rebaja = response.data['monto_rebaja']
+                    this.promocion.monto_rebaja = response.data['monto_rebaja'],
+                    this.calcularDescuento()
                 )
             )
                 .catch((error) => {
@@ -320,41 +328,41 @@ export default {
                 }
                 axios.post(api_url + '/promociones', params).then(
                     (response) => {
-                        response.data.message.forEach(mensaje=>{
-                            showMessages(response.data.status,mensaje);
+                        response.data.message.forEach(mensaje => {
+                            showMessages(response.data.status, mensaje);
                         });
                         this.$router.push('/marketing/consultar_ofertas')
                         this.$router.go(1);
                     }
                 ).catch(
-                    (error)=>{
-                        error.response.data.message.forEach(mensaje=>{
-                            showMessages(error.response.data.status,mensaje);
+                    (error) => {
+                        error.response.data.message.forEach(mensaje => {
+                            showMessages(error.response.data.status, mensaje);
                         })
                     }
                 )
-            }else {
+            } else {
                 const params = {
-                    fecha_inicio_oferta:this.promocion.fecha_inicio_oferta,
-                    fecha_fin_oferta:this.promocion.fecha_fin_oferta,
-                    precio_oferta:this.promocion.precio_oferta,
-                    nombre_oferta:this.promocion.nombre_oferta,
-                    codigo_barra_producto:this.promocion.codigo_barra_producto,
+                    fecha_inicio_oferta: this.promocion.fecha_inicio_oferta,
+                    fecha_fin_oferta: this.promocion.fecha_fin_oferta,
+                    precio_oferta: this.promocion.precio_oferta,
+                    nombre_oferta: this.promocion.nombre_oferta,
+                    codigo_barra_producto: this.promocion.codigo_barra_producto,
                     cantidad_producto: this.promocion.cantidad_producto,
                     monto_rebaja: this.promocion.monto_rebaja,
                 }
                 axios.put(api_url + '/ofertaUpdate/' + this.id, params).then(
                     (response) => {
-                        response.data.message.forEach(mensaje=>{
-                            showMessages(response.data.status,mensaje);
+                        response.data.message.forEach(mensaje => {
+                            showMessages(response.data.status, mensaje);
                         });
                         this.$router.push('/marketing/consultar_ofertas')
                         this.$router.go(1);
                     }
                 ).catch(
-                    (error)=>{
-                        error.response.data.message.forEach(mensaje=>{
-                            showMessages(error.response.data.status,mensaje);
+                    (error) => {
+                        error.response.data.message.forEach(mensaje => {
+                            showMessages(error.response.data.status, mensaje);
                         })
                     }
                 )
@@ -370,28 +378,36 @@ export default {
             this.$refs.promocionForm.resetForm(); // Usamos resetForm para limpiar el formulario
         },
         calcularDescuento() {
-            this.obtenerPrecioUnitario();
-            const precioOferta = Number(this.promocion.precio_oferta);
-            const precioUnitario = Number(this.promocion.precio_unitario);
-            const cantidadProducto = Number(this.promocion.cantidad_producto);
-            const montoRebaja = Number((precioUnitario * cantidadProducto) - precioOferta).toFixed(2);
+            this.obtenerPrecioUnitario().then((res) => {
+                const precioOferta = Number(this.promocion.precio_oferta);
+                const precioUnitario = Number(this.promocion.precio_unitario);
+                const cantidadProducto = Number(this.promocion.cantidad_producto);
+                const montoRebaja = Number((precioUnitario * cantidadProducto) - precioOferta).toFixed(2);
 
-            this.promocion.monto_rebaja = montoRebaja;
+                this.promocion.monto_rebaja = montoRebaja;
 
-            console.log(precioOferta, precioUnitario, cantidadProducto, montoRebaja);
+                console.log(precioOferta, precioUnitario, cantidadProducto, montoRebaja);
+            });
+
         },
         obtenerPrecioUnitario() {
-            const codigoBarraSeleccionado = this.promocion.codigo_barra_producto;
+            return new Promise((resolve, reject) => {
+                const codigoBarraSeleccionado = this.promocion.codigo_barra_producto;
+                console.log('Codigo de barra seleccionado:', codigoBarraSeleccionado)
+                console.log('Lista de productos:', this.productos)
+                // Busca el producto seleccionado en la lista de productos
+                const productoSeleccionado = this.productos.find(producto => producto.codigo_barra_producto == codigoBarraSeleccionado);
+                if (productoSeleccionado) {
+                    // Si el producto se encuentra, actualiza el precio_unitario
+                    this.promocion.precio_unitario = productoSeleccionado.precio_unitario;
+                    // Imprime el precio unitario en la consola
+                    console.log('Precio Unitario:', productoSeleccionado.precio_unitario);
+                } else {
+                    console.log('Producto no encontrado');
+                }
+                resolve();
+            });
 
-            // Busca el producto seleccionado en la lista de productos
-            const productoSeleccionado = this.productos.find(producto => producto.codigo_barra_producto === codigoBarraSeleccionado);
-
-            if (productoSeleccionado) {
-                // Si el producto se encuentra, actualiza el precio_unitario
-                this.promocion.precio_unitario = productoSeleccionado.precio_unitario;
-                // Imprime el precio unitario en la consola
-                console.log('Precio Unitario:', productoSeleccionado.precio_unitario);
-            }
         }
     }
 }
