@@ -9,7 +9,7 @@ import promocionForm from '../../components/Marketing/promocionForm.vue';
         <!-- Encabezado -->
         <div>
             <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
-                <h1 class="font-bold text-blue-700 text-xl">Marketing</h1>
+                <h1 class="font-bold text-blue-700 text-xl">Gestión de Ofertas</h1>
             </div>
             <div class="flex justify-start items-center mt-4 ml-4">
                 <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -19,7 +19,7 @@ import promocionForm from '../../components/Marketing/promocionForm.vue';
         </div>
 
         <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
-            <h2 class="font-bold text-lg ml-4">Registar promoción</h2>
+            <h2 class="font-bold text-lg ml-4">Registar Oferta</h2>
         </div>
         <promocionForm :createForm="true"></promocionForm>
     </main>

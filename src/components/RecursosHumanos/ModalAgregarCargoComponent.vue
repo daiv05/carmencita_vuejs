@@ -27,20 +27,20 @@ import api_url from "../../config";
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                             type="text" id="name" name="nombre_cargo" placeholder="Nombre Cargo" v-model="nombre_cargo"
                             :rules="validarCamposDeTexto" />
-                        <ErrorMessage name="nombre_cargo" />
+                        <ErrorMessage name="nombre_cargo" class="error"/>
                     </div>
                     <div class="mb-4">
                         <Field
                             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                             type="number" id="email" name="salario_cargo" placeholder="Sueldo del cargo" step="0.01"
                             v-model="salario_cargo" :rules="validarSalario" />
-                        <ErrorMessage name="salario_cargo" />
+                        <ErrorMessage name="salario_cargo" class="error"/>
                     </div>
                     <div class="mb-4">
                         <Field as="textarea" name="descripcion_cargo" id="chat" v-model="descripcion_cargo" rows="1"
                             class="block mx-0 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 
   dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Descripción Cargo" :rules="validarCamposDeTexto" />
-                        <ErrorMessage name="descripcion_cargo" />
+                        <ErrorMessage name="descripcion_cargo" class="error"/>
                     </div>
                     <div class="mb-4">
                         <Field as="select" name="horario" id="horario"
@@ -50,7 +50,7 @@ import api_url from "../../config";
                                 :value="jornada.id_jornada_laboral_diaria">Hora entrada: {{ jornada.hora_inicio }} Hora
                                 salida: {{ jornada.hora_fin }}</option>
                         </Field>
-                        <ErrorMessag name="horario" />
+                        <ErrorMessag name="horario" class="error"/>
                     </div>
                     <div class="text-center">
                         <button
@@ -68,6 +68,7 @@ import api_url from "../../config";
 import axios from 'axios';
 import { Field, ErrorMessage, Form } from 'vee-validate';
 import '../../assets/modal_default.css';
+
 export default {
     components: {
         Field,
@@ -110,8 +111,8 @@ export default {
                 response => {
                     console.log(response.data.respuesta)
                     if (response.data.respuesta) {
-
-                        this.$emit("cerrarModalAgregar", true, this.cargo);
+                        
+                        this.$emit("cerrarModalAgregar", true, response.data.cargo);
                     }
                     else {
                         this.errorAlGuardar = true;
@@ -139,7 +140,7 @@ export default {
                 return "Debe ingresar un dato de tipo numerico";
             }
             if (parseFloat(value) < 365) {
-                return "No puede ingresar un dato menor al salrio minimo";
+                return "No puede ingresar un dato menor al salario minimo";
             }
 
             return true;
@@ -154,9 +155,16 @@ export default {
             axios.get(api_url + "/jornadas_laborales_diarias").then(
                 response => {
                     this.listaHorarioLaboral = response.data;
+                    this.id_jornada_laboral_diaria = this.listaHorarioLaboral[0].id_jornada_laboral_diaria;
                 }
             );
         }
     }
 }
 </script>
+
+<style scoped>
+.error{
+    color:red;
+}
+</style>

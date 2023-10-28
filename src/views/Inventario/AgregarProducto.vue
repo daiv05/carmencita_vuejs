@@ -21,7 +21,7 @@ import api_url from "../../config";
                 <h1 class="font-bold text-blue-700 text-xl">Gestión de Productos</h1>
             </div>
             <div class="flex justify-start items-center mt-4 ml-4">
-                <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
+                <a href="#" @click="regresar()" class="text-sm text-black font-medium flex items-center">
                     <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
                 </a>
             </div>
@@ -166,7 +166,7 @@ import api_url from "../../config";
                 <div class="flex justify-center">
                     <button type="button"
                         class="inline-block focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg text-sm px-4 py-2 m-4 font-bold"
-                        @click="$router.go(-1)">Regresar</button>
+                        @click="regresar()">Regresar</button>
                     <div>
                         <button type="submit"
                             class="bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300 m-4">Guardar
@@ -413,6 +413,11 @@ export default {
             this.fotoProducto = null;
             this.urlFotoProducto = " ";
             this.listaPrecios = [];*/
+        },
+        regresar(){
+            this.$store.commit("setFromAgregarEditarProducto",{fromAgregarEditarProducto:true});
+            this.$router.push({ name: "gestion_productos"});
+            //this.$router.go(-1)
         }
     }
 

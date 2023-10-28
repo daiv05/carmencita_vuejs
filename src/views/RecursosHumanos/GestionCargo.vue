@@ -96,6 +96,8 @@ import ModalConsultarCargoComponent from "../../components/RecursosHumanos/Modal
 <script>
 import axios from 'axios';
 import { ref } from 'vue';
+import { useToast } from "vue-toastification";
+const toast = useToast();
 export default {
      data() {
           return {
@@ -123,9 +125,13 @@ export default {
           cerrarModal(esModificacion) {
                if (esModificacion) {
                     this.getCargos();
-                    this.exitoTransaccion = true;
-                    this.mensajeTransaccion = "Se modifico el cargo exitosamente";
-                    setTimeout(this.cambiarValorEstadoTransaccion, 5000);
+                    //this.exitoTransaccion = true;
+                    //this.mensajeTransaccion = "Se modifico el cargo exitosamente";
+                    //setTimeout(this.cambiarValorEstadoTransaccion, 5000);
+                    toast.success("Se modifico el cargo exitosamente",{
+                         timeout:4000,
+                         position:"bottom-left",
+                    });
                }
                this.controlModal = false;
           },
@@ -150,13 +156,13 @@ export default {
           },
           cerrarModalAgregar(guardadoConExito, nuevoCargo) {
                if (guardadoConExito && nuevoCargo) {
-                    console.log("Entra por aqui");
                     this.listaCargos.push(nuevoCargo);
-                    this.exitoTransaccion = true;
-                    this.mensajeTransaccion = "Se agrego el cargo con exito";
-                    setTimeout(() => {
-                         this.exitoTransaccion = false;
-                    }, 4000);
+                    //this.exitoTransaccion = true;
+                    //this.mensajeTransaccion = "Se agrego el cargo con exito";
+                    toast.success("Se agrego el cargo con exito",{
+                         timeout:4000,
+                         position:"bottom-left",
+                    });
                }
                this.controlModalAgregar = false;
           },
@@ -166,11 +172,12 @@ export default {
           cerrarModalEliminar(seElimino, cargo) {
                if (seElimino) {
                     this.eliminarCargoLista(cargo);
-                    this.mensajeTransaccion = "Se Elimino el cargo exitosamente";
-                    this.exitoTransaccion = true;
-                    setTimeout(() => {
-                         this.exitoTransaccion = false;
-                    }, 4000);
+                    //this.mensajeTransaccion = "Se Elimino el cargo exitosamente";
+                    //this.exitoTransaccion = true;
+                    toast.success("Se elimino el cargo exitosamente",{
+                         timeout:4000,
+                         position:"bottom-left",
+                    });
                }
                this.controlModalEliminar = false;
           },

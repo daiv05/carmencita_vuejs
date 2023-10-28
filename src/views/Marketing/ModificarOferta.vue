@@ -4,11 +4,12 @@ import promocionForm from '../../components/Marketing/promocionForm.vue';
 </script>
 
 <template>
-    <NavBar></NavBar>
-    <div class="bg-slate-100">
+    <main>
+        <NavBar></NavBar>
+        <!-- Encabezado -->
         <div>
             <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
-                <h1 class="font-bold text-blue-700 text-xl">Gestión de Ofertas</h1>
+                <h1 class="font-bold text-blue-700 text-xl">Gestion Ofertas</h1>
             </div>
             <div class="flex justify-start items-center mt-4 ml-4">
                 <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
@@ -18,26 +19,11 @@ import promocionForm from '../../components/Marketing/promocionForm.vue';
         </div>
 
         <div class="container m-auto p-1 pb-0 pt-4 w-4/5">
-            <h2 class="font-bold text-lg">Modificar Oferta</h2>
+            <h2 class="font-bold text-lg ml-4">Modificar Oferta</h2>
         </div>
-        <promocionForm ref="promocion"></promocionForm>
-    </div>
+        <promocionForm :createForm="false" id="id"></promocionForm>
+    </main>
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
-
-export default {
-    data() {
-        return {
-            id: null,
-            esta_activo: null,
-        }
-    },
-    mounted() {
-        const route = useRoute();
-        this.id = route.params.id;
-        this.esta_activo = this.$refs.promocion.getOfertas;
-    }
-}
 </script>

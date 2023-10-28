@@ -6,7 +6,7 @@
       <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
         <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
         <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-          <router-link to="/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+          <router-link to="/facturacion/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
             Nueva Hoja de Ruta
           </router-link>
         </div>
@@ -147,8 +147,13 @@ export default {
     }
   },
   mounted() {
-    this.controlPagina.setParametrosFiltro({ tipo: 'Consumidor final' })
-    this.controlPagina.cargarPaginas()
+    if(this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarHR == true){
+      this.controlPagina = new ControladorPagina(this.$store.state.urlPaginaActualHR);
+      this.$store.commit("setFromAgregarEditarHR",false);
+    }
+    this.controlPagina.cargarPaginas();
+    this.$store.commit("setExistenDatos",true);
+    this.$store.commit("setUrlPaginaActualHR",this.controlPagina.getUrlPaginaActual());
   },
   methods: {
     formatearFechas(fecha) {

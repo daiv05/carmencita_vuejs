@@ -67,7 +67,7 @@
                                                         Imprimir
                                                     </button>
                                                     <router-link v-if="fila.esta_cancelada == 0"
-                                                        :to="{ name: 'modificar_pedido', params: { id: fila.id_venta } }"
+                                                        :to="{ path: '/facturacion/modificar_pedido', params: { id: fila.id_venta } }"
                                                         class="text-center bg-indigo-600 hover:bg-indigo-800 md:text-sm text-xs text-white font-medium py-2 px-2 mx-2 rounded">
                                                         Editar Pedido
                                                     </router-link>

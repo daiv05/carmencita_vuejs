@@ -1,17 +1,19 @@
+import store from "../store/auth";
 export default class ControladorPagina {
   constructor(urlEndpoint, axios) {
-    this.paginaActual = 1
-    this.listaEnlaces = []
-    this.urlEndpoint = urlEndpoint
-    this.axios = axios
-    this.totalResultados = 0
-    this.resultadosPorPagina = 0
-    this.listaPaginas = []
-    this.totalPaginas = 0
-    this.paginaSiguiente = null
-    this.paginaPrevia = null
-    this.datosPagina = []
-    this.parametrosFiltro = {}
+    this.paginaActual = 1;
+    this.listaEnlaces = [];
+    this.urlEndpoint = urlEndpoint;
+    this.axios = axios;
+    this.totalResultados = 0;
+    this.resultadosPorPagina = 0;
+    this.listaPaginas = [];
+    this.totalPaginas = 0;
+    this.paginaSiguiente = null;
+    this.paginaPrevia = null;
+    this.datosPagina = [];
+    this.parametrosFiltro = {};
+    this.urlActual = "";
   }
 
   configurarListaEnlacePaginas() {
@@ -56,6 +58,15 @@ export default class ControladorPagina {
       this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next';
       this.datosPagina = res.data.data;
     }
+    this.obtenerEnlacePaginaActual();
+  }
+
+  obtenerEnlacePaginaActual(){
+    this.listaEnlaces.forEach((link)=>{
+      if(link.active == true){
+        this.urlActual = link.url;
+      }
+  });
   }
 
   getDatosPagina() {
@@ -75,8 +86,9 @@ export default class ControladorPagina {
   }
 
   obtenerPagina(pageLink) {
+    this.urlActual = pageLink.url;
+    store.commit("setUrlPaginaActualHR",this.urlActual);
     if (pageLink.url) {
-      console.log(pageLink)
       this.axios
         .get(pageLink.url,{
           "params":this.parametrosFiltro,
@@ -89,6 +101,10 @@ export default class ControladorPagina {
           console.log(err)
         })
     }
+  }
+
+  getUrlPaginaActual(){
+    return this.urlActual;
   }
 
   obtenerListadoEnlaces() {

@@ -281,7 +281,7 @@ import api_url from '../../config.js';
 
         <!--submit button-->
         <div class="flex items-center justify-center">
-            <router-link to="/listar_empleados"
+            <router-link to="/recursos_humanos/listar_empleados"
                 class=" m-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Cancelar
             </router-link>

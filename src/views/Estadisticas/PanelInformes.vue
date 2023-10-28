@@ -24,7 +24,7 @@
             </div>
 
             <!-- CARD 1 -->
-            <router-link to="/informe_ventas_totales" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_ventas_totales" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/1.report_10063539.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
@@ -35,7 +35,7 @@
                 </div>
             </router-link>
             <!-- CARD 2 -->
-            <router-link to="/informe_ventas_productos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_ventas_productos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/2.trading_9362307.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
@@ -46,7 +46,7 @@
                 </div>
             </router-link>
             <!-- CARD 3 -->
-            <router-link to="/informe_productos_mas_vendidos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_productos_mas_vendidos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/3.reward_1162356.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
@@ -69,7 +69,7 @@
             </div>
 
             <!-- CARD 1 -->
-            <router-link to="/informe_inventario_valorado" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_inventario_valorado" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/4.order_10614619.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
@@ -80,7 +80,7 @@
                 </div>
             </router-link>
             <!-- CARD 2 -->
-            <router-link to="/informe_existencias_de_productos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_existencias_de_productos" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/5.inventory_2897785.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">
@@ -91,7 +91,7 @@
                 </div>
             </router-link>
             <!-- CARD 3 -->
-            <router-link to="/informe_productos_por_vencer" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
+            <router-link to="/informes/informe_productos_por_vencer" class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100">
                 <img class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
                     src="../../assets/img-informes/6.time_3575441.png" alt="">
                 <div class="flex flex-col justify-between p-4 leading-normal">

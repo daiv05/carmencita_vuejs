@@ -10,7 +10,7 @@ import EmpleadoDesactivar from "../../components/RecursosHumanos/EmpleadoDesacti
                <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
                     <h1 class="font-bold text-blue-700 text-xl">Gestión de Empleados</h1>
                     <div class="flex items-center">
-                         <router-link to="empleado_agregar"
+                         <router-link to="/recursos_humanos/empleado_agregar"
                               class="buttonColor w-auto h-auto px-4 py-2 rounded-[4.44px] text-[13px] font-medium text-center text-white">Agregar
                               Empleado</router-link>
                     </div>
@@ -93,7 +93,7 @@ export default {
                     });
           },
           generarEnlace(idEmpleado) {
-               return "/empleado_modificar/" + idEmpleado;
+               return "/recursos_humanos/empleado_modificar/" + idEmpleado;
           },
      },
      watch: {

@@ -65,6 +65,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
       </section>
     </Form>
     <ComponenteTablaInformesVue :controlPagina="controlPagina"></ComponenteTablaInformesVue>
+    
     <div class="flex justify-center align-center mt-[5%]">
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
