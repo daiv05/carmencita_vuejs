@@ -29,7 +29,8 @@ window.axios.interceptors.response.use(
     try {
       if (error.response.status === 401) {
         console.log('no auth');
-        store.dispatch('logout');
+        store.dispatch("cleanStore");
+        router.push("/iniciar_sesion");
       }
     } catch (error) {
       console.log(error);

@@ -17,7 +17,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
     <!--Cards-->
     <div class="container max-w-4xl mx-auto px-10 py-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
       <!--Facturacion-->
-      <the-card variant="image" img-src="assets/img/facturacion.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/facturacion.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Facturación</h5>
         <dropdown text="Facturación">
           <list-group>
@@ -43,7 +43,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
 
       <!--Pedidos a Domicilio y Hojas de Ruta-->
-      <the-card variant="image" img-src="assets/img/domicilio.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/domicilio.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pedidos a Domicilio</h5>
         <dropdown text="Pedidos">
           <list-group>
@@ -70,7 +70,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
 
       <!--Inventario-->
-      <the-card variant="image" img-src="assets/img/inventario.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/inventario.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Inventario</h5>
         <dropdown text="Inventario">
           <list-group>
@@ -95,7 +95,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Empleados-->
-      <the-card variant="image" img-src="assets/img/empleados.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/empleados.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Empleados</h5>
         <dropdown text="Empleados">
           <list-group>
@@ -148,8 +148,9 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
-            <list-group-item>
+            <list-group-item v-if="rolCurrenUser == GERENTE">
               <router-link to="/recursos_humanos/historial_asistencia">
+
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Historial de asistencia</p>
@@ -161,7 +162,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Usuarios-->
-      <the-card variant="image" img-src="assets/img/usuarios.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/usuarios.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Usuarios</h5>
         <dropdown text="Usuarios">
           <list-group>
@@ -187,7 +188,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Informes de Ventas-->
-      <the-card variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes</h5>
         <dropdown text="Informes">
           <list-group>
@@ -204,11 +205,11 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!-- Proveedores - Creditos - Clientes -->
-      <the-card variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Stakeholders</h5>
         <dropdown text="Proveedores">
           <list-group>
-            <list-group-item>
+            <list-group-item v-if="rolCurrenUser == GERENTE">
               <router-link to="/gestionar_proveedores">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
@@ -216,7 +217,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
-            <list-group-item>
+            <list-group-item v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE">
               <router-link to="/gestionar_clientes">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
@@ -224,7 +225,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
                 </div>
               </router-link>
             </list-group-item>
-            <list-group-item>
+            <list-group-item v-if="rolCurrenUser == GERENTE">
               <router-link to="/listar_creditos_proveedor">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
@@ -239,7 +240,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
 
       <!--Ofertas y Avisos-->
-      <the-card variant="image" img-src="assets/img/ofertas.jpg" img-alt="Desk">
+      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/ofertas.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ofertas y Avisos</h5>
         <dropdown text="Promociones">
           <list-group>
@@ -285,12 +286,30 @@ const navigationVentas = [
   { name: 'Registrar Ventas', href: '#', current: true },
   { name: 'Historial de ventas', href: '#', current: false },
 ]
+
+const GERENTE = "Gerente"
+const SUB_GERENTE = "Sub-Gerente"
+const COLABORADOR = "Colaborador"
+
 export default {
   data() {
     return {
       titulo: 'Panel de Control',
+      datosAuth:null,
+      rolCurrenUser:null,
     }
   },
+  methods: {
+
+  },
+  mounted() {
+    if (localStorage.authUser) {
+      this.datosAuth = JSON.parse(localStorage.authUser);
+      this.rolCurrenUser = this.datosAuth.user.roles[0].name
+    }
+    console.log(this.datosAuth.user)
+
+  }
 }
 </script>
 
