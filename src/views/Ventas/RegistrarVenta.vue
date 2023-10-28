@@ -858,12 +858,15 @@ export default {
                         codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                         cantidad_producto_credito: detalle.cantidad_prod_venta,
                         subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
+                        descuentos: Number(detalle.descuentos_detalle),
                     };
                 }
             });
         },
 
         register_venta(detalles_listado_limpio, is_domicilio) {
+            console.log('listado limpio:')
+            console.log(detalles_listado_limpio);
             if (is_domicilio == true && this.venta_info.nombre_cliente_venta == '') {
                 this.watch_toast('error', 'Ingresar el nombre del cliente para el pedido');
                 return;
