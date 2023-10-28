@@ -185,15 +185,17 @@ quitarOpcionNavBar();
               <MenuItems
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                <span :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ usuario.name
-                }}</span>
+                <div class="font-bold hover:bg-gray-100 p-2 pb-0 text-center">{{ usuario.name }}</div>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <span :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">{{ usuario.email
-                }}</span>
+                  <div class="font-semibold hover:bg-gray-100 py-0 text-center">{{ usuario.email }}</div>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <button @click="logout" href="#"
+                  <div class="font-semibold hover:bg-gray-100 p-2 text-center">{{ usuario.roles[0].name }}</div>
+                </MenuItem>
+                <hr>
+                <MenuItem v-slot="{ active }">
+                <button @click="logout" href="#" class="w-full"
                   :class="[active ? 'bg-gray-100 w-100' : '', 'block w-100 px-4 py-2 text-sm text-gray-700']">Cerrar
                   Sesión</button>
                 </MenuItem>
