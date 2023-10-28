@@ -439,23 +439,16 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.credito_fiscal_info.total_credito = 0;
-
                 this.credito_fiscal_info.total_descuentos = 0;
-
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.credito_fiscal_info.total_credito += Number(detalle.subtotal_detalle_credito);
                     this.credito_fiscal_info.total_descuentos += Number(detalle.descuentos);
 
                 });
-
-                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
-
+                this.credito_fiscal_info.total_credito = this.credito_fiscal_info.total_credito - this.credito_fiscal_info.total_descuentos;
                 this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(4);
-
-                this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito - this.subtotal_venta).toFixed(2);
-
-                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito - this.credito_fiscal_info.total_descuentos).toFixed(2);
-
+                this.credito_fiscal_info.total_iva_credito = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 this.credito_fiscal_info.total_descuentos = Number(this.credito_fiscal_info.total_descuentos).toFixed(2);
             },
@@ -885,13 +878,13 @@ export default {
                         detalles: detalles_listado_limpio,
                     }).then((resp) => {
                         this.watch_toast(resp.data.respuesta, 'Credito Fiscal actualizado correctamente');
-                        this.$router.push('/listar_pedidos_domicilio');
+                        this.$router.push('/facturacion/listar_pedidos_domicilio');
                         this.$router.go(1);
                         this.limpiar_campos();
                     }).catch((error) => {
                         this.watch_toast(error.response.data.respuesta, error.response.data.mensaje);
                         //this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
-                        this.$router.push('/listar_pedidos_domicilio');
+                        this.$router.push('/facturacion/listar_pedidos_domicilio');
                         this.$router.go(1);
                         throw error;
                     })

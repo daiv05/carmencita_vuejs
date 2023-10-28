@@ -17,7 +17,7 @@ const rutasRRHH = [
   },
   {
     nombre: 'Asistencia',
-    href: '/recursos_humanos/listar_empleados',
+    href: '/historial_asistencia',
   },
   {
     nombre: 'Planilla',

@@ -147,9 +147,10 @@
                                                     class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
                                                     $
                                                 </span>
-                                                <input
-                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
-                                                    placeholder="0.00" v-model="subtotal_venta" disabled>
+                                                <label
+                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border">
+                                                    {{ Number(Number(subtotal_venta) + Number(venta_info.total_descuentos)).toFixed(2) }}
+                                                </label>
                                             </div>
                                         </td>
                                     </tr>
@@ -311,15 +312,10 @@ export default {
                     this.venta_info.total_descuentos += Number(detalle.descuentos);
 
                 });
-
-                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
-
+                this.venta_info.total_venta = this.venta_info.total_venta - this.venta_info.total_descuentos;
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
-
-                this.venta_info.total_iva = Number(this.venta_info.total_venta - this.subtotal_venta).toFixed(2);
-
-                this.venta_info.total_venta = Number(this.venta_info.total_venta - this.venta_info.total_descuentos).toFixed(2);
-
+                this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 this.venta_info.total_descuentos = Number(this.venta_info.total_descuentos).toFixed(2);
 
@@ -656,7 +652,7 @@ export default {
                     }).then((resp) => {
                         this.watch_toast(resp.data.respuesta, "Venta actualizada correctamente");
                         this.limpiar_campos();
-                        this.$router.push('/listar_pedidos_domicilio')
+                        this.$router.push('/facturacion/listar_pedidos_domicilio')
                         this.$router.go(1);
                         //router.replace('/listar_pedidos_domicilio')
                     }).catch((error) => {
