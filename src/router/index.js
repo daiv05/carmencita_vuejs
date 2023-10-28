@@ -238,6 +238,13 @@ const router = createRouter({
           component: HojaDeRutaModificar,
           props: true
         },
+        //se agrego
+        {
+          path: 'hoja_de_ruta/detalles/:ruta',
+          name: 'hoja_de_ruta_detalles',
+          component: DetalleHojaRuta,
+          props:true,
+        },
         {
           path: "listar_pedidos_domicilio",
           name : "Pedidos_domicilio",

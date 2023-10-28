@@ -138,7 +138,7 @@ export default {
     return {
       urlEndpoint: '/api/hoja_de_ruta_paginadas',
       controlPagina: new ControladorPagina('/api/hoja_de_ruta_paginadas', axios),
-      urlConsultar: '/hoja_de_ruta/detalles/',
+      urlConsultar: 'hoja_de_ruta/detalles/',
       urlEditar: '',
       urlEliminar: '',
       fechaEntrega: null,

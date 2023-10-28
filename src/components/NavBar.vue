@@ -13,7 +13,7 @@ const rutasRRHH = [
   },
   {
     nombre: 'Usuarios',
-    href: '/historial_asistencia',
+    href: '/recursos_humanos/gestion_usuarios',
   },
   {
     nombre: 'Asistencia',
