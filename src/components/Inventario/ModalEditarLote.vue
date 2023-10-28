@@ -115,9 +115,9 @@ export default {
     }
   },
   mounted() {
+    this.idProducto = this.lote.producto.codigo_barra_producto;
     this.cargarUnidadesMedida();
     this.cargarProductos();
-    this.idProducto = this.lote.producto.codigo_barra_producto;
     this.configurarFechasLote();
     this.cantidadIngresar = this.lote.cantidad;
     this.unidadesTotalesIngresadas = this.lote.cantida_total_unidades;
@@ -133,12 +133,15 @@ export default {
     },
     cargarUnidadesMedida() {
       //let url = "api/productos/precios/"+this.lote.producto.codigo_barra_producto;
-      let url = "api/precio_lista_unidades/" + this.lote.producto.codigo_barra_producto;
+      let url = "api/precio_lista_unidades/" + this.idProducto;
       axios.get(url)
         .then(
           (response) => {
             console.log("La lista de unidades de medida son: ", response.data);
             this.listaUnidadesMedida = response.data.lista_precios_extra;
+            console.log("id unidad medida");
+            this.cantidadUnidadMedida = this.listaUnidadesMedida[0].cantidad_producto;
+            //console.log(this.listaUnidadesMedida[0]);
           }
         )
         .catch(
@@ -251,6 +254,9 @@ export default {
     },
     cantidadIngresar(newValue, oldValue) {
       this.unidadesTotalesIngresadas = newValue * this.cantidadUnidadMedida;
+    },
+    idProducto(newIdProducto, oldIdProducto){
+       this.cargarUnidadesMedida();
     }
   }
 }
