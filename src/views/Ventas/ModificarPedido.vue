@@ -171,6 +171,24 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                        <td class="text-right">
+                                            <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
+                                                Descuentos (-):
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="flex items-center">
+                                                <span
+                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
+                                                    $
+                                                </span>
+                                                <input
+                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
+                                                    placeholder="0.00" disabled v-model="venta_info.total_descuentos">
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr class="border-b-2 border-black-400 h-[50px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-bold text-black pr-4">
@@ -238,6 +256,7 @@ export default {
                 producto: [],
                 cantidad_producto: 0,
                 subtotal_detalle_venta: 0.00,
+                descuentos_detalle: 0.00,
             },
             //Objeto Venta
             venta_info: {
@@ -246,30 +265,8 @@ export default {
                 fecha_venta: null,
                 total_venta: 0,
                 total_iva: 0,
+                total_descuentos: 0.00,
             },
-            //Objeto Cliente
-            /*
-            cliente_info: {
-                id_cliente: 0,
-                nombre_cliente: "",
-                nit_cliente: "",
-                nrc_cliente: "",
-                dui_cliente: "",
-                direccion_cliente: "",
-                municipio_cliente: {},
-                identificador_cliente: ""
-            },
-            departamento_cliente: "La Paz",
-            municipio_cliente: "San Luis la Herradura",
-            
-            //Objeto Creditos Fiscales
-            credito_fiscal_info: {
-                id_credito_fiscal: 0,
-                id_cliente: 0,
-                fecha_credito_fiscal: null,
-                total_credito_fiscal: 0,
-                total_iva_credito_fiscal: 0,
-            },*/
 
             //Producto busqueda por nombre
             producto_nombre: '',
@@ -289,13 +286,6 @@ export default {
             productos: [], // Lista de nombres de productos completa
             sugerencias: [], // Sugerencias de productos a partir del input de busqueda
             mostrar_sugerencias: false, // Mostrar o no las sugerencias
-            /*
-            //Para la busqueda de Clientes por filtro de identificador o distintivo
-            clientes: [], // Lista de info de clientes completa
-            sugerencias_cliente: [], // Sugerencias de Clientes a partir del input de busqueda
-            mostrar_sugerencias_cliente: false, // Mostrar o no las sugerencias de Clientes
-            campo_identificador_cliente: "", // Campo de identificador de cliente
-            */
         };
     },
     created() {
@@ -315,9 +305,11 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.venta_info.total_venta = 0;
-
+                this.venta_info.total_descuentos = 0;
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
+                    this.venta_info.total_descuentos += Number(detalle.descuentos);
+
                 });
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
@@ -326,9 +318,11 @@ export default {
 
                 this.venta_info.total_iva = Number(this.venta_info.total_venta - this.subtotal_venta).toFixed(2);
 
-                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+                this.venta_info.total_venta = Number(this.venta_info.total_venta - this.venta_info.total_descuentos).toFixed(2);
 
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                this.venta_info.total_descuentos = Number(this.venta_info.total_descuentos).toFixed(2);
+
             },
             deep: true,
         },
@@ -350,7 +344,33 @@ export default {
         },
         calcularSubtotalDetalleVenta(element) {
             return new Promise((resolve, reject) => {
-                resolve();
+
+
+                console.log('que hay aqui:');
+                console.log(element);
+                try {
+                    var cantidad_compra = element.cantidad_producto;
+                    if (element.producto.ofertas_vigentes?.length > 0) {
+                        var ofertasOrdenadas = element.producto.ofertas_vigentes.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                        let ofertaCercana = ofertasOrdenadas[0];
+                        if (element.cantidad_producto < ofertaCercana.cantidad_producto) {
+                            element.descuentos = 0;
+                        } else {
+                            for (let i = 0; i < ofertasOrdenadas.length; i++) {
+                                if (ofertasOrdenadas[i].cantidad_producto <= cantidad_compra) {
+                                    ofertaCercana = ofertasOrdenadas[i];
+                                } else {
+                                    break;
+                                }
+                            }
+                            element.descuentos = ofertaCercana.monto_rebaja;
+                        }
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+
+
                 let precio = Number(element.producto.precio_unitario);
                 let unidadesMedida = element.producto.precio_unidad_de_medida;
                 unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
@@ -363,6 +383,8 @@ export default {
                 }
                 element.subtotal_detalle_venta = Number(element.cantidad_producto * precio).toFixed(2);
                 element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
+
+                resolve();
             });
         },
         watch_cantidad_producto_load() {
@@ -434,76 +456,7 @@ export default {
             this.agregar_producto_detalle();
             this.sugerencias = [];
         },
-        //Obtener lista de todos los nombres de clientes en la bdd
-        /*get_lista_nombres_clientes() {
-            return axios
-                .get(api_url + '/clientes/identificador/lista')
-                .then((response) => {
-                    this.clientes = response.data.datos;
-                    console.log(response.data.datos);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        },*/
-        //Buscar el nombre del Cliente mas cercano al texto ingresado
-        /*listener_cliente_identificador() {
-            if (this.campo_identificador_cliente) {
-                this.sugerencias_cliente = this.clientes.filter((cliente) => {
-                    return cliente.distintivo_cliente.toLowerCase().includes(this.campo_identificador_cliente.toLowerCase());
-                });
-            } else {
-                this.sugerencias_cliente = [];
-            }
-        },*/
-        //Seleccionar sugerencia de Clientes en buscador
-        /*seleccionar_sugerencia_cliente(sugerencia_cliente) {
-            this.campo_identificador_cliente = sugerencia_cliente.distintivo_cliente;
-            const id_cliente = sugerencia_cliente.id_cliente;
-            this.llenar_detalle_cliente_credito(id_cliente);
-            this.sugerencias_cliente = [];
-        },
-        llenar_detalle_cliente_credito(cliente_id) {
-            return axios
-                .get(api_url + '/clientes/' + cliente_id)
-                .then((res) => {
-                    console.log(res.data.datos);
-                    this.cliente_info = {
-                        id_cliente: res.data.datos.id_cliente,
-                        nombre_cliente: res.data.datos.nombre_cliente,
-                        direccion_cliente: res.data.datos.direccion_cliente,
-                        dui_cliente: res.data.datos.dui_cliente,
-                        nit_cliente: res.data.datos.nit_cliente,
-                        nrc_cliente: res.data.datos.nrc_cliente,
-                        municipio_cliente: res.data.datos.municipio,
-                        identificador_cliente: res.data.datos.distintivo_cliente,
-                    },
-                        console.log(this.cliente_info);
-                })
-                .then(() => {
-                    this.municipio_cliente = this.cliente_info.municipio_cliente.nombre_municipio;
-                    return this.obtener_departamento_cliente();
-                })
-                .then(() => {
-                    this.watch_toast("success", "Cliente agregado");
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.watch_toast("error", "Error al agregar cliente");
-                });
-        },
-        obtener_departamento_cliente() {
-            return axios
-                .get(api_url + '/departamentos/' + this.cliente_info.municipio_cliente.id_departamento)
-                .then((res) => {
-                    console.log(res.data.datos);
-                    this.departamento_cliente = res.data.datos.nombre_departamento;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },*/
-        // --------------------- CLIENTES ---------------------
+
         //Buscar Producto por codigo
         get_producto_segun_codigo() {
             return axios
@@ -608,6 +561,7 @@ export default {
                     producto: producto_copia,
                     cantidad_producto: 1,
                     subtotal_detalle_venta: this.producto_info.precio_producto,
+                    descuentos: 0.00,
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
@@ -661,11 +615,11 @@ export default {
         //Subtotal de la venta RESUMEN
         calcular_subtotalventa() {
             new Promise((resolve, reject) => {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
-                    0.0000
-                );
-                this.subtotal_venta = Number(this.subtotal_venta / 1.13).toFixed(2);
+                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                //     (acc, obj) => acc + Number(obj.subtotal_detalle_venta),
+                //     0.0000
+                // );
+                // this.subtotal_venta = Number(this.subtotal_venta / 1.13).toFixed(2);
                 resolve();
             });
         },
@@ -686,6 +640,7 @@ export default {
                         codigo_barra_producto: String(detalle.producto.codigo_barra_producto),
                         cantidad_producto: detalle.cantidad_producto,
                         subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
+                        descuentos: Number(detalle.descuentos),
                     };
                     detalles_listado_limpio.push(detalle_obj);
                 });
@@ -694,7 +649,7 @@ export default {
                         venta: {
                             nombre_cliente_venta: this.venta_info.nombre_cliente_venta,
                             fecha_venta: this.venta_info.fecha_venta,
-                            total_venta: Number(this.subtotal_venta),
+                            total_venta: Number(this.venta_info.total_venta),
                             total_iva: Number(this.venta_info.total_iva),
                         },
                         detalles: detalles_listado_limpio,
@@ -709,38 +664,7 @@ export default {
                         //this.watch_toast('error', 'Ocurrió un error al registrar la Venta');
                         throw error;
                     });
-            } /*else if (this.active_tab == 1) {
-                if (this.cliente_info.id_cliente == 0) {
-                    this.watch_toast('error', 'Debe seleccionar un Cliente');
-                    return;
-                }
-                this.detalle_ventas_lista.map((detalle) => {
-                    detalle_obj = {
-                        id_creditofiscal: 0,
-                        codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
-                        cantidad_producto_credito: detalle.cantidad_prod_venta,
-                        subtotal_detalle_credito: Number(detalle.subtotal_detalle_venta),
-                    };
-                    detalles_listado_limpio.push(detalle_obj);
-                });
-                axios.post(api_url + '/creditos/registrar/',
-                    datos_ventas = {
-                        credito: {
-                            id_cliente: this.cliente_info.id_cliente,
-                            fecha_credito: this.credito_fiscal_info.fecha_credito_fiscal,
-                            total_credito: Number(this.venta_info.total_venta),
-                            total_iva_credito: Number(this.venta_info.total_iva),
-                        },
-                        detalles: detalles_listado_limpio,
-                    }).then(() => {
-                        this.watch_toast('success', 'Credito registrado correctamente');
-                        this.limpiar_campos();
-                    }).catch((error) => {
-                        this.watch_toast('error', error.response.data.mensaje);
-                        this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
-                        throw error;
-                    })
-            }*/
+            }
         },
         limpiar_campos() {
             this.detalle_ventas_lista = [];

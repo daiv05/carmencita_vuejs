@@ -285,6 +285,24 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                        <td class="text-right">
+                                            <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
+                                                Descuentos (-):
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="flex items-center">
+                                                <span
+                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
+                                                    $
+                                                </span>
+                                                <input
+                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
+                                                    placeholder="0.00" disabled v-model="credito_fiscal_info.total_descuentos">
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr class="border-b-2 border-black-400 h-[50px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-bold text-black pr-4">
@@ -351,15 +369,8 @@ export default {
                 producto: [],
                 cantidad_producto: 0,
                 subtotal_detalle_venta: 0.00,
+                descuentos_detalle: 0.00,
             },
-            //Objeto Venta
-            /*venta_info: {
-                id_venta: 0,
-                nombre_cliente_venta: "",
-                fecha_venta: null,
-                total_venta: 0,
-                total_iva: 0,
-            },*/
             //Objeto Cliente
             cliente_info: {
                 id_cliente: 0,
@@ -382,6 +393,7 @@ export default {
                 fecha_credito: null,
                 total_credito: 0,
                 total_iva_credito: 0,
+                total_descuentos: 0.00,
             },
 
             //Producto busqueda por nombre
@@ -428,8 +440,12 @@ export default {
                 this.subtotal_venta = 0;
                 this.credito_fiscal_info.total_credito = 0;
 
+                this.credito_fiscal_info.total_descuentos = 0;
+
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.credito_fiscal_info.total_credito += Number(detalle.subtotal_detalle_credito);
+                    this.credito_fiscal_info.total_descuentos += Number(detalle.descuentos);
+
                 });
 
                 // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
@@ -438,9 +454,10 @@ export default {
 
                 this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito - this.subtotal_venta).toFixed(2);
 
-                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
+                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito - this.credito_fiscal_info.total_descuentos).toFixed(2);
 
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                this.credito_fiscal_info.total_descuentos = Number(this.credito_fiscal_info.total_descuentos).toFixed(2);
             },
             deep: true,
         },
@@ -464,7 +481,32 @@ export default {
         },
         calcularSubtotalDetalleVenta(element) {
             return new Promise((resolve, reject) => {
-                resolve();
+
+                console.log('que hay aqui:');
+                console.log(element);
+                try {
+                    var cantidad_compra = element.cantidad_producto_credito;
+                    if (element.producto.ofertas_vigentes?.length > 0) {
+                        var ofertasOrdenadas = element.producto.ofertas_vigentes.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                        let ofertaCercana = ofertasOrdenadas[0];
+                        if (element.cantidad_producto_credito < ofertaCercana.cantidad_producto) {
+                            element.descuentos = 0;
+                        } else {
+                            for (let i = 0; i < ofertasOrdenadas.length; i++) {
+                                if (ofertasOrdenadas[i].cantidad_producto <= cantidad_compra) {
+                                    ofertaCercana = ofertasOrdenadas[i];
+                                } else {
+                                    break;
+                                }
+                            }
+                            element.descuentos = ofertaCercana.monto_rebaja;
+                        }
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+
+
                 let precio = Number(element.producto.precio_unitario);
                 let unidadesMedida = element.producto.precio_unidad_de_medida;
                 unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
@@ -477,6 +519,8 @@ export default {
                 }
                 element.subtotal_detalle_credito = Number(element.cantidad_producto_credito * precio).toFixed(2);
                 element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
+
+                resolve();
             });
         },
         watch_cantidad_producto_on_load() {
@@ -715,6 +759,7 @@ export default {
                     producto: producto_copia,
                     cantidad_producto_credito: 1,
                     subtotal_detalle_credito: this.producto_info.precio_producto,
+                    descuentos: 0.00,
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
@@ -768,11 +813,11 @@ export default {
         //Subtotal de la venta RESUMEN
         calcular_subtotalventa() {
             new Promise((resolve, reject) => {
-                this.subtotal_venta = this.detalle_ventas_lista.reduce(
-                    (acc, obj) => acc + Number(obj.subtotal_detalle_credito),
-                    0.00
-                );
-                this.subtotal_venta = Number(this.subtotal_venta / 1.13).toFixed(2);
+                // this.subtotal_venta = this.detalle_ventas_lista.reduce(
+                //     (acc, obj) => acc + Number(obj.subtotal_detalle_credito),
+                //     0.00
+                // );
+                // this.subtotal_venta = Number(this.subtotal_venta / 1.13).toFixed(2);
                 resolve();
             });
         },
@@ -824,6 +869,7 @@ export default {
                         codigo_barra_producto: String(detalle.producto.codigo_barra_producto),
                         cantidad_producto_credito: detalle.cantidad_producto_credito,
                         subtotal_detalle_credito: Number(detalle.subtotal_detalle_credito),
+                        descuentos: Number(detalle.descuentos),
                     };
                     detalles_listado_limpio.push(detalle_obj);
                 });
