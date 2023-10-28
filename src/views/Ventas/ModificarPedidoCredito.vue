@@ -439,23 +439,16 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.credito_fiscal_info.total_credito = 0;
-
                 this.credito_fiscal_info.total_descuentos = 0;
-
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.credito_fiscal_info.total_credito += Number(detalle.subtotal_detalle_credito);
                     this.credito_fiscal_info.total_descuentos += Number(detalle.descuentos);
 
                 });
-
-                // Convertidos a texto con toFixed(2) para que siempre tenga 2 decimales
-
+                this.credito_fiscal_info.total_credito = this.credito_fiscal_info.total_credito - this.credito_fiscal_info.total_descuentos;
                 this.subtotal_venta = (this.credito_fiscal_info.total_credito / (1 + 0.13)).toFixed(4);
-
-                this.credito_fiscal_info.total_iva_credito = Number(this.credito_fiscal_info.total_credito - this.subtotal_venta).toFixed(2);
-
-                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito - this.credito_fiscal_info.total_descuentos).toFixed(2);
-
+                this.credito_fiscal_info.total_iva_credito = Number(this.subtotal_venta * 0.13).toFixed(2);
+                this.credito_fiscal_info.total_credito = Number(this.credito_fiscal_info.total_credito).toFixed(2);
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
                 this.credito_fiscal_info.total_descuentos = Number(this.credito_fiscal_info.total_descuentos).toFixed(2);
             },
