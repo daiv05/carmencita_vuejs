@@ -448,7 +448,7 @@ export default {
                             this.typeMessages = response.data['respuesta'];
                             console.log(this.messages);
                             this.watch_toast("success", response.data.mensaje)
-                            this.$router.push('/listar_hojas_de_ruta')
+                            this.$router.push('/facturacion/listar_hojas_de_ruta')
                             this.$router.go(1);
                         }
                     )
