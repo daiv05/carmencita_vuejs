@@ -93,8 +93,9 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 
 <script>
 import axios from 'axios';
-import {showMessages} from '../../components/functions.js'
-
+import {showMessages} from '../../components/functions.js';
+import { useToast } from 'vue-toastification';
+const toast = useToast();
 export default {
   props: {
     tempLote: Object,
@@ -140,14 +141,18 @@ export default {
             console.log("La lista de unidades de medida son: ", response.data);
             this.listaUnidadesMedida = response.data.lista_precios_extra;
             console.log("id unidad medida");
-            this.cantidadUnidadMedida = this.listaUnidadesMedida[0].cantidad_producto;
+            try{
+              this.cantidadUnidadMedida = this.listaUnidadesMedida[0].cantidad_producto;
+            }catch(error){
+              toast.error("El producto no tiene lista de precios extra. Registre precios extra primero.");
+            }
             //console.log(this.listaUnidadesMedida[0]);
           }
         )
         .catch(
           (response) => {
             console.log(response);
-            alert("El programador no quizo programar la exepción");
+            toast.error("El producto no tiene lista de precios extra. Registre precios extra antes.");
           }
         );
     },
