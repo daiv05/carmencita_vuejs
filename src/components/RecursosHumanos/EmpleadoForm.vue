@@ -232,9 +232,9 @@ import api_url from '../../config.js';
                 </h2>
             </div>
             <div class="w-full text-center flex justify-center" v-if="!createForm">
-                <a href="#"
+                <router-link :to="{name:'gestion_usuarios'}"
                     class=" m-2 bg-purple-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Editar
-                    usuario</a>
+                    usuarios</router-link>
             </div>
             <div class="w-full" v-if="createForm">
                 <div class="flex min-h-full flex-col justify-center px-6 pt-4 pb-8 lg:px-8">
