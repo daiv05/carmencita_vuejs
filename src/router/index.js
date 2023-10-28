@@ -55,6 +55,7 @@ import ComponenteBaseFacturacion from '../views/ComponenteBaseFacturacion.vue';
 import ComponenteBaseGerencia from '../views/ComponenteBaseGerencia.vue';
 import ComponenteBaseMarketing from '../views/ComponenteBaseMarketing.vue';
 import ModificarOferta from '../views/Marketing/ModificarOferta.vue';
+import BlogPublico from '../views/Marketing/BlogPublico.vue';
 import axios from 'axios';
 
 let puedeEntrar = false;
@@ -416,12 +417,17 @@ const router = createRouter({
       name:'blog',
       component:Blog
     },
+    {
+      path:'/blog_publico',
+      name:'blog_publico',
+      component:BlogPublico
+    },
   ]
 })
 
 
 router.beforeEach((to,from)=>{
-const rutasPublicas = ["/iniciar_sesion"];
+const rutasPublicas = ["/iniciar_sesion","/blog_publico"];
 const urlProtegida = !rutasPublicas.includes(to.path);
 //console.log(store.state.estaAutenticado);
   if(urlProtegida && !store.state.estaAutenticado ){
