@@ -114,7 +114,8 @@ export default {
                     console.log("Ocurrio un error al obtener los registros del servidor");
                     console.log(response);
                     if (response.response.data.tienePermiso === false) {
-                        alert(response.response.data.mensaje);
+                        //alert(response.response.data.mensaje +" "+"este es el mensaje que se muestr");
+                        this.showMessages(null,response.response.data.mensaje);
                         setTimeout(() => { this.$router.push("/") }, 2000);
                     }
                 });
