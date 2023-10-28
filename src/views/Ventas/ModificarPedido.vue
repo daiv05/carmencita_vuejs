@@ -652,7 +652,7 @@ export default {
                     }).then((resp) => {
                         this.watch_toast(resp.data.respuesta, "Venta actualizada correctamente");
                         this.limpiar_campos();
-                        this.$router.push('/listar_pedidos_domicilio')
+                        this.$router.push('/facturacion/listar_pedidos_domicilio')
                         this.$router.go(1);
                         //router.replace('/listar_pedidos_domicilio')
                     }).catch((error) => {

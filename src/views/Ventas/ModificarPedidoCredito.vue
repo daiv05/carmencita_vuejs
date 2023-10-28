@@ -878,13 +878,13 @@ export default {
                         detalles: detalles_listado_limpio,
                     }).then((resp) => {
                         this.watch_toast(resp.data.respuesta, 'Credito Fiscal actualizado correctamente');
-                        this.$router.push('/listar_pedidos_domicilio');
+                        this.$router.push('/facturacion/listar_pedidos_domicilio');
                         this.$router.go(1);
                         this.limpiar_campos();
                     }).catch((error) => {
                         this.watch_toast(error.response.data.respuesta, error.response.data.mensaje);
                         //this.watch_toast('error', 'Ocurrió un error al registrar el Credito');
-                        this.$router.push('/listar_pedidos_domicilio');
+                        this.$router.push('/facturacion/listar_pedidos_domicilio');
                         this.$router.go(1);
                         throw error;
                     })
