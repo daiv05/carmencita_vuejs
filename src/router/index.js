@@ -114,12 +114,15 @@ const router = createRouter({
           name:'detalle_planilla',
           component:ConsultarDetallePlanilla
         },
+        {
+          path: "historial_asistencia",
+          name : "historial_asistencia",
+          component : HistorialAsistencia
+        },
       ],
       beforeEnter:(to,from)=>{
         tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
-        //tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
         if(!puedeEntrar){
-          ///alert("No tiene permisos para ver esta página");
           showMessages(false,"No tiene permisos para ver esta página");
           setTimeout(()=>{router.push("/")},1500);
           return false;
@@ -182,7 +185,6 @@ const router = createRouter({
       beforeEnter:(to,from)=>{
         tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
         if(!puedeEntrar){
-          ///alert("No tiene permisos para ver esta página");
           showMessages(false,"No tiene permisos para ver esta página");
           setTimeout(()=>{router.push("/")},1500);
           return false;
@@ -235,6 +237,13 @@ const router = createRouter({
           name: 'hoja_de_ruta_modificar',
           component: HojaDeRutaModificar,
           props: true
+        },
+        //se agrego
+        {
+          path: 'hoja_de_ruta/detalles/:ruta',
+          name: 'hoja_de_ruta_detalles',
+          component: DetalleHojaRuta,
+          props:true,
         },
         {
           path: "listar_pedidos_domicilio",
@@ -313,7 +322,6 @@ const router = createRouter({
       beforeEnter:(to,from)=>{
           tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
           if(!puedeEntrar){
-            ///alert("No tiene permisos para ver esta página");
             showMessages(false,"No tiene permisos para ver esta página");
             setTimeout(()=>{router.push("/")},1500);
             return false;
@@ -362,7 +370,6 @@ const router = createRouter({
         tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
         //tienePermisos(to.meta.permisosRequeridos,store.state.permisos);
         if(!puedeEntrar){
-          ///alert("No tiene permisos para ver esta página");
           showMessages(false,"No tiene permisos para ver esta página");
           setTimeout(()=>{router.push("/")},1500);
           return false;
@@ -385,11 +392,6 @@ const router = createRouter({
       path: "/consultar_asistencia/:id_empleado",
       name : "consultar_asistencia",
       component : ConsultarAsistencia
-    },
-    {
-      path: "/historial_asistencia",
-      name : "historial_asistencia",
-      component : HistorialAsistencia
     },
     {
       path:"/iniciar_sesion",

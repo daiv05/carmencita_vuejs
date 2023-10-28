@@ -170,7 +170,7 @@ export default {
       return moment(fecha).format('DD-MM-YY')
     },
     obtenerUrlEditarAviso(idAviso) {
-      return '/modificar_aviso/' + idAviso
+      return '/marketing/modificar_aviso/' + idAviso
     },
     obtenerUrlEliminarAviso(idAviso) {
       return "/avisos/" + idAviso;
