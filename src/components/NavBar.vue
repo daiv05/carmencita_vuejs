@@ -75,7 +75,7 @@ var navigation = [
 ]
 
 var usuario = JSON.parse(localStorage.authUser).user;
-//C
+
 function switchCurrentOptionNavBar(valor, lista) {
   let isPresent = false;
   lista.forEach(clave => {
@@ -88,13 +88,11 @@ function switchCurrentOptionNavBar(valor, lista) {
 
 function quitarOpcionNavBar() {
   usuario.roles.forEach(rol => {
-    console.log(rol)
     let cantActivos = 0;
     navigation.forEach(opcion => {
 
       if (!opcion.roles.includes(rol.name)) {
         navigation = navigation.filter(item => item.roles.includes(rol.name));
-        console.log(navigation)
       }
 
       if (opcion.claves) {
@@ -256,7 +254,6 @@ export default {
     if (localStorage.authUser) {
       this.user = JSON.parse(localStorage.authUser).user;
     }
-    console.log(this.user);
   }
 }
 </script>

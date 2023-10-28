@@ -37,9 +37,19 @@ import generarPlanilla from '../../components/RecursosHumanos/PlanillaGenerar.vu
                                     </div>
                                     <span class="font-semibold">{{ getFechaSpanish(fecha) }}</span>
                                 </div>
-                                <button type="button" @click="marcarAsistencia"
+                                <button v-if="!asistenciaMarcada" type="button" @click="marcarAsistencia"
                                     class="bg-blue-500 hover:bg-blue-700 text-white rounded px-2 py-2 my-2">Marcar
                                     asistencia</button>
+                                <div v-if="asistenciaMarcada" class="text-center justify-center text-green-500">
+                                    <div class="flex justify-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <span class="text-black">Ya has marcado asistencia para este día.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,6 +74,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import esLocale from "@fullcalendar/core/locales/es";
 import { useToast } from 'vue-toastification'
+import moment from 'moment';
 
 const fechaActual = new Date();
 const toast = useToast();
@@ -79,6 +90,7 @@ export default {
             id_empleado: null,
             empleado: {},
             asistencias: [],
+            asistenciaMarcada: false,
             mensajes: [],
             calendarOptions: {
                 plugins: [dayGridPlugin],
@@ -126,6 +138,7 @@ export default {
                 )
         },
         setAsistenciasInCalendar() {
+            let today = moment().format('YYYY-MM-D');
             let calendario = this.calendarOptions;
             calendario.events.splice(0, calendario.events.length);
             this.asistencias.forEach(element => {
@@ -134,6 +147,9 @@ export default {
                     start: element.fecha
                 }
                 calendario.events.push(fecha);
+                if (today == element.fecha) {
+                    this.asistenciaMarcada = true;
+                }
             });
         },
         showMessages(tipo, mensaje) {
