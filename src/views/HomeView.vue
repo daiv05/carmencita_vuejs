@@ -245,8 +245,6 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Promociones">
           <list-group>
             <list-group-item>
-            </list-group-item>
-            <list-group-item>
               <router-link to="/marketing/consultar_ofertas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
