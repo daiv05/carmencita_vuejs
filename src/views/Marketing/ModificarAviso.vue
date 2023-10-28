@@ -158,7 +158,10 @@ export default {
         },
         parametrosConsulta() {
             let parametros = {};
-            parametros.fecha_finalizacion = moment(this.fecha_finalizacion).format("DD-MM-YY");
+            console.log("Fecha de finalizacion cuando entra:");
+            console.log(this.fecha_finalizacion);
+            parametros.fecha_finalizacion = this.fecha_finalizacion;
+            console.log(this.fecha_finalizacion);
             parametros.estado_de_aviso = this.estado_de_aviso == "1" ? true : false;
             parametros.titulo_aviso = this.titulo_aviso;
             parametros.cuerpo_aviso = this.cuerpo_aviso;
@@ -177,6 +180,8 @@ export default {
                     this.estado_de_aviso = response.data.aviso.estado_aviso ? "1" : "0";
                     this.titulo_aviso = response.data.aviso.titulo_aviso;
                     this.cuerpo_aviso = response.data.aviso.cuerpo_aviso;
+                    console.log("Los resultados de la modificacion son: ");
+                    console.log(response.data);
                     setTimeout(() => {
                         this.mensajeExito = " ";
                     }, 6000);
@@ -193,7 +198,7 @@ export default {
                 });
         },
         cancelarEdicion() {
-            this.$router.push("/consultar_avisos");
+            this.$router.push("/marketing/consultar_avisos");
         }
 
     }
