@@ -79,7 +79,7 @@
                                             <td class="text-center">{{ index + 1 }}</td>
                                             <td class="text-center">{{ fila.producto_detalle.nombre_producto }}</td>
                                             <td class="text-center">
-                                                <input @change="verificar_unidad_medida(fila)"
+                                                <input @change="verificar_precios_y_ofertas(fila)"
                                                     class="w-auto h-[25px] text-center" type="number" min="1" max="100"
                                                     v-model="fila.cantidad_prod_venta">
                                             </td>
@@ -327,6 +327,24 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                        <td class="text-right">
+                                            <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
+                                                Descuentos (-):
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="flex items-center">
+                                                <span
+                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
+                                                    $
+                                                </span>
+                                                <input
+                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
+                                                    placeholder="0.00" disabled v-model="venta_info.total_descuentos">
+                                            </div>
+                                        </td>
+                                    </tr>
                                     <tr class="border-b-2 border-black-400 h-[50px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-bold text-black pr-4">
@@ -413,6 +431,7 @@ export default {
                 producto_detalle: [],
                 cantidad_prod_venta: 0,
                 subtotal_detalle_venta: 0.00,
+                descuentos_detalle: 0.00,
             },
             //Objeto Venta
             venta_info: {
@@ -421,6 +440,7 @@ export default {
                 fecha_venta: null,
                 total_venta: 0,
                 total_iva: 0,
+                total_descuentos: 0.00,
             },
             //Objeto Cliente
             cliente_info: {
@@ -488,15 +508,18 @@ export default {
             handler() {
                 this.subtotal_venta = 0;
                 this.venta_info.total_venta = 0;
+                this.venta_info.total_descuentos = 0;
                 this.detalle_ventas_lista.forEach((detalle) => {
                     this.venta_info.total_venta += Number(detalle.subtotal_detalle_venta);
+                    this.venta_info.total_descuentos += Number(detalle.descuentos_detalle);
                 });
                 // Convertidos a texto con toFixed(2) para que siempre tenga x decimales
                 this.subtotal_venta = (this.venta_info.total_venta / (1 + 0.13)).toFixed(4);
                 this.venta_info.total_iva = Number(this.subtotal_venta * 0.13).toFixed(2);
-                this.venta_info.total_venta = Number(this.venta_info.total_venta).toFixed(2);
+                this.venta_info.total_venta = Number(this.venta_info.total_venta - this.venta_info.total_descuentos).toFixed(2);
 
                 this.subtotal_venta = Number(this.subtotal_venta).toFixed(2);
+                this.venta_info.total_descuentos = Number(this.venta_info.total_descuentos).toFixed(2);
             },
             deep: true,
         },
@@ -752,6 +775,7 @@ export default {
                     producto_detalle: producto_copia,
                     cantidad_prod_venta: 1,
                     subtotal_detalle_venta: this.producto_info.precio_producto,
+                    descuentos_detalle: 0.00,
                 };
                 this.detalle_ventas_lista.push(detalle);
                 this.producto_nombre = '';
@@ -760,9 +784,26 @@ export default {
             });
         },
 
-        verificar_unidad_medida(detalle) {
+        verificar_precios_y_ofertas(detalle) {
             return new Promise((resolve, reject) => {
                 var cantidad_compra = detalle.cantidad_prod_venta;
+                if (detalle.producto_detalle.ofertas_vigentes.length > 0) {
+                    var ofertasOrdenadas = detalle.producto_detalle.ofertas_vigentes.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
+                    let ofertaCercana = ofertasOrdenadas[0];
+                    if (detalle.cantidad_prod_venta < ofertaCercana.cantidad_producto) {
+                        detalle.descuentos_detalle = 0;
+                    } else {
+                        for (let i = 0; i < ofertasOrdenadas.length; i++) {
+                            if (ofertasOrdenadas[i].cantidad_producto <= cantidad_compra) {
+                                ofertaCercana = ofertasOrdenadas[i];
+                            } else {
+                                break;
+                            }
+                        }
+                        detalle.descuentos_detalle = ofertaCercana.monto_rebaja;
+                    }
+                }
+
                 // Ordenar el array de precio_unidad_de_medida por cantidad_producto de forma ascendente
                 var preciosOrdenados = detalle.producto_detalle.precio_unidad_de_medida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
                 // Encontrar el objeto con cantidad_producto menor más cercana a cantidad_compra
@@ -809,6 +850,7 @@ export default {
                         codigo_barra_producto: String(detalle.producto_detalle.codigo_barra_producto),
                         cantidad_producto: detalle.cantidad_prod_venta,
                         subtotal_detalle_venta: Number(detalle.subtotal_detalle_venta),
+                        descuentos: Number(detalle.descuentos_detalle),
                     };
                 } else {
                     return {
