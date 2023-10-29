@@ -16,13 +16,11 @@
   <script>
   import Ofertas from '@/components/Marketing/Ofertas.vue'
   import AvisosComponent from '@/components/Marketing/AvisosComponent.vue'
-  import Navbar from '@/components/Navbar.vue'
   
   export default {
     components: {
       Ofertas,
-      AvisosComponent,
-      Navbar
+      AvisosComponent
     }
   }
   </script>
