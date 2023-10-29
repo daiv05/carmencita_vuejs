@@ -1,5 +1,5 @@
 <template>
-    <Navbar />
+    <NavBar />
     <section data-v-3a85fddf="" class="container mx-auto p-6 z-900">
         <div id="app">
         <AvisosComponent />
@@ -17,13 +17,13 @@
   <script>
   import Ofertas from '@/components/Marketing/Ofertas.vue'
   import AvisosComponent from '@/components/Marketing/AvisosComponent.vue'
-  import Navbar from '@/components/Navbar.vue'
+  import NavBar from '@/components/NavBar.vue';
   
   export default {
     components: {
       Ofertas,
       AvisosComponent,
-      Navbar
+      NavBar
     }
   }
   </script>
