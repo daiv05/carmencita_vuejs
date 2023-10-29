@@ -475,8 +475,6 @@ export default {
         calcularSubtotalDetalleVenta(element) {
             return new Promise((resolve, reject) => {
 
-                console.log('que hay aqui:');
-                console.log(element);
                 try {
                     var cantidad_compra = element.cantidad_producto_credito;
                     if (element.producto.ofertas_vigentes?.length > 0) {
@@ -500,7 +498,7 @@ export default {
                 }
 
 
-                let precio = Number(element.producto.precio_unitario);
+                let precio = element.producto.precio_unitario;
                 let unidadesMedida = element.producto.precio_unidad_de_medida;
                 unidadesMedida.sort((a, b) => a.cantidad_producto - b.cantidad_producto);
                 if (unidadesMedida) {
@@ -510,9 +508,11 @@ export default {
                         }
                     });
                 }
+                
                 element.subtotal_detalle_credito = Number(element.cantidad_producto_credito * precio).toFixed(2);
                 element.producto.precio_unitario_mostrar = Number(precio).toFixed(4);
 
+                
                 resolve();
             });
         },
@@ -758,12 +758,13 @@ export default {
                 this.producto_nombre = '';
                 this.contador_tabla++;
                 this.calcularSubtotalDetalleVenta(this.detalle_ventas_lista[this.detalle_ventas_lista.length - 1]);
+                
                 resolve();
             });
         },
         //Observar cambios en cantidad de producto y actualizar subtotal
         watch_cantidad_producto(fila) {
-            this.verificar_unidad_medida(fila)
+            //this.verificar_unidad_medida(fila)
             this.calcularSubtotalDetalleVenta(fila)
                 .then(() => {
                     return this.calcular_subtotalventa();
