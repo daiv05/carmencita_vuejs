@@ -32,7 +32,7 @@ import NavBar from '@/components/NavBar.vue';
 
 
                     <!-- Contenido del formulario para Consumidor Final -->
-                    <div v-if="activeTab === 0" class="p-4 bg-white">
+                    <div v-if="CFSale" class="p-4 bg-white">
                         <div class="flex overflow-y-auto pb-36">
 
 
@@ -199,6 +199,28 @@ import NavBar from '@/components/NavBar.vue';
                                             </div>
                                         </td>
                                     </tr>
+
+                                    <tr class="border-b-2 border-black-400 h-[40px] bg-black-300">
+                                        <td class="text-right">
+                                            <label class="mb-3 pt-3 text-sm font-normal text-black pr-4">
+                                                Descuentos (-):
+                                            </label>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="flex items-center">
+                                                <span
+                                                    class="inline-block align-middle h-[40px] rounded-tl-md rounded-bl-md border border-r-0 bg-gray-100 py-2 px-3 text-base">
+                                                    $
+                                                </span>
+                                                <label
+                                                    class="text-slate-600 bg-white font-normal h-[40px] pl-3 flex items-center border-l-0 text-sm border-gray-100 rounded-tr-md rounded-br-md border"
+                                                    placeholder="0.00" disabled>
+                                                    {{ Number(total_descuentos).toFixed(2) }}
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+
                                     <tr class="border-b-2 border-black-400 h-[50px] bg-black-300">
                                         <td class="text-right">
                                             <label class="mb-3 pt-3 text-sm font-bold text-black pr-4">
@@ -242,6 +264,7 @@ export default {
             //Datos de la venta
             CFSale: null,
             subTotal: '',
+            total_descuentos: 0,
         };
     },
 
@@ -259,9 +282,12 @@ export default {
             axios.get(api_url + '/creditos_detalle/' + id_creditofiscal + '/')
                 .then(response => {
                     this.CFSale = response.data;
-                    this.calcularSubTotal();
                     this.CFSale.total_credito = Number(this.CFSale.total_credito).toFixed(2);
                     this.CFSale.total_iva_credito = Number(this.CFSale.total_iva_credito).toFixed(2);
+                    this.CFSale.detallecredito.forEach(element => {
+                        this.total_descuentos += Number(element.descuentos);
+                    });
+                    this.calcularSubTotal();
                     console.log(this.CFSale);
                 }).catch(error => {
                     console.log(error);
@@ -271,7 +297,9 @@ export default {
         calcularSubTotal() {
             const totalVenta = Number(this.CFSale.total_credito);
             const totalIva = Number(this.CFSale.total_iva_credito);
-            this.subTotal = Number(totalVenta - totalIva).toFixed(2);
+            this.subTotal = Number(totalVenta - totalIva + this.total_descuentos).toFixed(2);
+            console.log('subtotal' + this.subTotal + 'total venta' + totalVenta + 'total iva' + totalIva + 'total descuentos' + this.total_descuentos)
+
         }
     },
 };

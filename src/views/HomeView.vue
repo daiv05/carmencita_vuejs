@@ -167,14 +167,6 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         <dropdown text="Usuarios">
           <list-group>
             <list-group-item>
-              <router-link to="/recursos_humanos/registrar_nueva_venta" class="w-full h-full">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Registrar usuario</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
               <router-link to="/recursos_humanos/gestion_usuarios">
                 <div class="flex items-center">
                   <!--<QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />-->

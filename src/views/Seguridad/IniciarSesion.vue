@@ -12,7 +12,7 @@
                         </div>
 
                         <div class="text-[2em] font-bold text-center mb-[5%]">
-                            Inicio de sesion
+                            Inicio de Sesión
                         </div>
                     </div>
                 <div>
@@ -29,12 +29,6 @@
                       <ErrorMessage name="password" />
                 </div>
                 <div class="flex justify-between mb-[5%]">
-                    <div>
-                        <input type="checkbox" class="border border-gray-300 rounded-[3px]"> Recordar contraseña
-                    </div>
-                    <div>
-                        <router-link to="https://www.google.com" class="text-indigo-600">olvidasté tu contraseña?</router-link>
-                    </div>
                 </div>
                 <input type="submit" value="Iniciar sesion" name="login" id = "login" class="bg-indigo-600 block w-[100%] p-[1%] text-white text-[1em] rounded-[5px] hover:cursor-pointer">
             </form>
