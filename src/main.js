@@ -20,7 +20,8 @@ window.axios.defaults.headers.common["X-Requested-With"]="XMLHttpRequest";
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.location.origin;
 window.axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 window.axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
-window.axios.defaults.baseURL="http://localhost:8000"
+//window.axios.defaults.baseURL="http://localhost:8000"
+window.axios.defaults.baseURL="http://192.168.1.11:8081"
 
 // Validar en cada response si el usuario esta autenticado
 window.axios.interceptors.response.use(
