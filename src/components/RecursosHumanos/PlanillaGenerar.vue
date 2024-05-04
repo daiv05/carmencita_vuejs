@@ -123,7 +123,7 @@ export default {
           this.mensaje = response.data.mensaje,
           this.showMessages(response.data.status, this.mensaje)
           this.$router.push('/historial_planillas')
-          this.$router.go(0);
+          //this.$router.go(0);
         }
       );
       this.cerrarModal();

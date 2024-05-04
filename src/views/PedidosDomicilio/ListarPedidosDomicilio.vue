@@ -113,7 +113,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
                                 <!--<RouterLink v-bind:to="'/edit_cf/'+pedido.id" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1">Editar</RouterLink>-->
                                 <btnEditar :url="'/facturacion/modificar_pedido/credito_fiscal/' + pedido.id"></btnEditar>
                                 <!--<RouterLink v-bind:to="'/delete_cf/'+pedido.id" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1">Eliminar</RouterLink>-->
-                                <btnEliminar :url="'/facturacion/delete_pedido/credito_fiscal/' + pedido.id"
+                                <btnEliminar :url="'/delete_pedido/credito_fiscal/' + pedido.id"
                                     :titulo="'Eliminar Pedido' + pedido.id"
                                     :mensaje="'El pedido ' + pedido.id + ' se eliminara de la base de datos'"
                                     :lista="pedidos" :index="index">
