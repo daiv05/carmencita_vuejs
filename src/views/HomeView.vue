@@ -127,7 +127,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
               <router-link to="/recursos_humanos/historial_planillas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Historial Planillas</p>
+                  <p>Planillas</p>
                 </div>
               </router-link>
             </list-group-item>
@@ -137,7 +137,7 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
       <!--Asistencia-->
       <the-card variant="image" img-src="assets/img/asistencia.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Registro de asistencias</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Control de asistencias e incapacidades</h5>
         <dropdown text="Asistencia">
           <list-group>
             <list-group-item>
@@ -150,10 +150,17 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
             </list-group-item>
             <list-group-item v-if="rolCurrenUser == GERENTE">
               <router-link to="/recursos_humanos/historial_asistencia">
-
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Historial de asistencia</p>
+                  <p>Historial de asistencias</p>
+                </div>
+              </router-link>
+            </list-group-item>
+            <list-group-item v-if="rolCurrenUser == GERENTE">
+              <router-link to="/recursos_humanos/historial_asistencia">
+                <div class="flex items-center">
+                  <SquaresPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+                  <p>Incapacidades</p>
                 </div>
               </router-link>
             </list-group-item>

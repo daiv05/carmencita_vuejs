@@ -127,7 +127,7 @@ quitarOpcionNavBar();
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <BuildingStorefrontIcon class="h-8 w-8 text-blue-500 font-bold" />
+            <img class="block h-10 w-auto" src="/assets/img/logo_carmencita.jpg" alt="Workflow">
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
