@@ -3,12 +3,47 @@ import store from './store/auth'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { useToast } from "vue-toastification";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import './assets/main.css';
 import VueApexCharts from "vue3-apexcharts";
 import axios from 'axios';
 
+const toast = useToast();
+const alertaTemporal = (tipo, mensaje) =>  {
+    if (tipo == "success") {
+        toast.success(mensaje, {
+            position: "bottom-left",
+            timeout: 2994,
+            closeOnClick: true,
+            pauseOnFocusLoss: false,
+            pauseOnHover: false,
+            draggable: true,
+            draggablePercent: 0.27,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+        });
+    } else {
+        toast.error(mensaje, {
+            position: "bottom-left",
+            timeout: 2994,
+            closeOnClick: true,
+            pauseOnFocusLoss: false,
+            pauseOnHover: false,
+            draggable: true,
+            draggablePercent: 0.27,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+        });
+    }
+}
 
 window.axios = axios;
 window.axios.defaults.withCredentials = true;
@@ -44,6 +79,8 @@ window.axios.interceptors.response.use(
 );
 
 const app = createApp(App)
+
+app.config.globalProperties.watch_toast = alertaTemporal;
 
 const options = {
   transition: "Vue-Toastification__fade",
