@@ -16,7 +16,8 @@ const store = createStore({
       urlPaginaActualHR: '',
       existenDatos: false,
       fromAgregarEditarProducto: false,
-      fromAgregarEditarHR: false
+      fromAgregarEditarHR: false,
+      cargando: false
     }
   },
   mutations: {
@@ -49,6 +50,9 @@ const store = createStore({
     },
     setExistenDatos(state, payload) {
       state.existenDatos = payload.existenDatos
+    },
+    setCargando(state, payload) {
+      state.cargando = payload
     }
   },
   actions: {

@@ -11,52 +11,52 @@ import VueApexCharts from "vue3-apexcharts";
 import axios from 'axios';
 
 const toast = useToast();
-const alertaTemporal = (tipo, mensaje) =>  {
-    if (tipo == "success") {
-        toast.success(mensaje, {
-            position: "bottom-left",
-            timeout: 2994,
-            closeOnClick: true,
-            pauseOnFocusLoss: false,
-            pauseOnHover: false,
-            draggable: true,
-            draggablePercent: 0.27,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false
-        });
-    } else {
-        toast.error(mensaje, {
-            position: "bottom-left",
-            timeout: 2994,
-            closeOnClick: true,
-            pauseOnFocusLoss: false,
-            pauseOnHover: false,
-            draggable: true,
-            draggablePercent: 0.27,
-            showCloseButtonOnHover: false,
-            hideProgressBar: true,
-            closeButton: "button",
-            icon: true,
-            rtl: false
-        });
-    }
+const alertaTemporal = (tipo, mensaje) => {
+  if (tipo == "success") {
+    toast.success(mensaje, {
+      position: "bottom-left",
+      timeout: 2994,
+      closeOnClick: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      draggable: true,
+      draggablePercent: 0.27,
+      showCloseButtonOnHover: false,
+      hideProgressBar: true,
+      closeButton: "button",
+      icon: true,
+      rtl: false
+    });
+  } else {
+    toast.error(mensaje, {
+      position: "bottom-left",
+      timeout: 2994,
+      closeOnClick: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      draggable: true,
+      draggablePercent: 0.27,
+      showCloseButtonOnHover: false,
+      hideProgressBar: true,
+      closeButton: "button",
+      icon: true,
+      rtl: false
+    });
+  }
 }
 
 window.axios = axios;
 window.axios.defaults.withCredentials = true;
-window.axios.defaults.headers.common["Accept"]="application/json";
-window.axios.defaults.headers.common["Content-Type"]="application/json";
-window.axios.defaults.headers.common["X-Requested-With"]="XMLHttpRequest";
+window.axios.defaults.headers.common["Accept"] = "application/json";
+window.axios.defaults.headers.common["Content-Type"] = "application/json";
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 // Set the appropriate CORS headers based on the current origin
 //axios.defaults.headers.common['Access-Control-Allow-Origin'] = window.location.origin;
 window.axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE';
 window.axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With, Content-Type';
 //window.axios.defaults.baseURL="http://localhost:8000"
-window.axios.defaults.baseURL= import.meta.env.VITE_API_SHORT_URL || "http://localhost:8000"; 
+window.axios.defaults.baseURL = import.meta.env.VITE_API_SHORT_URL || "http://localhost:8000";
 
 // Validar en cada response si el usuario esta autenticado
 window.axios.interceptors.response.use(
@@ -80,7 +80,10 @@ window.axios.interceptors.response.use(
 
 const app = createApp(App)
 
-app.config.globalProperties.watch_toast = alertaTemporal;
+app.config.globalProperties.watchToast = alertaTemporal;
+app.config.globalProperties.watchLoader = async (val) => {
+  await store.commit("setCargando", val);
+};
 
 const options = {
   transition: "Vue-Toastification__fade",
