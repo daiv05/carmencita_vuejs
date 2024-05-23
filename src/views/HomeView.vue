@@ -1,5 +1,4 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
 import NavBar from '@/components/NavBar.vue';
 import BarraTitulo from '../components/BarraTitulo.vue';
 import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
@@ -276,17 +275,9 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 </template>
 
 <script>
-import axios from 'axios';
-import API_URL from '../config.js';
-
-const navigationVentas = [
-  { name: 'Registrar Ventas', href: '#', current: true },
-  { name: 'Historial de ventas', href: '#', current: false },
-]
 
 const GERENTE = "Gerente"
 const SUB_GERENTE = "Sub-Gerente"
-const COLABORADOR = "Colaborador"
 
 export default {
   data() {
@@ -296,16 +287,11 @@ export default {
       rolCurrenUser:null,
     }
   },
-  methods: {
-
-  },
   mounted() {
     if (localStorage.authUser) {
       this.datosAuth = JSON.parse(localStorage.authUser);
       this.rolCurrenUser = this.datosAuth.user.roles[0].name
     }
-    console.log(this.datosAuth.user)
-
   }
 }
 </script>
