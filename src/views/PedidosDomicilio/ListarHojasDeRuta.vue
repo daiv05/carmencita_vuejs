@@ -6,14 +6,21 @@
       <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
         <h1 class="font-bold text-blue-700 text-xl">Gestión de Pedidos a Domicilio</h1>
         <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-          <router-link to="/facturacion/crear_hoja_de_ruta" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+          <router-link
+            to="/facturacion/crear_hoja_de_ruta"
+            class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white"
+          >
             Nueva Hoja de Ruta
           </router-link>
         </div>
       </div>
       <div class="flex justify-start items-center mt-4 ml-4">
-        <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
-          <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+        <a
+          href="#"
+          @click="$router.go(-1)"
+          class="text-sm text-black font-medium flex items-center"
+        >
+          <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
         </a>
       </div>
     </div>
@@ -30,17 +37,31 @@
             <div class="">
               <div>
                 <label for="text-bold" class="inline-block mr-[10px] font-bold">Estado</label>
-                <select name="" id="" v-model="estado" class="rounded-[5px] border border-slate-200 bg-slate-50">
-                  <option v-for="estado in listaEstados" :value="estado.valor">{{ estado.estado }}</option>
+                <select
+                  name=""
+                  id=""
+                  v-model="estado"
+                  class="rounded-[5px] border border-slate-200 bg-slate-50"
+                >
+                  <option v-for="estado in listaEstados" :value="estado.valor">
+                    {{ estado.estado }}
+                  </option>
                 </select>
               </div>
             </div>
             <div class="">
               <label for="text-bold" class="inline-block mr-[10px] font-bold">Fecha</label>
-              <input type="date" v-model="fechaEntrega" class="rounded-[5px] border border-slate-200 bg-slate-50" />
+              <input
+                type="date"
+                v-model="fechaEntrega"
+                class="rounded-[5px] border border-slate-200 bg-slate-50"
+              />
             </div>
             <div class="">
-              <button class="bg-indigo-700 text-white rounded py-1.5 px-3.5" @click="aplicarFiltros()">
+              <button
+                class="bg-indigo-700 text-white rounded py-1.5 px-3.5"
+                @click="aplicarFiltros()"
+              >
                 Aplicar Filtro
               </button>
             </div>
@@ -56,10 +77,15 @@
         <th class="px-6 py-4 text-xs text-gray-500 font-semibold">ACCIONES</th>
       </tr>
       <tbody>
-        <tr class="border-b bg-white" v-for="datosHojaDeRuta in controlPagina.getDatosPagina()"
-          :key="datosHojaDeRuta.id_hr">
+        <tr
+          class="border-b bg-white"
+          v-for="datosHojaDeRuta in controlPagina.getDatosPagina()"
+          :key="datosHojaDeRuta.id_hr"
+        >
           <td class="p-[1.5%] text-center">{{ datosHojaDeRuta.id_hr }}</td>
-          <td class="p-[1.5%] text-center">{{ obtenerEstadoEnTexto(datosHojaDeRuta.esta_entregado) }}</td>
+          <td class="p-[1.5%] text-center">
+            {{ obtenerEstadoEnTexto(datosHojaDeRuta.esta_entregado) }}
+          </td>
           <td class="text-center">{{ formatearFechas(datosHojaDeRuta.fecha_entrega) }}</td>
           <td class="text-center">
             {{
@@ -72,7 +98,11 @@
           <td class="text-center">
             <div class="flex justify-center align-center">
               <BotonConsultar :url="urlConsultar + datosHojaDeRuta.id_hr"></BotonConsultar>
-              <BotonEditar :url="'hoja_de_ruta/update/' + datosHojaDeRuta.id_hr" :deshabilitado="datosHojaDeRuta.esta_entregado" :class="{ 'cursor-not-allowed': datosHojaDeRuta.esta_entregado}"></BotonEditar>
+              <BotonEditar
+                :url="'hoja_de_ruta/update/' + datosHojaDeRuta.id_hr"
+                :deshabilitado="datosHojaDeRuta.esta_entregado"
+                :class="{ 'cursor-not-allowed': datosHojaDeRuta.esta_entregado }"
+              ></BotonEditar>
               <EliminarHR :id="datosHojaDeRuta.id_hr"></EliminarHR>
             </div>
           </td>
@@ -84,29 +114,59 @@
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
           <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
-            <a href="#"
-              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
-              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5 1 1 5l4 4" />
+            <a
+              href="#"
+              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
+              <svg
+                class="w-2.5 h-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 1 1 5l4 4"
+                />
               </svg>
               <span class="mx-2">Anterior</span>
             </a>
           </li>
-          <li v-for="pageLink in controlPagina.obtenerListadoEnlaces()" @click="controlPagina.obtenerPagina(pageLink)">
-            <a href="#" :class="{ pageActivate: pageLink.active === true }"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{
-                pageLink.label }}</a>
+          <li
+            v-for="pageLink in controlPagina.obtenerListadoEnlaces()"
+            @click="controlPagina.obtenerPagina(pageLink)"
+          >
+            <a
+              href="#"
+              :class="{ pageActivate: pageLink.active === true }"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+              >{{ pageLink.label }}</a
+            >
           </li>
           <li @click="controlPagina.obtenerPagina(controlPagina.getPaginaSiguiente())">
-            <a href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+            <a
+              href="#"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+            >
               <span class="mx-2">Siguiente</span>
-              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="m1 9 4-4-4-4" />
+              <svg
+                class="w-2.5 h-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 9 4-4-4-4"
+                />
               </svg>
             </a>
           </li>
@@ -125,7 +185,6 @@ import BotonEliminar from '../../components/Helpers/BotonEliminar.vue'
 import moment from 'moment'
 import EliminarHR from '../../components/Ventas/EliminarHR.vue'
 
-
 export default {
   components: {
     NavBar,
@@ -143,17 +202,21 @@ export default {
       urlEliminar: '',
       fechaEntrega: null,
       estado: '',
-      listaEstados: [{'estado':'Todos','valor':null},{ 'estado': 'Entregados', 'valor': 1 }, { 'estado': 'No entregados', 'valor': 0 }]
+      listaEstados: [
+        { estado: 'Todos', valor: null },
+        { estado: 'Entregados', valor: 1 },
+        { estado: 'No entregados', valor: 0 }
+      ]
     }
   },
   mounted() {
-    if(this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarHR == true){
-      this.controlPagina = new ControladorPagina(this.$store.state.urlPaginaActualHR);
-      this.$store.commit("setFromAgregarEditarHR",false);
+    if (this.$store.state.existenDatos == true && this.$store.state.fromAgregarEditarHR == true) {
+      this.controlPagina = new ControladorPagina(this.$store.state.urlPaginaActualHR)
+      this.$store.commit('setFromAgregarEditarHR', false)
     }
-    this.controlPagina.cargarPaginas();
-    this.$store.commit("setExistenDatos",true);
-    this.$store.commit("setUrlPaginaActualHR",this.controlPagina.getUrlPaginaActual());
+    this.controlPagina.cargarPaginas()
+    this.$store.commit('setExistenDatos', true)
+    this.$store.commit('setUrlPaginaActualHR', this.controlPagina.getUrlPaginaActual())
   },
   methods: {
     formatearFechas(fecha) {
@@ -171,12 +234,12 @@ export default {
         parametrosFiltro.fechaEntrega = this.fechaEntrega
       }
       if (this.estado != null) {
-        parametrosFiltro.estaEntregado = this.estado;
+        parametrosFiltro.estaEntregado = this.estado
       }
       return parametrosFiltro
     },
     obtenerEstadoEnTexto(estadoLote) {
-      return estadoLote === 1 ? "Entregado" : "No entregado";
+      return estadoLote === 1 ? 'Entregado' : 'No entregado'
     }
   }
 }

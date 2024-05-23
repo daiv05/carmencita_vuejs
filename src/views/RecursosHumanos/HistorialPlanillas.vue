@@ -148,8 +148,7 @@
               href="#"
               class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
             >
-              <span class="sr-only">
-              </span>
+              <span class="sr-only"> </span>
               <svg
                 class="w-2.5 h-2.5"
                 aria-hidden="true"
@@ -171,7 +170,11 @@
       </nav>
     </div>
     <Teleport to="body">
-          <DetallePlanilla v-if="controlModal" @cerrarModal = "cerrarModal" :idPlanilla = "idPlanilla"></DetallePlanilla>
+      <DetallePlanilla
+        v-if="controlModal"
+        @cerrarModal="cerrarModal"
+        :idPlanilla="idPlanilla"
+      ></DetallePlanilla>
     </Teleport>
   </main>
 </template>
@@ -198,29 +201,46 @@ export default {
       listaAniosDisponibles: [],
       anioFiltro: '',
       listaErrores: [],
-      controlModal:false,
-      idPlanilla:0,
+      controlModal: false,
+      idPlanilla: 0
     }
   },
   created() {
-
     /*Definición personalizada para mostrar los meses en español*/
     moment.defineLocale('es-sv', {
-  months: [
-    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-  ],
-  monthsShort: [
-    'ene', 'feb', 'mar', 'abr', 'may', 'jun',
-    'jul', 'ago', 'sep', 'oct', 'nov', 'dic'
-  ],
-  weekdays: [
-    'domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'
-  ],
-  weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-  weekdaysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-});
-moment.locale("es-sv");
+      months: [
+        'enero',
+        'febrero',
+        'marzo',
+        'abril',
+        'mayo',
+        'junio',
+        'julio',
+        'agosto',
+        'septiembre',
+        'octubre',
+        'noviembre',
+        'diciembre'
+      ],
+      monthsShort: [
+        'ene',
+        'feb',
+        'mar',
+        'abr',
+        'may',
+        'jun',
+        'jul',
+        'ago',
+        'sep',
+        'oct',
+        'nov',
+        'dic'
+      ],
+      weekdays: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      weekdaysShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      weekdaysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
+    })
+    moment.locale('es-sv')
     this.controlPagina.cargarPaginas()
   },
   mounted() {
@@ -231,13 +251,13 @@ moment.locale("es-sv");
         console.log(response.data.resultado)
       })
       .catch((response) => {
-        console.log(response.response.status);
-            if(response.response.status === 500){
-                this.listaErrores.push("El servidor no respondio. Pongase en contacto con el proveedor");
-                setTimeout(()=>{
-                    this.listaErrores = [];
-                },6000);
-            }
+        console.log(response.response.status)
+        if (response.response.status === 500) {
+          this.listaErrores.push('El servidor no respondio. Pongase en contacto con el proveedor')
+          setTimeout(() => {
+            this.listaErrores = []
+          }, 6000)
+        }
       })
     //this.cargarPlanillas();
     // this.controlPagina.cargarPaginas();
@@ -265,15 +285,15 @@ moment.locale("es-sv");
 
       return parametrosFiltro
     },
-    verDetallePlanilla(idPlanilla){
-      this.$router.push("detalle_planilla/"+idPlanilla);
+    verDetallePlanilla(idPlanilla) {
+      this.$router.push('detalle_planilla/' + idPlanilla)
     },
-    abrirModal(idPlanilla){
-      this.idPlanilla = idPlanilla;
-      this.controlModal = true;
+    abrirModal(idPlanilla) {
+      this.idPlanilla = idPlanilla
+      this.controlModal = true
     },
-    cerrarModal(){
-      this.controlModal = false;
+    cerrarModal() {
+      this.controlModal = false
     }
   }
 }

@@ -40,7 +40,7 @@ const store = createStore({
       state.urlPaginaActual = payload.urlPaginaActual
     },
     setUrlPaginaActualHR(state, payload) {
-      state.urlPaginaActualHR = payload.urlPaginaActualHR;
+      state.urlPaginaActualHR = payload.urlPaginaActualHR
     },
     setFromAgregarEditarProducto(state, payload) {
       state.fromAgregarEditarProducto = payload.fromAgregarEditarProducto
@@ -140,7 +140,7 @@ const store = createStore({
         'urlPaginaAcutalHR',
         'existenDatos',
         'fromAgregarEditarProducto',
-        'fromAgregarEditarHR',
+        'fromAgregarEditarHR'
       ]
     })
   ]

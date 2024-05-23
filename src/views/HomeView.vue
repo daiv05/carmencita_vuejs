@@ -1,9 +1,14 @@
 <script setup>
-import NavBar from '@/components/NavBar.vue';
-import BarraTitulo from '../components/BarraTitulo.vue';
+import NavBar from '@/components/NavBar.vue'
+import BarraTitulo from '../components/BarraTitulo.vue'
+import VTable from '@/components/VTable.vue'
 import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
-import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } from '@heroicons/vue/24/outline'
-
+import {
+  DocumentPlusIcon,
+  QueueListIcon,
+  SquaresPlusIcon,
+  DocumentCheckIcon
+} from '@heroicons/vue/24/outline'
 </script>
 
 <template>
@@ -16,8 +21,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
     <!--Cards-->
     <div class="container max-w-4xl mx-auto px-10 py-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
       <!--Facturacion-->
-      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/facturacion.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Facturación</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        variant="image"
+        img-src="assets/img/facturacion.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Facturación
+        </h5>
         <dropdown text="Facturación">
           <list-group>
             <list-group-item>
@@ -40,10 +52,16 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         </dropdown>
       </the-card>
 
-
       <!--Pedidos a Domicilio y Hojas de Ruta-->
-      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/domicilio.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pedidos a Domicilio</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        variant="image"
+        img-src="assets/img/domicilio.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Pedidos a Domicilio
+        </h5>
         <dropdown text="Pedidos">
           <list-group>
             <list-group-item>
@@ -66,11 +84,16 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         </dropdown>
       </the-card>
 
-
-
       <!--Inventario-->
-      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/inventario.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Inventario</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        variant="image"
+        img-src="assets/img/inventario.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Inventario
+        </h5>
         <dropdown text="Inventario">
           <list-group>
             <list-group-item>
@@ -94,8 +117,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Empleados-->
-      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/empleados.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Empleados</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE"
+        variant="image"
+        img-src="assets/img/empleados.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Empleados
+        </h5>
         <dropdown text="Empleados">
           <list-group>
             <list-group-item>
@@ -136,7 +166,9 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
 
       <!--Asistencia-->
       <the-card variant="image" img-src="assets/img/asistencia.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Control de asistencias e incapacidades</h5>
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Control de asistencias e incapacidades
+        </h5>
         <dropdown text="Asistencia">
           <list-group>
             <list-group-item>
@@ -168,8 +200,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Usuarios-->
-      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/usuarios.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Usuarios</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE"
+        variant="image"
+        img-src="assets/img/usuarios.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Usuarios
+        </h5>
         <dropdown text="Usuarios">
           <list-group>
             <list-group-item>
@@ -186,8 +225,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!--Informes de Ventas-->
-      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/estadisticas.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Informes</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE"
+        variant="image"
+        img-src="assets/img/estadisticas.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Informes
+        </h5>
         <dropdown text="Informes">
           <list-group>
             <list-group-item>
@@ -203,8 +249,15 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
       </the-card>
 
       <!-- Proveedores - Creditos - Clientes -->
-      <the-card v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE" variant="image" img-src="assets/img/proveedor.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Creditos y Stakeholders</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        variant="image"
+        img-src="assets/img/proveedor.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Creditos y Stakeholders
+        </h5>
         <dropdown text="Proveedores">
           <list-group>
             <list-group-item v-if="rolCurrenUser == GERENTE">
@@ -235,11 +288,16 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
         </dropdown>
       </the-card>
 
-
-
       <!--Ofertas y Avisos-->
-      <the-card v-if="rolCurrenUser == GERENTE" variant="image" img-src="assets/img/ofertas.jpg" img-alt="Desk">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ofertas y Avisos</h5>
+      <the-card
+        v-if="rolCurrenUser == GERENTE"
+        variant="image"
+        img-src="assets/img/ofertas.jpg"
+        img-alt="Desk"
+      >
+        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          Ofertas y Avisos
+        </h5>
         <dropdown text="Promociones">
           <list-group>
             <list-group-item>
@@ -269,30 +327,27 @@ import { DocumentPlusIcon, QueueListIcon, SquaresPlusIcon, DocumentCheckIcon } f
           </list-group>
         </dropdown>
       </the-card>
-
     </div>
   </main>
 </template>
 
 <script>
-
-const GERENTE = "Gerente"
-const SUB_GERENTE = "Sub-Gerente"
+const GERENTE = 'Gerente'
+const SUB_GERENTE = 'Sub-Gerente'
 
 export default {
   data() {
     return {
       titulo: 'Panel de Control',
-      datosAuth:null,
-      rolCurrenUser:null,
+      datosAuth: null,
+      rolCurrenUser: null
     }
   },
   mounted() {
     if (localStorage.authUser) {
-      this.datosAuth = JSON.parse(localStorage.authUser);
+      this.datosAuth = JSON.parse(localStorage.authUser)
       this.rolCurrenUser = this.datosAuth.user.roles[0].name
     }
   }
 }
 </script>
-

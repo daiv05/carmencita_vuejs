@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="text-xl font-semibold mb-1 text-center ml-[5%]">Productos con mayor valor en inventario</h1>
+    <h1 class="text-xl font-semibold mb-1 text-center ml-[5%]">
+      Productos con mayor valor en inventario
+    </h1>
     <div>
       <apexchart
         width="100%"
@@ -13,9 +15,8 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from 'axios'
 export default {
-
   data() {
     return {
       chartOptions: {
@@ -29,9 +30,9 @@ export default {
           }
         },
         xaxis: {
-          categories: ["1","2"],
+          categories: ['1', '2']
         },
-        colors: "#4338CA",
+        colors: '#4338CA',
         plotOptions: {
           bar: {
             columnWidth: '76%' // Cambia este valor para ajustar el ancho de las barras
@@ -40,8 +41,8 @@ export default {
         dataLabels: {
           enabled: true,
           formatter: function (val) {
-            return "$" + val;
-          },
+            return '$' + val
+          }
         }
       },
       series: [
@@ -52,28 +53,25 @@ export default {
       ]
     }
   },
-  mounted(){
-    this.cargarDatosGrafico();
+  mounted() {
+    this.cargarDatosGrafico()
   },
-  methods:{
-    cargarDatosGrafico(){
-        axios.get("/api/datos_inventario_valorado")
-        .then(
-            (response)=>{
-                console.log(response.data.categories);
-                this.chartOptions.xaxis.categories.splice(0,this.chartOptions.xaxis.categories.length);
-                this.series[0].data = response.data.data;
-                response.data.categories.forEach((element)=>{
-                    console.log(element);
-                    this.chartOptions.xaxis.categories.push(element);
-                });
-            }
-        )
-        .catch(
-            (response)=>{
-                console.log(response);
-            }
-        );
+  methods: {
+    cargarDatosGrafico() {
+      axios
+        .get('/api/datos_inventario_valorado')
+        .then((response) => {
+          console.log(response.data.categories)
+          this.chartOptions.xaxis.categories.splice(0, this.chartOptions.xaxis.categories.length)
+          this.series[0].data = response.data.data
+          response.data.categories.forEach((element) => {
+            console.log(element)
+            this.chartOptions.xaxis.categories.push(element)
+          })
+        })
+        .catch((response) => {
+          console.log(response)
+        })
     }
   }
 }

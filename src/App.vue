@@ -1,7 +1,7 @@
 <script>
 import { RouterView } from 'vue-router'
 import { mapState } from 'vuex'
-import VLoader from './components/VLoader.vue';
+import VLoader from './components/VLoader.vue'
 
 export default {
   components: {
@@ -9,10 +9,9 @@ export default {
     VLoader
   },
   computed: {
-    ...mapState( ['cargando'])
+    ...mapState(['cargando'])
   }
 }
-
 </script>
 
 <template>

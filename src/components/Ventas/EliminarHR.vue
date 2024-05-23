@@ -8,7 +8,10 @@
       >
         Eliminar HR
       </button>
-      <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+      <div
+        v-if="isOpen"
+        class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+      >
         <div class="max-w-2xl p-6 bg-white rounded-md shadow-xl">
           <div class="flex justify-end">
             <svg
