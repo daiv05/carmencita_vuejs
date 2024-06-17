@@ -1,5 +1,5 @@
 <template>
-  <div class="app-loader" style="background: rgba(0, 0, 0, 0.3); z-index: 2000">
+  <div class="app-loader" style="background: rgba(0, 0, 0, 0.3); z-index: 9998">
     <span class="loader"></span>
   </div>
 </template>

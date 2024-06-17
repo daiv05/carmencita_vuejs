@@ -1,9 +1,9 @@
 <template>
-  <Transition name="modal">
+  <Transition appear name="modal">
     <div v-if="show" class="modal-mask bg-white">
-      <div class="modal-container">
+      <div class="modal-container max-w-[600px]">
         <div class="flex justify-end">
-          <button href="#" @click="$emit('input', false)">
+          <button href="#" @click="$emit('cerrar', false)">
             <svg
               width="20px"
               height="20px"
@@ -63,7 +63,7 @@ export default {
 <style scoped>
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 9900;
   top: 0;
   left: 0;
   width: 100%;
