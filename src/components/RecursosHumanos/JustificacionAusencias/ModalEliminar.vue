@@ -38,7 +38,7 @@
 import axios from 'axios'
 
 export default {
-  props: ['id'],
+  props: ['id', 'show'],
   methods: {
     eliminarSolicitud() {
       this.watchLoader(true)
@@ -64,7 +64,7 @@ export default {
 <style scoped>
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 20;
   top: 0;
   left: 0;
   width: 100%;

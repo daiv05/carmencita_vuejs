@@ -18,7 +18,7 @@
               >Justificación <span class="text-red-800">*</span></label
             >
             <textarea
-              :readonly="ausencia?.justificacion_ausencia?.estado?.nombre != 'Pendiente' && ausencia.justificacion_ausencia != null"
+              :readonly="!isNoJustificacion && ausencia?.justificacion_ausencia?.estado?.nombre != 'Pendiente'"
               v-model="ausenciaData.justificacion_ausencia.justificacion"
               id="justificacion"
               name="justificacion"
@@ -29,7 +29,7 @@
           <!-- File Upload -->
           <div
             v-if="
-              ausencia.justificacion_ausencia != null || ((!editMode || changeArchive) && ausencia?.justificacion_ausencia?.estado?.nombre == 'Pendiente')
+              isNoJustificacion || (changeArchive && ausencia?.justificacion_ausencia?.estado?.nombre == 'Pendiente')
             "
             class="mt-4"
           >
@@ -38,7 +38,7 @@
               ref="fileComprobante"
               @change="handleFileUpload"
               id="comprobante"
-              :disabled="ausencia.justificacion_ausencia != null && ausencia.justificacion_ausencia?.estado?.nombre != 'Pendiente'"
+              :disabled="!isNoJustificacion && ausencia.justificacion_ausencia?.estado?.nombre != 'Pendiente'"
               name="comprobante"
               type="file"
               accept="application/pdf"
@@ -49,10 +49,10 @@
             <label for="comprobanteVer" class="block text-sm text-slate-600">Comprobante</label>
             <div class="w-full flex flex-row items-center">
               <label
-                @click="(ausencia?.justificacion_ausencia?.comprobante && ausencia?.justificacion_ausencia != null) ? verComprobante() : null"
+                @click="ausencia?.justificacion_ausencia?.comprobante ? verComprobante() : null"
                 class="mt-1 block md:w-[30%] w-[90%] shadow-sm sm:text-sm rounded-md cursor-pointer underline"
               >
-                {{ (ausencia?.justificacion_ausencia?.comprobante && ausencia?.justificacion_ausencia != null) ? 'Ver comprobante' : 'Sin comprobante' }}
+                {{ ausencia?.justificacion_ausencia?.comprobante ? 'Ver comprobante' : 'Sin comprobante' }}
               </label>
               <XCircleIcon @click="changeArchive = true" class="h-6 w-6 cursor-pointer" />
             </div>
@@ -62,7 +62,7 @@
       <template #acciones>
         <div class="justify-center flex flex-row">
           <button
-            v-if="ausencia?.justificacion_ausencia?.estado?.nombre == 'Pendiente'"
+            v-if="isNoJustificacion || ausencia?.justificacion_ausencia?.estado?.nombre == 'Pendiente'"
             @click="enviarSolicitud"
             class="ma-4 bg-indigo-700 hover:bg-indigo-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
           >
@@ -117,7 +117,8 @@ export default {
       changeArchive: false,
       fileComprobante: null,
       showComprobante: false,
-      urlComprobante: ''
+      urlComprobante: '',
+      isNoJustificacion: false
     }
   },
   methods: {
@@ -219,7 +220,9 @@ export default {
     }
   },
   created() {
-    if (this.ausencia?.justificacion_ausencia?.justificacion) {
+    if (this.ausencia.justificacion_ausencia == null) {
+      this.isNoJustificacion = true
+    } else {
       this.editMode = true
       this.ausenciaData = this.ausencia
     }

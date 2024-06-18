@@ -1,10 +1,5 @@
 <script setup>
-import { RouterLink } from 'vue-router'
-import NavBar from '../../components/NavBar.vue'
-import api_url from '../../config.js'
-import btnConsultar from '../../components/Helpers/BotonConsultar.vue'
-import btnEditar from '../../components/Helpers/BotonEditar.vue'
-import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
+import NavBar from '@/components/NavBar.vue'
 </script>
 
 <template>
@@ -21,7 +16,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
             @click="$router.go(-1)"
             class="text-sm text-black font-medium flex items-center"
           >
-            <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
+            <img src="@/assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
           </a>
         </div>
       </div>
@@ -108,6 +103,7 @@ import btnEliminar from '../../components/Helpers/BotonEliminar.vue'
 
     <ModalEliminar
       v-if="showModalEliminar"
+      :show="showModalEliminar"
       @cerrar="showModalEliminar = false"
       @recargar="getJustificaciones"
       :id="idJustificacionEliminar"
@@ -122,7 +118,7 @@ import axios from 'axios'
 import VTable from '@/components/VTable.vue'
 import VPagination from '@/components/VPagination.vue'
 import ModalDetalleJustificar from '@/components/RecursosHumanos/JustificacionAusencias/ModalDetalleJustificar.vue'
-import ModalEliminar from '../../components/RecursosHumanos/JustificacionAusencias/ModalEliminar.vue'
+import ModalEliminar from '@/components/RecursosHumanos/JustificacionAusencias/ModalEliminar.vue'
 export default {
   components: {
     VTable,
@@ -189,6 +185,8 @@ export default {
       this.showModalDetalle = true
     },
     eliminarSolicitud(item) {
+      this.idJustificacionEliminar = item.id
+      this.showModalEliminar = true
     }
   },
   watch: {

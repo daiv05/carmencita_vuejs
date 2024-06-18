@@ -1,6 +1,5 @@
 <script setup>
-import NavBar from '../../components/NavBar.vue'
-import api_url from '../../config.js'
+import NavBar from '@/components/NavBar.vue'
 import { CalendarIcon } from '@heroicons/vue/24/outline'
 import { RouterLink } from 'vue-router'
 </script>
@@ -19,7 +18,7 @@ import { RouterLink } from 'vue-router'
             @click="$router.go(-1)"
             class="text-sm text-black font-medium flex items-center"
           >
-            <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
+            <img src="@/assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
           </a>
         </div>
       </div>
@@ -47,14 +46,14 @@ import { RouterLink } from 'vue-router'
                     <span class="font-semibold">{{ getFechaSpanish(fecha) }}</span>
                   </div>
                   <button
-                    v-if="!asistenciaMarcada"
+                    v-if="!asistenciaMarcada && !isGerente"
                     type="button"
                     @click="marcarAsistencia"
                     class="bg-blue-500 hover:bg-blue-700 text-white rounded px-2 py-2 my-2"
                   >
                     Marcar asistencia
                   </button>
-                  <div v-if="asistenciaMarcada" class="text-center justify-center text-green-500">
+                  <div v-if="asistenciaMarcada && !isGerente" class="text-center justify-center text-green-500">
                     <div class="flex justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -149,13 +148,15 @@ export default {
       fechaInicio: moment().format('YYYY-MM-01'),
       fechaFin: moment().format('YYYY-MM-31'),
       showModal: false,
-      ausenciaSelected: null
+      ausenciaSelected: null,
+      isGerente: false
     }
   },
   created() {
     if (localStorage.authUser) {
       this.datosAuth = JSON.parse(localStorage.authUser)
       this.id_empleado = this.datosAuth.user.id_empleado
+      this.isGerente = this.datosAuth.user.roles[0].name == 'Gerente'
     }
   },
   methods: {
@@ -187,7 +188,7 @@ export default {
     },
     marcarAsistencia() {
       axios
-        .post(api_url + '/asistencia')
+        .post('/api/asistencia')
         .then(
           (response) => (
             (this.mensajes = response.data.mensaje),
@@ -200,7 +201,7 @@ export default {
       this.watchLoader(true)
       this.asistencias.splice(0, this.asistencias.length)
       axios
-        .get(api_url + '/asistencia?fechaInicio=' + this.fechaInicio + '&fechaFin=' + this.fechaFin)
+        .get('/api/asistencia?fechaInicio=' + this.fechaInicio + '&fechaFin=' + this.fechaFin)
         .then(
           (response) => (
             (this.empleado = response.data.empleado),
@@ -221,8 +222,7 @@ export default {
       this.ausencias = []
       axios
         .get(
-          api_url +
-            '/ausencias/empleado?fechaInicio=' +
+            '/api/ausencias/empleado?fechaInicio=' +
             this.fechaInicio +
             '&fechaFin=' +
             this.fechaFin
