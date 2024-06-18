@@ -12,12 +12,19 @@
           </th>
         </tr>
         <tr class="text-gray-400 bg-gray-50 border-b">
-          <th class="p-[1%] font-semibold">NOMBRE EMPLEADO</th>
+          <th class="p-[1%] font-semibold">EMPLEADO</th>
           <th class="p-[1%] font-semibold">DIAS LABORADOS</th>
-          <th class="p-[1%] font-semibold">SUELDO BASE</th>
-          <th class="p-[1%] font-semibold">SEGURO SOCIAL 3%</th>
-          <th class="p-[1%] font-semibold">AFP 7.25%</th>
-          <th class="p-[1%] font-semibold">TOTAL A PAGAR</th>
+          <th class="p-[1%] font-semibold">SUELDO QUINCENAL</th>
+          <th class="p-[1%] font-semibold">VACACIONES</th>
+          <th class="p-[1%] font-semibold">AGUINALDO</th>
+          <th class="p-[1%] font-semibold">BONO</th>
+          <th class="p-[1%] font-semibold">MONTO GRAVABLE COTIZABLE</th>
+          <th class="p-[1%] font-semibold">ISSS (3%)</th>
+          <th class="p-[1%] font-semibold">AFP (7.25%)</th>
+          <th class="p-[1%] font-semibold">ISSS (3%)</th>
+          <th class="p-[1%] font-semibold">AFP (7.25%)</th>
+          <th class="p-[1%] font-semibold">TOTAL A PAGAR AL EMPLEADO</th>
+          <th class="p-[1%] font-semibold">TOTAL A DEPOSITAR EN LA PLANILLA UNICA</th>
         </tr>
         <tbody>
           <tr
@@ -25,7 +32,9 @@
             :key="detallePlanilla.id"
             class="border-b"
           >
-            <td class="text-center p-[1%]">{{ detallePlanilla.empleado.primer_nombre }}</td>
+            <td class="text-center p-[1%]">
+              {{ detallePlanilla.empleado.primer_nombre}}
+            </td>
             <td class="text-center p-[1%]">
               {{ detallePlanilla.dias_laborados }}
             </td>
@@ -33,6 +42,13 @@
             <td class="text-center p-[1%]">{{ detallePlanilla.monto_isss }}</td>
             <td class="text-center p-[1%]">{{ detallePlanilla.monto_afp }}</td>
             <td class="text-center p-[1%]">{{ detallePlanilla.monto_pago }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.base }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.monto_isss }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.monto_afp }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.monto_pago }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.base }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.monto_isss }}</td>
+            <td class="text-center p-[1%]">{{ detallePlanilla.monto_afp }}</td>
           </tr>
         </tbody>
       </table>

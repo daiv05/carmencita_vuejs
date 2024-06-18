@@ -53,7 +53,7 @@
       <div class="text-[21px] mt-[1%]">
         <p class="font-semibold ml-[5%]">Historial Planillas de Pago</p>
       </div>
-      <generarPlanilla></generarPlanilla>
+      <generarPlanilla @after_generar_planilla="obtenerDatosFiltrados"></generarPlanilla>
     </div>
     <div class="w-full text-center text-[18px]">
       <span>Planillas año: </span>
@@ -244,7 +244,12 @@ export default {
     this.controlPagina.cargarPaginas()
   },
   mounted() {
-    axios
+    this.cargarPlanillas();
+    // this.controlPagina.cargarPaginas();
+  },
+  methods: {
+    cargarPlanillas(){
+      axios
       .get('api/listaFechaPlanilla')
       .then((response) => {
         this.listaAniosDisponibles = response.data.resultado
@@ -259,10 +264,7 @@ export default {
           }, 6000)
         }
       })
-    //this.cargarPlanillas();
-    // this.controlPagina.cargarPaginas();
-  },
-  methods: {
+    },
     obtnerPeriodoFechas(fechaInicio, fechaFin) {
       let periodoFecha =
         moment(fechaInicio).format('MMMM D') + ' - ' + moment(fechaFin).format('MMMM D')

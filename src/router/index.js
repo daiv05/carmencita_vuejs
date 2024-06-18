@@ -57,6 +57,7 @@ import ComponenteBaseMarketing from '../views/ComponenteBaseMarketing.vue'
 import ModificarOferta from '../views/Marketing/ModificarOferta.vue'
 import BlogPublico from '../views/Marketing/BlogPublico.vue'
 import axios from 'axios'
+import ShowBoletaPago from '../views/RecursosHumanos/ShowBoletaPago.vue'
 
 let puedeEntrar = false
 function tienePermisos(permisosRequeridos, permisosDeUsuario) {
@@ -115,7 +116,12 @@ const router = createRouter({
           path: 'historial_asistencia',
           name: 'historial_asistencia',
           component: HistorialAsistencia
-        }
+        },
+        {
+          path: 'boleta_pago/:idDetallePlanilla',
+          name: 'boleta_pago',
+          component: ShowBoletaPago
+        },
       ],
       beforeEnter: (to, from) => {
         tienePermisos(to.meta.permisosRequeridos, store.state.permisos)
