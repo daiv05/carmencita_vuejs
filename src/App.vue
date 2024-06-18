@@ -16,5 +16,5 @@ export default {
 
 <template>
   <v-loader v-if="cargando" />
-  <router-view />
+  <router-view class="h-screen" />
 </template>

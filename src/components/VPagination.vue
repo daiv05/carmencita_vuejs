@@ -1,6 +1,6 @@
 <template>
   <!--PAGINACION -->
-  <nav aria-label="Page navigation example" class="flex py-4 w-full">
+  <nav aria-label="Page navigation example" class="flex bg-slate-100 py-4 w-full">
     <ul class="inline-flex -space-x-px text-base h-10 mx-auto">
       <li>
         <button

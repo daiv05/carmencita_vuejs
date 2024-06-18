@@ -85,7 +85,7 @@ import { RouterLink } from 'vue-router'
                   Incapacidades
                 </RouterLink>
                 <RouterLink
-                  to="/justificaciones"
+                  to="/gestion-de-ausencias"
                   class="bg-indigo-700 hover:bg-indigo-900 text-white w-36 rounded px-2 py-2 my-2"
                 >
                   Justificaciones
@@ -106,7 +106,7 @@ import { RouterLink } from 'vue-router'
       </div>
     </div>
 
-    <ModalJustificacionAusencia v-if="showModal" @recargar="getAsistencias" titulo="Justificar ausencia" v-model="showModal" :ausencia="ausenciaSelected"></ModalJustificacionAusencia>
+    <ModalJustificar v-if="showModal" @recargar="getAsistencias" titulo="Justificar ausencia" v-model="showModal" :ausencia="ausenciaSelected"></ModalJustificar>
 
   </main>
 </template>
@@ -118,14 +118,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import esLocale from '@fullcalendar/core/locales/es'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
-import ModalJustificacionAusencia from '@/components/RecursosHumanos/ModalJustificacionAusencia.vue'
+import ModalJustificar from '@/components/RecursosHumanos/JustificacionAusencias/ModalJustificar.vue'
 
 const toast = useToast()
 
 export default {
   components: {
     FullCalendar,
-    ModalJustificacionAusencia
+    ModalJustificar
   },
   data() {
     return {

@@ -56,6 +56,7 @@ import ComponenteBaseGerencia from '../views/ComponenteBaseGerencia.vue'
 import ComponenteBaseMarketing from '../views/ComponenteBaseMarketing.vue'
 import ModificarOferta from '../views/Marketing/ModificarOferta.vue'
 import BlogPublico from '../views/Marketing/BlogPublico.vue'
+import GestionJustificaciones from '../views/RecursosHumanos/GestionJustificaciones.vue'
 import axios from 'axios'
 
 let puedeEntrar = false
@@ -395,6 +396,11 @@ const router = createRouter({
       path: '/registrar_asistencia',
       name: 'Registrar_asistencia',
       component: AsistenciaAgregar
+    },
+    {
+      path: '/gestion-de-ausencias',
+      name: 'GestionJustificacionAusencias',
+      component: GestionJustificaciones
     },
     {
       path: '/consultar_asistencia/:id_empleado',
