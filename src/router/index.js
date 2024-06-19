@@ -4,8 +4,6 @@ import showMessages from '../components/functions'
 import HomeView from '../views/HomeView.vue'
 import HojaDeRutaAgregar from '../views/PedidosDomicilio/HojaDeRutaAgregar.vue'
 import PedidosDomicilio from '../views/PedidosDomicilio/ListarPedidosDomicilio.vue'
-import HistorialAsistencia from '../views/RecursosHumanos/HistorialAsistencia.vue'
-import ConsultarAsistencia from '../views/RecursosHumanos/ConsultarAsistencia.vue'
 import EmpleadoAgregar from '../views/RecursosHumanos/EmpleadoAgregar.vue'
 import EmpleadoModificar from '../views/RecursosHumanos/EmpleadoModificar.vue'
 import GestionCargo from '../views/RecursosHumanos/GestionCargo.vue'
@@ -57,6 +55,8 @@ import ModificarOferta from '../views/Marketing/ModificarOferta.vue'
 import BlogPublico from '../views/Marketing/BlogPublico.vue'
 import AsistenciaAgregar from '../views/RecursosHumanos/Asistencia/AsistenciaAgregar.vue'
 import GestionJustificaciones from '../views/RecursosHumanos/Asistencia/GestionJustificaciones.vue'
+import HistorialAsistencia from '../views/RecursosHumanos/Asistencia/HistorialAsistencia.vue'
+import ConsultarAsistencia from '../views/RecursosHumanos/Asistencia/ConsultarAsistencia.vue'
 import axios from 'axios'
 
 let puedeEntrar = false
@@ -405,7 +405,8 @@ const router = createRouter({
     {
       path: '/consultar_asistencia/:id_empleado',
       name: 'consultar_asistencia',
-      component: ConsultarAsistencia
+      component: ConsultarAsistencia,
+      props: true
     },
     {
       path: '/iniciar_sesion',

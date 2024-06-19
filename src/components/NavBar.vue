@@ -10,13 +10,10 @@ import {
 } from '@headlessui/vue'
 import {
   Bars3Icon,
-  BellIcon,
   XMarkIcon,
-  BuildingStorefrontIcon,
   UserCircleIcon
 } from '@heroicons/vue/24/outline'
 import { useRoute } from 'vue-router'
-import { Dropdown, ListGroup, ListGroupItem, TheCard } from 'flowbite-vue'
 
 const route = useRoute()
 
@@ -386,25 +383,8 @@ export default {
   },
   methods: {
     logout() {
-      this.watch_toast('Cerrando sesión...')
       store.dispatch('logout')
     },
-    watch_toast(mensaje) {
-      toast.info(mensaje, {
-        position: 'bottom-left',
-        timeout: 2994,
-        closeOnClick: true,
-        pauseOnFocusLoss: false,
-        pauseOnHover: false,
-        draggable: true,
-        draggablePercent: 0.27,
-        showCloseButtonOnHover: false,
-        hideProgressBar: true,
-        closeButton: 'button',
-        icon: true,
-        rtl: false
-      })
-    }
   },
   mounted() {
     if (localStorage.authUser) {
