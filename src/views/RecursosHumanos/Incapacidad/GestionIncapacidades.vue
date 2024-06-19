@@ -9,6 +9,12 @@ import NavBar from '@/components/NavBar.vue'
       <div>
         <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
           <h1 class="font-bold text-blue-700 text-xl">Gestión de Incapacidades</h1>
+          <button
+            v-if="!isGerente"
+            class="text-sm bg-[#4F46E5] text-white py-2 px-10 rounded-lg m-1"
+          >
+            Solicitar
+          </button>
         </div>
         <div class="flex justify-start items-center mt-4 ml-4">
           <a
@@ -21,15 +27,17 @@ import NavBar from '@/components/NavBar.vue'
         </div>
       </div>
 
-      <!--      <div class="m-auto p-1 pb-0 pt-4 w-4/5 flex items-center justify-center">-->
-      <!--        <h2 class="font-bold text-lg">Mis Solicitudes</h2>-->
-      <!--      </div>-->
+      <div
+        v-if="!isGerente"
+        class="m-auto p-1 pb-0 pt-4 w-4/5 flex items-center justify-center">
+        <h2 class="font-bold text-lg">Mis Solicitudes</h2>
+      </div>
       <!--Controles para filtros-->
       <div class="grid grid-cols-4 p-6 pt-4 w-4/5 mx-auto">
         <div class="col-span-1 flex flex-row py-2">
           <div class="mx-2">
             <label class="block text-sm font-medium leading-6 text-gray-900" for="fecha"
-            >Fecha de ausencia</label
+            >Fecha de solicitud</label
             >
             <input
               v-model="fechaFiltro"
@@ -74,17 +82,44 @@ import NavBar from '@/components/NavBar.vue'
         </template>
         <template #acciones="{ item }">
           <div class="justify-center flex flex-row">
+            <!--            Botones de gerente-->
             <button
+              v-if="isGerente"
               @click="verDetalleSolicitud(item)"
-              class="text-sm bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1"
+              class="text-sm bg-[#4F46E5] text-white font-semibold py-2 px-5 rounded-lg m-1"
+            >
+              Ver
+            </button>
+            <button
+              v-if="isGerente"
+              class="text-sm bg-[#13C296] text-white font-semibold py-2 px-5 rounded-lg m-1"
+            >
+              Aprobar
+            </button>
+            <button
+              v-if="isGerente"
+              class="text-sm bg-[#B91C1C] text-white font-semibold py-2 px-5 rounded-lg m-1"
+            >
+              Rechazar
+            </button>
+
+            <!--            Botones de empleado-->
+            <button
+              v-if="!isGerente"
+              class="text-sm bg-[#4F46E5] text-white font-semibold py-2 px-5 rounded-lg m-1"
             >
               Ver
             </button>
             <button
               v-if="!isGerente"
-              :style="item.estado.nombre == 'Pendiente' ? '' : 'visibility: hidden'"
+              class="text-sm bg-[#13C296] text-white font-semibold py-2 px-5 rounded-lg m-1"
+            >
+              Editar
+            </button>
+            <button
+              v-if="!isGerente"
               @click="eliminarSolicitud(item)"
-              class="text-sm bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1"
+              class="text-sm bg-[#B91C1C] text-white font-semibold py-2 px-5 rounded-lg m-1"
             >
               Eliminar
             </button>
@@ -134,14 +169,7 @@ export default {
       page: 1,
       totalPages: 1,
       fechaFiltro: null,
-      headersTabla: [
-        { nombre: 'Fecha de solicitud', valor: 'fecha_solicitud' },
-        { nombre: 'Inicio de Incapacidad', valor: 'inicio_incapacidad' },
-        { nombre: 'Fin de Incapacidad', valor: 'fin_incapacidad' },
-        { nombre: 'Empleado', valor: 'empleado' },
-        { nombre: 'Estado', valor: 'estado' },
-        { nombre: 'Acciones', valor: 'acciones' }
-      ],
+      headersTabla: [],
       itemsTabla: [],
       datosAuth: {},
       isGerente: false,
@@ -153,7 +181,21 @@ export default {
   },
   created() {
     this.datosAuth = JSON.parse(localStorage.authUser)
-    this.isGerente = this.datosAuth.user.roles[0].name == 'Gerente'
+    this.isGerente = this.datosAuth.user.roles[0].name === 'Gerente'
+
+    this.headersTabla = [
+      { nombre: 'Fecha de solicitud', valor: 'fecha_solicitud' },
+      { nombre: 'Inicio de Incapacidad', valor: 'inicio_incapacidad' },
+      { nombre: 'Fin de Incapacidad', valor: 'fin_incapacidad' },
+      { nombre: 'Estado', valor: 'estado' },
+      { nombre: 'Acciones', valor: 'acciones' }
+    ]
+
+    // Si el usuario es un gerente, añade la columna 'Empleado' después de 'Fin de Incapacidad'
+    if (this.isGerente) {
+      this.headersTabla.splice(3, 0, { nombre: 'Empleado', valor: 'empleado' })
+    }
+
     this.getJustificaciones()
   },
   methods: {
