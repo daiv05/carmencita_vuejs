@@ -3,9 +3,9 @@ import NavBar from '@/components/NavBar.vue'
 </script>
 
 <template>
-  <main class="h-screen">
+  <main>
     <NavBar></NavBar>
-    <div class="bg-slate-100 h-screen">
+    <div class="bg-slate-100">
       <div>
         <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
           <h1 class="font-bold text-blue-700 text-xl">Gestión de Ausencias</h1>
@@ -89,7 +89,7 @@ import NavBar from '@/components/NavBar.vue'
         </template>
       </v-table>
       <!-- Paginacion -->
-      <VPagination :totalPages="totalPages" v-model="page" :currentPage="page"> </VPagination>
+      <VPagination class="my-4" :totalPages="totalPages" v-model="page" :currentPage="page"> </VPagination>
     </div>
 
     <ModalDetalleJustificar
