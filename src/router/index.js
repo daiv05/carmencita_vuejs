@@ -55,8 +55,10 @@ import ModificarOferta from '../views/Marketing/ModificarOferta.vue'
 import BlogPublico from '../views/Marketing/BlogPublico.vue'
 import AsistenciaAgregar from '../views/RecursosHumanos/Asistencia/AsistenciaAgregar.vue'
 import GestionJustificaciones from '../views/RecursosHumanos/Asistencia/GestionJustificaciones.vue'
+import GestionIncapacidades from '../views/RecursosHumanos/Incapacidad/GestionIncapacidades.vue'
 import HistorialAsistencia from '../views/RecursosHumanos/Asistencia/HistorialAsistencia.vue'
 import ConsultarAsistencia from '../views/RecursosHumanos/Asistencia/ConsultarAsistencia.vue'
+
 import axios from 'axios'
 
 let puedeEntrar = false
@@ -401,6 +403,11 @@ const router = createRouter({
       path: '/gestion-de-ausencias',
       name: 'GestionJustificacionAusencias',
       component: GestionJustificaciones
+    },
+    {
+      path: '/gestion-de-incapacidades',
+      name: 'GestionIncapacidades',
+      component: GestionIncapacidades
     },
     {
       path: '/consultar_asistencia/:id_empleado',
