@@ -78,7 +78,7 @@ import { RouterLink } from 'vue-router'
             <div class="px-4 py-16 justify-center w-full text-center flex flex-col">
               <div class="justify-items-center grid w-full text-center">
                 <RouterLink
-                  to="/incapacidades"
+                  to="/gestion-de-incapacidades"
                   class="bg-emerald-500 hover:bg-emerald-700 text-white w-36 rounded px-2 py-2 my-2"
                 >
                   Incapacidades
