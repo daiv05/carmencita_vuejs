@@ -74,9 +74,7 @@ export default {
     autenticarUsuario(event) {
       event.preventDefault()
       const payload = { email: this.email, password: this.password }
-      this.watchLoader(true)
       this.$store.dispatch('login', payload)
-      this.watchLoader(false)
     },
     isRequired(value) {
       if (value === '') {

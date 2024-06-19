@@ -67,6 +67,7 @@ const store = createStore({
         })
     },
     async login(context, payload) {
+      await context.commit('setCargando', true)
       await context.dispatch('getToken')
       try {
         await axios
@@ -79,25 +80,29 @@ const store = createStore({
             context.commit('setPermisos', { permisos: response.data.permisos })
             axios.defaults.headers.common = { Authorization: 'Bearer ' + context.state.tokenUser }
             router.push('/')
+            context.commit('setCargando', false)
           })
           .catch((response) => {
             console.log(response)
             context.dispatch('showToast', { mensaje: response.response.data.message })
+            context.commit('setCargando', false)
           })
       } catch (error) {
         console.log(error)
+        context.commit('setCargando', false)
       }
     },
     imprimirMensaje(context) {
       console.log(context.user)
     },
     logout(context) {
+      context.commit('setCargando', true)
       axios
         .post('/api/logout')
         .then((response) => {
           console.log(response)
           context.dispatch('cleanStore')
-
+          context.commit('setCargando', false)
           setTimeout(() => {
             /*you must changed alert for other kind of pop up*/
             //alert("Has cerrado sesión correctamente");
@@ -110,6 +115,7 @@ const store = createStore({
         .catch((response) => {
           console.log(response)
           context.dispatch('cleanStore')
+          context.commit('setCargando', false)
           router.push('/iniciar_sesion')
         })
     },

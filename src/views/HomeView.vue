@@ -175,7 +175,7 @@ import {
               <router-link to="/registrar_asistencia" class="w-full h-full">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Registrar asistencia</p>
+                  <p>Control de asistencia</p>
                 </div>
               </router-link>
             </list-group-item>
