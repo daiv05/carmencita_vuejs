@@ -10,6 +10,8 @@
             </p>
         </div>
         <div class="boleta-pago bg-white py-6 px-24 rounded-lg shadow-md max-w-4xl mx-auto my-8">
+            <button @click="downloadPdf"
+                class="btn bg-emerald-500 text-white rounded p-2 m-2 relative top-2 right-2">PDF</button>
             <h1 class="text-2xl font-bold text-center mb-4">Tienda y Depósito Carmencita</h1>
             <h1 class="text-2xl font-bold text-center mb-0">Boleta de Pago</h1>
             <div class="text-center mt-0 mb-4"><span>{{ periodo }}</span></div>
@@ -105,6 +107,27 @@ export default {
         this.getBoletaPago(this.idDetallePlanilla);
     },
     methods: {
+        async downloadPdf() {
+            try {
+                const response = await axios.get(`/api/boleta-pago/${this.idDetallePlanilla}/pdf`, {
+                    responseType: 'blob' // Especifica que el tipo de respuesta es un blob
+                });
+
+                // Crear un enlace para descargar el archivo
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', 'boleta_pago.pdf'); // Nombre del archivo a descargar
+                document.body.appendChild(link);
+                link.click();
+
+                // Limpieza
+                window.URL.revokeObjectURL(url);
+                link.remove();
+            } catch (error) {
+                console.error('Error descargando el PDF:', error);
+            }
+        },
         getBoletaPago(id_detalle_planilla) {
 
             axios.get('/api/get_boleta_pago/' + id_detalle_planilla).then(

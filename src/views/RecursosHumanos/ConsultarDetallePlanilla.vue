@@ -110,16 +110,19 @@
               <td class="text-center p-[1%]">{{ Number(detallePlanilla.monto_pago_empleado).toFixed(2) || 0 }}</td>
               <td class="text-center p-[1%]">{{ Number(detallePlanilla.monto_planilla_unica).toFixed(2) || 0 }}</td>
               <td v-if="listaDetallesPlanilla.date_emision_boleta" class="text-center mx-2">
-                <router-link
-              :to="{ name: 'boleta_pago', params: { idDetallePlanilla: detallePlanilla.id } }"
-              class="w-auto h-auto p-2 rounded bg-emerald-500 tex-sm font-medium text-center text-white"
-            >
-              Boleta
-            </router-link>
+                <router-link :to="{ name: 'boleta_pago', params: { idDetallePlanilla: detallePlanilla.id } }"
+                  class="w-auto h-auto p-2 rounded bg-emerald-500 tex-sm font-medium text-center text-white">
+                  Boleta
+                </router-link>
               </td>
             </tr>
           </tbody>
         </table>
+        <div v-if="listaDetallesPlanilla.date_emision_boleta" class="text-center">
+          <button @click="downloadPdf" class="bg-blue-500 text-white p-2 m-2 rounded">
+           Descargar PDF
+          </button>
+        </div>
       </div>
     </div>
   </main>
@@ -180,6 +183,27 @@ export default {
     this.cargarDetallesPlanillas()
   },
   methods: {
+    async downloadPdf() {
+      try {
+        const response = await axios.get(`/api/detalle_planilla/${this.listaDetallesPlanilla.id}/download_pdf`, {
+          responseType: 'blob' // Especifica que el tipo de respuesta es un blob
+        });
+
+        // Crear un enlace para descargar el archivo
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'detalle_planilla.pdf'); // Nombre del archivo a descargar
+        document.body.appendChild(link);
+        link.click();
+
+        // Limpieza
+        window.URL.revokeObjectURL(url);
+        link.remove();
+      } catch (error) {
+        console.error('Error descargando el PDF:', error);
+      }
+    },
     cancelarEdicion() {
       this.habilitarEdicion = !this.habilitarEdicion;
       this.cargarDetallesPlanillas();
@@ -238,19 +262,19 @@ export default {
 
     },
 
-    emitirPlanilla(){
-      let params ={
-        emitir : true,
+    emitirPlanilla() {
+      let params = {
+        emitir: true,
         planilla: this.listaDetallesPlanilla.id
       }
       console.log(params)
       axios.post('/api/updatePlanilla/' + this.listaDetallesPlanilla.id, params)
-      .then((response)=>{
-        showMessages(true, response.data.message,);
+        .then((response) => {
+          showMessages(true, response.data.message,);
           this.cargarDetallesPlanillas();
-      }).catch((error)=>{
-        showMessages(false, error.data.message,);
-      })
+        }).catch((error) => {
+          showMessages(false, error.data.message,);
+        })
     },
 
     aplicarBono(detallePlanilla) {
