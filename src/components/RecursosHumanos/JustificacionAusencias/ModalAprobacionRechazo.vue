@@ -1,23 +1,23 @@
 <template>
-  <Transition name="modal" appear>
+  <Transition name="modal">
     <div v-if="show" class="modal-mask bg-white">
       <div class="modal-container">
-        <h1 class="text-2xl font-bold mb-6 text-center">Confirmar acción</h1>
+        <h1 class="text-2xl font-bold mb-6 text-center">
+          {{ isAprobacion ? 'Aprobar' : 'Rechazar' }} solicitud
+        </h1>
         <div class="mb-4 flex flex-row items-center justify-center">
           <p for="fecha_pedido text-center">
-            ¿Está seguro que desea eliminar su solicitud?
+            ¿Está seguro que desea {{ isAprobacion ? 'aprobar' : 'rechazar' }} la solicitud?
           </p>
         </div>
         <div class="mb-4 flex flex-row items-center justify-center">
-          <p class="text-center font-bold text-blue-950">
-            Esta acción no podrá deshacerse.
-          </p>
+          <p class="text-center font-bold text-blue-950">Esta acción no podrá deshacerse.</p>
         </div>
         <div>
           <div class="text-center">
             <button
-              @click="eliminarSolicitud()"
-              class="bg-red-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-red-600 transition duration-300"
+              @click="resolverSolicitud()"
+              :class=" !isAprobacion ? 'bg-red-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-red-600 transition duration-300' : 'bg-[#13C296] text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-[#13C296] transition duration-300'"
             >
               Confirmar
             </button>
@@ -36,22 +36,32 @@
 </template>
 <script>
 import axios from 'axios'
-
 export default {
-  props: ['id', 'show'],
+  props: ['id', 'show', 'isAprobacion'],
   methods: {
-    eliminarSolicitud() {
+    resolverSolicitud() {
       this.watchLoader(true)
       axios
-        .delete('api/ausencias/justificaciones/' + this.id)
+        .post(`/api/ausencias/justificaciones/cambiar-estado`, {
+          id_estado: this.isAprobacion ? 2 : 3,
+          id: this.id
+        })
         .then((response) => {
-          this.watchToast('success', 'Solicitud eliminada correctamente')
+          console.log(response, 'response')
           this.$emit('recargar')
           this.$emit('cerrar')
+          const mensaje = this.isAprobacion
+            ? 'Solicitud aprobada correctamente'
+            : 'Solicitud rechazada correctamente'
+          this.watchToast('success', mensaje)
         })
         .catch((error) => {
-          console.log(error)
-          this.watchToast('error', 'Error al eliminar la solicitud')
+          this.watchLoader(false)
+          console.error(error)
+          this.watchToast(
+            'error',
+            'Error al ' + isAprobacion ? 'aprobar' : 'rechazar' + ' la solicitud'
+          )
         })
         .finally(() => {
           this.watchLoader(false)

@@ -60,7 +60,7 @@
         </div>
       </template>
       <template #acciones>
-        <div class="justify-center flex flex-row">
+        <div class="text-center">
           <button
             v-if="isNoJustificacion || ausencia?.justificacion_ausencia?.estado?.nombre == 'Pendiente'"
             @click="enviarSolicitud"
@@ -69,7 +69,7 @@
             {{ editMode ? 'Actualizar' : 'Solicitar' }}
           </button>
           <button
-            class="ma-4 bg-red-700 hover:bg-red-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
+            class="ml-4 py-2 px-8 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
             @click="$emit('update:modelValue', false)"
           >
             Cerrar
