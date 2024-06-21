@@ -76,41 +76,20 @@
                 </label>
               </div>
             </div>
-            <!-- Select para aprobar/rechazar solicitud -->
-            <div class="mt-4 flex flex-col justify-center text-center md:mx-16">
-              <label for="estado" class="block text-sm text-slate-600">Estado</label>
-              <select
-                v-model="estadoUpdate"
-                id="estado"
-                name="estado"
-                class="mt-1 block w-full py-2 border border-slate-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option selected disabled value="1">Pendiente</option>
-                <option value="2">Aprobar</option>
-                <option value="3">Rechazar</option>
-              </select>
-            </div>
           </div>
         </div>
       </template>
       <template #acciones>
-        <div class="justify-center flex flex-row">
+        <div class="text-center">
           <button
             v-if="!isGerente && ausenciaData?.estado?.nombre == 'Pendiente'"
             @click="enviarSolicitud"
-            class="ma-4 bg-indigo-700 hover:bg-indigo-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
+            class="ma-4 my-2 bg-indigo-700 hover:bg-indigo-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
           >
             Actualizar
           </button>
           <button
-            v-if="isGerente"
-            @click="cambiarEstadoSolicitud"
-            class="ma-4 bg-indigo-700 hover:bg-indigo-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
-          >
-            Enviar
-          </button>
-          <button
-            class="ma-4 bg-red-700 hover:bg-red-900 text-white w-32 rounded-lg px-2 py-2 mx-2 mt-4"
+            class="ml-4 my-2 py-2 px-8 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200"
             @click="$emit('update:modelValue', false)"
           >
             Cerrar

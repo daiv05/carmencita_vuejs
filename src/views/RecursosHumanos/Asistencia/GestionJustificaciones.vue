@@ -70,26 +70,47 @@ import NavBar from '@/components/NavBar.vue'
           >
         </template>
         <template #acciones="{ item }">
-          <div class="justify-center flex flex-row">
-            <button
-              @click="verDetalleSolicitud(item)"
-              class="text-sm bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-full m-1"
-            >
-              Detalle
-            </button>
-            <button
+          <button
+            @click="verDetalleSolicitud(item)"
+            class="text-sm bg-[#4F46E5] text-white font-semibold py-2 px-5 rounded-lg m-1"
+          >
+            Detalle
+          </button>
+          <!--Botones de empleado-->
+          <button
+            v-if="isGerente"
+            :disabled="item.estado.nombre != 'Pendiente'"
+            @click="resolverSolicitud(item, true)"
+            :class="item.estado.nombre != 'Pendiente' ? 'text-sm bg-[#8FE1CD] text-white font-semibold py-2 px-5 rounded-lg m-1' : ''"
+            class="text-sm bg-[#13C296] text-white font-semibold py-2 px-5 rounded-lg m-1"
+          >
+            Aprobar
+          </button>
+          <button
+            v-if="isGerente"
+            :disabled="item.estado.nombre != 'Pendiente'"
+            @click="resolverSolicitud(item, false)"
+            :class="item.estado.nombre != 'Pendiente' ? 'text-sm bg-[#E48383] text-white font-semibold py-2 px-5 rounded-lg m-1' : ''"
+            class="text-sm bg-[#B91C1C] text-white font-semibold py-2 px-5 rounded-lg m-1"
+          >
+            Rechazar
+          </button>
+
+          <!--Botones de empleado-->
+          <button
             v-if="!isGerente"
-              :style="item.estado.nombre == 'Pendiente' ? '' : 'visibility: hidden'"
-              @click="eliminarSolicitud(item)"
-              class="text-sm bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-full m-1"
-            >
-              Eliminar
-            </button>
-          </div>
+            :disabled="item.estado.nombre != 'Pendiente'"
+            :class="item.estado.nombre != 'Pendiente' ? 'text-sm bg-[#E48383] text-white font-semibold py-2 px-5 rounded-lg m-1' : ''"
+            @click="eliminarSolicitud(item)"
+            class="text-sm bg-[#B91C1C] text-white font-semibold py-2 px-5 rounded-lg m-1"
+          >
+            Eliminar
+          </button>
         </template>
       </v-table>
       <!-- Paginacion -->
-      <VPagination class="my-4" :totalPages="totalPages" v-model="page" :currentPage="page"> </VPagination>
+      <VPagination class="my-4" :totalPages="totalPages" v-model="page" :currentPage="page">
+      </VPagination>
     </div>
 
     <ModalDetalleJustificar
@@ -106,10 +127,17 @@ import NavBar from '@/components/NavBar.vue'
       :show="showModalEliminar"
       @cerrar="showModalEliminar = false"
       @recargar="getJustificaciones"
-      :id="idJustificacionEliminar"
+      :id="idJustificacion"
     ></ModalEliminar>
 
-
+    <ModalAprobacionRechazo
+      v-if="showModalAprobacionRechazo"
+      :show="showModalAprobacionRechazo"
+      @cerrar="showModalAprobacionRechazo = false"
+      @recargar="getJustificaciones"
+      :id="idJustificacion"
+      :isAprobacion="isAprobacion"
+    ></ModalAprobacionRechazo>
   </main>
 </template>
 
@@ -119,11 +147,14 @@ import VTable from '@/components/VTable.vue'
 import VPagination from '@/components/VPagination.vue'
 import ModalDetalleJustificar from '@/components/RecursosHumanos/JustificacionAusencias/ModalDetalleJustificar.vue'
 import ModalEliminar from '@/components/RecursosHumanos/JustificacionAusencias/ModalEliminar.vue'
+import ModalAprobacionRechazo from '../../../components/RecursosHumanos/JustificacionAusencias/ModalAprobacionRechazo.vue'
 export default {
   components: {
     VTable,
     VPagination,
-    ModalDetalleJustificar
+    ModalDetalleJustificar,
+    ModalEliminar,
+    ModalAprobacionRechazo
   },
   data() {
     return {
@@ -142,8 +173,10 @@ export default {
       isGerente: false,
       justificacionSelected: {},
       showModalDetalle: false,
-      idJustificacionEliminar: null,
-      showModalEliminar: false
+      idJustificacion: null,
+      showModalEliminar: false,
+      showModalAprobacionRechazo: false,
+      isAprobacion: false
     }
   },
   created() {
@@ -185,8 +218,13 @@ export default {
       this.showModalDetalle = true
     },
     eliminarSolicitud(item) {
-      this.idJustificacionEliminar = item.id
+      this.idJustificacion = item.id
       this.showModalEliminar = true
+    },
+    resolverSolicitud(item, isAprobacion) {
+      this.idJustificacion = item.id
+      this.isAprobacion = isAprobacion
+      this.showModalAprobacionRechazo = true
     }
   },
   watch: {
