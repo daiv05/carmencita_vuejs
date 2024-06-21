@@ -55,6 +55,9 @@ export default {
   methods: {
     updateCurrentPage(newVal) {
       this.$emit('update:modelValue', newVal + 1)
+    },
+    selectPage(pageNumber) {
+      this.$emit('update:modelValue', pageNumber);
     }
   },
   computed: {

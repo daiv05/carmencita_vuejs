@@ -10,6 +10,7 @@ import './assets/main.css'
 import VueApexCharts from 'vue3-apexcharts'
 import axios from 'axios'
 import moment from 'moment'
+import PrimeVue from 'primevue/config'
 
 const toast = useToast()
 const alertaTemporal = (tipo, mensaje) => {
@@ -89,6 +90,7 @@ const options = {
 }
 
 app.use(Toast, options)
+app.use(PrimeVue)
 app.use(router)
 app.use(store)
 app.use(VueApexCharts)

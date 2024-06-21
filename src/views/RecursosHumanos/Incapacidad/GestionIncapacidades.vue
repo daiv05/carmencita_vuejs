@@ -1,5 +1,6 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
+import ModalAprobarRechazar from '@/components/RecursosHumanos/Incapacidades/ModalAprobarRechazar.vue'
 </script>
 
 <template>
@@ -54,27 +55,33 @@ import NavBar from '@/components/NavBar.vue'
             </button>
           </div>
         </div>
+        <!--        <p>{{ itemsTabla}}</p>-->
       </div>
+
       <!--Tabla de pedidos-->
       <v-table :headers="headersTabla" :items="itemsTabla">
         <template #fecha_solicitud="{ item }">{{
             $moment(item.fecha_solicitud).format('DD/MM/YYYY')
           }}
         </template>
+        <template #fecha_inicio="{ item }">{{
+            $moment(item.fecha_inicio).format('DD/MM/YYYY')
+          }}
+        </template>
+        <template #fecha_fin="{ item }">{{
+            $moment(item.fecha_fin).format('DD/MM/YYYY')
+          }}
+        </template>
         <template #empleado="{ item }">{{
-            item.ausencia.empleado.primer_nombre + ' ' + item.ausencia.empleado.primer_apellido
+            item.empleado.nombre_completo
           }}
         </template>
-        <template #fecha_ausencia="{ item }">{{
-            $moment(item.ausencia.fecha_ausencia).format('DD/MM/YYYY')
-          }}
-        </template>
-        <template #estado="{ item }">
+        <template #id_estado="{ item }">
           <span
             :class="{
-              'bg-red-500 text-white': item.estado.nombre == 'Rechazado',
-              'bg-yellow-500 text-white': item.estado.nombre == 'Pendiente',
-              'bg-green-500 text-white': item.estado.nombre == 'Aprobado'
+              'bg-[#DC2626] text-white': item.estado.nombre == 'Rechazado',
+              'bg-[#637381] text-white': item.estado.nombre == 'Pendiente',
+              'bg-[#3CA745] text-white': item.estado.nombre == 'Aprobado'
             }"
             class="px-4 py-2 rounded-full"
           >{{ item.estado.nombre }}</span
@@ -86,23 +93,39 @@ import NavBar from '@/components/NavBar.vue'
             <button
               v-if="isGerente"
               @click="verDetalleSolicitud(item)"
-              class="text-sm bg-[#4F46E5] text-white font-semibold py-2 px-5 rounded-lg m-1"
+              class="text-sm text-white font-semibold py-2 px-5 rounded-lg m-1"
+              :class="{
+    'bg-[#4F46E5]': item.estado.nombre === 'Pendiente',
+    'bg-[#7b75e6]': item.estado.nombre !== 'Pendiente'
+  }"
+              :disabled="item.estado.nombre !== 'Pendiente'"
             >
               Ver
             </button>
             <button
               v-if="isGerente"
-              class="text-sm bg-[#13C296] text-white font-semibold py-2 px-5 rounded-lg m-1"
+              class="text-sm text-white font-semibold py-2 px-5 rounded-lg m-1"
+              :class="{
+    'bg-[#13C296]': item.estado.nombre === 'Pendiente',
+    'bg-[#6fd6bc]': item.estado.nombre !== 'Pendiente'
+  }"
+              :disabled="item.estado.nombre !== 'Pendiente'"
+              @click="aprobarRechazar(item, accionAprobar=true)"
             >
               Aprobar
             </button>
             <button
               v-if="isGerente"
-              class="text-sm bg-[#B91C1C] text-white font-semibold py-2 px-5 rounded-lg m-1"
+              class="text-sm text-white font-semibold py-2 px-5 rounded-lg m-1"
+              :class="{
+    'bg-[#B91C1C]': item.estado.nombre === 'Pendiente',
+    'bg-[#d67e7e]': item.estado.nombre !== 'Pendiente'
+  }"
+              :disabled="item.estado.nombre !== 'Pendiente'"
+              @click="aprobarRechazar(item, accionAprobar=false)"
             >
               Rechazar
             </button>
-
             <!--            Botones de empleado-->
             <button
               v-if="!isGerente"
@@ -130,39 +153,33 @@ import NavBar from '@/components/NavBar.vue'
       <VPagination :totalPages="totalPages" v-model="page" :currentPage="page"></VPagination>
     </div>
 
-    <ModalDetalleJustificar
-      :isGerente="isGerente"
-      v-if="showModalDetalle"
-      @recargar="getJustificaciones"
-      titulo="Detalle de justificacion"
-      v-model="showModalDetalle"
-      :justificacion="incapacidadSelected"
-    ></ModalDetalleJustificar>
-
-    <ModalEliminar
-      v-if="showModalEliminar"
-      :show="showModalEliminar"
-      @cerrar="showModalEliminar = false"
-      @recargar="getJustificaciones"
-      :id="idIncapacidadEliminar"
-    ></ModalEliminar>
-
-
   </main>
+
+  <ModalDetalleIncapacidad :show="showModalDetalle" v-if="showModalDetalle" :title="'Detalle de solicitud'"
+                           :data="incapacidadSelected" :isGerente="isGerente" class="relative" :width="'700px'"
+                           @close="closeModal">
+  </ModalDetalleIncapacidad>
+  <ModalAprobarRechazar :show="showModalAprobarRechazar" v-if="showModalAprobarRechazar"
+                        :data="incapacidadSelected"
+                        :accionAprobar="accionAprobar"
+                        class="relative" :width="'700px'"
+                        @close="closeAprobarRechazarModal"
+                        @actualizarIncapacidades="aprobarRechazarJustificacion">  <!-- Escuchar el evento aquí -->
+  </ModalAprobarRechazar>
+
 </template>
 
 <script>
 import axios from 'axios'
 import VTable from '@/components/VTable.vue'
 import VPagination from '@/components/VPagination.vue'
-import ModalDetalleJustificar from '@/components/RecursosHumanos/JustificacionAusencias/ModalDetalleJustificar.vue'
-import ModalEliminar from '@/components/RecursosHumanos/JustificacionAusencias/ModalEliminar.vue'
+import ModalDetalleIncapacidad from '@/components/RecursosHumanos/Incapacidades/ModalDetalleIncapacidad.vue'
 
 export default {
   components: {
     VTable,
     VPagination,
-    ModalDetalleJustificar
+    ModalDetalleIncapacidad
   },
   data() {
     return {
@@ -174,7 +191,9 @@ export default {
       datosAuth: {},
       isGerente: false,
       incapacidadSelected: {},
+      accionAprobar: '',
       showModalDetalle: false,
+      showModalAprobarRechazar: false,
       idIncapacidadEliminar: null,
       showModalEliminar: false
     }
@@ -185,9 +204,9 @@ export default {
 
     this.headersTabla = [
       { nombre: 'Fecha de solicitud', valor: 'fecha_solicitud' },
-      { nombre: 'Inicio de Incapacidad', valor: 'inicio_incapacidad' },
-      { nombre: 'Fin de Incapacidad', valor: 'fin_incapacidad' },
-      { nombre: 'Estado', valor: 'estado' },
+      { nombre: 'Inicio de Incapacidad', valor: 'fecha_inicio' },
+      { nombre: 'Fin de Incapacidad', valor: 'fecha_fin' },
+      { nombre: 'Estado', valor: 'id_estado' },
       { nombre: 'Acciones', valor: 'acciones' }
     ]
 
@@ -212,9 +231,9 @@ export default {
         this.headersTabla = this.headersTabla.filter((header) => header.valor != 'empleado')
       }
       axios
-        .post('api/ausencias/justificaciones/listado-gestion', filtros)
+        .get('api/incapacidades/gerente', { params: filtros })
         .then((response) => {
-          console.log(response)
+          console.log(response.data)
           this.itemsTabla = response.data.data
           this.totalPages = response.data.totalPages
         })
@@ -231,6 +250,22 @@ export default {
       this.incapacidadSelected = item
       this.showModalDetalle = true
     },
+    aprobarRechazar(item) {
+      this.incapacidadSelected = item
+      this.showModalAprobarRechazar = true
+    },
+    closeModal() {
+      this.incapacidadSelected = ''
+      this.showModalDetalle = false
+    },
+    closeAprobarRechazarModal() {
+      this.incapacidadSelected = ''
+      this.showModalAprobarRechazar = false
+    },
+    aprobarRechazarJustificacion() {
+      this.closeAprobarRechazarModal()
+      this.getJustificaciones()
+    },
     eliminarSolicitud(item) {
       this.idIncapacidadEliminar = item.id
       this.showModalEliminar = true
@@ -238,6 +273,9 @@ export default {
   },
   watch: {
     fechaFiltro() {
+      this.getJustificaciones()
+    },
+    page() {
       this.getJustificaciones()
     }
   }
