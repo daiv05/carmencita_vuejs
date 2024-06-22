@@ -167,7 +167,8 @@ export default {
       axios.post(api_url + '/planilla', params).then((response) => {
         ;(this.mensaje = response.data.mensaje),
           this.showMessages(response.data.status, this.mensaje)
-        this.$router.push('/historial_planillas')
+          this.$emit('after_generar_planilla')
+        this.$router.push('/recursos_humanos/historial_planillas')
         //this.$router.go(0);
       })
       this.cerrarModal()
