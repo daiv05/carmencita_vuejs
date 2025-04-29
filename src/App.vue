@@ -1,7 +1,20 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import Navbar from './components/NavBar.vue'
+<script>
+import { RouterView } from 'vue-router'
+import { mapState } from 'vuex'
+import VLoader from './components/VLoader.vue'
+
+export default {
+  components: {
+    RouterView,
+    VLoader
+  },
+  computed: {
+    ...mapState(['cargando'])
+  }
+}
 </script>
+
 <template>
-  <RouterView />
+  <v-loader v-if="cargando" />
+  <router-view class="h-screen" />
 </template>

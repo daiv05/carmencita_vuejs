@@ -2,23 +2,28 @@
   <main>
     <NavBar></NavBar>
     <div class="w-full">
-
       <div>
         <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
           <h1 class="font-bold text-blue-700 text-xl">Gestión de Avisos</h1>
           <div class="flex items-center rounded-[4.44px] bg-[#637381]">
-            <router-link to="/marketing/crear_aviso" class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white">
+            <router-link
+              to="/marketing/crear_aviso"
+              class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white"
+            >
               Agregar Aviso
             </router-link>
           </div>
         </div>
         <div class="flex justify-start items-center mt-4 ml-4">
-          <a href="#" @click="$router.go(-1)" class="text-sm text-black font-medium flex items-center">
-            <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1"> Regresar
+          <a
+            href="#"
+            @click="$router.go(-1)"
+            class="text-sm text-black font-medium flex items-center"
+          >
+            <img src="../../assets/icons/arrow.svg" alt="Regresar" class="h-6 w-6 mr-1" /> Regresar
           </a>
         </div>
       </div>
-
     </div>
 
     <div class="m-auto p-1 pb-0 pt-4 w-4/5">
@@ -32,8 +37,13 @@
             <div>
               <label for="opcionFiltro" class="font-bold">Filtrar por Estado</label>
             </div>
-            <select name="" id="" v-model="valorListaOpciones" class="border-slate-400 rounded"
-              @change="obtenerDatosFiltrados()">
+            <select
+              name=""
+              id=""
+              v-model="valorListaOpciones"
+              class="border-slate-400 rounded"
+              @change="obtenerDatosFiltrados()"
+            >
               <option v-for="opcion in listaOpcionesFiltro" :value="opcion.valor">
                 {{ opcion.opcion }}
               </option>
@@ -69,12 +79,19 @@
                   <BotonEditar :url="obtenerUrlEditarAviso(aviso.id)"></BotonEditar>
                 </div>
                 <div class="col-span-2">
-                  <BotonEliminarAviso :url="obtenerUrlEliminarAviso(aviso.id)" titulo="Eliminar aviso"
-                    mensaje="¿Desea eliminar el aviso?" :index="controlPagina.obtenerPosicionElemento(aviso)"
-                    :lista="controlPagina.obtenerListaResultadoPorPagina()"></BotonEliminarAviso>
+                  <BotonEliminarAviso
+                    :url="obtenerUrlEliminarAviso(aviso.id)"
+                    titulo="Eliminar aviso"
+                    mensaje="¿Desea eliminar el aviso?"
+                    :index="controlPagina.obtenerPosicionElemento(aviso)"
+                    :lista="controlPagina.obtenerListaResultadoPorPagina()"
+                  ></BotonEliminarAviso>
                 </div>
                 <div class="col-span-2">
-                  <BotonDesactivarAviso :id="aviso.id" :estado="aviso.estado_aviso"></BotonDesactivarAviso>
+                  <BotonDesactivarAviso
+                    :id="aviso.id"
+                    :estado="aviso.estado_aviso"
+                  ></BotonDesactivarAviso>
                 </div>
               </div>
             </td>
@@ -87,29 +104,59 @@
       <nav aria-label="Page navigation example">
         <ul class="flex items-center -space-x-px h-8 text-sm">
           <li @click="controlPagina.obtenerPagina(controlPagina.paginaPrevia)">
-            <a href="#"
-              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <a
+              href="#"
+              class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >
               <span class="sr-only">{{}}</span>
-              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M5 1 1 5l4 4" />
+              <svg
+                class="w-2.5 h-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 1 1 5l4 4"
+                />
               </svg>
             </a>
           </li>
-          <li v-for="pageLink in controlPagina.obtenerListadoEnlaces()" @click="controlPagina.obtenerPagina(pageLink)">
-            <a href="#" :class="{ pageActivate: pageLink.active === true }"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{
-                pageLink.label }}</a>
+          <li
+            v-for="pageLink in controlPagina.obtenerListadoEnlaces()"
+            @click="controlPagina.obtenerPagina(pageLink)"
+          >
+            <a
+              href="#"
+              :class="{ pageActivate: pageLink.active === true }"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >{{ pageLink.label }}</a
+            >
           </li>
           <li @click="controlPagina.obtenerPagina(controlPagina.getPaginaSiguiente())">
-            <a href="#"
-              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+            <a
+              href="#"
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            >
               <span class="sr-only"> </span>
-              <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="m1 9 4-4-4-4" />
+              <svg
+                class="w-2.5 h-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 6 10"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 9 4-4-4-4"
+                />
               </svg>
             </a>
           </li>
@@ -136,7 +183,7 @@ export default {
     BotonEditar,
     BotonEliminarAviso,
     BotonDesactivarAviso,
-    RegresarPagina,
+    RegresarPagina
   },
   data() {
     return {
@@ -173,8 +220,8 @@ export default {
       return '/marketing/modificar_aviso/' + idAviso
     },
     obtenerUrlEliminarAviso(idAviso) {
-      return "/avisos/" + idAviso;
-    },
+      return '/avisos/' + idAviso
+    }
   }
 }
 </script>

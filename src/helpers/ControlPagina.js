@@ -1,19 +1,19 @@
-import store from "../store/auth";
+import store from '../store/auth'
 export default class ControladorPagina {
   constructor(urlEndpoint, axios) {
-    this.paginaActual = 1;
-    this.listaEnlaces = [];
-    this.urlEndpoint = urlEndpoint;
-    this.axios = axios;
-    this.totalResultados = 0;
-    this.resultadosPorPagina = 0;
-    this.listaPaginas = [];
-    this.totalPaginas = 0;
-    this.paginaSiguiente = null;
-    this.paginaPrevia = null;
-    this.datosPagina = [];
-    this.parametrosFiltro = {};
-    this.urlActual = "";
+    this.paginaActual = 1
+    this.listaEnlaces = []
+    this.urlEndpoint = urlEndpoint
+    this.axios = axios
+    this.totalResultados = 0
+    this.resultadosPorPagina = 0
+    this.listaPaginas = []
+    this.totalPaginas = 0
+    this.paginaSiguiente = null
+    this.paginaPrevia = null
+    this.datosPagina = []
+    this.parametrosFiltro = {}
+    this.urlActual = ''
   }
 
   configurarListaEnlacePaginas() {
@@ -23,11 +23,11 @@ export default class ControladorPagina {
   }
 
   async cargarPaginas() {
-    let res = await this.axios.get(this.urlEndpoint,
-      {"params":this.parametrosFiltro}
-      ).catch((response) => {
-      //console.log(response.data.data.mensaje)
-    })
+    let res = await this.axios
+      .get(this.urlEndpoint, { params: this.parametrosFiltro })
+      .catch((response) => {
+        //console.log(response.data.data.mensaje)
+      })
     if (!res) {
       return false
     } else {
@@ -37,36 +37,36 @@ export default class ControladorPagina {
     }
   }
 
-  setParametrosFiltro(parametrosFiltro){
-    this.parametrosFiltro = parametrosFiltro;
+  setParametrosFiltro(parametrosFiltro) {
+    this.parametrosFiltro = parametrosFiltro
   }
 
   configurarParametrosPaginacion(res) {
     if (res.data.meta) {
-      this.listaEnlaces = res.data.meta.links;
-      this.totalResultados = res.data.meta.per_page;
-      this.resultadosPorPagina = res.data.meta.total;
-      this.listaEnlaces[0].label = 'Prev';
-      this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next';
-      this.datosPagina = res.data.data;
+      this.listaEnlaces = res.data.meta.links
+      this.totalResultados = res.data.meta.per_page
+      this.resultadosPorPagina = res.data.meta.total
+      this.listaEnlaces[0].label = 'Prev'
+      this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next'
+      this.datosPagina = res.data.data
     } else {
-      console.log(res);
-      this.listaEnlaces = res.data.links;
-      this.totalResultados = res.data.total;
-      this.resultadosPorPagina = res.data.per_page;
-      this.listaEnlaces[0].label = "Prev";
-      this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next';
-      this.datosPagina = res.data.data;
+      console.log(res)
+      this.listaEnlaces = res.data.links
+      this.totalResultados = res.data.total
+      this.resultadosPorPagina = res.data.per_page
+      this.listaEnlaces[0].label = 'Prev'
+      this.listaEnlaces[this.listaEnlaces.length - 1].label = 'Next'
+      this.datosPagina = res.data.data
     }
-    this.obtenerEnlacePaginaActual();
+    this.obtenerEnlacePaginaActual()
   }
 
-  obtenerEnlacePaginaActual(){
-    this.listaEnlaces.forEach((link)=>{
-      if(link.active == true){
-        this.urlActual = link.url;
+  obtenerEnlacePaginaActual() {
+    this.listaEnlaces.forEach((link) => {
+      if (link.active == true) {
+        this.urlActual = link.url
       }
-  });
+    })
   }
 
   getDatosPagina() {
@@ -86,12 +86,12 @@ export default class ControladorPagina {
   }
 
   obtenerPagina(pageLink) {
-    this.urlActual = pageLink.url;
-    store.commit("setUrlPaginaActualHR",this.urlActual);
+    this.urlActual = pageLink.url
+    store.commit('setUrlPaginaActualHR', this.urlActual)
     if (pageLink.url) {
       this.axios
-        .get(pageLink.url,{
-          "params":this.parametrosFiltro,
+        .get(pageLink.url, {
+          params: this.parametrosFiltro
         })
         .then((response) => {
           this.configurarParametrosPaginacion(response)
@@ -103,8 +103,8 @@ export default class ControladorPagina {
     }
   }
 
-  getUrlPaginaActual(){
-    return this.urlActual;
+  getUrlPaginaActual() {
+    return this.urlActual
   }
 
   obtenerListadoEnlaces() {
@@ -130,11 +130,11 @@ export default class ControladorPagina {
   }
 
   /**/
- obtenerListaResultadoPorPagina(){
-    return this.datosPagina;
- }
+  obtenerListaResultadoPorPagina() {
+    return this.datosPagina
+  }
 
- obtenerPosicionElemento(elemento){
-    return  this.datosPagina.indexOf(elemento);
- }
+  obtenerPosicionElemento(elemento) {
+    return this.datosPagina.indexOf(elemento)
+  }
 }
