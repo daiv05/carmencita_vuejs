@@ -134,24 +134,40 @@
         </div>
       </router-link>
       <!-- CARD 3 -->
-      <router-link
-        to="/informes/informe_productos_por_vencer"
-        class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100"
-      >
-        <img
-          class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
-          src="../../assets/img-informes/6.time_3575441.png"
-          alt=""
-        />
-        <div class="flex flex-col justify-between p-4 leading-normal">
-          <h1 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">
-            Informe de Lotes Próximos a Caducar
-          </h1>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-            Consulta los lotes con fecha de caducidad mas próxima.
-          </p>
-        </div>
-      </router-link>
+     <!--
+<router-link
+  to="/informes/informe_productos_por_vencer"
+  class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100"
+>
+  <img
+    class="object-cover rounded-t-lg h-auto w-32 rounded-l-lg"
+    src="../../assets/img-informes/6.time_3575441.png"
+    alt=""
+  />
+  <div class="flex flex-col justify-between p-4 leading-normal">
+    <h1 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">
+      Informe de Lotes Próximos a Caducar
+    </h1>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      Consulta los lotes con fecha de caducidad mas próxima.
+    </p>
+  </div>
+</router-link>
+-->
+
+
+  <!-- Elimina o comenta este bloque si solo quieres ocultar el texto -->
+  <!--
+  <div class="flex flex-col justify-between p-4 leading-normal">
+    <h1 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white">
+      Informe de Lotes Próximos a Caducar
+    </h1>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+      Consulta los lotes con fecha de caducidad mas próxima.
+    </p>
+  </div>
+  -->
+
     </div>
   </div>
 </template>

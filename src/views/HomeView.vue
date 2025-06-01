@@ -275,58 +275,66 @@ import {
                   <p>Clientes</p>
                 </div>
               </router-link>
-            </list-group-item>
-            <list-group-item v-if="rolCurrenUser == GERENTE">
-              <router-link to="/listar_creditos_proveedor">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Administrar créditos</p>
-                </div>
-              </router-link>
-            </list-group-item>
+              </list-group-item>
+            <!--
+<list-group-item v-if="rolCurrenUser == GERENTE">
+  <router-link to="/listar_creditos_proveedor">
+    <div class="flex items-center">
+      <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+      <p>Administrar créditos</p>
+    </div>
+  </router-link>
+</list-group-item>
+-->
+
           </list-group>
         </dropdown>
       </the-card>
 
-      <!--Ofertas y Avisos-->
-      <the-card
-        v-if="rolCurrenUser == GERENTE"
-        variant="image"
-        img-src="assets/img/ofertas.jpg"
-        img-alt="Desk"
-      >
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-          Ofertas y Avisos
-        </h5>
-        <dropdown text="Promociones">
-          <list-group>
-            <list-group-item>
-              <router-link to="/marketing/consultar_ofertas">
-                <div class="flex items-center">
-                  <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Ofertas</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/marketing/consultar_avisos">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Avisos</p>
-                </div>
-              </router-link>
-            </list-group-item>
-            <list-group-item>
-              <router-link to="/blog">
-                <div class="flex items-center">
-                  <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
-                  <p>Blog</p>
-                </div>
-              </router-link>
-            </list-group-item>
-          </list-group>
-        </dropdown>
-      </the-card>
+<!-- Bloque oculto: Ofertas y Avisos -->
+<template v-if="false">
+  <!--Ofertas y Avisos-->
+  <the-card
+    v-if="rolCurrenUser == GERENTE"
+    variant="image"
+    img-src="assets/img/ofertas.jpg"
+    img-alt="Desk"
+  >
+    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+      Ofertas y Avisos
+    </h5>
+    <dropdown text="Promociones">
+      <list-group>
+        <list-group-item>
+          <router-link to="/marketing/consultar_ofertas">
+            <div class="flex items-center">
+              <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
+              <p>Ofertas</p>
+            </div>
+          </router-link>
+        </list-group-item>
+        <list-group-item>
+          <router-link to="/marketing/consultar_avisos">
+            <div class="flex items-center">
+              <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+              <p>Avisos</p>
+            </div>
+          </router-link>
+        </list-group-item>
+        <list-group-item>
+          <router-link to="/blog">
+            <div class="flex items-center">
+              <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
+              <p>Blog</p>
+            </div>
+          </router-link>
+        </list-group-item>
+      </list-group>
+    </dropdown>
+  </the-card>
+</template>
+
+
     </div>
   </main>
 </template>
