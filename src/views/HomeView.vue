@@ -52,7 +52,7 @@ import {
         </dropdown>
       </the-card>
 
-      <!--Pedidos a Domicilio y Hojas de Ruta-->
+      <!--Pedidos a Domicilio y Hojas de Ruta
       <the-card
         v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
         variant="image"
@@ -82,7 +82,7 @@ import {
             </list-group-item>
           </list-group>
         </dropdown>
-      </the-card>
+      </the-card>-->
 
       <!--Inventario-->
       <the-card
@@ -198,7 +198,6 @@ import {
           </list-group>
         </dropdown>
       </the-card>
-
       <!--Usuarios-->
       <the-card
         v-if="rolCurrenUser == GERENTE"

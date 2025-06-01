@@ -6,13 +6,14 @@
         <div class="flex bg-white mx-auto p-5 shadow-md justify-between">
           <h1 class="font-bold text-blue-700 text-xl">Ventas</h1>
           <div class="items-center rounded-[4.44px] bg-[#637381]">
+            <!--
             <button
               id="show-modal"
               class="w-auto h-auto m-2 text-[13px] font-medium text-center text-white"
               @click="showModal = true"
             >
               Registrar como Pedido a Domicilio
-            </button>
+            </button>-->
           </div>
         </div>
         <div class="flex justify-start items-center mt-4 ml-4">
@@ -555,10 +556,7 @@
   </Teleport>
 
   <Teleport to="body">
-    <ModalAgregarCliente
-      :show="show_modal_agregar"
-      @close="cerrarModalAgregar()"
-    >
+    <ModalAgregarCliente :show="show_modal_agregar" @close="cerrarModalAgregar()">
     </ModalAgregarCliente>
   </Teleport>
 </template>

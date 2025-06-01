@@ -8,11 +8,7 @@ import {
   MenuItem,
   MenuItems
 } from '@headlessui/vue'
-import {
-  Bars3Icon,
-  XMarkIcon,
-  UserCircleIcon
-} from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -43,7 +39,8 @@ const rutasVentas = [
   {
     nombre: 'Clientes',
     href: '/gestionar_clientes'
-  },
+  }
+  /*
   {
     nombre: 'Pedidos a domicilio',
     href: '/facturacion/listar_pedidos_domicilio'
@@ -51,7 +48,7 @@ const rutasVentas = [
   {
     nombre: 'Hojas de Ruta',
     href: '/facturacion/listar_hojas_de_ruta'
-  }
+  }*/
 ]
 const rutasInventario = [
   {
@@ -384,7 +381,7 @@ export default {
   methods: {
     logout() {
       store.dispatch('logout')
-    },
+    }
   },
   mounted() {
     if (localStorage.authUser) {
