@@ -164,7 +164,7 @@ import {
         </dropdown>
       </the-card>
 
-      <!--Asistencia-->
+      <!--Asistencia
       <the-card variant="image" img-src="assets/img/asistencia.jpg" img-alt="Desk">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
           Control de asistencias e incapacidades
@@ -198,7 +198,7 @@ import {
           </list-group>
         </dropdown>
       </the-card>
-
+    -->
       <!--Usuarios-->
       <the-card
         v-if="rolCurrenUser == GERENTE"

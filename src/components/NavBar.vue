@@ -25,7 +25,8 @@ const rutasRRHH = [
   {
     nombre: 'Usuarios',
     href: '/recursos_humanos/gestion_usuarios'
-  },
+  }
+  /*,
   {
     nombre: 'Asistencia',
     href: '/recursos_humanos/historial_asistencia'
@@ -33,7 +34,7 @@ const rutasRRHH = [
   {
     nombre: 'Planilla',
     href: '/recursos_humanos/historial_planillas'
-  }
+  }*/
 ]
 const rutasVentas = [
   {
