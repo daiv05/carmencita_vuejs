@@ -152,14 +152,14 @@ import {
                 </div>
               </router-link>
             </list-group-item>
-            <list-group-item>
+            <!-- <list-group-item>
               <router-link to="/recursos_humanos/historial_planillas">
                 <div class="flex items-center">
                   <QueueListIcon class="h-4 w-4 mr-2 text-gray-500" />
                   <p>Planillas</p>
                 </div>
               </router-link>
-            </list-group-item>
+            </list-group-item> -->
           </list-group>
         </dropdown>
       </the-card>
