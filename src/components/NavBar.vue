@@ -67,19 +67,19 @@ const rutasInformes = [
     href: '/informes/panel_informes'
   }
 ]
-const rutasRegistrarAsistencia = [
-  {
-    nombre: 'Registrar Asistencia',
-    href: '/registrar_asistencia'
-  }
-]
+// const rutasRegistrarAsistencia = [
+//   {
+//     nombre: 'Registrar Asistencia',
+//     href: '/registrar_asistencia'
+//   }
+// ]
 
 var navigation = [
   {
     name: 'Inicio',
     href: '/',
     current: true,
-    roles: ['Gerente', 'Sub-Gerente', 'Colaborador'],
+    roles: ['Gerente', 'Bodega', 'Vendedor'],
     claves: []
   },
   {
@@ -95,7 +95,7 @@ var navigation = [
     href: '/',
     rutas: rutasVentas,
     current: false,
-    roles: ['Gerente', 'Sub-Gerente'],
+    roles: ['Gerente', 'Bodega', 'Vendedor'],
     claves: ['facturacion']
   },
   {
@@ -103,7 +103,7 @@ var navigation = [
     href: '/',
     rutas: rutasInventario,
     current: false,
-    roles: ['Gerente', 'Sub-Gerente'],
+    roles: ['Gerente', 'Bodega'],
     claves: ['existencias', 'producto']
   },
   {
@@ -114,14 +114,14 @@ var navigation = [
     roles: ['Gerente'],
     claves: ['informes']
   },
-  {
-    name: 'Registrar asistencia',
-    href: '/',
-    rutas: rutasRegistrarAsistencia,
-    current: false,
-    roles: ['Sub-Gerente', 'Colaborador'],
-    claves: ['registrar_asistencia']
-  }
+  // {
+  //   name: 'Registrar asistencia',
+  //   href: '/',
+  //   rutas: rutasRegistrarAsistencia,
+  //   current: false,
+  //   roles: ['Bodega', 'Vendedor'],
+  //   claves: ['registrar_asistencia']
+  // }
 ]
 
 var usuario = JSON.parse(localStorage.authUser).user
@@ -175,7 +175,7 @@ quitarOpcionNavBar()
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <img class="block h-10 w-auto" src="/assets/img/logo_carmencita.jpg" alt="Workflow" />
+            <img class="block h-10 w-auto" src="/assets/img/fashion-2.png" alt="Workflow" />
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">

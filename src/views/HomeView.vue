@@ -22,7 +22,7 @@ import {
     <div class="container max-w-4xl mx-auto px-10 py-2 grid grid-cols-1 sm:grid-cols-3 gap-5">
       <!--Facturacion-->
       <the-card
-        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == BODEGA || rolCurrenUser == 'Vendedor'"
         variant="image"
         img-src="assets/img/facturacion.jpg"
         img-alt="Desk"
@@ -54,7 +54,7 @@ import {
 
       <!--Pedidos a Domicilio y Hojas de Ruta
       <the-card
-        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == BODEGA"
         variant="image"
         img-src="assets/img/domicilio.jpg"
         img-alt="Desk"
@@ -86,7 +86,7 @@ import {
 
       <!--Inventario-->
       <the-card
-        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == BODEGA"
         variant="image"
         img-src="assets/img/inventario.jpg"
         img-alt="Desk"
@@ -250,7 +250,7 @@ import {
 
       <!-- Proveedores - Creditos - Clientes -->
       <the-card
-        v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE"
+        v-if="rolCurrenUser == GERENTE || rolCurrenUser == BODEGA"
         variant="image"
         img-src="assets/img/proveedor.jpg"
         img-alt="Desk"
@@ -268,7 +268,7 @@ import {
                 </div>
               </router-link>
             </list-group-item>
-            <list-group-item v-if="rolCurrenUser == GERENTE || rolCurrenUser == SUB_GERENTE">
+            <list-group-item v-if="rolCurrenUser == GERENTE || rolCurrenUser == BODEGA">
               <router-link to="/gestionar_clientes">
                 <div class="flex items-center">
                   <DocumentPlusIcon class="h-4 w-4 mr-2 text-gray-500" />
@@ -341,7 +341,7 @@ import {
 
 <script>
 const GERENTE = 'Gerente'
-const SUB_GERENTE = 'Sub-Gerente'
+const BODEGA = 'Bodega'
 
 export default {
   data() {
