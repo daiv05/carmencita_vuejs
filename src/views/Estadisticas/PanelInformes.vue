@@ -45,7 +45,7 @@
         </div>
       </router-link>
       <!-- CARD 2 -->
-      <router-link
+      <!-- <router-link
         to="/informes/informe_ventas_productos"
         class="flex flex-col items-center mb-4 bg-white rounded-lg shadow md:flex-row hover:bg-gray-100"
       >
@@ -63,7 +63,7 @@
             unidades vendidas.
           </p>
         </div>
-      </router-link>
+      </router-link> -->
       <!-- CARD 3 -->
       <router-link
         to="/informes/informe_productos_mas_vendidos"
