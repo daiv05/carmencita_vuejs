@@ -1,5 +1,5 @@
 <template>
-  <table class="mt-[2%] w-[85%] m-auto rounded-lg shadow-lg">
+  <table class="w-[85%] m-auto rounded-lg shadow-lg">
     <thead>
       <!--<tr class="text-gray-400 bg-gray-50 border-b">-->
       <tr class="border-b-2 border-black-400 h-[40px] bg-slate-100">
