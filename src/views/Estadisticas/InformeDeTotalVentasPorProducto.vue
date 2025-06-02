@@ -19,7 +19,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate'
         </a>
       </div>
     </div>
-    <Form @submit="obtenerDatosFiltrados($event)">
+    <Form @submit="obtenerDatosFiltrados($event)" class="h-auto">
       <section class="grid grid-row-2 gap-5 w-[90%] m-auto">
         <article class="grid grid-cols-7 gap-1">
           <div class="grid grid-rows-3 gap-1 col-span-1 mr-2">
